@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <Title>An example of a test use of the Book Library Manager plugin</Title>
+    <Copyright>$(Authors)</Copyright>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <FileVersion>0.0.0.9</FileVersion>
+    <AssemblyVersion>0.0.0.9</AssemblyVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <UseWindowsForms>False</UseWindowsForms>
+    <StartupObject>AppBookManager.App</StartupObject>
+    <Authors>@YR</Authors>
+    <Version>0.0.0.9</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BookLibraryManager">
+      <HintPath>..\..\BookLibraryManager\BookLibraryManager\bin\Debug\net9.0-windows10.0.17763.0\BookLibraryManager.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

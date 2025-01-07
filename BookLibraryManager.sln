@@ -4,11 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager", "BookLibraryManager\BookLibraryManager.csproj", "{DE650A87-7755-4F3C-9907-790260E77B28}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85} = {BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.Test", "..\WpfAppBookManager\WpfAppBookManager\BookLibraryManager.Test.csproj", "{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.Test", "..\WpfAppBookManager\WpfAppBookManager\BookLibraryManager.Test.csproj", "{CBEE385A-869F-474B-9A6D-472CD621A343}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +17,10 @@ Global
 		{DE650A87-7755-4F3C-9907-790260E77B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE650A87-7755-4F3C-9907-790260E77B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE650A87-7755-4F3C-9907-790260E77B28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC4B7476-BE3C-4CDE-8CBA-2E7E74F7BA85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBEE385A-869F-474B-9A6D-472CD621A343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBEE385A-869F-474B-9A6D-472CD621A343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBEE385A-869F-474B-9A6D-472CD621A343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBEE385A-869F-474B-9A6D-472CD621A343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

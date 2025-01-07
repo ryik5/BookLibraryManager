@@ -1,1 +1,1 @@
-# BookLibraryManager
+# The Book library plugin

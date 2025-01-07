@@ -1,0 +1,1 @@
+# Example of the book library management plugin using

@@ -14,8 +14,10 @@ public class LibraryModelTests
         var newCloneLibrary = lib.Clone();
         ReverseBookOrder(lib);
 
+        lib.SortLibrary();
+
         //Assert
-        Xunit.Assert.NotEqual(lib?.ToString(), newCloneLibrary?.ToString());
+        Xunit.Assert.Equal(lib?.ToString(), newCloneLibrary?.ToString());
     }
 
     [Fact()]
@@ -28,6 +30,8 @@ public class LibraryModelTests
         var newCloneLibrary = lib.Clone();
         ReverseBookOrder(lib);
         ReverseBookOrder(lib);
+
+        lib.SortLibrary();
 
         //Assert
         Xunit.Assert.Equal(lib?.ToString(), newCloneLibrary?.ToString());

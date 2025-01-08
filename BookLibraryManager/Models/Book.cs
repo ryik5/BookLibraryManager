@@ -26,4 +26,9 @@ public class Book
         get;
         set;
     }
+
+    public override string ToString()
+    {
+        return $"{Id}-{Author}-{Title}-{PageNumber}";
+    }
 }

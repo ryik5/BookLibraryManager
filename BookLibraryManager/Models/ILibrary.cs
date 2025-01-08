@@ -13,4 +13,6 @@ public interface ILibrary: ILibraryAddBook, ILibraryRemoveBook, ILibrarySort, IL
         get;
         set;
     }
+
+    ILibrary Clone();
 }

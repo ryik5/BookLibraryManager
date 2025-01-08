@@ -1,5 +1,4 @@
-﻿
-namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Models;
 
 public class LibraryModel : LibraryAbstract, ILibrary
 {
@@ -44,7 +43,19 @@ public class LibraryModel : LibraryAbstract, ILibrary
         return JoinStrings(list);
     }
 
+    public ILibrary Clone()
+    {
+        return new LibraryModel { Id = Id, BookList = new List<Book>(BookList.Select(b => new Book { Id = b.Id, Author = b.Author, PageNumber = b.PageNumber, Title = b.Title })) };
+    }
+
+    public override string ToString()
+    {
+        return $"{Id}-{string.Join(",", BookList.Select(b => b))}";
+    }
+
+    #region private methods
     private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title}";
 
     private string JoinStrings(IEnumerable<string> list) => string.Join(",\n", list);
+    #endregion
 }

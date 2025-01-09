@@ -4,7 +4,25 @@ namespace BookLibraryManager.Models.Tests;
 
 public class LibraryModelTests
 {
-    #region SortLibrary()
+    #region Unit tests for AddBook()
+    [Fact()]
+    public void AddBook_OneBook_LibraryShouldIncreasedByOneBook()
+    {
+        //Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+        var expectedQuantityBooks = 0;
+        
+        //Act
+        library.AddBook(Book_AA);
+        expectedQuantityBooks += 1;
+
+        //Assert
+        var currentQuantityBooks = library.AmountBooks;
+        Xunit.Assert.Equal(expectedQuantityBooks, currentQuantityBooks);
+    }
+    #endregion
+
+    #region Unit tests for SortLibrary()
     [Fact()]
     public void SortLibrary_SortedOrder_FirstBookShouldBeSame()
     {
@@ -107,9 +125,12 @@ public class LibraryModelTests
 
 
 
+
+
     #region private methods
     private Book Book_AA => new() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
     private Book Book_AB => new() { Id = 2, Author = "a", Title = "b", PageNumber = 1 };
     private Book Book_BA => new() { Id = 3, Author = "b", Title = "a", PageNumber = 1 };
     #endregion
+
 }

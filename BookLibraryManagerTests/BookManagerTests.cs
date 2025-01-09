@@ -41,7 +41,6 @@ public class BookManagerTests
         //Arrange
         var bookManager = new BookManager();
         var library = bookManager.NewLibrary(1);
-        var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 20 };
 
         //Act
         var firstBook = new Book() { Id = Random.Shared.Next(), Author = "a", Title = "a", PageNumber = 1 };

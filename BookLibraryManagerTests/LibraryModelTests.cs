@@ -189,8 +189,6 @@ public class LibraryModelTests
     public void GetNewLibrary_ShouldReturnNewEmptyLibrary()
     {
         //Arrange
-        var library = new LibraryModel() { Id = 1, BookList = [] };
-
         //Act
         var newLibrary = LibraryModel.GetNewLibrary(1);
 

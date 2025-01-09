@@ -43,7 +43,7 @@ public partial class MainWindow : Window
 
         try
         {
-            var filePath = GetPathToFolder();
+            var filePath = GetPathToXmlFileLibrary();
 
             _libraryManager.LoadLibrary(new XmlBookListLoader(), filePath, out _library);
             TextLog.Text = $"Library loaded with id: {_library.Id}\n" +
@@ -55,7 +55,11 @@ public partial class MainWindow : Window
             MessageBox.Show(ex.Message);
         }
     }
-    private string GetPathToFolder()
+
+    /// <summary>
+    /// Return the path to the XML file with the library
+    /// </summary>
+    private string GetPathToXmlFileLibrary()
     {
         var openDialog = new OpenFileDialog()
         {
@@ -168,7 +172,7 @@ public partial class MainWindow : Window
             if (_library is null)
                 throw new Exception("No library to save!");
 
-            var selectedFolder = GetPathToFolder2();
+            var selectedFolder = GetPathToFolderToStoreLibrary();
 
             var pathToFile = Path.Combine(selectedFolder, $"{_library.Id}.xml");
             var file = new FileInfo(pathToFile);
@@ -186,7 +190,11 @@ public partial class MainWindow : Window
             MessageBox.Show(ex.Message);
         }
     }
-    private string GetPathToFolder2()
+
+    /// <summary>
+    /// Return the path to the folder to store the library
+    /// </summary>
+    private string GetPathToFolderToStoreLibrary()
     {
         var openDialog = new OpenFolderDialog()
         {
@@ -237,6 +245,9 @@ public partial class MainWindow : Window
         TextLog.Text = $"Located books with Title contained - 'a':\n{string.Join("\n", locatedBooks)}";
     }
 
+    /// <summary>
+    /// Repeat the word by the times
+    /// </summary>
     private string RepeaterWords(string word, int times)
     {
         StringBuilder stringBuilder = new();
@@ -248,8 +259,10 @@ public partial class MainWindow : Window
     }
 
 
+    #region private members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
     private readonly IBookLibraryManageable _libraryManager;
     private ILibrary _library;
+    #endregion
 }

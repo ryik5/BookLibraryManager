@@ -20,12 +20,7 @@
 *.csproj.user
 *.DotSettings.user
 csharp-build
-CMakeSettings.json
 launchSettings.json
-.idea
-cm-build-x64
-cm-build
-/build
 
 bin/
 obj/
@@ -38,15 +33,4 @@ vendors/spdlog
 *.cap
 *.stn
 *.adv
-/binaries/*
-!/binaries/.gitkeep
-/binaries/data/*
-!/binaries/data
-!/binaries/data/.gitkeep
-ILRepack.log
-/build/*
-ILRepack.log
-CMakeFiles
-CMakeCache.txt
 __pycache__
-/data

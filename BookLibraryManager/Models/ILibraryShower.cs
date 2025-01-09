@@ -3,7 +3,7 @@ public interface ILibraryShower
 {
     List<Book> GetFirstBooks(int amountFirstBooks);
 
-    int AmountBooks { get; }
+    int NumberOfBooks { get; }
 
     string ShowFistBooks(int amountFirstBooks);
   

@@ -25,7 +25,7 @@ public class LibraryModel : LibraryAbstract, ILibrary
 
     public List<Book> GetFirstBooks(int amountFirstBooks) => BookList.Take(amountFirstBooks).ToList();
 
-    public int AmountBooks => BookList.Count;
+    public int NumberOfBooks => BookList.Count;
 
     public string ShowFistBooks(int amountFirstBooks)
     {
@@ -35,7 +35,7 @@ public class LibraryModel : LibraryAbstract, ILibrary
 
     public string ShowLastBooks(int amountLastBooks)
     {
-        var availableAmountBooks = AmountBooks < amountLastBooks ? AmountBooks : amountLastBooks;
+        var availableAmountBooks = NumberOfBooks < amountLastBooks ? NumberOfBooks : amountLastBooks;
         var list = BookList.Take(availableAmountBooks).Reverse().Select(bookSelector);
 
         return JoinStrings(list);

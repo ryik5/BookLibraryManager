@@ -47,7 +47,7 @@ public partial class MainWindow : Window
 
             _libraryManager.LoadLibrary(new XmlBookListLoader(), filePath, out _library);
             TextLog.Text = $"Library loaded with id: {_library.Id}\n" +
-                           $"number of books: {_library.AmountBooks}" +
+                           $"number of books: {_library.NumberOfBooks}" +
                            $"\nby path: {filePath}";
         }
         catch (Exception ex)
@@ -92,7 +92,7 @@ public partial class MainWindow : Window
         var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
         _libraryManager.AddBook(_library, testBook);
         TextLog.Text += $"\nAdded book with id: {testBook.Id}\n" +
-                        $"number of books in the library: {_library.AmountBooks}";
+                        $"number of books in the library: {_library.NumberOfBooks}";
         TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
         MyScrollViewer.ScrollToBottom();
     }
@@ -127,7 +127,7 @@ public partial class MainWindow : Window
         }
 
         TextLog.Text += $"\nAdded 10 books\n" +
-                        $"number of books in the library: {_library.AmountBooks}";
+                        $"number of books in the library: {_library.NumberOfBooks}";
         TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
         MyScrollViewer.ScrollToBottom();
     }
@@ -153,7 +153,7 @@ public partial class MainWindow : Window
         TextLog.Text += result
             ? $"\nIt was deleted a book with id: {testBook.Id}\n"
             : $"\nIt was deleted nothing";
-        TextLog.Text += $"\nnumber of books in the library: {_library.AmountBooks}" +
+        TextLog.Text += $"\nnumber of books in the library: {_library.NumberOfBooks}" +
                         $"\nFirst books:\n{_library.ShowFistBooks(10)}";
         MyScrollViewer.ScrollToBottom();
     }
@@ -182,7 +182,7 @@ public partial class MainWindow : Window
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile, _library);
 
             TextLog.Text = result
-                    ? $"Saved Library with id: {_library.Id}\nnumber of books: {_library.AmountBooks}\nLibrary's path: {pathToFile}"
+                    ? $"Saved Library with id: {_library.Id}\nnumber of books: {_library.NumberOfBooks}\nLibrary's path: {pathToFile}"
                     : "Library wasn't saved";
         }
         catch (Exception ex)

@@ -1,12 +1,13 @@
-﻿using Xunit;
+﻿using BookLibraryManager.Models;
+using Xunit;
 
-namespace BookLibraryManager.Models.Tests;
+namespace BookLibraryManagerTests;
 
 public class LibraryModelTests
 {
     #region Unit tests for AddBook()
     [Fact()]
-    public void AddBook_OneBook_BookQuantityShouldIncreasedByOneBook()
+    public void AddBook_OneBook_BookQuantityShouldBeIncreasedByOne()
     {
         //Arrange
         var library = new LibraryModel() { Id = 1, BookList = [] };
@@ -17,20 +18,23 @@ public class LibraryModelTests
         expectedQuantityBooks += 1; // 1 book added
 
         //Assert
-        var currentQuantityBooks = library.AmountBooks;
+        var currentQuantityBooks = library.NumberOfBooks;
         Xunit.Assert.Equal(expectedQuantityBooks, currentQuantityBooks);
     }
+
     [Fact()]
-    public void AddBook_OneBook_LastAddedBookShouldBeAddedOne()
+    public void AddBook_OneBook_LastAddedBookShouldBeLastOne()
     {
         //Arrange
         var library = new LibraryModel() { Id = 1, BookList = [] };
         library.AddBook(Book_AA);
 
         //Act
-        var randomBook=new Book() { Id = Random.Shared.Next(), Author = "b", Title = "b", PageNumber = 1 };
-        var idExpectedBook = randomBook.Id;
-        library.AddBook(randomBook);
+        var firstBook = new Book() { Id = Random.Shared.Next(), Author = "a", Title = "a", PageNumber = 1 };
+        library.AddBook(firstBook);
+        var lastBook = new Book() { Id = Random.Shared.Next(), Author = "b", Title = "b", PageNumber = 1 };
+        var idExpectedBook = lastBook.Id;
+        library.AddBook(lastBook);
 
         //Assert
         var lastAddedBook = library.BookList.Last();
@@ -43,38 +47,38 @@ public class LibraryModelTests
 
     #region Unit tests for RemoveBook()
     [Fact()]
-    public void RemoveBook_OneExistedBook_BookQuantityShouldDecreasedByOneBook()
+    public void RemoveBook_OneExistedBook_BookQuantityShouldBeDecreasedByOneBook()
     {
         //Arrange
         var library = new LibraryModel() { Id = 1, BookList = [] };
         var addedBook = Book_AA;
         library.AddBook(addedBook);
-        var expectedQuantityBooks = library.AmountBooks; // 1 book in total
+        var expectedQuantityBooks = library.NumberOfBooks; // 1 book in total
 
         //Act
         library.RemoveBook(addedBook);
         expectedQuantityBooks -= 1; // 1 existed book removed // 0 book in total
 
         //Assert
-        var currentQuantityBooks = library.AmountBooks;
+        var currentQuantityBooks = library.NumberOfBooks;
         Xunit.Assert.Equal(expectedQuantityBooks, currentQuantityBooks);
     }
 
     [Fact()]
-    public void RemoveBook_OneNotExistedBook_BookQuantityShouldNotChanged()
+    public void RemoveBook_OneNotExistedBook_BookQuantityShouldNotBeChanged()
     {
         //Arrange
         var library = new LibraryModel() { Id = 1, BookList = [] };
         var addedBook = Book_AA;
         library.AddBook(addedBook);
-        var expectedQuantityBooks = library.AmountBooks; // 1 book in total
+        var expectedQuantityBooks = library.NumberOfBooks; // 1 book in total
 
         //Act
         var unexistedBook = Book_AB;
         library.RemoveBook(unexistedBook);  // try to remove unexisted book // 1 book should be remain
 
         //Assert
-        var currentQuantityBooks = library.AmountBooks;
+        var currentQuantityBooks = library.NumberOfBooks;
         Xunit.Assert.Equal(expectedQuantityBooks, currentQuantityBooks);
     }
     #endregion
@@ -98,7 +102,7 @@ public class LibraryModelTests
     }
 
     [Fact()]
-    public void SortLibrary_ReverseSortedOrder_FirstBookShouldBecameLastBook()
+    public void SortLibrary_ReverseSortedOrder_FirstBookShouldBecomeLastBook()
     {
         //Arrange
         var library = new LibraryModel() { Id = 1, BookList = [] };
@@ -179,6 +183,56 @@ public class LibraryModelTests
         Xunit.Assert.NotEqual(library.ToString(), cloneLibrary.ToString());
     }
     #endregion
+
+
+    [Fact()]
+    public void GetNewLibrary_ShouldReturnNewEmptyLibrary()
+    {
+        //Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+
+        //Act
+        var newLibrary = LibraryModel.GetNewLibrary(1);
+
+        //Assert
+        Xunit.Assert.NotNull(newLibrary);
+        Xunit.Assert.NotNull(newLibrary.BookList);
+        Xunit.Assert.Empty(newLibrary.BookList);
+    }
+
+    [Fact()]
+    public void GetFirstBooks_AddedTwoBooks_ShouldReturnFirstAddedBook()
+    {
+        //Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+
+        //Act
+        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", PageNumber = 1 };
+        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", PageNumber = 1 };
+        library.AddBook(expectedBook);
+        library.AddBook(unexpectedBook);
+        var expectedList = library.GetFirstBooks(1);
+
+        //Assert
+        Xunit.Assert.Equal(expectedBook, expectedList.First());
+    }
+
+    [Fact()]
+    public void GetFirstBooks_AddedTwoBooks_ShouldReturnOneBook()
+    {
+        //Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+
+        //Act
+        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", PageNumber = 1 };
+        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", PageNumber = 1 };
+        library.AddBook(expectedBook);
+        library.AddBook(unexpectedBook);
+
+        //Assert
+        Xunit.Assert.Single(library.GetFirstBooks(1));
+    }
+
 
 
     #region private methods

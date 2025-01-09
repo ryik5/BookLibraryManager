@@ -15,5 +15,7 @@ public interface IBookLibraryManageable
 
     void SortLibrary(ILibrary library);
 
+    List<Book> FindBooksByTitle(ILibrary library, string partOfTitle);
+
     bool SaveLibrary(IBookListSaveable keeper, string pathToLibrary, ILibrary library);
 }

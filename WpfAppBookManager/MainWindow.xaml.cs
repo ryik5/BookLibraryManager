@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using BookLibraryManager;
@@ -24,6 +25,8 @@ public partial class MainWindow : Window
     private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         TextLog.Text = string.Empty;
+        counterUsingAddRandomBooks = 0;
+
         _library = _libraryManager.NewLibrary(Random.Shared.Next());
         TextLog.Text = $"New library created with id: {_library.Id}";
     }
@@ -36,6 +39,8 @@ public partial class MainWindow : Window
     private void LoadCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         TextLog.Text = string.Empty;
+        counterUsingAddRandomBooks = 0;
+
         try
         {
             var filePath = GetPathToFolder();
@@ -50,7 +55,6 @@ public partial class MainWindow : Window
             MessageBox.Show(ex.Message);
         }
     }
-
     private string GetPathToFolder()
     {
         var openDialog = new OpenFileDialog()
@@ -103,16 +107,50 @@ public partial class MainWindow : Window
         }
 
         TextLog.Text += "\n----";
+        counterUsingAddRandomBooks++;
 
         for (var i = 0; i < 10; i++)
         {
-            var testBook = new Book() { Id = Random.Shared.Next(), Author = $"{Random.Shared.Next()}", Title = $"{Random.Shared.NextDouble()}", PageNumber = 20 };
+            var testBook = new Book()
+            {
+                Id = Random.Shared.Next(),
+                Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
+                Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
+                PageNumber = 20
+            };
+
             _libraryManager.AddBook(_library, testBook);
         }
 
         TextLog.Text += $"\nAdded 10 books\n" +
                         $"number of books in the library: {_library.AmountBooks}";
         TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
+        MyScrollViewer.ScrollToBottom();
+    }
+
+
+    private void DeleteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+    private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (_library is null)
+        {
+            MessageBox.Show("No created library!");
+            return;
+        }
+
+        TextLog.Text = $"Library was sorted\nFirst books:\n{_library.ShowFistBooks(10)}";
+        TextLog.Text += "\n----";
+        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
+        var result = _libraryManager.RemoveBook(_library, testBook);
+
+        TextLog.Text += result
+            ? $"\nIt was deleted a book with id: {testBook.Id}\n"
+            : $"\nIt was deleted nothing";
+        TextLog.Text += $"\nnumber of books in the library: {_library.AmountBooks}" +
+                        $"\nFirst books:\n{_library.ShowFistBooks(10)}";
         MyScrollViewer.ScrollToBottom();
     }
 
@@ -127,7 +165,7 @@ public partial class MainWindow : Window
 
         try
         {
-            if(_library is null)
+            if (_library is null)
                 throw new Exception("No library to save!");
 
             var selectedFolder = GetPathToFolder2();
@@ -182,11 +220,11 @@ public partial class MainWindow : Window
     }
 
 
-    private void DeleteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private void FindCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = true;
     }
-    private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    private void FindCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         if (_library is null)
         {
@@ -194,20 +232,24 @@ public partial class MainWindow : Window
             return;
         }
 
-        TextLog.Text = $"Library was sorted\nFirst books:\n{_library.ShowFistBooks(10)}";
-        TextLog.Text += "\n----";
-        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
-        var result = _libraryManager.RemoveBook(_library, testBook);
+        var locatedBooks = _libraryManager.FindBooksByTitle(_library, "a");
 
-        TextLog.Text += result
-            ? $"\nIt was deleted a book with id: {testBook.Id}\n"
-            : $"\nIt was deleted nothing";
-        TextLog.Text += $"\nnumber of books in the library: {_library.AmountBooks}" +
-                        $"\nFirst books:\n{_library.ShowFistBooks(10)}";
-        MyScrollViewer.ScrollToBottom();
+        TextLog.Text = $"Located books with Title contained - 'a':\n{string.Join("\n", locatedBooks)}";
+    }
+
+    private string RepeaterWords(string word, int times)
+    {
+        StringBuilder stringBuilder = new();
+        for (int i = 0; i < times; i++)
+        {
+            stringBuilder.Append($"{word}");
+        }
+        return stringBuilder.ToString();
     }
 
 
+    private int counterUsingAddRandomBooks = 0;
+    private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
     private readonly IBookLibraryManageable _libraryManager;
     private ILibrary _library;
 }

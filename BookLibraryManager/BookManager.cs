@@ -35,4 +35,9 @@ public class BookManager : IBookLibraryManageable
     {
         return keeper.SaveLibrary(library, pathToFolder);
     }
+
+    public List<Book> FindBooksByTitle(ILibrary library, string partOfTitle)
+    {
+        return library.BookList.FindAll(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase));
+    }
 }

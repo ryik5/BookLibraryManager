@@ -29,6 +29,6 @@ public class Book
 
     public override string ToString()
     {
-        return $"{Id}-{Author}-{Title}-{PageNumber}";
+        return $"{Author}-{Title}-{PageNumber}";
     }
 }

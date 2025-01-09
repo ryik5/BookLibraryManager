@@ -25,8 +25,6 @@ public class LibraryModel : LibraryAbstract, ILibrary
 
     public List<Book> GetFirstBooks(int amountFirstBooks) => BookList.Take(amountFirstBooks).ToList();
 
-    public List<Book> GetAllList() => BookList.ToList();
-
     public int AmountBooks => BookList.Count;
 
     public string ShowFistBooks(int amountFirstBooks)
@@ -52,6 +50,7 @@ public class LibraryModel : LibraryAbstract, ILibrary
     {
         return $"{Id}-{string.Join(",", BookList.Select(b => b))}";
     }
+
 
     #region private methods
     private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title}";

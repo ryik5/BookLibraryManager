@@ -136,7 +136,7 @@ public class BookManagerTests
     }
 
     [Fact()]
-    public void FindBooksByTitle_LibraryHasFullyUniqueCollectionCharInTitle_ShouldReturnOneBook()
+    public void FindBooksByTitle_EveryTitleHasFullyUniqueCollectionChars_ShouldReturnOneBook()
     {
         // Arrange
         var bookManager = new BookManager();
@@ -161,28 +161,85 @@ public class BookManagerTests
     }
 
     [Fact()]
-    public void FindBooksByTitle_LibraryHasBooksWithPartlyDuplicatedTitles_ShouldReturnThreeBooks()
+    public void FindBooksByTitle_TitlesContainSearchStringBothCase_ShouldReturnTwoBooks()
     {
         // Arrange
         var bookManager = new BookManager();
         var library = bookManager.NewLibrary(1);
-        var firstExpectedBook = new Book() { Id = 1, Author = "b", Title = "cda", PageNumber = 1 };
-        bookManager.AddBook(library, firstExpectedBook);
-        var secondExpectedBook = new Book() { Id = 2, Author = "D", Title = "asb", PageNumber = 1 };
-        bookManager.AddBook(library, secondExpectedBook);
-        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ebc", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
+        bookManager.AddBook(library, firstBook);
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
+        bookManager.AddBook(library, secondBook);
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", PageNumber = 1 };
         bookManager.AddBook(library, thirdBook);
-        var fothExpectedBook = new Book() { Id = 4, Author = "D", Title = "Ags", PageNumber = 1 };
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
         bookManager.AddBook(library, fothExpectedBook);
-
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        bookManager.AddBook(library, firstBookUpperCase);
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        bookManager.AddBook(library, secondBookUpperCase);
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        bookManager.AddBook(library, thirdBookUpperCase);
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBookUpperCase);
         // Act
         var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
-        var expectedNumberOfBooks = 3;
 
         // Assert
-        Xunit.Assert.True(expectedNumberOfBooks == listExpectedBooks.Count);
-        Xunit.Assert.Contains(firstExpectedBook, listExpectedBooks);
-        Xunit.Assert.Contains(secondExpectedBook, listExpectedBooks);
+        var expectedQuantity = 2;
+        Xunit.Assert.Equal(listExpectedBooks.Count, expectedQuantity);
     }
 
+    [Fact()]
+    public void FindBooksByTitle_TitlesContainSearchStringOpositCase_ShouldReturnOneBook()
+    {
+        // Arrange
+        var bookManager = new BookManager();
+        var library = bookManager.NewLibrary(1);
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        bookManager.AddBook(library, firstBookUpperCase);
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        bookManager.AddBook(library, secondBookUpperCase);
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        bookManager.AddBook(library, thirdBookUpperCase);
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBookUpperCase);
+        // Act
+        var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
+
+        // Assert
+        var expectedQuantity = 1;
+        Xunit.Assert.Equal(listExpectedBooks.Count, expectedQuantity);
+    }
+
+    [Fact()]
+    public void FindBooksByTitle_NoTitleContainSearchString_ShouldReturnNothing()
+    {
+        // Arrange
+        var bookManager = new BookManager();
+        var library = bookManager.NewLibrary(1);
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
+        bookManager.AddBook(library, firstBook);
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
+        bookManager.AddBook(library, secondBook);
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", PageNumber = 1 };
+        bookManager.AddBook(library, thirdBook);
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBook);
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        bookManager.AddBook(library, firstBookUpperCase);
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        bookManager.AddBook(library, secondBookUpperCase);
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        bookManager.AddBook(library, thirdBookUpperCase);
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBookUpperCase);
+
+        // Act
+        var listExpectedBooks = bookManager.FindBooksByTitle(library, "1");
+
+        // Assert
+        var expectedQuantity = 0;
+        Xunit.Assert.Equal(listExpectedBooks.Count, expectedQuantity);
+    }
 }

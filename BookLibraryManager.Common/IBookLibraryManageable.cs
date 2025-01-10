@@ -1,4 +1,4 @@
-﻿namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Interface of the Book Library Management

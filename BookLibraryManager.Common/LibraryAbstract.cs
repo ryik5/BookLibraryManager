@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace BookLibraryManager.Models;
+namespace BookLibraryManager.Common;
 
 [XmlInclude(typeof(LibraryModel))]
 [Serializable]

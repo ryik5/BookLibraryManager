@@ -1,4 +1,4 @@
-﻿using BookLibraryManager.Models;
+﻿using BookLibraryManager.Common;
 using Xunit;
 
 namespace BookLibraryManagerTests;

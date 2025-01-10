@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>YR</Authors>
+    <Description>Common objects for BookLibraryManager</Description>
+    <Copyright>@YR</Copyright>
+  </PropertyGroup>
+
+</Project>

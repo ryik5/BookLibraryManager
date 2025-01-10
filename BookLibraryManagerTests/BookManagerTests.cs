@@ -1,4 +1,4 @@
-﻿using BookLibraryManager.Models;
+﻿using BookLibraryManager.Common;
 using Xunit;
 
 namespace BookLibraryManager.Tests;
@@ -43,10 +43,10 @@ public class BookManagerTests
         var library = bookManager.NewLibrary(1);
 
         //Act
-        var firstBook = new Book() { Id = Random.Shared.Next(), Author = "a", Title = "a", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
 
-        var lastBook = new Book() { Id = Random.Shared.Next(), Author = "b", Title = "b", PageNumber = 1 };
+        var lastBook = new Book() { Id = 2, Author = "b", Title = "b", PageNumber = 1 };
         var idExpectedBook = lastBook.Id;
         bookManager.AddBook(library, lastBook);
 
@@ -136,17 +136,19 @@ public class BookManagerTests
     }
 
     [Fact()]
-    public void FindBooksByTitle_FullyUniqueTitle_ShouldReturnOneBook()
+    public void FindBooksByTitle_LibraryHasFullyUniqueCollectionCharInTitle_ShouldReturnOneBook()
     {
         // Arrange
         var bookManager = new BookManager();
         var library = bookManager.NewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "b", Title = "cd", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "D", Title = "as", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "F", Title = "eb", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghklzxc", PageNumber = 1 };
         bookManager.AddBook(library, thirdBook);
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBook);
 
         // Act
         var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
@@ -159,7 +161,7 @@ public class BookManagerTests
     }
 
     [Fact()]
-    public void FindBooksByTitle_PartlyDuplicatedTitles_ShouldReturnMoreOneBook()
+    public void FindBooksByTitle_LibraryHasBooksWithPartlyDuplicatedTitles_ShouldReturnThreeBooks()
     {
         // Arrange
         var bookManager = new BookManager();
@@ -170,13 +172,15 @@ public class BookManagerTests
         bookManager.AddBook(library, secondExpectedBook);
         var thirdBook = new Book() { Id = 3, Author = "F", Title = "ebc", PageNumber = 1 };
         bookManager.AddBook(library, thirdBook);
+        var fothExpectedBook = new Book() { Id = 4, Author = "D", Title = "Ags", PageNumber = 1 };
+        bookManager.AddBook(library, fothExpectedBook);
 
         // Act
         var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
+        var expectedNumberOfBooks = 3;
 
         // Assert
-        var isMoreOneBooks = 1 < listExpectedBooks.Count;
-        Xunit.Assert.True(isMoreOneBooks);
+        Xunit.Assert.True(expectedNumberOfBooks == listExpectedBooks.Count);
         Xunit.Assert.Contains(firstExpectedBook, listExpectedBooks);
         Xunit.Assert.Contains(secondExpectedBook, listExpectedBooks);
     }

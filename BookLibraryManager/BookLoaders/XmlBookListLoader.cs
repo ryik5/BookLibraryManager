@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
-using BookLibraryManager.Models;
+using BookLibraryManager.Common;
 
 namespace BookLibraryManager;
 public class XmlBookListLoader : IBookListLoadable

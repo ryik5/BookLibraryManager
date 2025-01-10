@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookLibraryManager.Common\BookLibraryManager.Common.csproj" />
     <ProjectReference Include="..\BookLibraryManager\BookLibraryManager.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Common;
+
 public interface ILibraryShower
 {
     List<Book> GetFirstBooks(int amountFirstBooks);

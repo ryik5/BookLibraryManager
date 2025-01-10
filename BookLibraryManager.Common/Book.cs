@@ -1,4 +1,4 @@
-﻿namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Common;
 
 [Serializable]
 public class Book

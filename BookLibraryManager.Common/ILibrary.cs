@@ -1,4 +1,4 @@
-﻿namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Common;
 
 public interface ILibrary: ILibraryAddBook, ILibraryRemoveBook, ILibrarySort, ILibraryShower
 {

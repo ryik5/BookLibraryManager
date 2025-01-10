@@ -1,4 +1,4 @@
-﻿namespace BookLibraryManager.Models;
+﻿namespace BookLibraryManager.Common;
 
 public class LibraryModel : LibraryAbstract, ILibrary
 {

@@ -7,3 +7,9 @@ The library provides following functionality:
 4. Book search by a part of its title.
 5. Save the list of books into an XML-file.
 The library is implemented in .NET/C#
+
+The both dll are necessary to be usefull the plugin:
+```
+BookLibraryManager.dll
+BookLibraryManager.Common.dll
+```

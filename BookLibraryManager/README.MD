@@ -1,6 +1,6 @@
 # **The Book Library Manager plugin**
 
-There is a main dll here.
+The main dll is here.
 
 The library provides following functionality:
 1. Load a list of books from an XML-file.

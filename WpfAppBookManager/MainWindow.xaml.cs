@@ -16,7 +16,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        _libraryManager = new BookManager();
+        _libraryManager = new BookLibraryManager.BookLibraryManager();
     }
 
     private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

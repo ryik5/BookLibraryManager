@@ -11,7 +11,7 @@ public class BookManagerTests
     public void NewLibrary_SouldBeNotNull()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var libraryId = 1;
 
         // Act
@@ -29,7 +29,7 @@ public class BookManagerTests
         var mockLibrary = new Mock<ILibrary>();
         var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
 
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
 
         // Act
         bookManager.AddBook(mockLibrary.Object, book);
@@ -42,7 +42,7 @@ public class BookManagerTests
     public void AddBook_OneBook_BookQuantityShouldBeIncreasedByOne()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
 
@@ -57,7 +57,7 @@ public class BookManagerTests
     public void AddBook_OneBook_LastAddedBookShouldBeLastOne()
     {
         //Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
 
         //Act
@@ -81,7 +81,7 @@ public class BookManagerTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
         mockLibrary.Setup(l => l.RemoveBook(book)).Returns(true);
 
@@ -97,7 +97,7 @@ public class BookManagerTests
     public void RemoveBook_RemoveExistedBook_ShouldBeTrue()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
 
         // Act
         var library = bookManager.NewLibrary(1);
@@ -114,7 +114,7 @@ public class BookManagerTests
     public void RemoveBook_RemoveUnexistedBook_ShouldBeFalse()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
 
         // Act
         var library = bookManager.NewLibrary(1);
@@ -133,7 +133,7 @@ public class BookManagerTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
 
         // Act
         bookManager.SortLibrary(mockLibrary.Object);
@@ -146,7 +146,7 @@ public class BookManagerTests
     public void SortLibrary_SortedOrder_FirstInputedBookShouldBeFirstOne()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBook = new Book() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
@@ -167,7 +167,7 @@ public class BookManagerTests
     public void SortLibrary_ReverseSortedOrder_FirstInputedBookShouldBeLastOne()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBook = new Book() { Id = 1, Author = "b", Title = "c", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
@@ -189,7 +189,7 @@ public class BookManagerTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var books = new List<Book>
         {
             new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
@@ -211,7 +211,7 @@ public class BookManagerTests
     public void FindBooksByTitle_EveryTitleHasFullyUniqueCollectionChars_ShouldReturnOneBook()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
@@ -236,7 +236,7 @@ public class BookManagerTests
     public void FindBooksByTitle_TitlesContainSearchStringBothCase_ShouldReturnTwoBooks()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
@@ -266,7 +266,7 @@ public class BookManagerTests
     public void FindBooksByTitle_TitlesContainSearchStringOpositCase_ShouldReturnOneBook()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
         bookManager.AddBook(library, firstBookUpperCase);
@@ -288,7 +288,7 @@ public class BookManagerTests
     public void FindBooksByTitle_NoTitleContainSearchString_ShouldReturnNothing()
     {
         // Arrange
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var library = bookManager.NewLibrary(1);
         var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
         bookManager.AddBook(library, firstBook);
@@ -323,7 +323,7 @@ public class BookManagerTests
         var mockLibrary = new Mock<ILibrary>();
         mockLoader.Setup(loader => loader.LoadLibrary(It.IsAny<string>())).Returns(mockLibrary.Object);
 
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var pathToFile = "testPath";
         ILibrary library;
 
@@ -341,7 +341,7 @@ public class BookManagerTests
         // Arrange
         var mockKeeper = new Mock<IBookListSaveable>();
         var mockLibrary = new Mock<ILibrary>();
-        var bookManager = new BookManager();
+        var bookManager = new BookLibraryManager();
         var pathToFolder = "testFolder";
         mockKeeper.Setup(keeper => keeper.SaveLibrary(mockLibrary.Object, pathToFolder)).Returns(true);
 

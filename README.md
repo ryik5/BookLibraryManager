@@ -8,7 +8,7 @@ The library provides following functionality:
 5. Save the list of books into an XML-file.
 The library is implemented in .NET/C#
 
-The both dll are necessary to be usefull the plugin:
+The both dll are necessary for the plugin to be useful:
 ```
 BookLibraryManager.dll
 BookLibraryManager.Common.dll

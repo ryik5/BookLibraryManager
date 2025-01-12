@@ -1,6 +1,7 @@
 ﻿namespace BookLibraryManager.Common;
 
 [Serializable]
+/// <author>YR 2025-01-09</author>
 public class Book
 {
     public required int Id

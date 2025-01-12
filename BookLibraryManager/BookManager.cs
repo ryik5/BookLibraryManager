@@ -2,6 +2,7 @@ using BookLibraryManager.Common;
 
 namespace BookLibraryManager;
 
+/// <author>YR 2025-01-09</author>
 public class BookManager : IBookLibraryManageable
 {
     public ILibrary NewLibrary(int idLibrary)

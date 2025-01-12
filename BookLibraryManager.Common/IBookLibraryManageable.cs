@@ -3,6 +3,7 @@
 /// <summary>
 /// Interface of the Book Library Management
 /// </summary>
+/// <author>YR 2025-01-09</author>
 public interface IBookLibraryManageable
 {
     ILibrary NewLibrary(int idLibrary);

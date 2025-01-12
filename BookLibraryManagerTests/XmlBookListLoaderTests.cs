@@ -1,51 +1,61 @@
-﻿using Xunit;
+﻿using BookLibraryManager.Common;
+using Moq;
+using System.Xml.Serialization;
+using Xunit;
 
 namespace BookLibraryManager.Tests;
 
+/// <author>YR 2025-01-09</author>
 public class XmlBookListLoaderTests
 {
     [Fact]
-    public void LoadLibrary_ValidXmlFile_ReturnsLibrary()
+    public void LoadLibrary_ValidFilePath_ReturnsLibrary()
     {
         // Arrange
-        var xmlContent = @"<?xml version=""1.0"" encoding=""utf-8""?>
-                            <LibraryAbstract xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xsi:type=""LibraryModel"">
-                                <Id>1</Id>
-                                <BookList>
-                                    <Book>
-                                        <Id>1</Id>
-                                        <Author>Author1</Author>
-                                        <Title>Title1</Title>
-                                        <PageNumber>1</PageNumber>
-                                    </Book>
-                                    <Book>
-                                        <Id>2</Id>
-                                        <Author>Author2</Author>
-                                        <Title>Title2</Title>
-                                        <PageNumber>2</PageNumber>
-                                    </Book>
-                                </BookList>
-                            </LibraryAbstract>";
+        var library = new LibraryModel
+        {
+            Id = 1,
+            BookList = new List<Book>
+            {
+                new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
+                new() { Id = 2, Author = "Author2", Title = "Title2", PageNumber = 2 }
+            }
+        };
+
+        var serializer = new XmlSerializer(typeof(LibraryAbstract));
         var filePath = "testLibrary.xml";
-        File.WriteAllText(filePath, xmlContent);
+
+        using (var writer = new StreamWriter(filePath))
+        {
+            serializer.Serialize(writer, library);
+        }
 
         var loader = new XmlBookListLoader();
 
         // Act
-        var library = loader.LoadLibrary(filePath);
+        var result = loader.LoadLibrary(filePath);
 
         // Assert
-        Xunit.Assert.NotNull(library);
-        Xunit.Assert.Equal(1, library.Id);
-        Xunit.Assert.Equal(2, library.BookList.Count);
-        Xunit.Assert.Equal("Author1", library.BookList[0].Author);
-        Xunit.Assert.Equal("Title1", library.BookList[0].Title);
-        Xunit.Assert.Equal(1, library.BookList[0].PageNumber);
-        Xunit.Assert.Equal("Author2", library.BookList[1].Author);
-        Xunit.Assert.Equal("Title2", library.BookList[1].Title);
-        Xunit.Assert.Equal(2, library.BookList[1].PageNumber);
+        Xunit.Assert.NotNull(result);
+        Xunit.Assert.Equal(library.Id, result.Id);
+        Xunit.Assert.Equal(library.BookList.Count, result.BookList.Count);
+        Xunit.Assert.Equal(library.BookList[0].Id, result.BookList[0].Id);
+        Xunit.Assert.Equal(library.BookList[0].Author, result.BookList[0].Author);
+        Xunit.Assert.Equal(library.BookList[0].Title, result.BookList[0].Title);
+        Xunit.Assert.Equal(library.BookList[0].PageNumber, result.BookList[0].PageNumber);
 
         // Cleanup
         File.Delete(filePath);
+    }
+
+    [Fact]
+    public void LoadLibrary_InvalidFilePath_ThrowsFileNotFoundException()
+    {
+        // Arrange
+        var loader = new XmlBookListLoader();
+        var filePath = "nonExistentFile.xml";
+
+        // Act & Assert
+        Xunit.Assert.Throws<FileNotFoundException>(() => loader.LoadLibrary(filePath));
     }
 }

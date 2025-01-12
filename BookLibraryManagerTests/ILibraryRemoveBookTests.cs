@@ -3,6 +3,7 @@ using Xunit;
 
 namespace BookLibraryManager.Tests
 {
+    /// <author>YR 2025-01-09</author>
     public class ILibraryRemoveBookTests
     {
         private readonly ILibraryRemoveBook _libraryRemoveBook;

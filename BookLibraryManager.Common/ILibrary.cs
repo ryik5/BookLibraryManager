@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents a library interface that provides functionalities to add, remove, sort, and display books.
 /// </summary>
+/// <author>YR 2025-01-09</author>
 public interface ILibrary : ILibraryAddBook, ILibraryRemoveBook, ILibrarySort, ILibraryShower
 {
     /// <summary>

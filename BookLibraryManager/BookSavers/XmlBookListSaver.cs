@@ -3,6 +3,8 @@ using System.Xml.Serialization;
 using BookLibraryManager.Common;
 
 namespace BookLibraryManager;
+
+/// <author>YR 2025-01-09</author>
 public class XmlBookListSaver : IBookListSaveable
 {
     public bool SaveLibrary(ILibrary library, string pathToFile)

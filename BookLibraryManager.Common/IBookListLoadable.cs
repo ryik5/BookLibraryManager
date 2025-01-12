@@ -1,7 +1,7 @@
 ﻿namespace BookLibraryManager.Common;
 
 /// <summary>
-/// Defines an interface for loading a library by a specified path.
+/// Defines an interface for loading a library.
 /// </summary>
 /// <author>YR 2025-01-09</author>
 public interface IBookListLoadable

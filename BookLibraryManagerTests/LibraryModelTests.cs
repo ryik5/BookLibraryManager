@@ -23,6 +23,22 @@ public class LibraryModelTests
     }
 
     [Fact()]
+    public void AddBook_ShouldAddOneBookToList()
+    {
+        // Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+
+        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 };
+
+        // Act
+        library.AddBook(book);
+
+        // Assert
+        Xunit.Assert.Equal(1, library.NumberOfBooks);
+        Xunit.Assert.Equal(book, library.GetAllBooks()[0]);
+    }
+
+    [Fact()]
     public void AddBook_OneBook_LastAddedBookShouldBeLastOne()
     {
         //Arrange
@@ -62,6 +78,22 @@ public class LibraryModelTests
         //Assert
         var currentQuantityBooks = library.NumberOfBooks;
         Xunit.Assert.Equal(expectedQuantityBooks, currentQuantityBooks);
+    }
+
+    [Fact()]
+    public void RemoveBook_ShouldRemoveBookFromList()
+    {
+        // Arrange
+        var library = new LibraryModel() { Id = 1, BookList = [] };
+        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 };
+        library.AddBook(book);
+
+        // Act
+        var result = library.RemoveBook(book);
+
+        // Assert
+        Xunit.Assert.True(result);
+        Xunit.Assert.Equal(0, library.NumberOfBooks);
     }
 
     [Fact()]

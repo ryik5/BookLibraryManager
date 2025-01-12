@@ -25,6 +25,8 @@ public class LibraryModel : LibraryAbstract, ILibrary
 
     public List<Book> GetFirstBooks(int amountFirstBooks) => BookList.Take(amountFirstBooks).ToList();
 
+    public List<Book> GetAllBooks() => BookList;
+
     public int NumberOfBooks => BookList.Count;
 
     public string ShowFistBooks(int amountFirstBooks)

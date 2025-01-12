@@ -22,8 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookLibraryManager.Common\BookLibraryManager.Common.csproj" />
-    <ProjectReference Include="..\BookLibraryManager\BookLibraryManager.csproj" />
+    <ProjectReference Include="..\BookLibraryManager.Common\BookLibraryManager.Common.csproj">
+      <Private>True</Private>
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\BookLibraryManager\BookLibraryManager.csproj">
+      <Private>True</Private>
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

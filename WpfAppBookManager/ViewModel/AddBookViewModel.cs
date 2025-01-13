@@ -4,8 +4,17 @@ using BookLibraryManager.TestApp.View;
 using GalaSoft.MvvmLight.CommandWpf;
 
 namespace BookLibraryManager.TestApp.ViewModel;
+
+/// <summary>
+/// ViewModel for adding a new book.
+/// </summary>
+/// <author>YR 2025-01-09</author>
 public class AddBookViewModel : BindableBase
 {
+    /// <summary>
+    /// Initializes a new instance of the AddBookViewModel class.
+    /// </summary>
+    /// <param name="book">An example of the book to be added.</param>
     public AddBookViewModel(Book book)
     {
         Book = book;
@@ -17,11 +26,17 @@ public class AddBookViewModel : BindableBase
         _addBookWindow.ShowDialog();
     }
 
+    /// <summary>
+    /// Gets a value indicating whether a new book is being added.
+    /// </summary>
     public bool IsAddNewBook
     {
-        get;private set;
+        get; private set;
     }
 
+    /// <summary>
+    /// Gets or sets the book being added.
+    /// </summary>
     public Book Book
     {
         get => _book;
@@ -29,22 +44,36 @@ public class AddBookViewModel : BindableBase
     }
     private Book _book;
 
-
+    /// <summary>
+    /// Gets the command to add a book.
+    /// </summary>
     public RelayCommand<Window> AddCommand
     {
         get;
     }
+
+    /// <summary>
+    /// Adds the book and closes the window.
+    /// </summary>
+    /// <param name="window">The window to be closed.</param>
     private void AddBook(Window window)
     {
         IsAddNewBook = true;
         CloseWindow(window);
     }
 
-
+    /// <summary>
+    /// Gets the command to cancel adding a book.
+    /// </summary>
     public RelayCommand<Window> CancelCommand
     {
         get;
     }
+
+    /// <summary>
+    /// Cancels adding the book and closes the window.
+    /// </summary>
+    /// <param name="window">The window to be closed.</param>
     private void CancelAddBook(Window window)
     {
         IsAddNewBook = false;
@@ -55,7 +84,9 @@ public class AddBookViewModel : BindableBase
         CloseWindow(window);
     }
 
-
+    /// <summary>
+    /// Closes the specified window.
+    /// </summary>
     private void CloseWindow(Window window)
     {
         window?.Close();

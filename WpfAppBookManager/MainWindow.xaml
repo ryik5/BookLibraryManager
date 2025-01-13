@@ -8,16 +8,6 @@
         Title="An example of a test use of the Book Manager plugin    @YR"
         Height="600" Width="800">
 
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.New" Executed="NewCommand_Executed" CanExecute="NewCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Open" Executed="LoadCommand_Executed" CanExecute="LoadCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Paste" Executed="AddCommand_Executed" CanExecute="AddCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommand_Executed" CanExecute="SaveCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Undo" Executed="SortCommand_Executed" CanExecute="SortCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Find" Executed="FindCommand_Executed" CanExecute="FindCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Delete" Executed="DeleteCommand_Executed" CanExecute="DeleteCommand_CanExecute" />
-        <CommandBinding Command="ApplicationCommands.Redo" Executed="AddRandomCommand_Executed" CanExecute="AddRandomCommand_CanExecute" />
-    </Window.CommandBindings>
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -32,14 +22,14 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Button x:Name="ButtonNew" Command="ApplicationCommands.New" Content="New Library"/>
-            <Button x:Name="ButtonLoader" Command="ApplicationCommands.Open" Content="Load Library"/>
-            <Button x:Name="ButtonAdd" Command="ApplicationCommands.Paste" Content="Add Book"/>
-            <Button x:Name="ButtonAddRandom" Command="ApplicationCommands.Redo" Content="Add random 10 books"/>
-            <Button x:Name="ButtonDelete" Command="ApplicationCommands.Delete" Content="Delete Book"/>
-            <Button x:Name="ButtonSort" Command="ApplicationCommands.Undo" Content="Sort Library"/>
-            <Button x:Name="ButtonFind" Command="ApplicationCommands.Find" Content="Find Book"/>
-            <Button x:Name="ButtonSaver" Command="ApplicationCommands.Save" Content="Save Library"/>
+            <Button x:Name="ButtonNew" Content="New Library"/>
+            <Button x:Name="ButtonLoader" Content="Load Library"/>
+            <Button x:Name="ButtonAdd" Content="Add Book"/>
+            <Button x:Name="ButtonAddRandom" Content="Add random 10 books"/>
+            <Button x:Name="ButtonDelete" Content="Delete Book"/>
+            <Button x:Name="ButtonSort" Content="Sort Library"/>
+            <Button x:Name="ButtonFind" Content="Find Book"/>
+            <Button x:Name="ButtonSaver" Content="Save Library"/>
         </StackPanel>
         <ScrollViewer  Grid.Row="1" Name="MyScrollViewer" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <TextBlock x:Name="TextLog" TextWrapping="Wrap"/>

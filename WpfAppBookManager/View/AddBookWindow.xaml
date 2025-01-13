@@ -1,0 +1,43 @@
+﻿<Window x:Class="BookLibraryManager.TestApp.View.AddBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
+        mc:Ignorable="d"
+        Title="Add Book" Height="300" Width="400">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
+            <Label Content="ID" Width="100" Height="30"/>
+            <TextBox Text="{Binding Book.Id}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2">
+            <Label Content="Author" Width="100" Height="30"/>
+            <TextBox Text="{Binding Book.Author}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="2">
+            <Label Content="Title" Width="100" Height="30"/>
+            <TextBox Text="{Binding Book.Title}" Width="200" Height="30" VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="2" >
+            <Label Content="Pages" Width="100" Height="30"/>
+            <TextBox Text="{Binding Book.PageNumber}" Height="30" Width="200" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left" Margin="100 5 0 5">
+            <Button Content="Add" Command="{Binding AddCommand}" Width="100" Height="30"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="100" Height="30"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>

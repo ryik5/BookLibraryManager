@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Input;
 using BookLibraryManager;
 using BookLibraryManager.Common;
+using BookLibraryManager.TestApp.ViewModel;
+using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 
 namespace AppBookManager;
@@ -17,13 +19,71 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _libraryManager = new BookLibraryManager.BookLibraryManager();
+
+        ButtonNew.Command = new RelayCommand(CreateNewLibrary);
+        ButtonLoader.Command = new RelayCommand(LoadLibrary);
+
+        ButtonSaver.Command = new RelayCommand(SaveLibrary, CanOperateWithBooks);
+        ButtonSort.Command = new RelayCommand(SortLibrary, CanOperateWithBooks);
+
+        ButtonAdd.Command = new RelayCommand(AddBook, CanOperateWithBooks);
+        ButtonAddRandom.Command = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
+        ButtonDelete.Command = new RelayCommand(DeleteBook, CanOperateWithBooks);
+        ButtonFind.Command = new RelayCommand(FindBook, CanOperateWithBooks);
     }
 
-    private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+    private bool CanOperateWithBooks()
     {
-        e.CanExecute = true;
+        return _library?.BookList != null;
     }
-    private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+
+    private void AddBook()
+    {
+        TextLog.Text = string.Empty;
+
+        var book = new Book() { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        var addBook = new AddBookViewModel(book);
+
+        if (addBook.IsAddNewBook)
+        {
+            _libraryManager.AddBook(_library, book);
+            TextLog.Text = $"\nAdded book with id: {book.Id}\n" +
+                           $"number of books in the library: {_library.NumberOfBooks}" +
+                           $"\nLast added books:\n{_library.ShowLastBooks(10)}";
+            MyScrollViewer.ScrollToBottom();
+        }
+        else
+        {
+            TextLog.Text = $"Adding book was canceled";
+        }
+    }
+
+    private void AddRandomBooks()
+    {
+        TextLog.Text = string.Empty;
+        counterUsingAddRandomBooks++;
+
+        for (var i = 0; i < 10; i++)
+        {
+            var testBook = new Book()
+            {
+                Id = Random.Shared.Next(),
+                Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
+                Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
+                PageNumber = 20
+            };
+
+            _libraryManager.AddBook(_library, testBook);
+        }
+
+        TextLog.Text += $"\nAdded 10 books\n" +
+                        $"number of books in the library: {_library.NumberOfBooks}";
+        TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
+        MyScrollViewer.ScrollToBottom();
+    }
+
+    private void CreateNewLibrary()
     {
         TextLog.Text = string.Empty;
         counterUsingAddRandomBooks = 0;
@@ -32,12 +92,7 @@ public partial class MainWindow : Window
         TextLog.Text = $"New library created with id: {_library.Id}";
     }
 
-
-    private void LoadCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = true;
-    }
-    private void LoadCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    private void LoadLibrary()
     {
         TextLog.Text = string.Empty;
         counterUsingAddRandomBooks = 0;
@@ -76,76 +131,8 @@ public partial class MainWindow : Window
         return path;
     }
 
-
-    private void AddCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private void DeleteBook()
     {
-        e.CanExecute = true;
-    }
-    private void AddCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (_library is null)
-        {
-            MessageBox.Show("No created library!");
-            return;
-        }
-
-        TextLog.Text += "\n----";
-        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
-        _libraryManager.AddBook(_library, testBook);
-        TextLog.Text += $"\nAdded book with id: {testBook.Id}\n" +
-                        $"number of books in the library: {_library.NumberOfBooks}";
-        TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
-        MyScrollViewer.ScrollToBottom();
-    }
-
-
-    private void AddRandomCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = true;
-    }
-    private void AddRandomCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (_library is null)
-        {
-            MessageBox.Show("No created library!");
-            return;
-        }
-
-        TextLog.Text += "\n----";
-        counterUsingAddRandomBooks++;
-
-        for (var i = 0; i < 10; i++)
-        {
-            var testBook = new Book()
-            {
-                Id = Random.Shared.Next(),
-                Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
-                Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
-                PageNumber = 20
-            };
-
-            _libraryManager.AddBook(_library, testBook);
-        }
-
-        TextLog.Text += $"\nAdded 10 books\n" +
-                        $"number of books in the library: {_library.NumberOfBooks}";
-        TextLog.Text += $"\nLast added books:\n{_library.ShowLastBooks(10)}";
-        MyScrollViewer.ScrollToBottom();
-    }
-
-
-    private void DeleteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = true;
-    }
-    private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (_library is null)
-        {
-            MessageBox.Show("No created library!");
-            return;
-        }
-
         TextLog.Text = $"Library was sorted\nFirst books:\n{_library.ShowFistBooks(10)}";
         TextLog.Text += "\n----";
         var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
@@ -159,20 +146,12 @@ public partial class MainWindow : Window
         MyScrollViewer.ScrollToBottom();
     }
 
-
-    private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = true;
-    }
-    private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    private void SaveLibrary()
     {
         TextLog.Text = string.Empty;
 
         try
         {
-            if (_library is null)
-                throw new Exception("No library to save!");
-
             var selectedFolder = GetPathToFolderToStoreLibrary();
 
             var pathToFile = Path.Combine(selectedFolder, $"{_library.Id}.xml");
@@ -210,37 +189,15 @@ public partial class MainWindow : Window
         return openDialog.FolderName;
     }
 
-
-    private void SortCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private void SortLibrary()
     {
-        e.CanExecute = true;
-    }
-    private void SortCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (_library is null)
-        {
-            MessageBox.Show("No created library!");
-            return;
-        }
-
         _libraryManager.SortLibrary(_library);
 
         TextLog.Text = $"Library was sorted\nFirst books:\n{_library.ShowFistBooks(10)}";
     }
 
-
-    private void FindCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private void FindBook()
     {
-        e.CanExecute = true;
-    }
-    private void FindCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (_library is null)
-        {
-            MessageBox.Show("No created library!");
-            return;
-        }
-
         var locatedBooks = _libraryManager.FindBooksByTitle(_library, "a");
 
         TextLog.Text = $"Located books with Title contained - 'a':\n{string.Join("\n", locatedBooks)}";

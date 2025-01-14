@@ -1,10 +1,12 @@
-﻿namespace BookLibraryManager.Common;
+﻿using System.Collections.ObjectModel;
+
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a model for managing a library of books.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class LibraryModel : LibraryAbstract, ILibrary
+public class LibraryManagerModel : LibraryAbstract, ILibrary
 {
     /// <summary>
     /// Adds a book to the library.
@@ -22,16 +24,17 @@ public class LibraryModel : LibraryAbstract, ILibrary
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
     public bool RemoveBook(Book book)
     {
-        var searchBook = BookList.Find(b => b.Id == book.Id);
+        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id);
+
         return BookList.Remove(searchBook);
     }
 
     /// <summary>
-    /// Sorts the library by author and then by title.
+    /// Sorts the book collection by author and then by title.
     /// </summary>
     public void SortLibrary()
     {
-        BookList = BookList.OrderBy(b => b.Author).ThenBy(b => b.Title).ToList();
+        BookList = new ObservableCollection<Book>(BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
     }
 
     /// <summary>
@@ -39,23 +42,23 @@ public class LibraryModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <param name="idLibrary">The ID of the new library.</param>
     /// <returns>A new instance of LibraryModel.</returns>
-    public static LibraryModel GetNewLibrary(int idLibrary)
+    public static LibraryManagerModel GetNewLibrary(int idLibrary)
     {
-        return new LibraryModel { Id = idLibrary, BookList = new List<Book>() };
+        return new LibraryManagerModel { Id = idLibrary, BookList = new ObservableCollection<Book>() };
     }
 
     /// <summary>
-    /// Retrieves a list of the first specified number of books from the library.
+    /// Retrieves a collection of the first specified number of books from the library.
     /// </summary>
     /// <param name="amountFirstBooks">The number of books to retrieve.</param>
-    /// <returns>A list of the first books.</returns>
+    /// <returns>A collection of the first books.</returns>
     public List<Book> GetFirstBooks(int amountFirstBooks) => BookList.Take(amountFirstBooks).ToList();
 
     /// <summary>
     /// Retrieves all books in the library.
     /// </summary>
-    /// <returns>A list of all books.</returns>
-    public List<Book> GetAllBooks() => BookList;
+    /// <returns>A collection of all books.</returns>
+    public List<Book> GetAllBooks() => BookList.ToList();
 
     /// <summary>
     /// Gets the total number of books in the library.
@@ -92,7 +95,7 @@ public class LibraryModel : LibraryAbstract, ILibrary
     /// <returns>A new instance of LibraryModel that is a full copy of the current instance.</returns>
     public ILibrary Clone()
     {
-        return new LibraryModel { Id = Id, BookList = new List<Book>(BookList.Select(b => new Book { Id = b.Id, Author = b.Author, PageNumber = b.PageNumber, Title = b.Title })) };
+        return new LibraryManagerModel { Id = Id, BookList = new ObservableCollection<Book>(BookList.Select(b => new Book { Id = b.Id, Author = b.Author, PageNumber = b.PageNumber, Title = b.Title })) };
     }
 
     /// <summary>

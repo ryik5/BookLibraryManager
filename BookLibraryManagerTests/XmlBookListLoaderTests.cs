@@ -1,6 +1,6 @@
-﻿using BookLibraryManager.Common;
-using Moq;
+﻿using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using BookLibraryManager.Common;
 using Xunit;
 
 namespace BookLibraryManager.Tests;
@@ -12,10 +12,10 @@ public class XmlBookListLoaderTests
     public void LoadLibrary_ValidFilePath_ReturnsLibrary()
     {
         // Arrange
-        var library = new LibraryModel
+        var library = new LibraryManagerModel
         {
             Id = 1,
-            BookList = new List<Book>
+            BookList = new ObservableCollection<Book>
             {
                 new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
                 new() { Id = 2, Author = "Author2", Title = "Title2", PageNumber = 2 }

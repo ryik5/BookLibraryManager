@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="BookLibraryManager.TestApp.View.LibraryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
+             mc:Ignorable="d">
+    <ScrollViewer>
+        <ListBox >
+            <ItemsControl ItemsSource="{Binding BookList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="{Binding Id}" />
+                                <TextBlock Text="{Binding Author}" />
+                                <TextBlock Text="{Binding Title}" />
+                                <TextBlock Text="{Binding PageNumber}" />
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ListBox>
+    </ScrollViewer>
+</UserControl>

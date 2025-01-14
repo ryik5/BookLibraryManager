@@ -17,7 +17,7 @@ public class BookLibraryManager : IBookLibraryManageable
     /// <returns>A new instance of <see cref="ILibrary"/>.</returns>
     public ILibrary NewLibrary(int idLibrary)
     {
-        return LibraryModel.GetNewLibrary(idLibrary);
+        return LibraryManagerModel.GetNewLibrary(idLibrary);
     }
 
     /// <summary>
@@ -80,9 +80,9 @@ public class BookLibraryManager : IBookLibraryManageable
     /// </summary>
     /// <param name="library">The library to search.</param>
     /// <param name="partOfTitle">The part of the title to search for.</param>
-    /// <returns>A list of books that contains the specified part of the title.</returns>
+    /// <returns>A collection of books that contains the specified part of the title.</returns>
     public List<Book> FindBooksByTitle(ILibrary library, string partOfTitle)
     {
-        return library.BookList.FindAll(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase));
+        return library.BookList.Where(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 }

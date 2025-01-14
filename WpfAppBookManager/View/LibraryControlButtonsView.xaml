@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="BookLibraryManager.TestApp.View.LibraryControlButtonsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
+             mc:Ignorable="d">
+    
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <Button x:Name="ButtonNew" Content="New Library" Command="{Binding ButtonNew}"/>
+        <Button x:Name="ButtonLoader" Content="Load Library" Command="{Binding ButtonLoader}"/>
+        <Button x:Name="ButtonAdd" Content="Add Book" Command="{Binding ButtonAdd}"/>
+        <Button x:Name="ButtonAddRandom" Content="Add random 10 books" Command="{Binding ButtonAddRandom}"/>
+        <Button x:Name="ButtonDelete" Content="Delete Book" Command="{Binding ButtonDelete}"/>
+        <Button x:Name="ButtonSort" Content="Sort Library" Command="{Binding ButtonSort}"/>
+        <Button x:Name="ButtonFind" Content="Find Book" Command="{Binding ButtonFind}"/>
+        <Button x:Name="ButtonSaver" Content="Save Library" Command="{Binding ButtonSaver}"/>
+    </StackPanel>
+</UserControl>

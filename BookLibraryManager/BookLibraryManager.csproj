@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Prism.Core" Version="9.0.537" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="BookLibraryManager.Common">
       <HintPath>..\BookLibraryManager.Common\bin\Debug\net9.0-windows10.0.17763.0\BookLibraryManager.Common.dll</HintPath>
       <Private>True</Private>

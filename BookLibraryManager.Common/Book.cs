@@ -5,43 +5,47 @@
 /// </summary>
 /// <author>YR 2025-01-09</author>
 [Serializable]
-public class Book
+public class Book : BindableBase
 {
     /// <summary>
     /// Gets or sets the unique identifier for the book.
     /// </summary>
     public required int Id
     {
-        get;
-        set;
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+    private int _id;
 
     /// <summary>
     /// Gets or sets the author of the book.
     /// </summary>
     public required string Author
     {
-        get;
-        set;
+        get => _author;
+        set => SetProperty(ref _author, value);
     }
+    private string _author;
 
     /// <summary>
     /// Gets or sets the title of the book.
     /// </summary>
     public required string Title
     {
-        get;
-        set;
+        get => _title;
+        set => SetProperty(ref _title, value);
     }
+    private string _title;
 
     /// <summary>
     /// Gets or sets the number of pages in the book.
     /// </summary>
     public required int PageNumber
     {
-        get;
-        set;
+        get => _pageNumber;
+        set => SetProperty(ref _pageNumber, value);
     }
+    private int _pageNumber;
 
     /// <summary>
     /// Returns a string that represents the current book.

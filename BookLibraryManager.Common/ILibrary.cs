@@ -1,4 +1,6 @@
-﻿namespace BookLibraryManager.Common;
+﻿using System.Collections.ObjectModel;
+
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a library interface that provides functionalities to add, remove, sort, and display books.
@@ -9,12 +11,18 @@ public interface ILibrary : ILibraryAddBook, ILibraryRemoveBook, ILibrarySort, I
     /// <summary>
     /// Gets or sets the unique identifier for the library.
     /// </summary>
-    int Id { get; set; }
+    int Id
+    {
+        get; set;
+    }
 
     /// <summary>
-    /// Gets or sets the list of books in the library.
+    /// Gets or sets the collection of books in the library.
     /// </summary>
-    List<Book> BookList { get; set; }
+    ObservableCollection<Book> BookList
+    {
+        get; set;
+    }
 
     /// <summary>
     /// Creates a clone of the current library instance.

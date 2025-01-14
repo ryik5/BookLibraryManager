@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppBookManager"
+        xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
         Title="An example of a test use of the Book Manager plugin    @YR"
-        Height="600" Width="800">
+        Height="600" Width="800"
+       >
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -16,23 +18,21 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="gridMainView">
         <Grid.RowDefinitions>
-            <RowDefinition Height="39"/>
-            <RowDefinition/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="120"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Button x:Name="ButtonNew" Content="New Library"/>
-            <Button x:Name="ButtonLoader" Content="Load Library"/>
-            <Button x:Name="ButtonAdd" Content="Add Book"/>
-            <Button x:Name="ButtonAddRandom" Content="Add random 10 books"/>
-            <Button x:Name="ButtonDelete" Content="Delete Book"/>
-            <Button x:Name="ButtonSort" Content="Sort Library"/>
-            <Button x:Name="ButtonFind" Content="Find Book"/>
-            <Button x:Name="ButtonSaver" Content="Save Library"/>
-        </StackPanel>
-        <ScrollViewer  Grid.Row="1" Name="MyScrollViewer" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-            <TextBlock x:Name="TextLog" TextWrapping="Wrap"/>
+
+        <view:LibraryControlButtonsView />
+
+        <view:LibraryView Grid.Row="1" x:Name="LibraryView" 
+                          DataContext="{Binding Library}" 
+                          VerticalAlignment="Top" VerticalContentAlignment="Top"/>
+        
+        <ScrollViewer Grid.Row="2" Name="MyScrollViewer" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <TextBlock x:Name="TextLog" Text="{Binding TextLog}" TextWrapping="Wrap"/>
         </ScrollViewer>
     </Grid>
 </Window>

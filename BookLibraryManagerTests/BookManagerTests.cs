@@ -1,4 +1,5 @@
-﻿using BookLibraryManager.Common;
+﻿using System.Collections.ObjectModel;
+using BookLibraryManager.Common;
 using Moq;
 using Xunit;
 
@@ -190,7 +191,7 @@ public class BookManagerTests
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
         var bookManager = new BookLibraryManager();
-        var books = new List<Book>
+        var books = new ObservableCollection<Book>
         {
             new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
             new() { Id = 2, Author = "Author2", Title = "AnotherTitle", PageNumber = 1 },

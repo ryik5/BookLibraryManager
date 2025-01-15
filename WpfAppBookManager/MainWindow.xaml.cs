@@ -13,5 +13,4 @@ public partial class MainWindow : Window
         InitializeComponent();
         gridMainView.DataContext = new MainView();
     }
-
 }

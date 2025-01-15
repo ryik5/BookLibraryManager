@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
-        Title="Add Book window" Height="300" Width="400">
-    
+        Title="Add Book window" Height="300" Width="450">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 5 5 5"/>
+        </Style>
+    </Window.Resources>
+
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,8 +43,8 @@
         </StackPanel>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left" Margin="100 5 0 5">
-            <Button Content="Add" Command="{Binding AddCommand}" Width="100" Height="30"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="100" Height="30"/>
+            <Button Content="Add" Command="{Binding AddCommand}" Width="85" Height="30"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="85" Height="30"/>
         </StackPanel>
         
     </Grid>

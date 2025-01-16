@@ -53,6 +53,6 @@ public class Book : BindableBase
     /// <returns>A string that contains the author, title, and page number of the book.</returns>
     public override string ToString()
     {
-        return $"{Author}-{Title}-{PageNumber}";
+        return $"Author:{Author}-Title:{Title}-Pages:{PageNumber}";
     }
 }

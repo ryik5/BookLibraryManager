@@ -11,7 +11,7 @@ public interface IBookLibraryManageable
     /// </summary>
     /// <param name="idLibrary">The unique identifier for the new library.</param>
     /// <returns>A new instance of <see cref="ILibrary"/>.</returns>
-    ILibrary NewLibrary(int idLibrary);
+    ILibrary CreateNewLibrary(int idLibrary);
 
     /// <summary>
     /// Loads a library from the specified path.

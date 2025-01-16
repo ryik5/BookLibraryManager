@@ -223,7 +223,7 @@ public class LibraryModelTests
     {
         //Arrange
         //Act
-        var newLibrary = LibraryManagerModel.GetNewLibrary(1);
+        var newLibrary = LibraryManagerModel.CreateNewLibrary(1);
 
         //Assert
         Xunit.Assert.NotNull(newLibrary);

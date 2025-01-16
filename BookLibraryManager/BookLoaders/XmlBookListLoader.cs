@@ -11,18 +11,24 @@ namespace BookLibraryManager;
 public class XmlBookListLoader : IBookListLoadable
 {
     /// <summary>
-    /// Loads a library from the specified XML file path.
+    /// Loads the library from the specified XML file.
     /// </summary>
-    /// <param name="filePath">The path to the XML file containing the library data.</param>
-    /// <returns>An instance of <see cref="ILibrary"/> representing the loaded and deseriliazed library.</returns>
-    public ILibrary LoadLibrary(string filePath)
+    /// <param name="pathToLibrary">The path to the XML file containing the library data.</param>
+    /// <param name="library">The loaded library instance.</param>
+    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
+    public bool LoadLibrary(string pathToLibrary, out ILibrary? library)
     {
-        var serializer = new XmlSerializer(typeof(LibraryAbstract));
-        object? deserializedBook;
+        bool result;
+        library = null;
+        try
+        {
+            var serializer = new XmlSerializer(typeof(LibraryAbstract));
 
-        using var fileStream = new FileStream(filePath, FileMode.Open);
-        deserializedBook = serializer.Deserialize(fileStream);
-
-        return deserializedBook as ILibrary;
+            using var fileStream = new FileStream(pathToLibrary, FileMode.Open);
+            library = serializer.Deserialize(fileStream) as ILibrary;
+            result = true;
+        }
+        catch { result = false; }
+        return result;
     }
 }

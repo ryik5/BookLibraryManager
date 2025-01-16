@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using BookLibraryManager.Common;
+using Moq;
 using Xunit;
 
 namespace BookLibraryManager.Tests;
@@ -33,29 +34,77 @@ public class XmlBookListLoaderTests
         var loader = new XmlBookListLoader();
 
         // Act
-        var result = loader.LoadLibrary(filePath);
+        var result = loader.LoadLibrary(filePath, out ILibrary checkedlibrary);
 
         // Assert
-        Xunit.Assert.NotNull(result);
-        Xunit.Assert.Equal(library.Id, result.Id);
-        Xunit.Assert.Equal(library.BookList.Count, result.BookList.Count);
-        Xunit.Assert.Equal(library.BookList[0].Id, result.BookList[0].Id);
-        Xunit.Assert.Equal(library.BookList[0].Author, result.BookList[0].Author);
-        Xunit.Assert.Equal(library.BookList[0].Title, result.BookList[0].Title);
-        Xunit.Assert.Equal(library.BookList[0].PageNumber, result.BookList[0].PageNumber);
+        Xunit.Assert.True(result);
+        Xunit.Assert.NotNull(checkedlibrary);
+        Xunit.Assert.Equal(library.Id, checkedlibrary.Id);
+        Xunit.Assert.Equal(library.BookList.Count, checkedlibrary.BookList.Count);
+        Xunit.Assert.Equal(library.BookList[0].Id, checkedlibrary.BookList[0].Id);
+        Xunit.Assert.Equal(library.BookList[0].Author, checkedlibrary.BookList[0].Author);
+        Xunit.Assert.Equal(library.BookList[0].Title, checkedlibrary.BookList[0].Title);
+        Xunit.Assert.Equal(library.BookList[0].PageNumber, checkedlibrary.BookList[0].PageNumber);
 
         // Cleanup
         File.Delete(filePath);
     }
 
     [Fact]
-    public void LoadLibrary_InvalidFilePath_ThrowsFileNotFoundException()
+    public void LoadLibrary_ValidXmlFile_ReturnsTrue()
+    {
+        // Arrange
+        var mockLibrary = new Mock<ILibrary>();
+        var loader = new XmlBookListLoader();
+        var pathToLibrary = "validLibrary.xml";
+        var xmlContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LibraryAbstract xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xsi:nil=\"true\" />";
+
+        File.WriteAllText(pathToLibrary, xmlContent);
+
+        // Act
+        var result = loader.LoadLibrary(pathToLibrary, out It.Ref<ILibrary>.IsAny);
+
+        // Assert
+        Xunit.Assert.True(result);
+        Xunit.Assert.IsAssignableFrom<ILibrary>(mockLibrary.Object);
+
+        if (File.Exists(pathToLibrary))
+        {
+            File.Delete(pathToLibrary);
+        }
+    }
+
+    [Fact]
+    public void LoadLibrary_InvalidXmlFile_ReturnsFalse()
     {
         // Arrange
         var loader = new XmlBookListLoader();
-        var filePath = "nonExistentFile.xml";
+        var pathToLibrary = "invalidLibrary.xml";
+        var xmlContent = "<InvalidXml></InvalidXml>";
 
-        // Act & Assert
-        Xunit.Assert.Throws<FileNotFoundException>(() => loader.LoadLibrary(filePath));
+        File.WriteAllText(pathToLibrary, xmlContent);
+
+        // Act
+        var result = loader.LoadLibrary(pathToLibrary, out var library);
+
+        // Assert
+        Xunit.Assert.False(result);
+        Xunit.Assert.Null(library);
+        File.Delete(pathToLibrary);
+    }
+
+    [Fact]
+    public void LoadLibrary_FileNotFound_ReturnsFalse()
+    {
+        // Arrange
+        var loader = new XmlBookListLoader();
+        var pathToLibrary = "nonExistentLibrary.xml";
+
+        // Act
+        var result = loader.LoadLibrary(pathToLibrary, out var library);
+
+        // Assert
+        Xunit.Assert.False(result);
+        Xunit.Assert.Null(library);
     }
 }

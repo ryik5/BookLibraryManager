@@ -34,42 +34,66 @@ public class MainView : BindableBase
     /// <summary>
     /// Gets the command to create a new library.
     /// </summary>
-    public RelayCommand ButtonNew { get; }
+    public RelayCommand ButtonNew
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to load an existing library.
     /// </summary>
-    public RelayCommand ButtonLoader { get; }
+    public RelayCommand ButtonLoader
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to save the current library.
     /// </summary>
-    public RelayCommand ButtonSaver { get; }
+    public RelayCommand ButtonSaver
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to sort the books in the library.
     /// </summary>
-    public RelayCommand ButtonSort { get; }
+    public RelayCommand ButtonSort
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to add a new book to the library.
     /// </summary>
-    public RelayCommand ButtonAdd { get; }
+    public RelayCommand ButtonAdd
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to add random books to the library.
     /// </summary>
-    public RelayCommand ButtonAddRandom { get; }
+    public RelayCommand ButtonAddRandom
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to delete a book from the library.
     /// </summary>
-    public RelayCommand ButtonDelete { get; }
+    public RelayCommand ButtonDelete
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets the command to find books in the library.
     /// </summary>
-    public RelayCommand ButtonFind { get; }
+    public RelayCommand ButtonFind
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets or sets the text log for displaying logging messages.
@@ -154,7 +178,7 @@ public class MainView : BindableBase
         TextLog = string.Empty;
         counterUsingAddRandomBooks = 0;
 
-        Library = _libraryManager.NewLibrary(Random.Shared.Next());
+        Library = _libraryManager.CreateNewLibrary(Random.Shared.Next());
         TextLog = $"New library created with id: {Library.Id}";
     }
 
@@ -163,28 +187,25 @@ public class MainView : BindableBase
     /// </summary>
     private void LoadLibrary()
     {
-        TextLog = string.Empty;
         counterUsingAddRandomBooks = 0;
 
-        try
-        {
-            var filePath = GetPathToXmlFileLibrary();
+        var filePath = GetPathToXmlFileLibrary();
 
-            _libraryManager.LoadLibrary(new XmlBookListLoader(), filePath, out _library);
-            TextLog = $"Library loaded with id: {Library.Id}\n" +
-                           $"number of books: {Library.NumberOfBooks}" +
-                           $"\nby path: {filePath}";
-        }
-        catch (Exception ex)
+        if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath, out _library))
         {
-            MessageBox.Show(ex.Message);
+            TextLog = $"Library loaded with id: {Library.Id}\nnumber of books: {Library.NumberOfBooks}\nby path: {filePath}";
+        }
+        else
+        {
+            TextLog = string.Empty;
+            MessageBox.Show("Library was not loaded");
         }
     }
 
     /// <summary>
     /// Returns the path to the XML file with the library.
     /// </summary>
-    private string GetPathToXmlFileLibrary()
+    private string? GetPathToXmlFileLibrary()
     {
         var openDialog = new OpenFileDialog()
         {
@@ -194,7 +215,7 @@ public class MainView : BindableBase
         };
         var dialogResult = openDialog.ShowDialog();
         if (!dialogResult.HasValue || !dialogResult.Value)
-            throw new Exception("No selected library to load!");
+            return null;
         var path = openDialog.FileName;
 
         return path;

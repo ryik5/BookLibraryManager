@@ -15,9 +15,9 @@ public class BookLibraryManager : IBookLibraryManageable
     /// </summary>
     /// <param name="idLibrary">The unique identifier for the new library.</param>
     /// <returns>A new instance of <see cref="ILibrary"/>.</returns>
-    public ILibrary NewLibrary(int idLibrary)
+    public ILibrary CreateNewLibrary(int idLibrary)
     {
-        return LibraryManagerModel.GetNewLibrary(idLibrary);
+        return LibraryManagerModel.CreateNewLibrary(idLibrary);
     }
 
     /// <summary>
@@ -29,8 +29,8 @@ public class BookLibraryManager : IBookLibraryManageable
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     public bool LoadLibrary(IBookListLoadable loader, string pathToFile, out ILibrary library)
     {
-        library = loader.LoadLibrary(pathToFile);
-        return library is ILibrary;
+        var result = loader.LoadLibrary(pathToFile, out library);
+        return result && library is ILibrary;
     }
 
     /// <summary>

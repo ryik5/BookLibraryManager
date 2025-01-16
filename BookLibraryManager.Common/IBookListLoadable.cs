@@ -7,9 +7,10 @@
 public interface IBookListLoadable
 {
     /// <summary>
-    /// Loads a library from the given path.
+    /// Defines an interface for loading a library.
     /// </summary>
-    /// <param name="pathToLibrary">The path to the library</param>
-    /// <returns>An instance of <see cref="ILibrary"/>representing the loaded library.</returns>
-    ILibrary LoadLibrary(string pathToLibrary);
+    /// <param name="pathToLibrary">The path to the library.</param>
+    /// <param name="library">The loaded library instance.</param>
+    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
+    bool LoadLibrary(string pathToLibrary, out ILibrary library);
 }

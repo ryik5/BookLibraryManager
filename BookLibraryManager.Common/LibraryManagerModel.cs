@@ -24,7 +24,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
     public bool RemoveBook(Book book)
     {
-        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id);
+        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.PageNumber == book.PageNumber);
 
         return BookList.Remove(searchBook);
     }
@@ -42,9 +42,9 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <param name="idLibrary">The ID of the new library.</param>
     /// <returns>A new instance of LibraryModel.</returns>
-    public static LibraryManagerModel GetNewLibrary(int idLibrary)
+    public static LibraryManagerModel CreateNewLibrary(int idLibrary)
     {
-        return new LibraryManagerModel { Id = idLibrary, BookList = new ObservableCollection<Book>() };
+        return new LibraryManagerModel { Id = idLibrary, BookList = [] };
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// Retrieves all books in the library.
     /// </summary>
     /// <returns>A collection of all books.</returns>
-    public List<Book> GetAllBooks() => BookList.ToList();
+    public List<Book> GetAllBooks() => [.. BookList];
 
     /// <summary>
     /// Gets the total number of books in the library.
@@ -111,7 +111,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// A function to select a string representation of a book.
     /// </summary>
-    private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title}";
+    private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title} - Pages:{b.PageNumber}";
 
     /// <summary>
     /// Joins a list of strings into a single string with each element separated by a comma and newline.

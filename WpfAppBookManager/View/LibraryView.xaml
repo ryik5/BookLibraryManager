@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
              mc:Ignorable="d">
-    <ScrollViewer>
-        <ListBox >
+    
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+        <ListBox BorderThickness="0">
             <ItemsControl ItemsSource="{Binding BookList}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -15,12 +16,9 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Margin="0 5 0 5">
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="0 5 0 0">
                             <DockPanel LastChildFill="True">
-                                <TextBlock Text="{Binding Id}" />
-                                <TextBlock Text="{Binding Author}" />
-                                <TextBlock Text="{Binding Title}" />
-                                <TextBlock Text="{Binding PageNumber}" />
+                                <TextBlock Text="{Binding .}" />
                             </DockPanel>
                         </Border>
                     </DataTemplate>

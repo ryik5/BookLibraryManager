@@ -10,7 +10,7 @@
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="Margin" Value="2 5 2 0"/>
         </Style>
     </UserControl.Resources>
     

@@ -1,4 +1,4 @@
-﻿<Window x:Class="BookLibraryManager.TestApp.View.AddBookWindow"
+﻿<Window x:Class="BookLibraryManager.TestApp.View.ActionWithBookWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,15 +6,7 @@
         xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
-        Title="Add Book window" Height="300" Width="450">
-
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5 5 5 5"/>
-        </Style>
-    </Window.Resources>
+        Title="{Binding WindowTitle}" Height="300" Width="450">
 
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -25,10 +17,7 @@
 
         <view:BookView DataContext="{Binding Book}"/>
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Left" Margin="100 5 0 5">
-            <Button Content="Add" Command="{Binding ExecuteCommand}" Width="85" Height="30"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="85" Height="30"/>
-        </StackPanel>
+        <view:ExecuteCancelPanelView Grid.Row="2" DataContext="{Binding}"/>
         
     </Grid>
 </Window>

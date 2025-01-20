@@ -318,6 +318,6 @@ public class MainView : BindableBase
     #region private members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
-    private readonly IBookLibraryManageable _libraryManager;
+    private readonly BookLibraryManager _libraryManager;
     #endregion
 }

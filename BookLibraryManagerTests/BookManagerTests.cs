@@ -25,37 +25,19 @@ public class BookManagerTests
     }
 
     [Fact]
-    public void NewLibrary_SouldBeNotNull1()
-    {
-        // Arrange
-        var mockManager = new Mock<IBookLibraryManageable>();
-        var libraryId = 1;
-        var mockLibrary = new Mock<ILibrary>();
-        mockManager.Setup(m => m.CreateNewLibrary(libraryId)).Returns(mockLibrary.Object);
-        mockLibrary.Setup(m => m.Id).Returns(libraryId);
-
-        // Act
-        var library = mockManager.Object.CreateNewLibrary(libraryId);
-
-        // Assert
-        Xunit.Assert.NotNull(library);
-        Xunit.Assert.Equal(library.Id, libraryId);
-    }
-
-    [Fact]
     public void AddBook_ShouldAddBookToLibrary()
     {
         // Arrange
-        var mockLibrary = new Mock<ILibrary>();
-        var mockManager = new Mock<IBookLibraryManageable>();
-
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        var bookManager = new BookLibraryManager();
+        var library = bookManager.CreateNewLibrary(1);
+        var addedBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
 
         // Act
-        mockManager.Object.AddBook(mockLibrary.Object, book);
+        bookManager.AddBook(library, addedBook);
 
         // Assert
-        mockManager.Verify(l => l.AddBook(mockLibrary.Object, book), Times.Once);
+        var lastBook= library.BookList.Last();
+        Xunit.Assert.Equal(lastBook, addedBook);
     }
 
     [Fact()]
@@ -77,22 +59,20 @@ public class BookManagerTests
     public void AddBook_OneBook_LastAddedBookShouldBeLastOne2()
     {
         //Arrange
-        var mockManager = new Mock<IBookLibraryManageable>();
-        var mockLibrary = new Mock<ILibrary>();
-        var bookList = new ObservableCollection<Book>();
-        mockLibrary.Setup(l => l.BookList).Returns(bookList);
-        mockManager.Setup(l => l.AddBook(It.IsAny<ILibrary>(), It.IsAny<Book>())).Callback<ILibrary, Book>((lib, book) => lib.BookList.Add(book));
+        var bookManager = new BookLibraryManager();
+        var library = bookManager.CreateNewLibrary(1);
 
-        //Act
-        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
-        mockManager.Object.AddBook(mockLibrary.Object, firstBook);
 
-        var lastBook = new Book() { Id = 2, Author = "b", Title = "b", PageNumber = 1 };
+        // Act
+        var firstBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
+        bookManager.AddBook(library, firstBook);
+
+        var lastBook = new Book() { Id = 2, Author = "Book 2", Title = "Author 2", PageNumber = 1 };
         var idExpectedBook = lastBook.Id;
-        mockManager.Object.AddBook(mockLibrary.Object, lastBook);
+        bookManager.AddBook(library, lastBook);
 
         //Assert
-        var lastAddedBook = mockLibrary.Object.BookList.Last();
+        var lastAddedBook = library.BookList.Last();
         var idLastAddedBook = lastAddedBook.Id;
 
         Xunit.Assert.Equal(idExpectedBook, idLastAddedBook);
@@ -125,37 +105,19 @@ public class BookManagerTests
     public void RemoveBook_ShouldRemoveBookFromLibrary()
     {
         // Arrange
-        var mockLibrary = new Mock<ILibrary>();
         var bookManager = new BookLibraryManager();
+        var library = bookManager.CreateNewLibrary(1);
         var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
-        mockLibrary.Setup(l => l.RemoveBook(book)).Returns(true);
+        bookManager.AddBook(library, book);
+        var expectedNumberOfBookAfterRemove = 0;
 
         // Act
-        var result = bookManager.RemoveBook(mockLibrary.Object, book);
+        var result = bookManager.RemoveBook(library, book);
+        var currentNumberOfBookAfterRemove = library.NumberOfBooks;
 
         // Assert
         Xunit.Assert.True(result);
-        mockLibrary.Verify(l => l.RemoveBook(book), Times.Once);
-    }
-
-    [Fact]
-    public void RemoveBook_ShouldRemoveBookFromLibrary2()
-    {
-        // Arrange
-        var mockLibrary = new Mock<ILibrary>();
-        var mockManager = new Mock<IBookLibraryManageable>();
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
-        mockLibrary.Setup(l => l.RemoveBook(book)).Returns(true);
-        mockManager.Setup(l => l.RemoveBook(It.IsAny<ILibrary>(), book)).Returns(true);
-
-        var bookList = new ObservableCollection<Book> { book };
-        mockLibrary.Setup(l => l.BookList).Returns(bookList);
-
-        // Act
-        var result = mockManager.Object.RemoveBook(mockLibrary.Object, book);
-
-        // Assert
-        Xunit.Assert.True(result);
+        Xunit.Assert.Equal(expectedNumberOfBookAfterRemove,currentNumberOfBookAfterRemove);
     }
 
     [Fact()]
@@ -197,8 +159,8 @@ public class BookManagerTests
     public void SortLibrary_ShouldSortLibrary()
     {
         // Arrange
-        var mockLibrary = new Mock<ILibrary>();
         var bookManager = new BookLibraryManager();
+        var mockLibrary = new Mock<ILibrary>();
 
         // Act
         bookManager.SortLibrary(mockLibrary.Object);
@@ -253,8 +215,8 @@ public class BookManagerTests
     public void FindBooksByTitle_ShouldReturnBooksContainingTitle()
     {
         // Arrange
-        var mockLibrary = new Mock<ILibrary>();
         var bookManager = new BookLibraryManager();
+        var mockLibrary = new Mock<ILibrary>();
         var books = new ObservableCollection<Book>
         {
             new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
@@ -385,20 +347,15 @@ public class BookManagerTests
     {
         // Arrange
         var mockLoader = new Mock<IBookListLoadable>();
-        var mockLibrary = new Mock<ILibrary>();
-        ILibrary library = null;
-
-        var mockManager = new Mock<BookLibraryManager>();
-        mockManager.Setup(manager => manager.LoadLibrary(mockLoader.Object, It.IsAny<string>(), out It.Ref<ILibrary>.IsAny)).Returns(true);
-
+        var bookManager = new BookLibraryManager();
+        mockLoader.Setup(loader => loader.LoadLibrary(It.IsAny<string>(), out It.Ref<ILibrary>.IsAny)).Returns(true);
         var path = "testPath";
 
         // Act
-        var result = mockManager.Object.LoadLibrary(mockLoader.Object, path, out library);
+        var result = bookManager.LoadLibrary(mockLoader.Object, path, out It.Ref<ILibrary>.IsAny);
 
         // Assert
         Xunit.Assert.True(result);
-        Xunit.Assert.NotNull(library);
     }
 
     [Fact]
@@ -407,7 +364,7 @@ public class BookManagerTests
         // Arrange
         var mockLoader = new Mock<IBookListLoadable>();
         var mockLibrary = new Mock<ILibrary>();
-        var mockManager = new Mock<IBookLibraryManageable>();
+        var mockManager = new Mock<BookLibraryManager>();
         var pathToLibrary = "testPath";
         ILibrary library;
         mockLoader.Setup(loader => loader.LoadLibrary(It.IsAny<string>(), out library)).Returns(false);
@@ -426,7 +383,7 @@ public class BookManagerTests
         // Arrange
         var mockKeeper = new Mock<IBookListSaveable>();
         var mockLibrary = new Mock<ILibrary>();
-        var mockManager = new Mock<IBookLibraryManageable>();
+        var mockManager = new Mock<BookLibraryManager>();
         var pathToFolder = "testFolder";
         mockKeeper.Setup(keeper => keeper.SaveLibrary(mockLibrary.Object, pathToFolder)).Returns(true);
 

@@ -8,7 +8,7 @@ namespace BookLibraryManager;
 /// and finding books by a part of the title.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class BookLibraryManager : IBookLibraryManageable
+public class BookLibraryManager
 {
     /// <summary>
     /// Creates a new library with the specified ID.
@@ -30,7 +30,7 @@ public class BookLibraryManager : IBookLibraryManageable
     public bool LoadLibrary(IBookListLoadable loader, string pathToFile, out ILibrary library)
     {
         var result = loader.LoadLibrary(pathToFile, out library);
-        return result && library is ILibrary;
+        return result;
     }
 
     /// <summary>

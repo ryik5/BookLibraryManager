@@ -32,7 +32,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to create a new library.
+    /// Command to create a new library.
     /// </summary>
     public RelayCommand ButtonNew
     {
@@ -40,7 +40,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to load an existing library.
+    /// Command to load an existing library.
     /// </summary>
     public RelayCommand ButtonLoader
     {
@@ -48,7 +48,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to save the current library.
+    /// Command to save the current library.
     /// </summary>
     public RelayCommand ButtonSaver
     {
@@ -56,7 +56,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to sort the books in the library.
+    /// ommand to sort the books in the library.
     /// </summary>
     public RelayCommand ButtonSort
     {
@@ -64,7 +64,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to add a new book to the library.
+    /// ommand to add a new book to the library.
     /// </summary>
     public RelayCommand ButtonAdd
     {
@@ -72,7 +72,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to add random books to the library.
+    /// ommand to add random books to the library.
     /// </summary>
     public RelayCommand ButtonAddRandom
     {
@@ -80,7 +80,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to delete a book from the library.
+    /// ommand to delete a book from the library.
     /// </summary>
     public RelayCommand ButtonDelete
     {
@@ -88,7 +88,7 @@ public class MainView : BindableBase
     }
 
     /// <summary>
-    /// Gets the command to find books in the library.
+    /// ommand to find books in the library.
     /// </summary>
     public RelayCommand ButtonFind
     {
@@ -129,10 +129,8 @@ public class MainView : BindableBase
     /// </summary>
     private void AddBook()
     {
-        var book = new Book() { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
-        var addBook = new AddBookViewModel(book);
-
-        if (addBook.IsAddNewBook)
+        var canAddBook = new AddBookViewModel(out var book).CanAddBook;
+        if (canAddBook)
         {
             _libraryManager.AddBook(Library, book);
             TextLog = $"\nAdded book with id: {book.Id}\n" +

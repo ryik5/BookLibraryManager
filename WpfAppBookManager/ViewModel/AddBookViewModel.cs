@@ -15,27 +15,33 @@ public class AddBookViewModel : BindableBase
     /// Initializes a new instance of the AddBookViewModel class.
     /// </summary>
     /// <param name="book">An example of the book to be added.</param>
-    public AddBookViewModel(Book book)
+    public AddBookViewModel(out Book book)
     {
-        Book = book;
-        _originalBook = new() { Id = book.Id, Author = book.Author, Title = book.Title, PageNumber = book.PageNumber };
+        Book = new Book() { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+
+        _originalBook = new() { Id = Book.Id, Author = Book.Author, Title = Book.Title, PageNumber = Book.PageNumber };
+
+        ExecuteButtonName = "Add Book";
         ExecuteCommand = new RelayCommand<Window>(AddBook);
         CancelCommand = new RelayCommand<Window>(CancelAddBook);
 
-        _addBookWindow = new AddBookWindow() { DataContext = this };
+        WindowTitle = "Add Book";
+        _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
+
+        book = Book;
     }
 
     /// <summary>
-    /// Gets a value indicating whether a new book is being added.
+    /// Value indicating whether a new book should be added to the library at the end of procedure.
     /// </summary>
-    public bool IsAddNewBook
+    public bool CanAddBook
     {
         get; private set;
     }
 
     /// <summary>
-    /// Gets or sets the book being added.
+    /// The book being added.
     /// </summary>
     public Book Book
     {
@@ -45,7 +51,7 @@ public class AddBookViewModel : BindableBase
     private Book _book;
 
     /// <summary>
-    /// Gets the command to add a book.
+    /// Command to add a book to the library.
     /// </summary>
     public RelayCommand<Window> ExecuteCommand
     {
@@ -58,12 +64,12 @@ public class AddBookViewModel : BindableBase
     /// <param name="window">The window to be closed.</param>
     private void AddBook(Window window)
     {
-        IsAddNewBook = true;
+        CanAddBook = true;
         CloseWindow(window);
     }
 
     /// <summary>
-    /// Gets the command to cancel adding a book.
+    /// Command to cancel of adding a book.
     /// </summary>
     public RelayCommand<Window> CancelCommand
     {
@@ -76,7 +82,7 @@ public class AddBookViewModel : BindableBase
     /// <param name="window">The window to be closed.</param>
     private void CancelAddBook(Window window)
     {
-        IsAddNewBook = false;
+        CanAddBook = false;
         Book.Id = _originalBook.Id;
         Book.Author = _originalBook.Author;
         Book.Title = _originalBook.Title;
@@ -93,6 +99,23 @@ public class AddBookViewModel : BindableBase
         _addBookWindow?.Close();
     }
 
-    private AddBookWindow _addBookWindow;
+    /// <summary>
+    /// Title of the AddBook window.
+    /// </summary>
+    public string WindowTitle
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Name of the Execute button on the ExecuteCancelPanelView.
+    /// </summary>
+    public string ExecuteButtonName
+    {
+        get;
+    }
+
+
+    private ActionWithBookWindow _addBookWindow;
     private Book _originalBook;
 }

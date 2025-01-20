@@ -21,6 +21,10 @@ public class XmlBookListSaverTests
         ]);
         var saver = new XmlBookListSaver();
         var pathToFile = "testLibrary.xml";
+        if (File.Exists(pathToFile))
+        {
+            File.Delete(pathToFile);
+        }
 
         // Act
         var result = saver.SaveLibrary(mockLibrary.Object, pathToFile);
@@ -42,6 +46,10 @@ public class XmlBookListSaverTests
         // Arrange
         var xmlBookListSaver = new XmlBookListSaver();
         var pathToFile = "testLibrary.xml";
+        if (File.Exists(pathToFile))
+        {
+            File.Delete(pathToFile);
+        }
 
         // Act & Assert
         bool result;

@@ -2,12 +2,12 @@
 
 namespace BookLibraryManager.TestApp.View;
 /// <summary>
-/// Interaction logic for ExecuteCancelPanelView.xaml
+/// Interaction logic for FindBooksControl.xaml
 /// </summary>
 /// <author>YR 2025-01-20</author>
-public partial class ExecuteCancelPanelView : UserControl
+public partial class FindBooksControl : UserControl
 {
-    public ExecuteCancelPanelView()
+    public FindBooksControl()
     {
         InitializeComponent();
     }

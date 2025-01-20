@@ -7,8 +7,8 @@
              mc:Ignorable="d">
     
     <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-        <ListBox BorderThickness="0">
-            <ItemsControl ItemsSource="{Binding BookList}">
+        <ListBox BorderThickness="0" SelectedItem="{Binding SelectedBook, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl ItemsSource="{Binding BookList, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Vertical" />

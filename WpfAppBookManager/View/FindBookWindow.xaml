@@ -1,0 +1,24 @@
+﻿<Window x:Class="BookLibraryManager.TestApp.View.FindBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
+        xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
+        mc:Ignorable="d"
+        Title="FindBookWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+
+        <view:FindBooksControl Grid.Row="0"/>
+
+        <view:LibraryView Grid.Row="1" DataContext="{Binding .}" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="5 0 0 0"/>
+
+        <view:LogView Grid.Row="2" Margin="5" Padding="5 0 0 5"/>
+
+    </Grid>
+</Window>

@@ -299,9 +299,7 @@ public class MainView : BindableBase
     /// </summary>
     private void FindBook()
     {
-        var locatedBooks = _libraryManager.FindBooksByTitle(Library, "a");
-
-        TextLog = $"Located books with Title contained - 'a':\n{string.Join("\n", locatedBooks)}";
+        _ = new FindBookViewModel(_libraryManager, _library);
     }
 
     /// <summary>

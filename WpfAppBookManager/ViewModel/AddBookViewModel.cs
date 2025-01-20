@@ -19,7 +19,7 @@ public class AddBookViewModel : BindableBase
     {
         Book = book;
         _originalBook = new() { Id = book.Id, Author = book.Author, Title = book.Title, PageNumber = book.PageNumber };
-        AddCommand = new RelayCommand<Window>(AddBook);
+        ExecuteCommand = new RelayCommand<Window>(AddBook);
         CancelCommand = new RelayCommand<Window>(CancelAddBook);
 
         _addBookWindow = new AddBookWindow() { DataContext = this };
@@ -47,7 +47,7 @@ public class AddBookViewModel : BindableBase
     /// <summary>
     /// Gets the command to add a book.
     /// </summary>
-    public RelayCommand<Window> AddCommand
+    public RelayCommand<Window> ExecuteCommand
     {
         get;
     }

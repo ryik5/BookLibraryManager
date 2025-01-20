@@ -13,6 +13,11 @@ public class XmlBookListLoaderTests
     public void LoadLibrary_ValidFilePath_ReturnsLibrary()
     {
         // Arrange
+        var filePath = "testLibrary.xml";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
         var library = new LibraryManagerModel
         {
             Id = 1,
@@ -24,7 +29,6 @@ public class XmlBookListLoaderTests
         };
 
         var serializer = new XmlSerializer(typeof(LibraryAbstract));
-        var filePath = "testLibrary.xml";
 
         using (var writer = new StreamWriter(filePath))
         {
@@ -47,7 +51,10 @@ public class XmlBookListLoaderTests
         Xunit.Assert.Equal(library.BookList[0].PageNumber, checkedlibrary.BookList[0].PageNumber);
 
         // Cleanup
-        File.Delete(filePath);
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
     }
 
     [Fact]

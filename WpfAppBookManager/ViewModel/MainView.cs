@@ -27,7 +27,7 @@ public class MainView : BindableBase
 
         ButtonAdd = new RelayCommand(AddBook, CanOperateWithBooks);
         ButtonAddRandom = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
-        ButtonDelete = new RelayCommand(DeleteBook, CanOperateWithBooks);
+        ButtonDelete = new RelayCommand(RemoveBook, CanOperateWithBooks);
         ButtonFind = new RelayCommand(FindBook, CanOperateWithBooks);
     }
 
@@ -224,11 +224,15 @@ public class MainView : BindableBase
     /// <summary>
     /// Deletes a book from the library.
     /// </summary>
-    private void DeleteBook()
+    private void RemoveBook()
     {
-        TextLog = $"Library was sorted\nFirst books:\n{Library.ShowFistBooks(10)}";
+        TextLog = string.Empty;
         TextLog += "\n----";
         var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
+
+
+
+
         var result = _libraryManager.RemoveBook(Library, testBook);
         TextLog += result
             ? $"\nIt was deleted a book with id: {testBook.Id}\n"

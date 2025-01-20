@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using BookLibraryManager.Common;
 using Moq;
 using Xunit;
@@ -21,11 +20,11 @@ public class XmlBookListLoaderTests
         var library = new LibraryManagerModel
         {
             Id = 1,
-            BookList = new ObservableCollection<Book>
-            {
+            BookList =
+            [
                 new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
                 new() { Id = 2, Author = "Author2", Title = "Title2", PageNumber = 2 }
-            }
+            ]
         };
 
         var serializer = new XmlSerializer(typeof(LibraryAbstract));
@@ -38,7 +37,7 @@ public class XmlBookListLoaderTests
         var loader = new XmlBookListLoader();
 
         // Act
-        var result = loader.LoadLibrary(filePath, out ILibrary checkedlibrary);
+        var result = loader.LoadLibrary(filePath, out var checkedlibrary);
 
         // Assert
         Xunit.Assert.True(result);
@@ -66,6 +65,11 @@ public class XmlBookListLoaderTests
         var pathToLibrary = "validLibrary.xml";
         var xmlContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LibraryAbstract xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xsi:nil=\"true\" />";
 
+        if (File.Exists(pathToLibrary))
+        {
+            File.Delete(pathToLibrary);
+        }
+
         File.WriteAllText(pathToLibrary, xmlContent);
 
         // Act
@@ -89,6 +93,10 @@ public class XmlBookListLoaderTests
         var pathToLibrary = "invalidLibrary.xml";
         var xmlContent = "<InvalidXml></InvalidXml>";
 
+        if (File.Exists(pathToLibrary))
+        {
+            File.Delete(pathToLibrary);
+        }
         File.WriteAllText(pathToLibrary, xmlContent);
 
         // Act

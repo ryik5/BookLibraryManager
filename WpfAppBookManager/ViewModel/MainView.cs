@@ -228,9 +228,6 @@ public class MainView : BindableBase
         TextLog += "\n----";
         var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
 
-
-
-
         var result = _libraryManager.RemoveBook(Library, testBook);
         TextLog += result
             ? $"\nIt was deleted a book with id: {testBook.Id}\n"
@@ -300,6 +297,9 @@ public class MainView : BindableBase
     private void FindBook()
     {
         _ = new FindBookViewModel(_libraryManager, _library);
+
+        RaisePropertyChanged(nameof(_library.BookList));
+
     }
 
     /// <summary>

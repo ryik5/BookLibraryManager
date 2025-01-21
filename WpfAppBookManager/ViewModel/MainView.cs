@@ -29,6 +29,7 @@ public class MainView : BindableBase
         ButtonAddRandom = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
         ButtonDelete = new RelayCommand(RemoveBook, CanOperateWithBooks);
         ButtonFind = new RelayCommand(FindBook, CanOperateWithBooks);
+        ExitCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
     }
 
     /// <summary>
@@ -94,6 +95,12 @@ public class MainView : BindableBase
     {
         get;
     }
+
+    public RelayCommand<Window> ExitCommand
+    {
+        get;
+    }
+
 
     /// <summary>
     /// Gets or sets the text log for displaying logging messages.

@@ -10,12 +10,12 @@
 
     <Grid x:Name="gridMainView">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
 
-        <view:LibraryControlButtonsView HorizontalContentAlignment="Left" Margin="2" Padding="5 5 0 0"/>
+        <view:LibraryControls HorizontalAlignment="Stretch" Margin="5 5 0 0"/>
 
         <view:LibraryView Grid.Row="1" DataContext="{Binding Library}" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="5 0 0 0"/>
 

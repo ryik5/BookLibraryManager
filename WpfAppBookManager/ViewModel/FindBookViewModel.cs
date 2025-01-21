@@ -5,14 +5,15 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 
-public class FindBookViewModel:BindableBase
+public class FindBookViewModel : BindableBase
 {
     public FindBookViewModel(BookLibraryManager libraryManager, ILibrary library)
     {
         _libraryManager = libraryManager;
-        _library=library;
+        _library = library;
         FindBooksCommand = new RelayCommand(FindBooks);
-      var finderWindow=  new FindBookWindow() { DataContext = this }.ShowDialog();
+        var finderWindow = new FindBookWindow() { DataContext = this };
+        finderWindow.ShowDialog();
 
         // TODO : add command - delete selected book
         // TODO : change library view to selectable
@@ -25,7 +26,7 @@ public class FindBookViewModel:BindableBase
     }
     private void FindBooks()
     {
-        BookList= _libraryManager.FindBooksByTitle(_library, SearchText);
+        BookList = _libraryManager.FindBooksByTitle(_library, SearchText);
     }
 
     public string SearchText

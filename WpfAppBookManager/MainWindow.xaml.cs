@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using BookLibraryManager.TestApp;
 using BookLibraryManager.TestApp.ViewModel;
 
 namespace AppBookManager;
@@ -11,6 +12,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        CloseWindow.WinObject = this;
         gridMainView.DataContext = new MainView();
     }
 }

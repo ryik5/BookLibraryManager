@@ -12,12 +12,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <view:BookView DataContext="{Binding Book}"/>
 
-        <view:ExecuteCancelPanelView Grid.Row="2" DataContext="{Binding}"/>
+        <view:ExecuteCancelPanelView Grid.Row="2" DataContext="{Binding}" Padding="0 5 0 15"/>
         
     </Grid>
 </Window>

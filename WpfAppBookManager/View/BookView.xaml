@@ -4,20 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" >
+    
     <UserControl.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="5 5 5 5"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="30"/>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="Margin" Value="5 5 5 5"/>
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="30"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
@@ -33,16 +26,24 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}" />
+        <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Id}" />
+        </Border>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Author"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Author}" />
+        <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Author}" />
+        </Border>
 
         <Label Grid.Row="2" Grid.Column="0" Content="Title"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Title}"/>
+        <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Title}"/>
+        </Border>
 
-        <Label  Grid.Row="3" Grid.Column="0" Content="Pages"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PageNumber}" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Pages"/>
+        <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding PageNumber}" />
+        </Border>
 
     </Grid>
 </UserControl>

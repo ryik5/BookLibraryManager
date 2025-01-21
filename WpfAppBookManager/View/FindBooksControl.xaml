@@ -5,12 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <DockPanel LastChildFill="True" HorizontalAlignment="Left" VerticalAlignment="Center">
-        <Button DockPanel.Dock="Right" Content="Close window" Command="{Binding CloseWindowCommand}" Width="90" Margin="20 5 5 5"/>
-        <Button DockPanel.Dock="Right" Content="Delete Book" Command="{Binding DeleteSelectedBookCommand}" Width="90" Margin="15 5 5 5"/>
+        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="20 5 5 5">
+            <Button Content="Close window" Command="{Binding CloseWindowCommand}" Width="90"/>
+        </Border>
+        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="15 5 5 5">
+            <Button Content="Delete Book" Command="{Binding DeleteSelectedBookCommand}" Width="90"/>
+        </Border>
         <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding SearchFields}" SelectedItem="{Binding SelectedSearchField}" Width="100" Margin="5"/>
         <CheckBox DockPanel.Dock="Right" Content="Search-on-fly" IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
-        <Button DockPanel.Dock="Right" Content="Find" Command="{Binding FindBooksCommand}" Width="50" Margin="5"/>
-        <TextBox DockPanel.Dock="Left" MinWidth="100" Margin="5" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" />
+        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
+            <Button Content="Find" Command="{Binding FindBooksCommand}"/>
+        </Border>
+        <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 5 5 5">
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" />
+        </Border>
     </DockPanel>
 </UserControl>

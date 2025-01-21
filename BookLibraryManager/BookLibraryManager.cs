@@ -83,6 +83,9 @@ public class BookLibraryManager
     /// <returns>A collection of books that contains the specified part of the title.</returns>
     public List<Book> FindBooksByTitle(ILibrary library, string partOfTitle)
     {
-        return library.BookList.Where(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase)).ToList();
+        if (string.IsNullOrEmpty(partOfTitle))
+            return [];
+
+        return library.BookList.Where(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase)).ToList() ?? [];
     }
 }

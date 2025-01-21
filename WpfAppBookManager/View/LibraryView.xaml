@@ -5,25 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
              mc:Ignorable="d">
-    
+
     <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-        <ListBox BorderThickness="0" SelectedItem="{Binding SelectedBook, UpdateSourceTrigger=PropertyChanged}">
-            <ItemsControl ItemsSource="{Binding BookList, UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Margin="0 5 0 0">
-                            <DockPanel LastChildFill="True">
-                                <TextBlock Text="{Binding .}" />
-                            </DockPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ListBox>
+        <Border Background="Transparent" Margin="2" Padding="2" BorderThickness="0">
+            <DataGrid
+                    ItemsSource="{Binding BookList, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedBook}"
+                    DataGrid.IsReadOnly="True"
+                    MinHeight="2"
+                    >
+            </DataGrid>
+        </Border>
     </ScrollViewer>
 </UserControl>

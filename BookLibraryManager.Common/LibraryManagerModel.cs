@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace BookLibraryManager.Common;
 
@@ -8,6 +9,16 @@ namespace BookLibraryManager.Common;
 /// <author>YR 2025-01-09</author>
 public class LibraryManagerModel : LibraryAbstract, ILibrary
 {
+    /// <summary>
+    /// Creates a new library with the specified ID.
+    /// </summary>
+    /// <param name="idLibrary">The ID of the new library.</param>
+    /// <returns>A new instance of LibraryModel.</returns>
+    public static LibraryManagerModel CreateNewLibrary(int idLibrary)
+    {
+        return new LibraryManagerModel { Id = idLibrary, BookList = [] };
+    }
+
     /// <summary>
     /// Adds a book to the library.
     /// </summary>
@@ -24,7 +35,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
     public bool RemoveBook(Book book)
     {
-        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.PageNumber == book.PageNumber);
+        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages);
 
         return BookList.Remove(searchBook);
     }
@@ -37,15 +48,46 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
         BookList = new ObservableCollection<Book>(BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
     }
 
-    /// <summary>
-    /// Creates a new library with the specified ID.
-    /// </summary>
-    /// <param name="idLibrary">The ID of the new library.</param>
-    /// <returns>A new instance of LibraryModel.</returns>
-    public static LibraryManagerModel CreateNewLibrary(int idLibrary)
+    public List<Book> FindBooksByBookElement(ILibrary library, BookElementsEnum bookElement, object partElement)
     {
-        return new LibraryManagerModel { Id = idLibrary, BookList = [] };
+        List<Book> result;
+        IEnumerable<Book> tmpResult = [];
+        var strElement = partElement?.ToString();
+
+        Application.Current.Dispatcher.Invoke(new Action(() =>
+        {
+            switch (bookElement)
+            {
+                case BookElementsEnum.Author:
+                    tmpResult = FindBooksByAuthor(library, strElement);
+                    break;
+                case BookElementsEnum.Title:
+                    tmpResult = FindBooksByTitle(library, strElement);
+                    break;
+                case BookElementsEnum.TotalPages:
+                    tmpResult = FindBooksByTotalPages(library, strElement);
+                    break;
+                case BookElementsEnum.PublishDate:
+                    tmpResult = FindBooksByPublishDate(library, strElement);
+                    break;
+            }
+        }));
+        result = tmpResult?.ToList() ?? [];
+
+        return result;
     }
+
+    public IEnumerable<Book> FindBooksByAuthor(ILibrary library, string? strElement)
+        => (IsNotNullOrEmpty(strElement)) ? library.BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+
+    public IEnumerable<Book> FindBooksByTitle(ILibrary library, string? strElement)
+        => (IsNotNullOrEmpty(strElement)) ? library.BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+
+    public IEnumerable<Book> FindBooksByTotalPages(ILibrary library, string? strElement)
+        => IsParseable(strElement, out var intElement) ? library.BookList.Where(b => b.TotalPages == intElement) : [];
+
+    public IEnumerable<Book> FindBooksByPublishDate(ILibrary library, string? strElement)
+        => IsParseable(strElement, out var intElement) ? library.BookList.Where(b => b.PublishDate == intElement) : [];
 
     /// <summary>
     /// Retrieves a collection of the first specified number of books from the library.
@@ -95,7 +137,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <returns>A new instance of LibraryModel that is a full copy of the current instance.</returns>
     public ILibrary Clone()
     {
-        return new LibraryManagerModel { Id = Id, BookList = new ObservableCollection<Book>(BookList.Select(b => new Book { Id = b.Id, Author = b.Author, PageNumber = b.PageNumber, Title = b.Title })) };
+        return new LibraryManagerModel { Id = Id, BookList = new ObservableCollection<Book>(BookList.Select(b => new Book { Id = b.Id, Author = b.Author, TotalPages = b.TotalPages, Title = b.Title })) };
     }
 
     /// <summary>
@@ -111,7 +153,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// A function to select a string representation of a book.
     /// </summary>
-    private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title} - Pages:{b.PageNumber}";
+    private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title} - Pages:{b.TotalPages}";
 
     /// <summary>
     /// Joins a list of strings into a single string with each element separated by a comma and newline.
@@ -119,5 +161,9 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="list">The list of strings to join.</param>
     /// <returns>A single string with each element separated by a comma and newline.</returns>
     private string JoinStrings(IEnumerable<string> list) => string.Join(",\n", list);
+
+    private bool IsParseable(string? strElement, out int intElement) => Int32.TryParse(strElement, out intElement);
+
+    private bool IsNotNullOrEmpty(string? strElement) => !string.IsNullOrEmpty(strElement);
     #endregion
 }

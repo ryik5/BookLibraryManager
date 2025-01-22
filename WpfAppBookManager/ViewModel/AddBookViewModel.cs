@@ -17,9 +17,9 @@ public class AddBookViewModel : BindableBase
     /// <param name="book">An example of the book to be added.</param>
     public AddBookViewModel(out Book book)
     {
-        Book = new Book() { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        Book = new Book() { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
 
-        _originalBook = new() { Id = Book.Id, Author = Book.Author, Title = Book.Title, PageNumber = Book.PageNumber };
+        _originalBook = new() { Id = Book.Id, Author = Book.Author, Title = Book.Title, TotalPages = Book.TotalPages };
 
         ExecuteButtonName = "Add Book";
         ExecuteCommand = new RelayCommand<Window>(AddBook);
@@ -86,7 +86,7 @@ public class AddBookViewModel : BindableBase
         Book.Id = _originalBook.Id;
         Book.Author = _originalBook.Author;
         Book.Title = _originalBook.Title;
-        Book.PageNumber = _originalBook.PageNumber;
+        Book.TotalPages = _originalBook.TotalPages;
         CloseWindow(window);
     }
 

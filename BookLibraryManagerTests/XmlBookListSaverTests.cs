@@ -16,8 +16,8 @@ public class XmlBookListSaverTests
         mockLibrary.SetupGet(lib => lib.Id).Returns(1);
         mockLibrary.SetupGet(lib => lib.BookList).Returns(
         [
-            new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
-            new() { Id = 2, Author = "Author2", Title = "Title2", PageNumber = 2 }
+            new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 },
+            new() { Id = 2, Author = "Author2", Title = "Title2", TotalPages = 2 }
         ]);
         var saver = new XmlBookListSaver();
         var pathToFile = "testLibrary.xml";

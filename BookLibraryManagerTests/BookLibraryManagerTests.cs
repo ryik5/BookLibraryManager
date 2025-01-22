@@ -71,7 +71,7 @@ public class BookLibraryManagerTests
     public void AddBook_ShouldAddBookToLibrary()
     {
         // Arrange
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        var book = new Book { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
         var library = _libraryManager.CreateNewLibrary(1);
 
         // Act
@@ -87,7 +87,7 @@ public class BookLibraryManagerTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        var book = new Book { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
         mockLibrary.Setup(library => library.RemoveBook(book)).Returns(true);
 
         var manager = new BookLibraryManager();
@@ -103,7 +103,7 @@ public class BookLibraryManagerTests
     public void RemoveBook_ShouldReturnFalse_WhenBookIsNotRemoved()
     {
         // Arrange
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 100 };
+        var book = new Book { Id = 1, Author = "Author", Title = "Title", TotalPages = 100 };
 
         // Act
         var result = _libraryManager.RemoveBook(_mockLibrary.Object, book);
@@ -131,9 +131,9 @@ public class BookLibraryManagerTests
         var mockLibrary = new Mock<ILibrary>();
         var books = new ObservableCollection<Book>
         {
-            new() { Id = 1, Title = "C# Programming", Author = "Author1", PageNumber = 300 },
-            new() { Id = 2, Title = "Learn C#", Author = "Author2", PageNumber = 250 },
-            new() { Id = 3, Title = "Java Programming", Author = "Author3", PageNumber = 400 }
+            new() { Id = 1, Title = "C# Programming", Author = "Author1", TotalPages = 300 },
+            new() { Id = 2, Title = "Learn C#", Author = "Author2", TotalPages = 250 },
+            new() { Id = 3, Title = "Java Programming", Author = "Author3", TotalPages = 400 }
         };
         mockLibrary.Setup(l => l.BookList).Returns(books);
 
@@ -155,9 +155,9 @@ public class BookLibraryManagerTests
         var mockLibrary = new Mock<ILibrary>();
         var books = new ObservableCollection<Book>
         {
-            new() { Id = 1, Title = "C# Programming", Author = "Author1", PageNumber = 300 },
-            new() { Id = 2, Title = "Learn C#", Author = "Author2", PageNumber = 250 },
-            new() { Id = 3, Title = "Java Programming", Author = "Author3", PageNumber = 400 }
+            new() { Id = 1, Title = "C# Programming", Author = "Author1", TotalPages = 300 },
+            new() { Id = 2, Title = "Learn C#", Author = "Author2", TotalPages = 250 },
+            new() { Id = 3, Title = "Java Programming", Author = "Author3", TotalPages = 400 }
         };
         mockLibrary.Setup(l => l.BookList).Returns(books);
 

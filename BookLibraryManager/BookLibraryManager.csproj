@@ -27,6 +27,9 @@
       <HintPath>..\BookLibraryManager.Common\bin\Debug\net9.0-windows10.0.17763.0\BookLibraryManager.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BookLibraryManager.XmlFileLibraryOperator">
+      <HintPath>..\BookLibraryManager.XmlFileLibraryOperator\bin\Debug\net9.0-windows10.0.17763.0\BookLibraryManager.XmlFileLibraryOperator.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

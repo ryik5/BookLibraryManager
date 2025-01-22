@@ -29,7 +29,7 @@ public class LibraryModelTests
         // Arrange
         var library = new LibraryManagerModel() { Id = 1, BookList = [] };
 
-        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 };
+        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 };
 
         // Act
         library.AddBook(book);
@@ -47,9 +47,9 @@ public class LibraryModelTests
         library.AddBook(Book_AA);
 
         //Act
-        var firstBook = new Book() { Id = Random.Shared.Next(), Author = "a", Title = "a", PageNumber = 1 };
+        var firstBook = new Book() { Id = Random.Shared.Next(), Author = "a", Title = "a", TotalPages = 1 };
         library.AddBook(firstBook);
-        var lastBook = new Book() { Id = Random.Shared.Next(), Author = "b", Title = "b", PageNumber = 1 };
+        var lastBook = new Book() { Id = Random.Shared.Next(), Author = "b", Title = "b", TotalPages = 1 };
         var idExpectedBook = lastBook.Id;
         library.AddBook(lastBook);
 
@@ -86,7 +86,7 @@ public class LibraryModelTests
     {
         // Arrange
         var library = new LibraryManagerModel() { Id = 1, BookList = [] };
-        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 };
+        var book = new Book { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 };
         library.AddBook(book);
 
         // Act
@@ -238,8 +238,8 @@ public class LibraryModelTests
         var library = new LibraryManagerModel() { Id = 1, BookList = [] };
 
         //Act
-        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", PageNumber = 1 };
-        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", PageNumber = 1 };
+        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", TotalPages = 1 };
+        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", TotalPages = 1 };
         library.AddBook(expectedBook);
         library.AddBook(unexpectedBook);
         var expectedList = library.GetFirstBooks(1);
@@ -255,8 +255,8 @@ public class LibraryModelTests
         var library = new LibraryManagerModel() { Id = 1, BookList = [] };
 
         //Act
-        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", PageNumber = 1 };
-        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", PageNumber = 1 };
+        var expectedBook = new Book { Id = 1, Author = "author", Title = "title", TotalPages = 1 };
+        var unexpectedBook = new Book { Id = 2, Author = "unexpected author", Title = "unexpected title", TotalPages = 1 };
         library.AddBook(expectedBook);
         library.AddBook(unexpectedBook);
 
@@ -267,8 +267,8 @@ public class LibraryModelTests
 
 
     #region private methods
-    private Book Book_AA => new() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
-    private Book Book_AB => new() { Id = 2, Author = "a", Title = "b", PageNumber = 1 };
-    private Book Book_BA => new() { Id = 3, Author = "b", Title = "a", PageNumber = 1 };
+    private Book Book_AA => new() { Id = 1, Author = "a", Title = "a", TotalPages = 1 };
+    private Book Book_AB => new() { Id = 2, Author = "a", Title = "b", TotalPages = 1 };
+    private Book Book_BA => new() { Id = 3, Author = "b", Title = "a", TotalPages = 1 };
     #endregion
 }

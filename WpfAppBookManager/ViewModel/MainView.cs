@@ -165,7 +165,7 @@ public class MainView : BindableBase
                 Id = Random.Shared.Next(),
                 Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
                 Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
-                PageNumber = 20
+                TotalPages = 20
             };
 
             _libraryManager.AddBook(Library, testBook);
@@ -233,7 +233,7 @@ public class MainView : BindableBase
     {
         TextLog = string.Empty;
         TextLog += "\n----";
-        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", PageNumber = 20 };
+        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", TotalPages = 20 };
 
         var result = _libraryManager.RemoveBook(Library, testBook);
         TextLog += result

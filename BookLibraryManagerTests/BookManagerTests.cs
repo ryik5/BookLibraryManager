@@ -30,7 +30,7 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var addedBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
+        var addedBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", TotalPages = 1 };
 
         // Act
         bookManager.AddBook(library, addedBook);
@@ -46,7 +46,7 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
+        var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", TotalPages = 1 };
 
         // Act
         bookManager.AddBook(library, book);
@@ -64,10 +64,10 @@ public class BookManagerTests
 
 
         // Act
-        var firstBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
 
-        var lastBook = new Book() { Id = 2, Author = "Book 2", Title = "Author 2", PageNumber = 1 };
+        var lastBook = new Book() { Id = 2, Author = "Book 2", Title = "Author 2", TotalPages = 1 };
         var idExpectedBook = lastBook.Id;
         bookManager.AddBook(library, lastBook);
 
@@ -86,10 +86,10 @@ public class BookManagerTests
         var library = bookManager.CreateNewLibrary(1);
 
         //Act
-        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
 
-        var lastBook = new Book() { Id = 2, Author = "b", Title = "b", PageNumber = 1 };
+        var lastBook = new Book() { Id = 2, Author = "b", Title = "b", TotalPages = 1 };
         var idExpectedBook = lastBook.Id;
         bookManager.AddBook(library, lastBook);
 
@@ -107,7 +107,7 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+        var book = new Book { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
         bookManager.AddBook(library, book);
         var expectedNumberOfBookAfterRemove = 0;
 
@@ -128,7 +128,7 @@ public class BookManagerTests
 
         // Act
         var library = bookManager.CreateNewLibrary(1);
-        var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
+        var book = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", TotalPages = 1 };
         library.AddBook(book);
         var result = bookManager.RemoveBook(library, book);
 
@@ -145,8 +145,8 @@ public class BookManagerTests
 
         // Act
         var library = bookManager.CreateNewLibrary(1);
-        var bookExisted = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PageNumber = 1 };
-        var bookUnexisted = new Book() { Id = 2, Title = "Book 2", Author = "Author 2", PageNumber = 1 };
+        var bookExisted = new Book() { Id = 1, Title = "Book 1", Author = "Author 1", TotalPages = 1 };
+        var bookUnexisted = new Book() { Id = 2, Title = "Book 2", Author = "Author 2", TotalPages = 1 };
         library.AddBook(bookExisted);
         var result = bookManager.RemoveBook(library, bookUnexisted);
 
@@ -175,11 +175,11 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "a", Title = "a", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "b", Title = "a", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "b", Title = "a", TotalPages = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "b", Title = "c", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "b", Title = "c", TotalPages = 1 };
         bookManager.AddBook(library, thirdBook);
 
         // Act
@@ -196,11 +196,11 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "b", Title = "c", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "c", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "b", Title = "a", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "b", Title = "a", TotalPages = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "a", Title = "a", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "a", Title = "a", TotalPages = 1 };
         bookManager.AddBook(library, thirdBook);
 
         // Act
@@ -219,9 +219,9 @@ public class BookManagerTests
         var mockLibrary = new Mock<ILibrary>();
         var books = new ObservableCollection<Book>
         {
-            new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
-            new() { Id = 2, Author = "Author2", Title = "AnotherTitle", PageNumber = 1 },
-            new() { Id = 3, Author = "Author3", Title = "AnotherBook", PageNumber = 1 }
+            new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 },
+            new() { Id = 2, Author = "Author2", Title = "AnotherTitle", TotalPages = 1 },
+            new() { Id = 3, Author = "Author3", Title = "AnotherBook", TotalPages = 1 }
 
         };
         mockLibrary.Setup(l => l.BookList).Returns(books);
@@ -240,13 +240,13 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", TotalPages = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghklzxc", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghklzxc", TotalPages = 1 };
         bookManager.AddBook(library, thirdBook);
-        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBook);
 
         // Act
@@ -265,21 +265,21 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", TotalPages = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", TotalPages = 1 };
         bookManager.AddBook(library, thirdBook);
-        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBook);
-        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", TotalPages = 1 };
         bookManager.AddBook(library, firstBookUpperCase);
-        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", TotalPages = 1 };
         bookManager.AddBook(library, secondBookUpperCase);
-        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", TotalPages = 1 };
         bookManager.AddBook(library, thirdBookUpperCase);
-        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBookUpperCase);
         // Act
         var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
@@ -295,13 +295,13 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", TotalPages = 1 };
         bookManager.AddBook(library, firstBookUpperCase);
-        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", TotalPages = 1 };
         bookManager.AddBook(library, secondBookUpperCase);
-        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", TotalPages = 1 };
         bookManager.AddBook(library, thirdBookUpperCase);
-        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBookUpperCase);
         // Act
         var listExpectedBooks = bookManager.FindBooksByTitle(library, "a");
@@ -317,21 +317,21 @@ public class BookManagerTests
         // Arrange
         var bookManager = new BookLibraryManager();
         var library = bookManager.CreateNewLibrary(1);
-        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", PageNumber = 1 };
+        var firstBook = new Book() { Id = 1, Author = "b", Title = "qwertyu", TotalPages = 1 };
         bookManager.AddBook(library, firstBook);
-        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", PageNumber = 1 };
+        var secondBook = new Book() { Id = 2, Author = "D", Title = "iopasdf", TotalPages = 1 };
         bookManager.AddBook(library, secondBook);
-        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", PageNumber = 1 };
+        var thirdBook = new Book() { Id = 3, Author = "F", Title = "ghjklzxc", TotalPages = 1 };
         bookManager.AddBook(library, thirdBook);
-        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", PageNumber = 1 };
+        var fothExpectedBook = new Book() { Id = 4, Author = "a", Title = "vbnm", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBook);
-        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", PageNumber = 1 };
+        var firstBookUpperCase = new Book() { Id = 6, Author = "b", Title = "QWERTYU", TotalPages = 1 };
         bookManager.AddBook(library, firstBookUpperCase);
-        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", PageNumber = 1 };
+        var secondBookUpperCase = new Book() { Id = 6, Author = "D", Title = "IOPASDF", TotalPages = 1 };
         bookManager.AddBook(library, secondBookUpperCase);
-        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", PageNumber = 1 };
+        var thirdBookUpperCase = new Book() { Id = 7, Author = "F", Title = "GHJKLZXC", TotalPages = 1 };
         bookManager.AddBook(library, thirdBookUpperCase);
-        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", PageNumber = 1 };
+        var fothExpectedBookUpperCase = new Book() { Id = 8, Author = "a", Title = "VBNM", TotalPages = 1 };
         bookManager.AddBook(library, fothExpectedBookUpperCase);
 
         // Act

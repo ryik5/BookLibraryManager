@@ -17,13 +17,13 @@ public class ILibraryAddBookTests
             Id = 1,
             Author = "Author Name",
             Title = "Book Title",
-            PageNumber = 1
+            TotalPages = 1
         };
 
         // Act
         mockLibrary.Object.AddBook(book);
 
         // Assert
-        mockLibrary.Verify(lib => lib.AddBook(It.Is<Book>(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.PageNumber == book.PageNumber)), Times.Once);
+        mockLibrary.Verify(lib => lib.AddBook(It.Is<Book>(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages)), Times.Once);
     }
 }

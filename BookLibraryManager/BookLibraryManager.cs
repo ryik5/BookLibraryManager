@@ -16,9 +16,7 @@ public class BookLibraryManager
     /// <param name="idLibrary">The unique identifier for the new library.</param>
     /// <returns>A new instance of <see cref="ILibrary"/>.</returns>
     public ILibrary CreateNewLibrary(int idLibrary)
-    {
-        return LibraryManagerModel.CreateNewLibrary(idLibrary);
-    }
+        => LibraryManagerModel.CreateNewLibrary(idLibrary);
 
     /// <summary>
     /// Loads a library from the specified file path.
@@ -28,10 +26,7 @@ public class BookLibraryManager
     /// <param name="library">The loaded library.</param>
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     public bool LoadLibrary(IBookListLoadable loader, string pathToFile, out ILibrary library)
-    {
-        var result = loader.LoadLibrary(pathToFile, out library);
-        return result;
-    }
+        => loader.LoadLibrary(pathToFile, out library);
 
     /// <summary>
     /// Adds a book to the specified library.
@@ -39,9 +34,7 @@ public class BookLibraryManager
     /// <param name="library">The library to which the book will be added.</param>
     /// <param name="book">The book to add.</param>
     public void AddBook(ILibrary library, Book book)
-    {
-        library.AddBook(book);
-    }
+        => library.AddBook(book);
 
     /// <summary>
     /// Removes a book from the specified library.
@@ -50,18 +43,14 @@ public class BookLibraryManager
     /// <param name="book">The book to remove.</param>
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
     public bool RemoveBook(ILibrary library, Book book)
-    {
-        return library.RemoveBook(book);
-    }
+        => library.RemoveBook(book);
 
     /// <summary>
     /// Sorts the books in the specified library.
     /// </summary>
     /// <param name="library">The library to sort.</param>
     public void SortLibrary(ILibrary library)
-    {
-        library.SortLibrary();
-    }
+        => library.SortLibrary();
 
     /// <summary>
     /// Saves the specified library to the specified folder.
@@ -71,21 +60,15 @@ public class BookLibraryManager
     /// <param name="library">The library to save.</param>
     /// <returns>True if the library was successfully saved; otherwise, false.</returns>
     public bool SaveLibrary(IBookListSaveable keeper, string pathToFolder, ILibrary library)
-    {
-        return keeper.SaveLibrary(library, pathToFolder);
-    }
+        => keeper.SaveLibrary(library, pathToFolder);
 
     /// <summary>
-    /// Finds books in the specified library that contain the specified part of the title.
+    /// Finds books in the specified library by a part of the book elements.
     /// </summary>
-    /// <param name="library">The library to search.</param>
-    /// <param name="partOfTitle">The part of the title to search for.</param>
-    /// <returns>A collection of books that contains the specified part of the title.</returns>
-    public List<Book> FindBooksByTitle(ILibrary library, string partOfTitle)
-    {
-        if (string.IsNullOrEmpty(partOfTitle))
-            return [];
-
-        return library.BookList.Where(b => b.Title.Contains(partOfTitle, StringComparison.OrdinalIgnoreCase)).ToList() ?? [];
-    }
+    /// <param name="library">The library to search in.</param>
+    /// <param name="bookElement">The element of the book to search by.</param>
+    /// <param name="partOfElement">The part of the element to search for.</param>
+    /// <returns>A list of books that match the search criteria.</returns>
+    public List<Book> FindBooksByBookElement(ILibrary library, BookElementsEnum bookElement, object partOfElement)
+        => library.FindBooksByBookElement(library, bookElement, partOfElement);
 }

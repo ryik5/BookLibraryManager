@@ -21,7 +21,7 @@ public class FindBookViewModel : BindableBase
         _libraryManager = libraryManager;
         _library = library;
         SearchOnFly = false;
-        SearchFields = ["Author", "Title", "Pages"];
+        SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         DeleteSelectedBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
         CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
@@ -42,7 +42,7 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void FindBooks()
     {
-        BookList = _libraryManager.FindBooksByTitle(_library, SearchText);
+        BookList = _libraryManager.FindBooksByBookElement(_library, SelectedSearchField, SearchText);
     }
 
     /// <summary>
@@ -69,25 +69,22 @@ public class FindBookViewModel : BindableBase
         set => SetProperty(ref _searchOnFly, value);
     }
 
-    private List<string> _searchFields;
     /// <summary>
     /// the fields of the book to perform search.
     /// </summary>
-    public List<string> SearchFields
-    {
-        get => _searchFields;
-        set => SetProperty(ref _searchFields, value);
+    public List<BookElementsEnum> SearchFields{
+        get;
     }
 
     /// <summary>
     /// Gets or sets the field of the book to perform search.
     /// </summary>
-    public string SelectedSearchField
+    public BookElementsEnum SelectedSearchField
     {
         get => _selectedSearchField;
         set => SetProperty(ref _selectedSearchField, value);
     }
-    private string _selectedSearchField;
+    private BookElementsEnum _selectedSearchField;
 
     /// <summary>
     /// Text log of operations
@@ -148,7 +145,7 @@ public class FindBookViewModel : BindableBase
     private void DeleteSelectedBook()
     {
         TextLog = _libraryManager.RemoveBook(_library, SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
-        BookList = _libraryManager.FindBooksByTitle(_library, SearchText);
+        BookList = _libraryManager.FindBooksByBookElement(_library, SelectedSearchField, SearchText);
     }
 
     /// <summary>

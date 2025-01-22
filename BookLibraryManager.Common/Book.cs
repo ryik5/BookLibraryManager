@@ -38,21 +38,31 @@ public class Book : BindableBase
     private string _title;
 
     /// <summary>
-    /// Gets or sets the number of pages in the book.
+    /// Gets or sets the number of total pages in the book.
     /// </summary>
-    public required int PageNumber
+    public required int TotalPages
     {
-        get => _pageNumber;
-        set => SetProperty(ref _pageNumber, value);
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
     }
-    private int _pageNumber;
+    private int _totalPages;
+
+    /// <summary>
+    /// Gets or sets the publish date of the book.
+    /// </summary>
+    public int PublishDate
+    {
+        get => _publishDate;
+        set => SetProperty(ref _publishDate, value);
+    }
+    private int _publishDate;
 
     /// <summary>
     /// Returns a string that represents the current book.
     /// </summary>
-    /// <returns>A string that contains the author, title, and page number of the book.</returns>
+    /// <returns>A string that contains the author, title, and total pages of the book.</returns>
     public override string ToString()
     {
-        return $"Author:{Author}-Title:{Title}-Pages:{PageNumber}";
+        return $"Author:{Author}-Title:{Title}-Pages:{TotalPages}-Year:{PublishDate}";
     }
 }

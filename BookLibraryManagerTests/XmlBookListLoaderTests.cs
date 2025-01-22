@@ -22,8 +22,8 @@ public class XmlBookListLoaderTests
             Id = 1,
             BookList =
             [
-                new() { Id = 1, Author = "Author1", Title = "Title1", PageNumber = 1 },
-                new() { Id = 2, Author = "Author2", Title = "Title2", PageNumber = 2 }
+                new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 },
+                new() { Id = 2, Author = "Author2", Title = "Title2", TotalPages = 2 }
             ]
         };
 
@@ -47,7 +47,7 @@ public class XmlBookListLoaderTests
         Xunit.Assert.Equal(library.BookList[0].Id, checkedlibrary.BookList[0].Id);
         Xunit.Assert.Equal(library.BookList[0].Author, checkedlibrary.BookList[0].Author);
         Xunit.Assert.Equal(library.BookList[0].Title, checkedlibrary.BookList[0].Title);
-        Xunit.Assert.Equal(library.BookList[0].PageNumber, checkedlibrary.BookList[0].PageNumber);
+        Xunit.Assert.Equal(library.BookList[0].TotalPages, checkedlibrary.BookList[0].PageNumber);
 
         // Cleanup
         if (File.Exists(filePath))

@@ -17,7 +17,7 @@ namespace BookLibraryManager.Tests
         public void RemoveBook_ValidBook_ReturnsTrue()
         {
             // Arrange
-            var book = new Book { Id = 1, Author = "Author", Title = "Title", PageNumber = 1 };
+            var book = new Book { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
 
             // Act
             var result = _libraryRemoveBook.RemoveBook(book);
@@ -30,7 +30,7 @@ namespace BookLibraryManager.Tests
         public void RemoveBook_InvalidBook_ReturnsFalse()
         {
             // Arrange
-            var book = new Book { Id = 2, Author = "Unknown", Title = "Unknown", PageNumber = 1 };
+            var book = new Book { Id = 2, Author = "Unknown", Title = "Unknown", TotalPages = 1 };
 
             // Act
             var result = _libraryRemoveBook.RemoveBook(book);

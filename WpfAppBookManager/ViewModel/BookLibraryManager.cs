@@ -1,6 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BookLibraryManager.Common;
 
-namespace BookLibraryManager;
+namespace BookLibraryManager.TestApp.ViewModel;
 
 /// <summary>
 /// Manages the operations related to book libraries, including creating new libraries,

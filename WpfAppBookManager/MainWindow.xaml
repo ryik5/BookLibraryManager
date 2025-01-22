@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
-        Title="An example of a test use of the Book Manager plugin    @YR"
+        Title="The Demo app shows using of the Book Library plugin    @YR"
         Height="600" Width="800">
 
     <Grid x:Name="gridMainView">

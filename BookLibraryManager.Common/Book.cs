@@ -58,6 +58,26 @@ public class Book : BindableBase
     private int _publishDate;
 
     /// <summary>
+    /// Gets or sets the body of the book.
+    /// </summary>
+    public List<string> Body
+    {
+        get => _body;
+        set => SetProperty(ref _body, value);
+    }
+    private List<string> _body;
+
+    /// <summary>
+    /// Gets or sets the description of the book.
+    /// </summary>
+    public string Description
+    {
+        get => _description;
+        set => SetProperty(ref _description, value);
+    }
+    private string _description;
+
+    /// <summary>
     /// Returns a string that represents the current book.
     /// </summary>
     /// <returns>A string that contains the author, title, and total pages of the book.</returns>

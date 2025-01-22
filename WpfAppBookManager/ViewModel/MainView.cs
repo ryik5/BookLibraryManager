@@ -165,7 +165,8 @@ public class MainView : BindableBase
                 Id = Random.Shared.Next(),
                 Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
                 Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
-                TotalPages = 20
+                TotalPages = 20,
+                PublishDate = 2020
             };
 
             _libraryManager.AddBook(Library, testBook);
@@ -315,7 +316,7 @@ public class MainView : BindableBase
     private string RepeaterWords(string word, int times)
     {
         StringBuilder stringBuilder = new();
-        for (int i = 0; i < times; i++)
+        for (var i = 0; i < times; i++)
         {
             stringBuilder.Append($"{word}");
         }

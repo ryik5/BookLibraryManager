@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager", "BookLibraryManager\BookLibraryManager.csproj", "{DE650A87-7755-4F3C-9907-790260E77B28}"
-	ProjectSection(ProjectDependencies) = postProject
-		{309897EF-9499-4BAC-9188-368B8D659F6C} = {309897EF-9499-4BAC-9188-368B8D659F6C}
-		{6DA3BF58-FED0-47E4-9610-620E346BA5B6} = {6DA3BF58-FED0-47E4-9610-620E346BA5B6}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.TestApp", "WpfAppBookManager\BookLibraryManager.TestApp.csproj", "{10DF254F-E69C-4F38-908F-4AFC2BDFBAD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.DemoApp", "WpfAppBookManager\BookLibraryManager.DemoApp.csproj", "{10DF254F-E69C-4F38-908F-4AFC2BDFBAD2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{309897EF-9499-4BAC-9188-368B8D659F6C} = {309897EF-9499-4BAC-9188-368B8D659F6C}
 	EndProjectSection
@@ -21,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManagerTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.Common", "BookLibraryManager.Common\BookLibraryManager.Common.csproj", "{6DA3BF58-FED0-47E4-9610-620E346BA5B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.XmlFileLibraryOperator", "BookLibraryManager.XmlFileLibraryOperator\BookLibraryManager.XmlFileLibraryOperator.csproj", "{309897EF-9499-4BAC-9188-368B8D659F6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.XmlLibraryProvider", "BookLibraryManager.XmlFileLibraryOperator\BookLibraryManager.XmlLibraryProvider.csproj", "{309897EF-9499-4BAC-9188-368B8D659F6C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6DA3BF58-FED0-47E4-9610-620E346BA5B6} = {6DA3BF58-FED0-47E4-9610-620E346BA5B6}
 	EndProjectSection
@@ -32,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DE650A87-7755-4F3C-9907-790260E77B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE650A87-7755-4F3C-9907-790260E77B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE650A87-7755-4F3C-9907-790260E77B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE650A87-7755-4F3C-9907-790260E77B28}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10DF254F-E69C-4F38-908F-4AFC2BDFBAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10DF254F-E69C-4F38-908F-4AFC2BDFBAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10DF254F-E69C-4F38-908F-4AFC2BDFBAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU

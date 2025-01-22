@@ -3,7 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:util="clr-namespace:BookLibraryManager.DemoApp.Util"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <DockPanel>
+                <TextBlock Text="!" Foreground="Red" FontSize="20" Padding="0 0 3 0"/>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,11 +24,14 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID"/>
         <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Id}" />
+            <TextBox Text="{Binding Id}" IsReadOnly="True" />
         </Border>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Author"/>
@@ -34,8 +46,41 @@
 
         <Label Grid.Row="3" Grid.Column="0" Content="Pages"/>
         <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding PageNumber}" />
+            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                <TextBox.Text>
+                    <Binding Path="TotalPages" UpdateSourceTrigger="PropertyChanged" >
+                        <Binding.ValidationRules>
+                            <util:IntValidationRule Min="1" Max="1000000000"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
         </Border>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Publish Date"/>
+        <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                <TextBox.Text>
+                    <Binding Path="PublishDate" UpdateSourceTrigger="PropertyChanged" >
+                        <Binding.ValidationRules>
+                            <util:IntValidationRule Min="400" Max="2100"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </Border>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="Description"/>
+        <Border Grid.Row="5" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Description}"/>
+        </Border>
+
+        <Label Grid.Row="6" Grid.Column="0" Content="Text"/>
+        <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <Button Content="{Binding LoadBody}"/>
+        </Border>
+
 
     </Grid>
 </UserControl>

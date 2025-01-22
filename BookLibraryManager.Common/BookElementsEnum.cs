@@ -9,9 +9,10 @@ public enum BookElementsEnum
     Id,
     Author,
     Title,
-    TotalPages,
-    Genre,
     PublishDate,
+    TotalPages,
+    Body,
+    Description,
+    Genre,
     ISDN,
-    Body
 }

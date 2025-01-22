@@ -8,6 +8,7 @@
     <Authors>YR</Authors>
     <Company>YR</Company>
     <Copyright>@YR</Copyright>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@
     <Authors>@YR</Authors>
     <Version>0.0.0.9</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

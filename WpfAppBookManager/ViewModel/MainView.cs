@@ -96,11 +96,13 @@ public class MainView : BindableBase
         get;
     }
 
+    /// <summary>
+    /// Command to exit the application.
+    /// </summary>
     public RelayCommand<Window> ExitCommand
     {
         get;
     }
-
 
     /// <summary>
     /// Gets or sets the text log for displaying logging messages.

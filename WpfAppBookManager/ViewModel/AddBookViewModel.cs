@@ -17,7 +17,7 @@ public class AddBookViewModel : BindableBase
     /// <param name="book">An example of the book to be added.</param>
     public AddBookViewModel(out Book book)
     {
-        Book = new Book() { Id = 1, Author = "Author", Title = "Title", TotalPages = 1 };
+        Book = new Book() { Id = 1, Author = "Author", Title = "Title", TotalPages = 1, PublishDate = 1970 };
 
         _originalBook = new() { Id = Book.Id, Author = Book.Author, Title = Book.Title, TotalPages = Book.TotalPages };
 
@@ -116,6 +116,6 @@ public class AddBookViewModel : BindableBase
     }
 
 
-    private ActionWithBookWindow _addBookWindow;
-    private Book _originalBook;
+    private readonly ActionWithBookWindow _addBookWindow;
+    private readonly Book _originalBook;
 }

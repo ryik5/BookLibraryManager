@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
-using BookLibraryManager.Common;
 
-namespace BookLibraryManager;
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Loader of the library from XML file stored on a local disk.

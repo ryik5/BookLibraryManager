@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
-using BookLibraryManager.Common;
 
-namespace BookLibraryManager;
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Saver of the library as XML file on the local disk.

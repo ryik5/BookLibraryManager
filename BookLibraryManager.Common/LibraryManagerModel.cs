@@ -153,7 +153,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// A function to select a string representation of a book.
     /// </summary>
-    private Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title} - Pages:{b.TotalPages}";
+    private readonly Func<Book, string> bookSelector = b => $"{b.Id}. Author:{b.Author} - Title:{b.Title} - Pages:{b.TotalPages}";
 
     /// <summary>
     /// Joins a list of strings into a single string with each element separated by a comma and newline.

@@ -5,16 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/View/Styles/ControlStyles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
-    <Border BorderBrush="DarkGray" Background="#E3E3E3" BorderThickness="1" CornerRadius="5" Margin="5">
-        <Menu Background="Transparent" HorizontalContentAlignment="Stretch">
+
+    <Border BorderBrush="DarkGray" Background="#E3E3E3" BorderThickness="1" CornerRadius="5" Margin="5" HorizontalAlignment="Left">
+        <Menu Background="Transparent">
             <MenuItem Header="New Library" Command="{Binding ButtonNew}" />
             <MenuItem Header="Load Library" Command="{Binding ButtonLoader}"/>
             <MenuItem Header="Add Book" Command="{Binding ButtonAdd}"/>
@@ -23,8 +16,8 @@
             <MenuItem Header="Sort Library" Command="{Binding ButtonSort}"/>
             <MenuItem Header="Find Book" Command="{Binding ButtonFind}"/>
             <MenuItem Header="Save Library" Command="{Binding ButtonSaver}"/>
-            <Separator />
-            <MenuItem Header="Exit" Command="{Binding ExitCommand}" BorderThickness="0"/>
+            <!--<Separator />-->
+            <MenuItem Header="Exit" Command="{Binding ExitCommand}" BorderThickness="1 0 0 0" Padding="15 5 15 5"/>
         </Menu>
     </Border>
 </UserControl>

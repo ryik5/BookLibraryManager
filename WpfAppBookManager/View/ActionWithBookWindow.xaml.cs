@@ -10,7 +10,5 @@ public partial class ActionWithBookWindow : Window
     public ActionWithBookWindow()
     {
         InitializeComponent();
-
-        CloseWindow.WinObject = this;
     }
 }

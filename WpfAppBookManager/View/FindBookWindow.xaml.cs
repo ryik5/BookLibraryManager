@@ -10,7 +10,5 @@ public partial class FindBookWindow : Window
     public FindBookWindow()
     {
         InitializeComponent();
-
-        CloseWindow.WinObject = this;
     }
 }

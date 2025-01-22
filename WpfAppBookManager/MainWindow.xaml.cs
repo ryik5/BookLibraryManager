@@ -12,7 +12,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        CloseWindow.WinObject = this;
         gridMainView.DataContext = new MainView();
     }
 }

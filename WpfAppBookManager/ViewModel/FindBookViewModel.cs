@@ -25,7 +25,6 @@ public class FindBookViewModel : BindableBase
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         DeleteSelectedBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
         CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
-
         _finderWindow = new FindBookWindow() { DataContext = this };
         _finderWindow.ShowDialog();
     }

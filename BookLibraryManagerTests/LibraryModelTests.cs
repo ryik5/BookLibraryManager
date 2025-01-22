@@ -190,7 +190,11 @@ public class LibraryModelTests
         library.AddBook(Book_AA);
         library.AddBook(Book_AB);
         library.AddBook(Book_BA);
-        var cloneLibrary = library.Clone();
+
+        var cloneLibrary = new LibraryManagerModel() { Id = 1, BookList = [] };
+        cloneLibrary.AddBook(Book_AA);
+        cloneLibrary.AddBook(Book_AB);
+        cloneLibrary.AddBook(Book_BA);
 
         //Act
         library.SortLibrary();
@@ -207,7 +211,12 @@ public class LibraryModelTests
         library.AddBook(Book_BA);
         library.AddBook(Book_AB);
         library.AddBook(Book_AA);
-        var cloneLibrary = library.Clone();
+
+        var cloneLibrary = new LibraryManagerModel() { Id = 1, BookList = [] };
+        cloneLibrary.AddBook(Book_BA);
+        cloneLibrary.AddBook(Book_AB);
+        cloneLibrary.AddBook(Book_AA);
+
 
         //Act
         library.SortLibrary();

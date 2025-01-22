@@ -143,8 +143,8 @@ public class MainView : BindableBase
         {
             _libraryManager.AddBook(Library, book);
             TextLog = $"\nAdded book with id: {book.Id}\n" +
-                           $"number of books in the library: {Library.NumberOfBooks}" +
-                           $"\nLast added books:\n{Library.ShowLastBooks(10)}";
+                           $"number of books in the library: {Library.NumberOfBooks}"; //+
+                           //$"\nLast added books:\n{Library.ShowLastBooks(10)}";
         }
         else
         {
@@ -175,7 +175,7 @@ public class MainView : BindableBase
         }
         TextLog += $"\nAdded 10 books\n" +
                         $"number of books in the library: {Library.NumberOfBooks}";
-        TextLog += $"\nLast added books:\n{Library.ShowLastBooks(10)}";
+      //  TextLog += $"\nLast added books:\n{Library.ShowLastBooks(10)}";
     }
 
     /// <summary>
@@ -242,8 +242,8 @@ public class MainView : BindableBase
         TextLog += result
             ? $"\nIt was deleted a book with id: {testBook.Id}\n"
             : $"\nIt was deleted nothing";
-        TextLog += $"\nnumber of books in the library: {Library.NumberOfBooks}" +
-                        $"\nFirst books:\n{Library.ShowFistBooks(10)}";
+        TextLog += $"\nnumber of books in the library: {Library.NumberOfBooks}";// +
+                 //       $"\nFirst books:\n{Library.ShowFistBooks(10)}";
     }
 
     /// <summary>
@@ -298,7 +298,7 @@ public class MainView : BindableBase
     {
         _libraryManager.SortLibrary(Library);
 
-        TextLog = $"Library was sorted\nFirst books:\n{Library.ShowFistBooks(10)}";
+       // TextLog = $"Library was sorted\nFirst books:\n{Library.ShowFistBooks(10)}";
     }
 
     /// <summary>

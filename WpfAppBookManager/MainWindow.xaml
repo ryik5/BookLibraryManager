@@ -6,7 +6,7 @@
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
         Title="The Demo app shows using of the Book Library plugin    @YR"
-        Height="600" Width="800">
+        Height="600" Width="850">
 
     <Grid x:Name="gridMainView">
         <Grid.RowDefinitions>

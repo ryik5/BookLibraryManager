@@ -29,34 +29,6 @@ public class ILibraryShowerTests
     }
 
     [Fact]
-    public void ShowFistBooks_ShouldReturnCorrectString()
-    {
-        // Arrange
-        var mockLibraryShower = new Mock<ILibraryShower>();
-        mockLibraryShower.Setup(m => m.ShowFistBooks(2)).Returns("Title1, Title2");
-
-        // Act
-        var result = mockLibraryShower.Object.ShowFistBooks(2);
-
-        // Assert
-        Xunit.Assert.Equal("Title1, Title2", result);
-    }
-
-    [Fact]
-    public void ShowLastBooks_ShouldReturnCorrectString()
-    {
-        // Arrange
-        var mockLibraryShower = new Mock<ILibraryShower>();
-        mockLibraryShower.Setup(m => m.ShowLastBooks(2)).Returns("Title3, Title4");
-
-        // Act
-        var result = mockLibraryShower.Object.ShowLastBooks(2);
-
-        // Assert
-        Xunit.Assert.Equal("Title3, Title4", result);
-    }
-
-    [Fact]
     public void NumberOfBooks_ShouldReturnCorrectNumber()
     {
         // Arrange

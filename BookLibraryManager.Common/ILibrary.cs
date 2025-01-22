@@ -23,10 +23,4 @@ public interface ILibrary : ILibraryAddBook, ILibraryRemoveBook, ILibrarySort, I
     {
         get; set;
     }
-
-    /// <summary>
-    /// Creates a clone of the current library instance.
-    /// </summary>
-    /// <returns>A new instance of ILibrary that is a copy of the current instance.</returns>
-    ILibrary Clone();
 }

@@ -77,8 +77,8 @@
         </Border>
 
         <Label Grid.Row="6" Grid.Column="0" Content="Text"/>
-        <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <Button Content="{Binding LoadBody}"/>
+        <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource ButtonBorderStyle}">
+            <Button Command="{Binding LoadBody}" Content="Load text of the book"/>
         </Border>
 
 

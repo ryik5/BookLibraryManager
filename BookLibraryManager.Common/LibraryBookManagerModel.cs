@@ -56,6 +56,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
     public bool RemoveBook(Book book)
     {
+        if (book is null)
+            return false;
+
         var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages && b.PublishDate == book.PublishDate);
 
         return BookList.Remove(searchBook);
@@ -78,76 +81,23 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>A list of books that match the search criteria.</returns>
     public List<Book> FindBooksByBookElement(BookElementsEnum bookElement, object partElement)
     {
-        List<Book> result;
-        IEnumerable<Book> tmpResult = new List<Book>();
+        IEnumerable<Book> tmpResult = [];
         var strElement = partElement?.ToString();
 
-        Application.Current.Dispatcher.Invoke(new Action(() =>
+        if (Application.Current is null)
         {
-            switch (bookElement)
+            tmpResult = FindBooks(bookElement, strElement);
+        }
+        else
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                case BookElementsEnum.Author:
-                    tmpResult = FindBooksByAuthor(strElement);
-                    break;
-                case BookElementsEnum.Title:
-                    tmpResult = FindBooksByTitle(strElement);
-                    break;
-                case BookElementsEnum.TotalPages:
-                    tmpResult = FindBooksByTotalPages(strElement);
-                    break;
-                case BookElementsEnum.PublishDate:
-                    tmpResult = FindBooksByPublishDate(strElement);
-                    break;
-            }
-        }));
-        result = tmpResult?.ToList() ?? new List<Book>();
+                tmpResult = FindBooks(bookElement, strElement);
+            }));
+        }
 
-        return result;
+        return tmpResult?.ToList() ?? [];
     }
-
-    /// <summary>
-    /// Finds books in the library by author.
-    /// </summary>
-    /// <param name="library">The library to search in.</param>
-    /// <param name="strElement">The author to search for.</param>
-    /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByAuthor(string? strElement)
-        => (IsNotNullOrEmpty(strElement)) 
-        ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) 
-        : [];
-
-    /// <summary>
-    /// Finds books in the library by title.
-    /// </summary>
-    /// <param name="library">The library to search in.</param>
-    /// <param name="strElement">The title to search for.</param>
-    /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByTitle(string? strElement)
-        => (IsNotNullOrEmpty(strElement)) 
-        ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) 
-        : [];
-
-    /// <summary>
-    /// Finds books in the library by total pages.
-    /// </summary>
-    /// <param name="library">The library to search in.</param>
-    /// <param name="strElement">The total pages to search for.</param>
-    /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByTotalPages(string? strElement)
-        => IsParseable(strElement, out var intElement) 
-        ? BookList.Where(b => b.TotalPages == intElement) 
-        : [];
-
-    /// <summary>
-    /// Finds books in the library by publish date.
-    /// </summary>
-    /// <param name="library">The library to search in.</param>
-    /// <param name="strElement">The publish date to search for.</param>
-    /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByPublishDate(string? strElement)
-        => IsParseable(strElement, out var intElement) 
-        ? BookList.Where(b => b.PublishDate == intElement) 
-        : [];
 
     /// <summary>
     /// Retrieves a collection of the first specified number of books from the library.
@@ -168,12 +118,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     public int NumberOfBooks => BookList.Count;
 
     /// <summary>
-    /// Returns a string representation of the full library.
-    /// </summary>
-    /// <returns>A string that represents the library.</returns>
-    public override string ToString() => $"{Id}-{string.Join(",", BookList.Select(b => b))}";
-
-    /// <summary>
     /// Gets or sets the selected book.
     /// </summary>
     public Book SelectedBook
@@ -185,6 +129,77 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
 
 
     #region private methods
+    /// <summary>
+    /// Finds books in the library by a specified book element.
+    /// </summary>
+    /// <param name="bookElement">The element of the book to search by.</param>
+    /// <param name="strElement">The value of the element to search for.</param>
+    /// <returns>An enumerable collection of books that match the search criteria.</returns>
+    private IEnumerable<Book> FindBooks(BookElementsEnum bookElement, string? strElement)
+    {
+        IEnumerable<Book> tmpResult = [];
+        switch (bookElement)
+        {
+            case BookElementsEnum.Author:
+                tmpResult = FindBooksByAuthor(strElement);
+                break;
+            case BookElementsEnum.Title:
+                tmpResult = FindBooksByTitle(strElement);
+                break;
+            case BookElementsEnum.TotalPages:
+                tmpResult = FindBooksByTotalPages(strElement);
+                break;
+            case BookElementsEnum.PublishDate:
+                tmpResult = FindBooksByPublishDate(strElement);
+                break;
+        }
+        return tmpResult;
+    }
+
+    /// <summary>
+    /// Finds books in the library by author.
+    /// </summary>
+    /// <param name="library">The library to search in.</param>
+    /// <param name="strElement">The author to search for.</param>
+    /// <returns>An enumerable collection of books that match the search criteria.</returns>
+    private IEnumerable<Book> FindBooksByAuthor(string? strElement)
+        => (IsNotNullOrEmpty(strElement))
+        ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase))
+        : [];
+
+    /// <summary>
+    /// Finds books in the library by title.
+    /// </summary>
+    /// <param name="library">The library to search in.</param>
+    /// <param name="strElement">The title to search for.</param>
+    /// <returns>An enumerable collection of books that match the search criteria.</returns>
+    private IEnumerable<Book> FindBooksByTitle(string? strElement)
+        => (IsNotNullOrEmpty(strElement))
+        ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase))
+        : [];
+
+    /// <summary>
+    /// Finds books in the library by total pages.
+    /// </summary>
+    /// <param name="library">The library to search in.</param>
+    /// <param name="strElement">The total pages to search for.</param>
+    /// <returns>An enumerable collection of books that match the search criteria.</returns>
+    private IEnumerable<Book> FindBooksByTotalPages(string? strElement)
+        => IsParseable(strElement, out var intElement)
+        ? BookList.Where(b => b.TotalPages == intElement)
+        : [];
+
+    /// <summary>
+    /// Finds books in the library by publish date.
+    /// </summary>
+    /// <param name="library">The library to search in.</param>
+    /// <param name="strElement">The publish date to search for.</param>
+    /// <returns>An enumerable collection of books that match the search criteria.</returns>
+    private IEnumerable<Book> FindBooksByPublishDate(string? strElement)
+        => IsParseable(strElement, out var intElement)
+        ? BookList.Where(b => b.PublishDate == intElement)
+        : [];
+
     /// <summary>
     /// Determines whether the specified string can be parsed to an integer.
     /// </summary>

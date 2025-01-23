@@ -27,7 +27,7 @@ public class MainView : BindableBase
 
         ButtonAdd = new RelayCommand(AddBook, CanOperateWithBooks);
         ButtonAddRandom = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
-        ButtonDelete = new RelayCommand(RemoveBook, CanOperateWithBooks);
+        ButtonDelete = new RelayCommand(RemoveBook, CanRemoveBook);
         ButtonFind = new RelayCommand(FindBook, CanOperateWithBooks);
         ExitCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
     }
@@ -126,6 +126,15 @@ public class MainView : BindableBase
     }
 
     /// <summary>
+    /// Determines whether operations can be performed on the book in the library.
+    /// </summary>
+    /// <returns>true if the library has a book list and selected book is not null; otherwise, false.</returns>
+    private bool CanRemoveBook()
+    {
+        return _libraryManager?.BookList != null && _libraryManager?.SelectedBook is Book;
+    }
+
+    /// <summary>
     /// Adds a new book to the library.
     /// </summary>
     private void AddBook()
@@ -135,7 +144,7 @@ public class MainView : BindableBase
         {
             _libraryManager.AddBook(book);
             TextLog = $"\nAdded book with id: {book.Id}\n" +
-                           $"number of books in the library: {_libraryManager.NumberOfBooks}";
+                           $"number of books in the library: {_libraryManager?.NumberOfBooks}";
         }
         else
         {
@@ -165,7 +174,7 @@ public class MainView : BindableBase
             _libraryManager.AddBook(testBook);
         }
         TextLog += $"\nAdded 10 books\n" +
-                        $"number of books in the library: {_libraryManager.NumberOfBooks}";
+                        $"number of books in the library: {_libraryManager?.NumberOfBooks}";
     }
 
     /// <summary>
@@ -191,7 +200,7 @@ public class MainView : BindableBase
 
         if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
         {
-            TextLog = $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager.NumberOfBooks}\nby path: {filePath}";
+            TextLog = $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
         }
         else
         {
@@ -232,7 +241,7 @@ public class MainView : BindableBase
         TextLog += result
             ? $"\nIt was deleted a book with id: {deletedBookId}\n"
             : $"\nIt was deleted nothing";
-        TextLog += $"\nnumber of books in the library: {_libraryManager.NumberOfBooks}";
+        TextLog += $"\nnumber of books in the library: {_libraryManager?.NumberOfBooks}";
     }
 
     /// <summary>
@@ -254,7 +263,7 @@ public class MainView : BindableBase
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
             TextLog = result
-                    ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager.NumberOfBooks}\nLibrary's path: {pathToFile}"
+                    ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nLibrary's path: {pathToFile}"
                     : "Library wasn't saved";
         }
         catch (Exception ex)

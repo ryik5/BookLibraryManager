@@ -12,7 +12,7 @@ public class XmlBookListLoaderTests
     public void LoadLibrary_ValidFilePath_ReturnsLibrary()
     {
         // Arrange
-        var filePath = "testLibrary.xml";
+        var filePath = "testLibraryLoad.xml";
         if (File.Exists(filePath))
         {
             File.Delete(filePath);

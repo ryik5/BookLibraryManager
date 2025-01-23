@@ -1,15 +1,37 @@
-# **The book library management plugin**
+# **The book library demo application with plugins**
 
-The library provides following functionality:
-1. Load a list of books from an XML-file.
+The application provides following functionality:
+1. Load a list of books from an XML-file (implemented in the separated .dll).
 2. Add a new book to the list.
-3. Sort the list in alphabetical order by author first. Then for each author sort it in alphabetical order by title. Example: first all Andersen’s books, then all King’s books. Andersen’s books: first The Little Mermaid, then The Ugly Duckling etc.
-4. Book search by a part of its title.
-5. Save the list of books into an XML-file.
-The library is implemented in .NET/C#
+3. Remove a book from the list.
+4. Sort the list in alphabetical order by author first. Then for each author sort it in alphabetical order by title. Example: first all Andersen’s books, then all King’s books. Andersen’s books: first The Little Mermaid, then The Ugly Duckling etc.
+5. Book search by a part of its author, title, publish year, total pages.
+6. Save the list of books into an XML-file. (implemented in the separated .dll)
+The library is implemented in .NET/C# ver 9.0
 
-The both dll are necessary for the plugin to be useful:
+
+This project contains Demo application written on WPF
 ```
-BookLibraryManager.dll
+WpfAppBookManager
+```
+
+```
+BookLibraryManager.Common
+```
+This library contains common objects and main functinality:
+```
 BookLibraryManager.Common.dll
+```
+
+```
+BookLibraryManager.XmlFileLibraryOperator
+```
+This library provides operation with external stored file  common objects and main functinality:
+```
+BookLibraryManager.XmlLibraryProvider.dll
+```
+
+This project contains unit tests for xUnit framework
+```
+BookLibraryManagerTests
 ```

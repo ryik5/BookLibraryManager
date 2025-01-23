@@ -8,16 +8,17 @@
 
     <Border BorderBrush="DarkGray" Background="#E3E3E3" BorderThickness="1" CornerRadius="5" Margin="5" HorizontalAlignment="Left">
         <Menu Background="Transparent">
-            <MenuItem Header="New Library" Command="{Binding ButtonNew}" />
-            <MenuItem Header="Load Library" Command="{Binding ButtonLoader}"/>
-            <MenuItem Header="Add Book" Command="{Binding ButtonAdd}"/>
-            <MenuItem Header="Add random 10 books" Command="{Binding ButtonAddRandom}"/>
-            <MenuItem Header="Delete Book" Command="{Binding ButtonDelete}"/>
-            <MenuItem Header="Sort Library" Command="{Binding ButtonSort}"/>
-            <MenuItem Header="Find Book" Command="{Binding ButtonFind}"/>
-            <MenuItem Header="Save Library" Command="{Binding ButtonSaver}"/>
+            <MenuItem Header="New Library" Command="{Binding CreateNewCommand}" />
+            <MenuItem Header="Load Library" Command="{Binding LoadLibraryCommand}"/>
+            <MenuItem Header="Add Book" Command="{Binding AddBookCommand}"/>
+            <MenuItem Header="Add random 10 books" Command="{Binding AddRandomBooksCommand}"/>
+            <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+            <MenuItem Header="Sort Library" Command="{Binding SortLibraryCommand}"/>
+            <MenuItem Header="Find Book" Command="{Binding FindBookCommand}"/>
+            <MenuItem Header="Save Library" Command="{Binding SaveLibraryCommand}"/>
+            <MenuItem Header="{Binding ViewName}" Command="{Binding ToggleViewCommand}"/>
             <!--<Separator />-->
-            <MenuItem Header="Exit" Command="{Binding ExitCommand}" BorderThickness="1 0 0 0" Padding="15 5 15 5"/>
+            <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" BorderThickness="1 0 0 0" Padding="15 5 15 5"/>
         </Menu>
     </Border>
 </UserControl>

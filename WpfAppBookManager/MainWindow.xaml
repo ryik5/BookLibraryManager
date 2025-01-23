@@ -11,8 +11,8 @@
     <Grid x:Name="gridMainView">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="130"/>
+            <RowDefinition Height="{Binding LibraryViewHeight}"/>
+            <RowDefinition Height="{Binding LogViewHeight}"/>
         </Grid.RowDefinitions>
 
         <view:LibraryControls HorizontalAlignment="Stretch" Margin="5 5 0 0"/>

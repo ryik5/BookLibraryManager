@@ -19,23 +19,30 @@ public class MainView : BindableBase
     {
         _libraryManager = new LibraryBookManagerModel();
 
-        ButtonNew = new RelayCommand(CreateNewLibrary);
-        ButtonLoader = new RelayCommand(LoadLibrary);
+        CreateNewCommand = new RelayCommand(CreateNewLibrary);
+        LoadLibraryCommand = new RelayCommand(LoadLibrary);
 
-        ButtonSaver = new RelayCommand(SaveLibrary, CanOperateWithBooks);
-        ButtonSort = new RelayCommand(SortLibrary, CanOperateWithBooks);
+        SaveLibraryCommand = new RelayCommand(SaveLibrary, CanOperateWithBooks);
+        SortLibraryCommand = new RelayCommand(SortLibrary, CanOperateWithBooks);
 
-        ButtonAdd = new RelayCommand(AddBook, CanOperateWithBooks);
-        ButtonAddRandom = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
-        ButtonDelete = new RelayCommand(RemoveBook, CanRemoveBook);
-        ButtonFind = new RelayCommand(FindBook, CanOperateWithBooks);
-        ExitCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
+        AddBookCommand = new RelayCommand(AddBook, CanOperateWithBooks);
+        AddRandomBooksCommand = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
+        RemoveBookCommand = new RelayCommand(RemoveBook, CanRemoveBook);
+        FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
+        ToggleViewCommand=new RelayCommand(ToggleView);
+
+        ExitApplicationCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
+
+        LibraryViewHeight = new GridLength(1, GridUnitType.Star);
+        LogViewHeight = new GridLength(0);
+        ViewName = "Toggle to Log";
     }
 
+    #region Commands
     /// <summary>
     /// Command to create a new library.
     /// </summary>
-    public RelayCommand ButtonNew
+    public RelayCommand CreateNewCommand
     {
         get;
     }
@@ -43,7 +50,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to load an existing library.
     /// </summary>
-    public RelayCommand ButtonLoader
+    public RelayCommand LoadLibraryCommand
     {
         get;
     }
@@ -51,47 +58,47 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to save the current library.
     /// </summary>
-    public RelayCommand ButtonSaver
+    public RelayCommand SaveLibraryCommand
     {
         get;
     }
 
     /// <summary>
-    /// ommand to sort the books in the library.
+    /// Command to sort the books in the library.
     /// </summary>
-    public RelayCommand ButtonSort
+    public RelayCommand SortLibraryCommand
     {
         get;
     }
 
     /// <summary>
-    /// ommand to add a new book to the library.
+    /// Command to add a new book to the library.
     /// </summary>
-    public RelayCommand ButtonAdd
+    public RelayCommand AddBookCommand
     {
         get;
     }
 
     /// <summary>
-    /// ommand to add random books to the library.
+    /// Command to add random books to the library.
     /// </summary>
-    public RelayCommand ButtonAddRandom
+    public RelayCommand AddRandomBooksCommand
     {
         get;
     }
 
     /// <summary>
-    /// ommand to delete a book from the library.
+    /// Command to delete a book from the library.
     /// </summary>
-    public RelayCommand ButtonDelete
+    public RelayCommand RemoveBookCommand
     {
         get;
     }
 
     /// <summary>
-    /// ommand to find books in the library.
+    /// Command to find books in the library.
     /// </summary>
-    public RelayCommand ButtonFind
+    public RelayCommand FindBookCommand
     {
         get;
     }
@@ -99,10 +106,29 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to exit the application.
     /// </summary>
-    public RelayCommand<Window> ExitCommand
+    public RelayCommand ToggleViewCommand
     {
         get;
     }
+
+    /// <summary>
+    /// Command to exit the application.
+    /// </summary>
+    public RelayCommand<Window> ExitApplicationCommand
+    {
+        get;
+    }
+    #endregion
+
+    /// <summary>
+    /// Gets or sets the text log for displaying logging messages.
+    /// </summary>
+    public string ViewName
+    {
+        get => _viewName;
+        set => SetProperty(ref _viewName, value);
+    }
+    private string _viewName;
 
     /// <summary>
     /// Gets or sets the text log for displaying logging messages.
@@ -115,6 +141,27 @@ public class MainView : BindableBase
     private string _textLog;
 
     public ILibrary Library => _libraryManager;
+
+    /// <summary>
+    /// Gets or sets the height of the log for displaying logging messages.
+    /// </summary>
+    public GridLength LogViewHeight
+    {
+        get => _logViewHeight;
+        set => SetProperty(ref _logViewHeight, value);
+    }
+    private GridLength _logViewHeight;
+
+
+    /// <summary>
+    /// Gets or sets the height of the library.
+    /// </summary>
+    public GridLength LibraryViewHeight
+    {
+        get => _libraryViewHeight;
+        set => SetProperty(ref _libraryViewHeight, value);
+    }
+    private GridLength _libraryViewHeight;
 
     /// <summary>
     /// Determines whether operations can be performed on the books in the library.
@@ -132,6 +179,22 @@ public class MainView : BindableBase
     private bool CanRemoveBook()
     {
         return _libraryManager?.BookList != null && _libraryManager?.SelectedBook is Book;
+    }
+
+    private void ToggleView()
+    {
+        if (LibraryViewHeight.Value > 0)
+        {
+            LibraryViewHeight = new GridLength(0);
+            LogViewHeight = new GridLength(1, GridUnitType.Star);
+            ViewName = "Toggle to Library";
+        }
+        else
+        {
+            LibraryViewHeight = new GridLength(1, GridUnitType.Star);
+            LogViewHeight = new GridLength(0);
+            ViewName = "Toggle to Log";
+        }
     }
 
     /// <summary>
@@ -182,7 +245,6 @@ public class MainView : BindableBase
     /// </summary>
     private void CreateNewLibrary()
     {
-        TextLog = string.Empty;
         counterUsingAddRandomBooks = 0;
 
         _libraryManager.CreateNewLibrary(Random.Shared.Next());

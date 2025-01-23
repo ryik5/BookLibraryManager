@@ -4,7 +4,7 @@
 /// <summary>
 /// Interface for sorting books in the library.
 /// </summary>
-public interface ILibrarySort
+public interface ILibraryBookSorter
 {
     /// <summary>
     /// Sorts Books in the library.

@@ -6,7 +6,7 @@ namespace BookLibraryManager.Common;
 /// <summary>
 /// Saver of the library as XML file on the local disk.
 /// <author>YR 2025-01-09</author>
-public class XmlBookListSaver : IBookListSaveable
+public class XmlBookListSaver : ILibraryKeeper
 {
     /// <summary>
     /// Saves the library to an XML file at the specified path.

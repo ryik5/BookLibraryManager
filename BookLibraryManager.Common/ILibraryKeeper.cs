@@ -4,7 +4,7 @@
 /// Interface for saving a library
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public interface IBookListSaveable
+public interface ILibraryKeeper
 {
     /// <summary>
     /// Saves the library to the specified place.

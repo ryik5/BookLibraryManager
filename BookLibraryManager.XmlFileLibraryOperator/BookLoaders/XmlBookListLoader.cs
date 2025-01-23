@@ -7,7 +7,7 @@ namespace BookLibraryManager.Common;
 /// Loader of the library from XML file stored on a local disk.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class XmlBookListLoader : IBookListLoadable
+public class XmlBookListLoader : ILibraryLoader
 {
     /// <summary>
     /// Loads the library from the specified XML file.

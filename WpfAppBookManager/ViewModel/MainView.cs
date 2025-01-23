@@ -17,7 +17,7 @@ public class MainView : BindableBase
     /// </summary>
     public MainView()
     {
-        _libraryManager = new BookLibraryManager();
+        _libraryManager = new LibraryBookManagerModel();
 
         ButtonNew = new RelayCommand(CreateNewLibrary);
         ButtonLoader = new RelayCommand(LoadLibrary);
@@ -114,15 +114,7 @@ public class MainView : BindableBase
     }
     private string _textLog;
 
-    /// <summary>
-    /// Gets or sets the current library.
-    /// </summary>
-    public ILibrary Library
-    {
-        get => _library;
-        set => SetProperty(ref _library, value);
-    }
-    private ILibrary _library;
+    public ILibrary Library => _libraryManager;
 
     /// <summary>
     /// Determines whether operations can be performed on the books in the library.
@@ -130,7 +122,7 @@ public class MainView : BindableBase
     /// <returns>true if the library has a book list; otherwise, false.</returns>
     private bool CanOperateWithBooks()
     {
-        return Library?.BookList != null;
+        return _libraryManager?.BookList != null;
     }
 
     /// <summary>
@@ -141,9 +133,9 @@ public class MainView : BindableBase
         var canAddBook = new AddBookViewModel(out var book).CanAddBook;
         if (canAddBook)
         {
-            _libraryManager.AddBook(Library, book);
+            _libraryManager.AddBook(book);
             TextLog = $"\nAdded book with id: {book.Id}\n" +
-                           $"number of books in the library: {Library.NumberOfBooks}"; //+
+                           $"number of books in the library: {_libraryManager.NumberOfBooks}"; //+
                            //$"\nLast added books:\n{Library.ShowLastBooks(10)}";
         }
         else
@@ -171,10 +163,10 @@ public class MainView : BindableBase
                 PublishDate = 2020
             };
 
-            _libraryManager.AddBook(Library, testBook);
+            _libraryManager.AddBook(testBook);
         }
         TextLog += $"\nAdded 10 books\n" +
-                        $"number of books in the library: {Library.NumberOfBooks}";
+                        $"number of books in the library: {_libraryManager.NumberOfBooks}";
       //  TextLog += $"\nLast added books:\n{Library.ShowLastBooks(10)}";
     }
 
@@ -186,8 +178,8 @@ public class MainView : BindableBase
         TextLog = string.Empty;
         counterUsingAddRandomBooks = 0;
 
-        Library = _libraryManager.CreateNewLibrary(Random.Shared.Next());
-        TextLog = $"New library created with id: {Library.Id}";
+      _libraryManager.CreateNewLibrary(Random.Shared.Next());
+        TextLog = $"New library created with id: {_libraryManager.Id}";
     }
 
     /// <summary>
@@ -199,9 +191,9 @@ public class MainView : BindableBase
 
         var filePath = GetPathToXmlFileLibrary();
 
-        if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath, out _library))
+        if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
         {
-            TextLog = $"Library loaded with id: {Library.Id}\nnumber of books: {Library.NumberOfBooks}\nby path: {filePath}";
+            TextLog = $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager.NumberOfBooks}\nby path: {filePath}";
         }
         else
         {
@@ -236,13 +228,13 @@ public class MainView : BindableBase
     {
         TextLog = string.Empty;
         TextLog += "\n----";
-        var testBook = new Book() { Id = 1, Author = "new", Title = "Test Book", TotalPages = 20 };
 
-        var result = _libraryManager.RemoveBook(Library, testBook);
+        var deletedBookId = _libraryManager.SelectedBook?.Id;
+        var result = _libraryManager.RemoveBook(_libraryManager.SelectedBook);
         TextLog += result
-            ? $"\nIt was deleted a book with id: {testBook.Id}\n"
+            ? $"\nIt was deleted a book with id: {deletedBookId}\n"
             : $"\nIt was deleted nothing";
-        TextLog += $"\nnumber of books in the library: {Library.NumberOfBooks}";// +
+        TextLog += $"\nnumber of books in the library: {_libraryManager.NumberOfBooks}";// +
                  //       $"\nFirst books:\n{Library.ShowFistBooks(10)}";
     }
 
@@ -257,15 +249,15 @@ public class MainView : BindableBase
         {
             var selectedFolder = GetPathToFolderToStoreLibrary();
 
-            var pathToFile = Path.Combine(selectedFolder, $"{Library.Id}.xml");
+            var pathToFile = Path.Combine(selectedFolder, $"{_libraryManager.Id}.xml");
             var file = new FileInfo(pathToFile);
             if (file.Exists)
                 file.Delete();
 
-            var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile, Library);
+            var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
             TextLog = result
-                    ? $"Saved Library with id: {Library.Id}\nnumber of books: {Library.NumberOfBooks}\nLibrary's path: {pathToFile}"
+                    ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager.NumberOfBooks}\nLibrary's path: {pathToFile}"
                     : "Library wasn't saved";
         }
         catch (Exception ex)
@@ -296,7 +288,7 @@ public class MainView : BindableBase
     /// </summary>
     private void SortLibrary()
     {
-        _libraryManager.SortLibrary(Library);
+        _libraryManager.SortLibrary();
 
        // TextLog = $"Library was sorted\nFirst books:\n{Library.ShowFistBooks(10)}";
     }
@@ -306,10 +298,7 @@ public class MainView : BindableBase
     /// </summary>
     private void FindBook()
     {
-        _ = new FindBookViewModel(_libraryManager, _library);
-
-        RaisePropertyChanged(nameof(_library.BookList));
-
+        _ = new FindBookViewModel(_libraryManager);
     }
 
     /// <summary>
@@ -328,6 +317,6 @@ public class MainView : BindableBase
     #region private members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
-    private readonly BookLibraryManager _libraryManager;
+    private readonly LibraryBookManagerModel _libraryManager;
     #endregion
 }

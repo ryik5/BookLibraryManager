@@ -7,26 +7,47 @@ namespace BookLibraryManager.Common;
 /// Represents a model for managing a library of books.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class LibraryManagerModel : LibraryAbstract, ILibrary
+public class LibraryBookManagerModel : LibraryAbstract, ILibrary
 {
     /// <summary>
     /// Creates a new library with the specified ID.
     /// </summary>
     /// <param name="idLibrary">The ID of the new library.</param>
     /// <returns>A new instance of LibraryModel.</returns>
-    public static LibraryManagerModel CreateNewLibrary(int idLibrary)
+    public void CreateNewLibrary(int idLibrary)
     {
-        return new LibraryManagerModel { Id = idLibrary, BookList = [] };
+        Id = idLibrary;
+        BookList = [];
     }
+
+    /// <summary>
+    /// Loads a library from the specified file path.
+    /// </summary>
+    /// <param name="libraryLoader">The loader responsible for loading the library.</param>
+    /// <param name="pathToFile">The path to the file containing the library data.</param>
+    /// <param name="library">The loaded library.</param>
+    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
+    public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
+    {
+        var result = libraryLoader.LoadLibrary(pathToFile, out var library);
+        BookList = new ObservableCollection<Book>(library.BookList);
+        Id = library.Id;
+        return result;
+    }
+    /// <summary>
+    /// Saves the specified library to the specified folder.
+    /// </summary>
+    /// <param name="keeper">The keeper responsible for saving the library.</param>
+    /// <param name="pathToFolder">The path to the folder where the library will be saved.</param>
+    /// <param name="library">The library to save.</param>
+    /// <returns>True if the library was successfully saved; otherwise, false.</returns>
+    public bool SaveLibrary(ILibraryKeeper keeper, string pathToFolder) => keeper.SaveLibrary(this, pathToFolder);
 
     /// <summary>
     /// Adds a book to the library.
     /// </summary>
     /// <param name="book">The book to add.</param>
-    public void AddBook(Book book)
-    {
-        BookList.Add(book);
-    }
+    public void AddBook(Book book) => BookList.Add(book);
 
     /// <summary>
     /// Removes a book from the library.
@@ -55,7 +76,7 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="bookElement">The element of the book to search by.</param>
     /// <param name="partElement">The value of the element to search for.</param>
     /// <returns>A list of books that match the search criteria.</returns>
-    public List<Book> FindBooksByBookElement(ILibrary library, BookElementsEnum bookElement, object partElement)
+    public List<Book> FindBooksByBookElement(BookElementsEnum bookElement, object partElement)
     {
         List<Book> result;
         IEnumerable<Book> tmpResult = new List<Book>();
@@ -66,16 +87,16 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
             switch (bookElement)
             {
                 case BookElementsEnum.Author:
-                    tmpResult = FindBooksByAuthor(library, strElement);
+                    tmpResult = FindBooksByAuthor(strElement);
                     break;
                 case BookElementsEnum.Title:
-                    tmpResult = FindBooksByTitle(library, strElement);
+                    tmpResult = FindBooksByTitle(strElement);
                     break;
                 case BookElementsEnum.TotalPages:
-                    tmpResult = FindBooksByTotalPages(library, strElement);
+                    tmpResult = FindBooksByTotalPages(strElement);
                     break;
                 case BookElementsEnum.PublishDate:
-                    tmpResult = FindBooksByPublishDate(library, strElement);
+                    tmpResult = FindBooksByPublishDate(strElement);
                     break;
             }
         }));
@@ -90,8 +111,8 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The author to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByAuthor(ILibrary library, string? strElement)
-        => (IsNotNullOrEmpty(strElement)) ? library.BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+    public IEnumerable<Book> FindBooksByAuthor(string? strElement)
+        => (IsNotNullOrEmpty(strElement)) ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
 
     /// <summary>
     /// Finds books in the library by title.
@@ -99,8 +120,8 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The title to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByTitle(ILibrary library, string? strElement)
-        => (IsNotNullOrEmpty(strElement)) ? library.BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+    public IEnumerable<Book> FindBooksByTitle(string? strElement)
+        => (IsNotNullOrEmpty(strElement)) ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
 
     /// <summary>
     /// Finds books in the library by total pages.
@@ -108,8 +129,8 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The total pages to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByTotalPages(ILibrary library, string? strElement)
-        => IsParseable(strElement, out var intElement) ? library.BookList.Where(b => b.TotalPages == intElement) : [];
+    public IEnumerable<Book> FindBooksByTotalPages(string? strElement)
+        => IsParseable(strElement, out var intElement) ? BookList.Where(b => b.TotalPages == intElement) : [];
 
     /// <summary>
     /// Finds books in the library by publish date.
@@ -117,8 +138,8 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The publish date to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    public IEnumerable<Book> FindBooksByPublishDate(ILibrary library, string? strElement)
-        => IsParseable(strElement, out var intElement) ? library.BookList.Where(b => b.PublishDate == intElement) : [];
+    public IEnumerable<Book> FindBooksByPublishDate(string? strElement)
+        => IsParseable(strElement, out var intElement) ? BookList.Where(b => b.PublishDate == intElement) : [];
 
     /// <summary>
     /// Retrieves a collection of the first specified number of books from the library.
@@ -143,6 +164,16 @@ public class LibraryManagerModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <returns>A string that represents the library.</returns>
     public override string ToString() => $"{Id}-{string.Join(",", BookList.Select(b => b))}";
+
+    /// <summary>
+    /// Gets or sets the selected book.
+    /// </summary>
+    public Book SelectedBook
+    {
+        get => _selectedBook;
+        set => SetProperty(ref _selectedBook, value);
+    }
+    private Book _selectedBook;
 
     #region private methods
     /// <summary>

@@ -3,7 +3,7 @@ using BookLibraryManager.Common;
 using Moq;
 using Xunit;
 
-namespace BookLibraryTests;
+namespace BookLibraryManager.Tests;
 
 /// <author>YR 2025-01-09</author>
 public class XmlBookListSaverTests

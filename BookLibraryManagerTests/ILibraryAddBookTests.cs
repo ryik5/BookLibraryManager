@@ -11,7 +11,7 @@ public class ILibraryAddBookTests
     public void AddBook_ShouldAddBookToLibrary()
     {
         // Arrange
-        var mockLibrary = new Mock<ILibraryAddBook>();
+        var mockLibrary = new Mock<ILibraryBookAdder>();
         var book = new Book
         {
             Id = 1,

@@ -26,7 +26,7 @@ BookLibraryManager.Common.dll
 
 
 BookLibraryManager.XmlFileLibraryOperator
-This library provides operation with external stored file  common objects and main functinality:
+This library provides operation the library stored as XML file :
 ```
 BookLibraryManager.XmlLibraryProvider.dll
 ```

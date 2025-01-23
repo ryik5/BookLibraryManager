@@ -11,21 +11,21 @@ The library is implemented in .NET/C# ver 9.0
 
 
 This project contains Demo application written on WPF
+
 ```
 WpfAppBookManager
 ```
 
-```
+
+
 BookLibraryManager.Common
-```
-This library contains common objects and main functinality:
+This library contains common objects and main functinality of the library. it is mandatory dll
 ```
 BookLibraryManager.Common.dll
 ```
 
-```
+
 BookLibraryManager.XmlFileLibraryOperator
-```
 This library provides operation with external stored file  common objects and main functinality:
 ```
 BookLibraryManager.XmlLibraryProvider.dll

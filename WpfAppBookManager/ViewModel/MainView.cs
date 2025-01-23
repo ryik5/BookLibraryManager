@@ -29,7 +29,7 @@ public class MainView : BindableBase
         AddRandomBooksCommand = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
         RemoveBookCommand = new RelayCommand(RemoveBook, CanRemoveBook);
         FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
-        ToggleViewCommand=new RelayCommand(ToggleView);
+        ToggleViewCommand = new RelayCommand(ToggleView);
 
         ExitApplicationCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
 
@@ -138,7 +138,7 @@ public class MainView : BindableBase
         get => _textLog;
         set => SetProperty(ref _textLog, value);
     }
-    private string _textLog;
+    private string _textLog = string.Empty;
 
     public ILibrary Library => _libraryManager;
 
@@ -151,7 +151,6 @@ public class MainView : BindableBase
         set => SetProperty(ref _logViewHeight, value);
     }
     private GridLength _logViewHeight;
-
 
     /// <summary>
     /// Gets or sets the height of the library.
@@ -181,6 +180,15 @@ public class MainView : BindableBase
         return _libraryManager?.BookList != null && _libraryManager?.SelectedBook is Book;
     }
 
+    /// <summary>
+    /// Toggles the visibility between the library view and the log view.
+    /// </summary>
+    /// <remarks>
+    /// This method switches the heights of the library view and the log view.
+    /// If the library view is currently visible, it hides the library view and shows the log view.
+    /// If the log view is currently visible, it hides the log view and shows the library view.
+    /// The ViewName property is updated to reflect the current state.
+    /// </remarks>
     private void ToggleView()
     {
         if (LibraryViewHeight.Value > 0)
@@ -206,12 +214,12 @@ public class MainView : BindableBase
         if (canAddBook)
         {
             _libraryManager.AddBook(book);
-            TextLog = $"\nAdded book with id: {book.Id}\n" +
+            TextLog += $"\nAdded book with id: {book.Id}\n" +
                            $"number of books in the library: {_libraryManager?.NumberOfBooks}";
         }
         else
         {
-            TextLog = $"Adding book was canceled";
+            TextLog += $"Adding book was canceled";
         }
     }
 
@@ -220,7 +228,6 @@ public class MainView : BindableBase
     /// </summary>
     private void AddRandomBooks()
     {
-        TextLog = string.Empty;
         counterUsingAddRandomBooks++;
 
         for (var i = 0; i < 10; i++)
@@ -248,7 +255,7 @@ public class MainView : BindableBase
         counterUsingAddRandomBooks = 0;
 
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
-        TextLog = $"New library created with id: {_libraryManager.Id}";
+        TextLog += $"New library created with id: {_libraryManager.Id}";
     }
 
     /// <summary>
@@ -262,11 +269,10 @@ public class MainView : BindableBase
 
         if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
         {
-            TextLog = $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
+            TextLog += $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
         }
         else
         {
-            TextLog = string.Empty;
             MessageBox.Show("Library was not loaded");
         }
     }
@@ -295,7 +301,6 @@ public class MainView : BindableBase
     /// </summary>
     private void RemoveBook()
     {
-        TextLog = string.Empty;
         TextLog += "\n----";
 
         var deletedBookId = _libraryManager.SelectedBook?.Id;
@@ -311,8 +316,6 @@ public class MainView : BindableBase
     /// </summary>
     private void SaveLibrary()
     {
-        TextLog = string.Empty;
-
         try
         {
             var selectedFolder = GetPathToFolderToStoreLibrary();
@@ -324,7 +327,7 @@ public class MainView : BindableBase
 
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
-            TextLog = result
+            TextLog += result
                     ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nLibrary's path: {pathToFile}"
                     : "Library wasn't saved";
         }
@@ -354,18 +357,12 @@ public class MainView : BindableBase
     /// <summary>
     /// Sorts the books in the library.
     /// </summary>
-    private void SortLibrary()
-    {
-        _libraryManager.SortLibrary();
-    }
+    private void SortLibrary() => _libraryManager.SortLibrary();
 
     /// <summary>
     /// Finds books in the library that contain the specified title part.
     /// </summary>
-    private void FindBook()
-    {
-        _ = new FindBookViewModel(_libraryManager);
-    }
+    private void FindBook() => _ = new FindBookViewModel(_libraryManager);
 
     /// <summary>
     /// Repeats the word by the specified number of times.

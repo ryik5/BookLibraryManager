@@ -135,8 +135,7 @@ public class MainView : BindableBase
         {
             _libraryManager.AddBook(book);
             TextLog = $"\nAdded book with id: {book.Id}\n" +
-                           $"number of books in the library: {_libraryManager.NumberOfBooks}"; //+
-                           //$"\nLast added books:\n{Library.ShowLastBooks(10)}";
+                           $"number of books in the library: {_libraryManager.NumberOfBooks}";
         }
         else
         {
@@ -167,7 +166,6 @@ public class MainView : BindableBase
         }
         TextLog += $"\nAdded 10 books\n" +
                         $"number of books in the library: {_libraryManager.NumberOfBooks}";
-      //  TextLog += $"\nLast added books:\n{Library.ShowLastBooks(10)}";
     }
 
     /// <summary>
@@ -178,7 +176,7 @@ public class MainView : BindableBase
         TextLog = string.Empty;
         counterUsingAddRandomBooks = 0;
 
-      _libraryManager.CreateNewLibrary(Random.Shared.Next());
+        _libraryManager.CreateNewLibrary(Random.Shared.Next());
         TextLog = $"New library created with id: {_libraryManager.Id}";
     }
 
@@ -234,8 +232,7 @@ public class MainView : BindableBase
         TextLog += result
             ? $"\nIt was deleted a book with id: {deletedBookId}\n"
             : $"\nIt was deleted nothing";
-        TextLog += $"\nnumber of books in the library: {_libraryManager.NumberOfBooks}";// +
-                 //       $"\nFirst books:\n{Library.ShowFistBooks(10)}";
+        TextLog += $"\nnumber of books in the library: {_libraryManager.NumberOfBooks}";
     }
 
     /// <summary>
@@ -289,8 +286,6 @@ public class MainView : BindableBase
     private void SortLibrary()
     {
         _libraryManager.SortLibrary();
-
-       // TextLog = $"Library was sorted\nFirst books:\n{Library.ShowFistBooks(10)}";
     }
 
     /// <summary>

@@ -112,7 +112,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="strElement">The author to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     public IEnumerable<Book> FindBooksByAuthor(string? strElement)
-        => (IsNotNullOrEmpty(strElement)) ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+        => (IsNotNullOrEmpty(strElement)) 
+        ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase)) 
+        : [];
 
     /// <summary>
     /// Finds books in the library by title.
@@ -121,7 +123,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="strElement">The title to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     public IEnumerable<Book> FindBooksByTitle(string? strElement)
-        => (IsNotNullOrEmpty(strElement)) ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) : [];
+        => (IsNotNullOrEmpty(strElement)) 
+        ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase)) 
+        : [];
 
     /// <summary>
     /// Finds books in the library by total pages.
@@ -130,7 +134,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="strElement">The total pages to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     public IEnumerable<Book> FindBooksByTotalPages(string? strElement)
-        => IsParseable(strElement, out var intElement) ? BookList.Where(b => b.TotalPages == intElement) : [];
+        => IsParseable(strElement, out var intElement) 
+        ? BookList.Where(b => b.TotalPages == intElement) 
+        : [];
 
     /// <summary>
     /// Finds books in the library by publish date.
@@ -139,7 +145,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="strElement">The publish date to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     public IEnumerable<Book> FindBooksByPublishDate(string? strElement)
-        => IsParseable(strElement, out var intElement) ? BookList.Where(b => b.PublishDate == intElement) : [];
+        => IsParseable(strElement, out var intElement) 
+        ? BookList.Where(b => b.PublishDate == intElement) 
+        : [];
 
     /// <summary>
     /// Retrieves a collection of the first specified number of books from the library.
@@ -174,6 +182,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
         set => SetProperty(ref _selectedBook, value);
     }
     private Book _selectedBook;
+
 
     #region private methods
     /// <summary>

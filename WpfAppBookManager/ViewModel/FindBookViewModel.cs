@@ -41,7 +41,7 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void FindBooks()
     {
-        BookList = _libraryManager.FindBooksByBookElement( SelectedSearchField, SearchText);
+        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
     }
 
     /// <summary>
@@ -71,7 +71,8 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// the fields of the book to perform search.
     /// </summary>
-    public List<BookElementsEnum> SearchFields{
+    public List<BookElementsEnum> SearchFields
+    {
         get;
     }
 
@@ -143,7 +144,7 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void DeleteSelectedBook()
     {
-        TextLog = _libraryManager.RemoveBook( SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
+        TextLog = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
     }
 

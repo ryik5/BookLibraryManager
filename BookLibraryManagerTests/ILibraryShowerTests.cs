@@ -14,8 +14,8 @@ public class ILibraryShowerTests
         var mockLibraryShower = new Mock<ILibraryShower>();
         var books = new List<Book>
         {
-            new Book { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 100 },
-            new Book { Id = 2, Author = "Author2", Title = "Title2", TotalPages = 200 }
+            new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 100 },
+            new() { Id = 2, Author = "Author2", Title = "Title2", TotalPages = 200 }
         };
         mockLibraryShower.Setup(m => m.GetFirstBooks(2)).Returns(books);
 

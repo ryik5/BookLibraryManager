@@ -17,7 +17,7 @@ public class XmlBookListLoaderTests
         {
             File.Delete(filePath);
         }
-        var library = new LibraryManagerModel
+        var library = new LibraryBookManagerModel
         {
             Id = 1,
             BookList =

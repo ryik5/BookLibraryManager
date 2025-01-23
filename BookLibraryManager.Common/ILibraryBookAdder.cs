@@ -4,7 +4,7 @@
 /// Defines the contract for adding a book to the library.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public interface ILibraryAddBook
+public interface ILibraryBookAdder
 {
     /// <summary>
     /// Adds a book to the library.

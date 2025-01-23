@@ -2,7 +2,7 @@
 using Moq;
 using Xunit;
 
-namespace BookLibraryTests;
+namespace BookLibraryManager.Tests;
 
 /// <author>YR 2025-01-09</author>
 public class IBookListSaveableTests
@@ -12,7 +12,7 @@ public class IBookListSaveableTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var mockBookListSaveable = new Mock<IBookListSaveable>();
+        var mockBookListSaveable = new Mock<ILibraryKeeper>();
         var selectedFolder = "C:\\LibraryFolder";
 
         mockBookListSaveable.Setup(x => x.SaveLibrary(mockLibrary.Object, selectedFolder)).Returns(true);
@@ -29,7 +29,7 @@ public class IBookListSaveableTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var mockBookListSaveable = new Mock<IBookListSaveable>();
+        var mockBookListSaveable = new Mock<ILibraryKeeper>();
         var selectedFolder = "C:\\LibraryFolder";
 
         mockBookListSaveable.Setup(x => x.SaveLibrary(mockLibrary.Object, selectedFolder)).Returns(false);

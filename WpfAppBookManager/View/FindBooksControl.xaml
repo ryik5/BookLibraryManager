@@ -19,7 +19,8 @@
             <Button Content="Find" Command="{Binding FindBooksCommand}"/>
         </Border>
         <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 5 5 5">
-            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}" />
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"
+                    HorizontalAlignment="Stretch" />
         </Border>
     </DockPanel>
 </UserControl>

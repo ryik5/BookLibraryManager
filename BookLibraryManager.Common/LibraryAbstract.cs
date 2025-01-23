@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace BookLibraryManager.Common;
 
-[XmlInclude(typeof(LibraryManagerModel))]
+[XmlInclude(typeof(LibraryBookManagerModel))]
 [Serializable]
 /// <summary>
 /// Represents an abstract base class for a library.

@@ -4,7 +4,7 @@
 /// Provides an interface for removing a book from the library.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public interface ILibraryRemoveBook
+public interface ILibraryBookRemover
 {
     /// <summary>
     /// Removes the specified book from the library.

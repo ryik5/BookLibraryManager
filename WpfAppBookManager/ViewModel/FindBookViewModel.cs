@@ -16,10 +16,9 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     /// <param name="libraryManager">The library manager.</param>
     /// <param name="library">The library.</param>
-    public FindBookViewModel(BookLibraryManager libraryManager, ILibrary library)
+    public FindBookViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
-        _library = library;
         SearchOnFly = false;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
@@ -42,7 +41,7 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void FindBooks()
     {
-        BookList = _libraryManager.FindBooksByBookElement(_library, SelectedSearchField, SearchText);
+        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
     }
 
     /// <summary>
@@ -72,7 +71,8 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// the fields of the book to perform search.
     /// </summary>
-    public List<BookElementsEnum> SearchFields{
+    public List<BookElementsEnum> SearchFields
+    {
         get;
     }
 
@@ -144,8 +144,8 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void DeleteSelectedBook()
     {
-        TextLog = _libraryManager.RemoveBook(_library, SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
-        BookList = _libraryManager.FindBooksByBookElement(_library, SelectedSearchField, SearchText);
+        TextLog = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
+        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
     }
 
     /// <summary>
@@ -163,10 +163,9 @@ public class FindBookViewModel : BindableBase
     /// <returns>true if the library has a book list; otherwise, false.</returns>
     private bool CanSearchBooks()
     {
-        return _library?.BookList != null;
+        return _libraryManager?.BookList != null;
     }
 
     private readonly FindBookWindow _finderWindow;
-    private readonly BookLibraryManager _libraryManager;
-    private readonly ILibrary _library;
+    private readonly LibraryBookManagerModel _libraryManager;
 }

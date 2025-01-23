@@ -11,7 +11,7 @@ public class IBookListLoadableTests
     public void LoadLibrary_ValidPath_ReturnsLibrary()
     {
         // Arrange
-        var mockBookListLoadable = new Mock<IBookListLoadable>();
+        var mockBookListLoadable = new Mock<ILibraryLoader>();
         var path = "validPath";
         mockBookListLoadable.Setup(x => x.LoadLibrary(path, out It.Ref<ILibrary>.IsAny)).Returns(true);
 
@@ -27,7 +27,7 @@ public class IBookListLoadableTests
     {
         // Arrange
         var path = "invalidPath";
-        var mockBookListLoadable = new Mock<IBookListLoadable>();
+        var mockBookListLoadable = new Mock<ILibraryLoader>();
         mockBookListLoadable.Setup(x => x.LoadLibrary(It.IsAny<string>(), out It.Ref<ILibrary>.IsAny)).Returns(false);
 
         // Act

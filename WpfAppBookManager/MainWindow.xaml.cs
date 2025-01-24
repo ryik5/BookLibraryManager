@@ -11,7 +11,7 @@ public partial class MainWindow : Window
 {
     /// <summary>
     /// Initializes a new instance of the MainWindow class.
-    /// Sets the DataContext of gridMainView to a new instance of MainView.
+    /// Sets the DataContext of gridMainView to a new instance of MainViewModel.
     /// </summary>
     public MainWindow()
     {

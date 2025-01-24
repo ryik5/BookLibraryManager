@@ -39,7 +39,7 @@ public enum StatusBarKindEnum
     /// <summary>
     /// The main window status bar.
     /// </summary>
-    MainVindow,
+    MainWindow,
 
     /// <summary>
     /// The find books status bar.

@@ -17,7 +17,6 @@ public class FindBookViewModel : BindableBase
     /// Initializes a new instance of the <see cref="FindBookViewModel"/> class.
     /// </summary>
     /// <param name="libraryManager">The library manager.</param>
-    /// <param name="library">The library.</param>
     public FindBookViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
@@ -43,7 +42,7 @@ public class FindBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Finds books based on the search text. Updates <see cref="BookList"/>
+    /// Finds books based on the search text. Updates <see cref="BookList"/>.
     /// </summary>
     private void FindBooks()
     {
@@ -77,13 +76,16 @@ public class FindBookViewModel : BindableBase
     }
     private bool _searchOnFly;
 
+    /// <summary>
+    /// Gets the status bar items.
+    /// </summary>
     public StatusBarModel StatusBarItems
     {
         get;
     }
 
     /// <summary>
-    /// the fields of the book to perform search.
+    /// The fields of the book to perform search.
     /// </summary>
     public List<BookElementsEnum> SearchFields
     {
@@ -101,7 +103,7 @@ public class FindBookViewModel : BindableBase
     private BookElementsEnum _selectedSearchField;
 
     /// <summary>
-    /// Text log of operations
+    /// Text log of operations.
     /// </summary>
     public string TextLog
     {
@@ -137,6 +139,7 @@ public class FindBookViewModel : BindableBase
     {
         get;
     }
+
     /// <summary>
     /// Closes the specified window.
     /// </summary>
@@ -147,12 +150,13 @@ public class FindBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Command to Delete the selected book.
+    /// Command to delete the selected book.
     /// </summary>
     public DelegateCommand DeleteSelectedBookCommand
     {
         get;
     }
+
     /// <summary>
     /// Deletes the selected book.
     /// </summary>
@@ -182,6 +186,10 @@ public class FindBookViewModel : BindableBase
         return _libraryManager?.BookList != null;
     }
 
+    /// <summary>
+    /// Sends a message to the status bar.
+    /// </summary>
+    /// <param name="msg">The message to send.</param>
     private void SendMessageToStatusBar(string msg)
     {
         App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs

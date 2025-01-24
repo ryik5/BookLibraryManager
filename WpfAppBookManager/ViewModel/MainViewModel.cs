@@ -20,7 +20,7 @@ public class MainViewModel : BindableBase
     public MainViewModel()
     {
         _libraryManager = new LibraryBookManagerModel();
-        _statusBarKind = StatusBarKindEnum.MainVindow;
+        _statusBarKind = StatusBarKindEnum.MainWindow;
         StatusBarItems = new StatusBarModel(_statusBarKind);
 
         CreateNewCommand = new RelayCommand(CreateNewLibrary);
@@ -108,7 +108,7 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
-    /// Command to exit the application.
+    /// Command to toggle the view between library and log.
     /// </summary>
     public DelegateCommand ToggleViewCommand
     {
@@ -152,7 +152,7 @@ public class MainViewModel : BindableBase
     public ILibrary Library => _libraryManager;
 
     /// <summary>
-    /// Gets or sets the height of the log for displaying logging messages.
+    /// Gets or sets the height of the log view for displaying logging messages.
     /// </summary>
     public GridLength LogViewHeight
     {
@@ -162,7 +162,7 @@ public class MainViewModel : BindableBase
     private GridLength _logViewHeight;
 
     /// <summary>
-    /// Gets or sets the height of the library.
+    /// Gets or sets the height of the library view.
     /// </summary>
     public GridLength LibraryViewHeight
     {
@@ -181,9 +181,9 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
-    /// Determines whether operations can be performed on the book in the library.
+    /// Determines whether a book can be removed from the library.
     /// </summary>
-    /// <returns>true if the library has a book list and selected book is not null; otherwise, false.</returns>
+    /// <returns>true if the library has a book list and the selected book is not null; otherwise, false.</returns>
     private bool CanRemoveBook()
     {
         return _libraryManager?.BookList != null && _libraryManager?.SelectedBook is Book;
@@ -216,7 +216,7 @@ public class MainViewModel : BindableBase
             nameView = "Library";
         }
 
-        SendMessageToStatusBar($"View was swithed to {nameView}");
+        SendMessageToStatusBar($"View was switched to {nameView}");
     }
 
     /// <summary>
@@ -240,7 +240,7 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
-    /// Adds random filled books to the library.
+    /// Adds randomly filled books to the library.
     /// </summary>
     private void AddRandomBooks()
     {
@@ -259,14 +259,14 @@ public class MainViewModel : BindableBase
 
             _libraryManager.AddBook(testBook);
         }
-        var text = $"Added 10 random named book\ntotal books in library: {_libraryManager?.NumberOfBooks}";
+        var text = $"Added 10 random named books\ntotal books in library: {_libraryManager?.NumberOfBooks}";
         TextLog += text;
 
         SendMessageToStatusBar(text);
     }
 
     /// <summary>
-    /// Creates a new library\ changes  an instance of the existed library by created one.
+    /// Creates a new library or changes an instance of the existing library by creating a new one.
     /// </summary>
     private void CreateNewLibrary()
     {
@@ -414,6 +414,10 @@ public class MainViewModel : BindableBase
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Sends a message to the status bar.
+    /// </summary>
+    /// <param name="msg">The message to send.</param>
     private void SendMessageToStatusBar(string msg)
     {
         App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs

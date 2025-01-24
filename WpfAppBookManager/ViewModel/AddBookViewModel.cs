@@ -52,7 +52,7 @@ public class AddBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Value indicating whether a new book should be added to the library at the end of procedure.
+    /// Value indicating whether a new book should be added to the library at the end of the procedure.
     /// </summary>
     public bool CanAddBook
     {
@@ -88,7 +88,7 @@ public class AddBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Command to cancel of adding a book.
+    /// Command to cancel adding a book.
     /// </summary>
     public DelegateCommand<Window> CancelCommand
     {
@@ -112,6 +112,7 @@ public class AddBookViewModel : BindableBase
     /// <summary>
     /// Closes the specified window.
     /// </summary>
+    /// <param name="window">The window to be closed.</param>
     private void CloseWindow(Window window)
     {
         window?.Close();
@@ -133,7 +134,6 @@ public class AddBookViewModel : BindableBase
     {
         get;
     }
-
 
     private readonly ActionWithBookWindow _addBookWindow;
     private readonly Book _originalBook;

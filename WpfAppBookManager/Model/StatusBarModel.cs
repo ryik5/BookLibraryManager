@@ -30,7 +30,7 @@ namespace BookLibraryManager.DemoApp.Model;
 /// The class provides properties to manage the collection of status bar items, the status bar informer item,
 /// and the text block used to display the status bar message.
 /// </summary>
-/// /// <author>YR 2025-01-24</author>
+/// <author>YR 2025-01-24</author>
 public class StatusBarModel : BindableBase
 {
     /// <summary>

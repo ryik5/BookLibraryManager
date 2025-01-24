@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using BookLibraryManager.Common;
 using Moq;
 using Xunit;
@@ -8,6 +7,9 @@ namespace BookLibraryManager.Tests;
 /// <author>YR 2025-01-09</author>
 public class LibraryBookManagerModelTests
 {
+    /// <summary>
+    /// Tests if a new library is initialized correctly.
+    /// </summary>
     [Fact]
     public void CreateNewLibrary_ShouldInitializeLibrary()
     {
@@ -23,6 +25,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.Empty(library.BookList);
     }
 
+    /// <summary>
+    /// Tests if a library is loaded correctly from a file.
+    /// </summary>
     [Fact]
     public void LoadLibrary_ShouldLoadLibraryFromFile()
     {
@@ -48,6 +53,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.Single(library.BookList);
     }
 
+    /// <summary>
+    /// Tests if a library is saved correctly to a file.
+    /// </summary>
     [Fact]
     public void SaveLibrary_ShouldSaveLibraryToFile()
     {
@@ -63,6 +71,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.True(result);
     }
 
+    /// <summary>
+    /// Tests if a book is added correctly to the library.
+    /// </summary>
     [Fact]
     public void AddBook_ShouldAddBookToLibrary()
     {
@@ -79,6 +90,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.Contains(book, library.BookList);
     }
 
+    /// <summary>
+    /// Tests if a book is removed correctly from the library.
+    /// </summary>
     [Fact]
     public void RemoveBook_ShouldRemoveBookFromLibrary()
     {
@@ -96,6 +110,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.Empty(library.BookList);
     }
 
+    /// <summary>
+    /// Tests if the library is sorted correctly by author and title.
+    /// </summary>
     [Fact]
     public void SortLibrary_ShouldSortBooksByAuthorAndTitle()
     {
@@ -115,6 +132,9 @@ public class LibraryBookManagerModelTests
         Xunit.Assert.Equal(book1, library.BookList[1]);
     }
 
+    /// <summary>
+    /// Tests if books are found correctly by a specific book element.
+    /// </summary>
     [Fact]
     public void FindBooksByBookElement_ShouldReturnBooksByAuthor()
     {

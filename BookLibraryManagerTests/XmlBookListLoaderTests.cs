@@ -8,6 +8,9 @@ namespace BookLibraryManager.Tests;
 /// <author>YR 2025-01-09</author>
 public class XmlBookListLoaderTests
 {
+    /// <summary>
+    /// Tests that a valid file path returns a correctly loaded library.
+    /// </summary>
     [Fact]
     public void LoadLibrary_ValidFilePath_ReturnsLibrary()
     {
@@ -37,17 +40,17 @@ public class XmlBookListLoaderTests
         var loader = new XmlBookListLoader();
 
         // Act
-        var result = loader.LoadLibrary(filePath, out var checkedlibrary);
+        var result = loader.LoadLibrary(filePath, out var checkedLibrary);
 
         // Assert
         Xunit.Assert.True(result);
-        Xunit.Assert.NotNull(checkedlibrary);
-        Xunit.Assert.Equal(library.Id, checkedlibrary.Id);
-        Xunit.Assert.Equal(library.BookList.Count, checkedlibrary.BookList.Count);
-        Xunit.Assert.Equal(library.BookList[0].Id, checkedlibrary.BookList[0].Id);
-        Xunit.Assert.Equal(library.BookList[0].Author, checkedlibrary.BookList[0].Author);
-        Xunit.Assert.Equal(library.BookList[0].Title, checkedlibrary.BookList[0].Title);
-        Xunit.Assert.Equal(library.BookList[0].TotalPages, checkedlibrary.BookList[0].TotalPages);
+        Xunit.Assert.NotNull(checkedLibrary);
+        Xunit.Assert.Equal(library.Id, checkedLibrary.Id);
+        Xunit.Assert.Equal(library.BookList.Count, checkedLibrary.BookList.Count);
+        Xunit.Assert.Equal(library.BookList[0].Id, checkedLibrary.BookList[0].Id);
+        Xunit.Assert.Equal(library.BookList[0].Author, checkedLibrary.BookList[0].Author);
+        Xunit.Assert.Equal(library.BookList[0].Title, checkedLibrary.BookList[0].Title);
+        Xunit.Assert.Equal(library.BookList[0].TotalPages, checkedLibrary.BookList[0].TotalPages);
 
         // Cleanup
         if (File.Exists(filePath))
@@ -56,6 +59,9 @@ public class XmlBookListLoaderTests
         }
     }
 
+    /// <summary>
+    /// Tests that a valid XML file returns true.
+    /// </summary>
     [Fact]
     public void LoadLibrary_ValidXmlFile_ReturnsTrue()
     {
@@ -85,6 +91,9 @@ public class XmlBookListLoaderTests
         }
     }
 
+    /// <summary>
+    /// Tests that an invalid XML file returns false.
+    /// </summary>
     [Fact]
     public void LoadLibrary_InvalidXmlFile_ReturnsFalse()
     {
@@ -108,6 +117,9 @@ public class XmlBookListLoaderTests
         File.Delete(pathToLibrary);
     }
 
+    /// <summary>
+    /// Tests that a non-existent file returns false.
+    /// </summary>
     [Fact]
     public void LoadLibrary_FileNotFound_ReturnsFalse()
     {

@@ -24,7 +24,7 @@ public class AddBookViewModel : BindableBase
                 Title = "Title",
                 TotalPages = 1,
                 PublishDate = 1970,
-                Body = [],
+                Body = new(),
                 Description = "Short description"
             };
 

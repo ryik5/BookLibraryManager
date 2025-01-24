@@ -28,8 +28,16 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
     {
         var result = libraryLoader.LoadLibrary(pathToFile, out var library);
-        BookList = new ObservableCollection<Book>(library.BookList);
-        Id = library.Id;
+        if (result)
+        {
+            BookList = new ObservableCollection<Book>(library.BookList);
+            Id = library.Id;
+        }
+        else
+        {
+            BookList = [];
+            Id = 0;
+        }
         return result;
     }
 

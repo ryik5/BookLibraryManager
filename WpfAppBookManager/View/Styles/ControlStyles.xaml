@@ -70,6 +70,7 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Height" Value="26"/>
     </Style>
+    
     <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="true">
@@ -79,6 +80,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
     <Style x:Key="TextBoxBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Margin" Value="5 1 5 0"/>
         <Setter Property="Padding" Value="2"/>
@@ -87,6 +89,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
+    
     <Style TargetType="{x:Type Label}">
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Width" Value="100"/>
@@ -131,4 +134,12 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ControlBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#E3E3E3"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    
 </ResourceDictionary>

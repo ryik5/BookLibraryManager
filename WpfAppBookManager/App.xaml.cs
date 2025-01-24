@@ -8,5 +8,6 @@ namespace AppBookManager;
 /// <author>YR 2025-01-09</author>
 public partial class App : Application
 {
-}
+    public static readonly IEventAggregator EventAggregator = new EventAggregator();
 
+}

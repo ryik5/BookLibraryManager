@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
 using BookLibraryManager.TestApp.View;
-using GalaSoft.MvvmLight.CommandWpf;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 
@@ -42,8 +41,8 @@ public class AddBookViewModel : BindableBase
             };
 
         ExecuteButtonName = "Add Book";
-        ExecuteCommand = new RelayCommand<Window>(AddBook);
-        CancelCommand = new RelayCommand<Window>(CancelAddBook);
+        ExecuteCommand = new DelegateCommand<Window>(AddBook);
+        CancelCommand = new DelegateCommand<Window>(CancelAddBook);
 
         WindowTitle = "Add Book";
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
@@ -73,7 +72,7 @@ public class AddBookViewModel : BindableBase
     /// <summary>
     /// Command to add a book to the library.
     /// </summary>
-    public RelayCommand<Window> ExecuteCommand
+    public DelegateCommand<Window> ExecuteCommand
     {
         get;
     }
@@ -91,7 +90,7 @@ public class AddBookViewModel : BindableBase
     /// <summary>
     /// Command to cancel of adding a book.
     /// </summary>
-    public RelayCommand<Window> CancelCommand
+    public DelegateCommand<Window> CancelCommand
     {
         get;
     }

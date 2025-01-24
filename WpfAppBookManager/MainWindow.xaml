@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="{Binding LibraryViewHeight}"/>
             <RowDefinition Height="{Binding LogViewHeight}"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <view:LibraryControls HorizontalAlignment="Stretch" Margin="5 5 0 0"/>
@@ -20,6 +21,10 @@
         <view:LibraryView Grid.Row="1" DataContext="{Binding Library}" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="5 0 0 0"/>
 
         <view:LogView Grid.Row="2" Margin="5" Padding="5 0 0 5"/>
+
+        <view:StatusBarControl Grid.Row="3" VerticalContentAlignment="Stretch"
+                               DataContext="{Binding StatusBarItems, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                />
 
     </Grid>
 </Window>

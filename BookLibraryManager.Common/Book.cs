@@ -60,12 +60,12 @@ public class Book : BindableBase
     /// <summary>
     /// Gets or sets the body of the book.
     /// </summary>
-    public List<string> Body
+    public List<object> Body
     {
         get => _body;
         set => SetProperty(ref _body, value);
     }
-    private List<string> _body;
+    private List<object> _body;
 
     /// <summary>
     /// Gets or sets the description of the book.

@@ -1,7 +1,9 @@
 ﻿using System.Windows;
+using AppBookManager;
 using BookLibraryManager.Common;
+using BookLibraryManager.DemoApp.Events;
+using BookLibraryManager.DemoApp.Model;
 using BookLibraryManager.TestApp.View;
-using GalaSoft.MvvmLight.CommandWpf;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 
@@ -19,11 +21,15 @@ public class FindBookViewModel : BindableBase
     public FindBookViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
+        _statusBarKind = StatusBarKindEnum.FindBooks;
         SearchOnFly = false;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         DeleteSelectedBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
-        CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
+        CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
+
+        StatusBarItems = new StatusBarModel(_statusBarKind);
+
         _finderWindow = new FindBookWindow() { DataContext = this };
         _finderWindow.ShowDialog();
     }
@@ -31,7 +37,7 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// Command to find books.
     /// </summary>
-    public RelayCommand FindBooksCommand
+    public DelegateCommand FindBooksCommand
     {
         get;
     }
@@ -42,6 +48,9 @@ public class FindBookViewModel : BindableBase
     private void FindBooks()
     {
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
+        var totalBooks = _libraryManager.NumberOfBooks;
+        var foundBooks = BookList.Count;
+        SendMessageToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 
     /// <summary>
@@ -58,7 +67,6 @@ public class FindBookViewModel : BindableBase
     }
     private string _searchText;
 
-    private bool _searchOnFly;
     /// <summary>
     /// Value indicating whether to perform search on the fly.
     /// </summary>
@@ -66,6 +74,12 @@ public class FindBookViewModel : BindableBase
     {
         get => _searchOnFly;
         set => SetProperty(ref _searchOnFly, value);
+    }
+    private bool _searchOnFly;
+
+    public StatusBarModel StatusBarItems
+    {
+        get;
     }
 
     /// <summary>
@@ -97,7 +111,7 @@ public class FindBookViewModel : BindableBase
     private string _textLog;
 
     /// <summary>
-    /// Gets or sets the list of books.
+    /// Gets or sets the list of the found books.
     /// </summary>
     public List<Book> BookList
     {
@@ -119,7 +133,7 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// Command to close the window.
     /// </summary>
-    public RelayCommand<Window> CloseWindowCommand
+    public DelegateCommand<Window> CloseWindowCommand
     {
         get;
     }
@@ -135,7 +149,7 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// Command to Delete the selected book.
     /// </summary>
-    public RelayCommand DeleteSelectedBookCommand
+    public DelegateCommand DeleteSelectedBookCommand
     {
         get;
     }
@@ -144,8 +158,10 @@ public class FindBookViewModel : BindableBase
     /// </summary>
     private void DeleteSelectedBook()
     {
-        TextLog = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
+        var text = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
+        TextLog = text;
+        SendMessageToStatusBar(text);
     }
 
     /// <summary>
@@ -166,6 +182,16 @@ public class FindBookViewModel : BindableBase
         return _libraryManager?.BookList != null;
     }
 
+    private void SendMessageToStatusBar(string msg)
+    {
+        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
+        {
+            Message = msg,
+            StatusBarKind = _statusBarKind
+        });
+    }
+
     private readonly FindBookWindow _finderWindow;
     private readonly LibraryBookManagerModel _libraryManager;
+    private readonly StatusBarKindEnum _statusBarKind;
 }

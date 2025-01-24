@@ -2,6 +2,7 @@
 using BookLibraryManager.TestApp.ViewModel;
 
 namespace AppBookManager;
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
@@ -15,6 +16,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        gridMainView.DataContext = new MainView();
+        gridMainView.DataContext = new MainViewModel();
     }
 }

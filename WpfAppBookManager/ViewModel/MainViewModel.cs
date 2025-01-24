@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Text;
 using System.Windows;
+using AppBookManager;
 using BookLibraryManager.Common;
-using GalaSoft.MvvmLight.CommandWpf;
+using BookLibraryManager.DemoApp.Events;
+using BookLibraryManager.DemoApp.Model;
 using Microsoft.Win32;
 
 namespace BookLibraryManager.TestApp.ViewModel;
@@ -10,14 +12,16 @@ namespace BookLibraryManager.TestApp.ViewModel;
 /// ViewModel for the main view of the Book Library Manager application.
 /// </summary>
 /// <author>YR 2025-01-14</author>
-public class MainView : BindableBase
+public class MainViewModel : BindableBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MainView"/> class.
+    /// Initializes a new instance of the <see cref="MainViewModel"/> class.
     /// </summary>
-    public MainView()
+    public MainViewModel()
     {
         _libraryManager = new LibraryBookManagerModel();
+        _statusBarKind = StatusBarKindEnum.MainVindow;
+        StatusBarItems = new StatusBarModel(_statusBarKind);
 
         CreateNewCommand = new RelayCommand(CreateNewLibrary);
         LoadLibraryCommand = new RelayCommand(LoadLibrary);
@@ -31,7 +35,7 @@ public class MainView : BindableBase
         FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
         ToggleViewCommand = new RelayCommand(ToggleView);
 
-        ExitApplicationCommand = new RelayCommand<Window>(window => Application.Current.Shutdown());
+        ExitApplicationCommand = new DelegateCommand<Window>(window => Application.Current.Shutdown());
 
         LibraryViewHeight = new GridLength(1, GridUnitType.Star);
         LogViewHeight = new GridLength(0);
@@ -42,7 +46,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to create a new library.
     /// </summary>
-    public RelayCommand CreateNewCommand
+    public DelegateCommand CreateNewCommand
     {
         get;
     }
@@ -50,7 +54,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to load an existing library.
     /// </summary>
-    public RelayCommand LoadLibraryCommand
+    public DelegateCommand LoadLibraryCommand
     {
         get;
     }
@@ -58,7 +62,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to save the current library.
     /// </summary>
-    public RelayCommand SaveLibraryCommand
+    public DelegateCommand SaveLibraryCommand
     {
         get;
     }
@@ -66,7 +70,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to sort the books in the library.
     /// </summary>
-    public RelayCommand SortLibraryCommand
+    public DelegateCommand SortLibraryCommand
     {
         get;
     }
@@ -74,7 +78,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to add a new book to the library.
     /// </summary>
-    public RelayCommand AddBookCommand
+    public DelegateCommand AddBookCommand
     {
         get;
     }
@@ -82,7 +86,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to add random books to the library.
     /// </summary>
-    public RelayCommand AddRandomBooksCommand
+    public DelegateCommand AddRandomBooksCommand
     {
         get;
     }
@@ -90,7 +94,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to delete a book from the library.
     /// </summary>
-    public RelayCommand RemoveBookCommand
+    public DelegateCommand RemoveBookCommand
     {
         get;
     }
@@ -98,7 +102,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to find books in the library.
     /// </summary>
-    public RelayCommand FindBookCommand
+    public DelegateCommand FindBookCommand
     {
         get;
     }
@@ -106,7 +110,7 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to exit the application.
     /// </summary>
-    public RelayCommand ToggleViewCommand
+    public DelegateCommand ToggleViewCommand
     {
         get;
     }
@@ -114,11 +118,16 @@ public class MainView : BindableBase
     /// <summary>
     /// Command to exit the application.
     /// </summary>
-    public RelayCommand<Window> ExitApplicationCommand
+    public DelegateCommand<Window> ExitApplicationCommand
     {
         get;
     }
     #endregion
+
+    public StatusBarModel StatusBarItems
+    {
+        get;
+    }
 
     /// <summary>
     /// Gets or sets the text log for displaying logging messages.
@@ -191,18 +200,23 @@ public class MainView : BindableBase
     /// </remarks>
     private void ToggleView()
     {
+        var nameView = string.Empty;
         if (LibraryViewHeight.Value > 0)
         {
             LibraryViewHeight = new GridLength(0);
             LogViewHeight = new GridLength(1, GridUnitType.Star);
             ViewName = "Toggle to Library";
+            nameView = "Log";
         }
         else
         {
             LibraryViewHeight = new GridLength(1, GridUnitType.Star);
             LogViewHeight = new GridLength(0);
             ViewName = "Toggle to Log";
+            nameView = "Library";
         }
+
+        SendMessageToStatusBar($"View was swithed to {nameView}");
     }
 
     /// <summary>
@@ -216,6 +230,8 @@ public class MainView : BindableBase
             _libraryManager.AddBook(book);
             TextLog += $"\nAdded book with id: {book.Id}\n" +
                            $"number of books in the library: {_libraryManager?.NumberOfBooks}";
+
+            SendMessageToStatusBar($"Added book {book.Title}");
         }
         else
         {
@@ -243,8 +259,10 @@ public class MainView : BindableBase
 
             _libraryManager.AddBook(testBook);
         }
-        TextLog += $"\nAdded 10 books\n" +
-                        $"number of books in the library: {_libraryManager?.NumberOfBooks}";
+        var text = $"Added 10 random named book\ntotal books in library: {_libraryManager?.NumberOfBooks}";
+        TextLog += text;
+
+        SendMessageToStatusBar(text);
     }
 
     /// <summary>
@@ -255,7 +273,10 @@ public class MainView : BindableBase
         counterUsingAddRandomBooks = 0;
 
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
-        TextLog += $"New library created with id: {_libraryManager.Id}";
+        var text = $"Created a new library with id: {_libraryManager.Id}";
+        TextLog += text;
+
+        SendMessageToStatusBar(text);
     }
 
     /// <summary>
@@ -269,7 +290,10 @@ public class MainView : BindableBase
 
         if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
         {
-            TextLog += $"Library loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
+            var text = $"Library was loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
+            TextLog += text;
+
+            SendMessageToStatusBar(text);
         }
         else
         {
@@ -305,10 +329,12 @@ public class MainView : BindableBase
 
         var deletedBookId = _libraryManager.SelectedBook?.Id;
         var result = _libraryManager.RemoveBook(_libraryManager.SelectedBook);
-        TextLog += result
-            ? $"\nIt was deleted a book with id: {deletedBookId}\n"
-            : $"\nIt was deleted nothing";
-        TextLog += $"\nnumber of books in the library: {_libraryManager?.NumberOfBooks}";
+        var text = result
+            ? $"Deleted book with id: {deletedBookId}"
+            : "Nothing to delete";
+        TextLog += text;
+
+        SendMessageToStatusBar(text);
     }
 
     /// <summary>
@@ -327,9 +353,11 @@ public class MainView : BindableBase
 
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
-            TextLog += result
+            var text = result
                     ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nLibrary's path: {pathToFile}"
-                    : "Library wasn't saved";
+            : "Library wasn't saved";
+            TextLog += text;
+            SendMessageToStatusBar(text);
         }
         catch (Exception ex)
         {
@@ -357,12 +385,21 @@ public class MainView : BindableBase
     /// <summary>
     /// Sorts the books in the library.
     /// </summary>
-    private void SortLibrary() => _libraryManager.SortLibrary();
+    private void SortLibrary()
+    {
+        _libraryManager.SortLibrary();
+        SendMessageToStatusBar("Library was sorted");
+    }
 
     /// <summary>
     /// Finds books in the library that contain the specified title part.
     /// </summary>
-    private void FindBook() => _ = new FindBookViewModel(_libraryManager);
+    private void FindBook()
+    {
+        SendMessageToStatusBar("Open 'Find books window'");
+
+        _ = new FindBookViewModel(_libraryManager);
+    }
 
     /// <summary>
     /// Repeats the word by the specified number of times.
@@ -377,9 +414,19 @@ public class MainView : BindableBase
         return stringBuilder.ToString();
     }
 
+    private void SendMessageToStatusBar(string msg)
+    {
+        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
+        {
+            Message = msg,
+            StatusBarKind = _statusBarKind
+        });
+    }
+
     #region private members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
     private readonly LibraryBookManagerModel _libraryManager;
+    private readonly StatusBarKindEnum _statusBarKind;
     #endregion
 }

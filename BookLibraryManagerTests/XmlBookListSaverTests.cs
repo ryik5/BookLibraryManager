@@ -1,5 +1,4 @@
-﻿using BookLibraryManager;
-using BookLibraryManager.Common;
+﻿using BookLibraryManager.Common;
 using Moq;
 using Xunit;
 
@@ -8,6 +7,9 @@ namespace BookLibraryManager.Tests;
 /// <author>YR 2025-01-09</author>
 public class XmlBookListSaverTests
 {
+    /// <summary>
+    /// Tests that saving a valid library to an XML file is successful.
+    /// </summary>
     [Fact]
     public void SaveLibrary_ValidLibrary_Success()
     {
@@ -40,6 +42,9 @@ public class XmlBookListSaverTests
         }
     }
 
+    /// <summary>
+    /// Tests that saving a null library throws an InvalidCastException.
+    /// </summary>
     [Fact]
     public void SaveLibrary_NullLibrary_ThrowsException()
     {

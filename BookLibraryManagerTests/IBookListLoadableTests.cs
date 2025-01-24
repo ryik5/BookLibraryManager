@@ -7,6 +7,9 @@ namespace BookLibraryManager.Tests;
 /// <author>YR 2025-01-09</author>
 public class IBookListLoadableTests
 {
+    /// <summary>
+    /// Tests that LoadLibrary returns true when provided with a valid path.
+    /// </summary>
     [Fact]
     public void LoadLibrary_ValidPath_ReturnsLibrary()
     {
@@ -22,6 +25,9 @@ public class IBookListLoadableTests
         Xunit.Assert.True(result);
     }
 
+    /// <summary>
+    /// Tests that LoadLibrary returns false when provided with an invalid path.
+    /// </summary>
     [Fact]
     public void LoadLibrary_InvalidPath_ReturnsFalse()
     {

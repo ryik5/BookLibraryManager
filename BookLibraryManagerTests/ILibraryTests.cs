@@ -4,16 +4,25 @@ using Xunit;
 
 namespace BookLibraryManager.Tests;
 
+/// <summary>
+/// Unit tests for the ILibrary interface.
+/// </summary>
 /// <author>YR 2025-01-23</author>
 public class ILibraryTests
 {
     private readonly Mock<ILibrary> _libraryMock;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ILibraryTests"/> class.
+    /// </summary>
     public ILibraryTests()
     {
         _libraryMock = new Mock<ILibrary>();
     }
 
+    /// <summary>
+    /// Tests that FindBooksByBookElement returns books when books match the criteria.
+    /// </summary>
     [Fact]
     public void FindBooksByBookElement_ShouldReturnBooks_WhenBooksMatchCriteria()
     {
@@ -36,6 +45,9 @@ public class ILibraryTests
         Xunit.Assert.Equal(expectedBooks, result);
     }
 
+    /// <summary>
+    /// Tests that FindBooksByBookElement returns an empty list when no books match the criteria.
+    /// </summary>
     [Fact]
     public void FindBooksByBookElement_ShouldReturnEmptyList_WhenNoBooksMatchCriteria()
     {
@@ -54,6 +66,9 @@ public class ILibraryTests
         Xunit.Assert.Empty(result);
     }
 
+    /// <summary>
+    /// Tests that GetFirstBooks returns the correct number of books.
+    /// </summary>
     [Fact]
     public void GetFirstBooks_ShouldReturnCorrectNumberOfBooks()
     {
@@ -74,6 +89,9 @@ public class ILibraryTests
         Xunit.Assert.Equal("Author2", result[1].Author);
     }
 
+    /// <summary>
+    /// Tests that NumberOfBooks returns the correct number of books.
+    /// </summary>
     [Fact]
     public void NumberOfBooks_ShouldReturnCorrectNumber()
     {
@@ -87,6 +105,9 @@ public class ILibraryTests
         Xunit.Assert.Equal(5, result);
     }
 
+    /// <summary>
+    /// Tests that RemoveBook returns true when a valid book is removed.
+    /// </summary>
     [Fact]
     public void RemoveBook_ValidBook_ReturnsTrue()
     {
@@ -101,6 +122,9 @@ public class ILibraryTests
         Xunit.Assert.True(result);
     }
 
+    /// <summary>
+    /// Tests that RemoveBook returns false when an invalid book is removed.
+    /// </summary>
     [Fact]
     public void RemoveBook_InvalidBook_ReturnsFalse()
     {
@@ -114,6 +138,9 @@ public class ILibraryTests
         Xunit.Assert.False(result);
     }
 
+    /// <summary>
+    /// Tests that AddBook adds a book to the library.
+    /// </summary>
     [Fact]
     public void AddBook_ShouldAddBookToLibrary()
     {

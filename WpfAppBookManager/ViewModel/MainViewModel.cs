@@ -124,6 +124,7 @@ public class MainViewModel : BindableBase
     }
     #endregion
 
+    #region Properties
     public StatusBarModel StatusBarItems
     {
         get;
@@ -170,7 +171,9 @@ public class MainViewModel : BindableBase
         set => SetProperty(ref _libraryViewHeight, value);
     }
     private GridLength _libraryViewHeight;
+    #endregion
 
+    #region Methods
     /// <summary>
     /// Determines whether operations can be performed on the books in the library.
     /// </summary>
@@ -426,8 +429,9 @@ public class MainViewModel : BindableBase
             StatusBarKind = _statusBarKind
         });
     }
+    #endregion
 
-    #region private members
+    #region Private Members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
     private readonly LibraryBookManagerModel _libraryManager;

@@ -33,6 +33,8 @@ public class FindBookViewModel : BindableBase
         _finderWindow.ShowDialog();
     }
 
+
+    #region Commands
     /// <summary>
     /// Command to find books.
     /// </summary>
@@ -42,40 +44,24 @@ public class FindBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Finds books based on the search text. Updates <see cref="BookList"/>.
+    /// Command to delete the selected book.
     /// </summary>
-    private void FindBooks()
+    public DelegateCommand DeleteSelectedBookCommand
     {
-        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
-        var totalBooks = _libraryManager.NumberOfBooks;
-        var foundBooks = BookList.Count;
-        SendMessageToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
+        get;
     }
 
     /// <summary>
-    /// The search text.
+    /// Command to close the window.
     /// </summary>
-    public string SearchText
+    public DelegateCommand<Window> CloseWindowCommand
     {
-        get => _searchText;
-        set
-        {
-            if (SetProperty(ref _searchText, value) && SearchOnFly)
-                FindBooks();
-        }
+        get;
     }
-    private string _searchText;
+    #endregion
 
-    /// <summary>
-    /// Value indicating whether to perform search on the fly.
-    /// </summary>
-    public bool SearchOnFly
-    {
-        get => _searchOnFly;
-        set => SetProperty(ref _searchOnFly, value);
-    }
-    private bool _searchOnFly;
 
+    #region Properties
     /// <summary>
     /// Gets the status bar items.
     /// </summary>
@@ -93,26 +79,6 @@ public class FindBookViewModel : BindableBase
     }
 
     /// <summary>
-    /// Gets or sets the field of the book to perform search.
-    /// </summary>
-    public BookElementsEnum SelectedSearchField
-    {
-        get => _selectedSearchField;
-        set => SetProperty(ref _selectedSearchField, value);
-    }
-    private BookElementsEnum _selectedSearchField;
-
-    /// <summary>
-    /// Text log of operations.
-    /// </summary>
-    public string TextLog
-    {
-        get => _textLog;
-        set => SetProperty(ref _textLog, value);
-    }
-    private string _textLog;
-
-    /// <summary>
     /// Gets or sets the list of the found books.
     /// </summary>
     public List<Book> BookList
@@ -120,7 +86,6 @@ public class FindBookViewModel : BindableBase
         get => _bookList;
         set => SetProperty(ref _bookList, value);
     }
-    private List<Book> _bookList;
 
     /// <summary>
     /// Gets or sets the selected book.
@@ -130,31 +95,59 @@ public class FindBookViewModel : BindableBase
         get => _selectedBook;
         set => SetProperty(ref _selectedBook, value);
     }
-    private Book _selectedBook;
 
     /// <summary>
-    /// Command to close the window.
+    /// The search text.
     /// </summary>
-    public DelegateCommand<Window> CloseWindowCommand
+    public string SearchText
     {
-        get;
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value) && SearchOnFly)
+                FindBooks();
+        }
     }
 
     /// <summary>
-    /// Closes the specified window.
+    /// Value indicating whether to perform search on the fly.
     /// </summary>
-    private void CloseWindow(Window window)
+    public bool SearchOnFly
     {
-        window?.Close();
-        _finderWindow?.Close();
+        get => _searchOnFly;
+        set => SetProperty(ref _searchOnFly, value);
     }
 
     /// <summary>
-    /// Command to delete the selected book.
+    /// Gets or sets the field of the book to perform search.
     /// </summary>
-    public DelegateCommand DeleteSelectedBookCommand
+    public BookElementsEnum SelectedSearchField
     {
-        get;
+        get => _selectedSearchField;
+        set => SetProperty(ref _selectedSearchField, value);
+    }
+
+    /// <summary>
+    /// Text log of operations.
+    /// </summary>
+    public string TextLog
+    {
+        get => _textLog;
+        set => SetProperty(ref _textLog, value);
+    }
+    #endregion
+
+
+    #region private methods
+    /// <summary>
+    /// Finds books based on the search text. Updates <see cref="BookList"/>.
+    /// </summary>
+    private void FindBooks()
+    {
+        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
+        var totalBooks = _libraryManager.NumberOfBooks;
+        var foundBooks = BookList.Count;
+        SendMessageToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 
     /// <summary>
@@ -166,6 +159,15 @@ public class FindBookViewModel : BindableBase
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
         TextLog = text;
         SendMessageToStatusBar(text);
+    }
+
+    /// <summary>
+    /// Closes the specified window.
+    /// </summary>
+    private void CloseWindow(Window window)
+    {
+        window?.Close();
+        _finderWindow?.Close();
     }
 
     /// <summary>
@@ -198,8 +200,18 @@ public class FindBookViewModel : BindableBase
             StatusBarKind = _statusBarKind
         });
     }
+    #endregion
 
+
+    #region private fields
     private readonly FindBookWindow _finderWindow;
     private readonly LibraryBookManagerModel _libraryManager;
     private readonly StatusBarKindEnum _statusBarKind;
+    private List<Book> _bookList;
+    private Book _selectedBook;
+    private string _searchText;
+    private bool _searchOnFly;
+    private BookElementsEnum _selectedSearchField;
+    private string _textLog;
+    #endregion
 }

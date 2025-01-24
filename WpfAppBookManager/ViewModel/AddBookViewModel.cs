@@ -51,6 +51,8 @@ public class AddBookViewModel : BindableBase
         book = Book;
     }
 
+
+    #region Properties
     /// <summary>
     /// Value indicating whether a new book should be added to the library at the end of the procedure.
     /// </summary>
@@ -67,8 +69,25 @@ public class AddBookViewModel : BindableBase
         get => _book;
         set => SetProperty(ref _book, value);
     }
-    private Book _book;
 
+    /// <summary>
+    /// Title of the AddBook window.
+    /// </summary>
+    public string WindowTitle
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Name of the Execute button on the ExecuteCancelPanelView.
+    /// </summary>
+    public string ExecuteButtonName
+    {
+        get;
+    }
+    #endregion
+
+    #region Commands
     /// <summary>
     /// Command to add a book to the library.
     /// </summary>
@@ -78,6 +97,16 @@ public class AddBookViewModel : BindableBase
     }
 
     /// <summary>
+    /// Command to cancel adding a book.
+    /// </summary>
+    public DelegateCommand<Window> CancelCommand
+    {
+        get;
+    }
+    #endregion
+
+    #region Methods
+    /// <summary>
     /// Adds the book and closes the window.
     /// </summary>
     /// <param name="window">The window to be closed.</param>
@@ -85,14 +114,6 @@ public class AddBookViewModel : BindableBase
     {
         CanAddBook = true;
         CloseWindow(window);
-    }
-
-    /// <summary>
-    /// Command to cancel adding a book.
-    /// </summary>
-    public DelegateCommand<Window> CancelCommand
-    {
-        get;
     }
 
     /// <summary>
@@ -118,23 +139,11 @@ public class AddBookViewModel : BindableBase
         window?.Close();
         _addBookWindow?.Close();
     }
+    #endregion
 
-    /// <summary>
-    /// Title of the AddBook window.
-    /// </summary>
-    public string WindowTitle
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Name of the Execute button on the ExecuteCancelPanelView.
-    /// </summary>
-    public string ExecuteButtonName
-    {
-        get;
-    }
-
+    #region Fields
     private readonly ActionWithBookWindow _addBookWindow;
     private readonly Book _originalBook;
+    private Book _book;
+    #endregion
 }

@@ -38,7 +38,7 @@ public interface ILibrary
     bool RemoveBook(Book book);
 
     /// <summary>
-    /// Sorts Books in the library.
+    /// Sorts books in the library.
     /// </summary>
     void SortLibrary();
 

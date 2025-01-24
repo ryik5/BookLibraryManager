@@ -1,7 +1,7 @@
 ﻿namespace BookLibraryManager.Common;
 
 /// <summary>
-/// Interface for saving a library
+/// Interface for saving a library.
 /// </summary>
 /// <author>YR 2025-01-09</author>
 public interface ILibraryKeeper

@@ -7,7 +7,7 @@
 public interface ILibraryLoader
 {
     /// <summary>
-    /// Defines an interface for loading a library.
+    /// Loads a library from the specified path.
     /// </summary>
     /// <param name="pathToLibrary">The path to the library.</param>
     /// <param name="library">The loaded library instance.</param>

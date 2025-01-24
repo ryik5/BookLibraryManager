@@ -13,7 +13,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// Creates a new library with the specified ID.
     /// </summary>
     /// <param name="idLibrary">The ID of the new library.</param>
-    /// <returns>A new instance of LibraryModel.</returns>
     public void CreateNewLibrary(int idLibrary)
     {
         Id = idLibrary;
@@ -25,7 +24,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <param name="libraryLoader">The loader responsible for loading the library.</param>
     /// <param name="pathToFile">The path to the file containing the library data.</param>
-    /// <param name="library">The loaded library.</param>
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
     {
@@ -34,12 +32,12 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
         Id = library.Id;
         return result;
     }
+
     /// <summary>
     /// Saves the specified library to the specified folder.
     /// </summary>
     /// <param name="keeper">The keeper responsible for saving the library.</param>
     /// <param name="pathToFolder">The path to the folder where the library will be saved.</param>
-    /// <param name="library">The library to save.</param>
     /// <returns>True if the library was successfully saved; otherwise, false.</returns>
     public bool SaveLibrary(ILibraryKeeper keeper, string pathToFolder) => keeper.SaveLibrary(this, pathToFolder);
 
@@ -61,7 +59,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
 
         var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages && b.PublishDate == book.PublishDate);
 
-        return BookList.Remove(searchBook);
+        return searchBook != null && BookList.Remove(searchBook);
     }
 
     /// <summary>
@@ -75,7 +73,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// Finds books in the library by a specified book element.
     /// </summary>
-    /// <param name="library">The library to search in.</param>
     /// <param name="bookElement">The element of the book to search by.</param>
     /// <param name="partElement">The value of the element to search for.</param>
     /// <returns>A list of books that match the search criteria.</returns>
@@ -159,29 +156,26 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// Finds books in the library by author.
     /// </summary>
-    /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The author to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByAuthor(string? strElement)
-        => (IsNotNullOrEmpty(strElement))
+        => IsNotNullOrEmpty(strElement)
         ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase))
         : [];
 
     /// <summary>
     /// Finds books in the library by title.
     /// </summary>
-    /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The title to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByTitle(string? strElement)
-        => (IsNotNullOrEmpty(strElement))
+        => IsNotNullOrEmpty(strElement)
         ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase))
         : [];
 
     /// <summary>
     /// Finds books in the library by total pages.
     /// </summary>
-    /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The total pages to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByTotalPages(string? strElement)
@@ -192,7 +186,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// Finds books in the library by publish date.
     /// </summary>
-    /// <param name="library">The library to search in.</param>
     /// <param name="strElement">The publish date to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByPublishDate(string? strElement)

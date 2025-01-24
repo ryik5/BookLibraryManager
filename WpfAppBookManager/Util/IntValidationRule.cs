@@ -6,7 +6,7 @@ namespace BookLibraryManager.DemoApp.Util;
 /// <summary>
 /// A validation rule that checks if an integer value falls within a specified range.
 /// </summary>
-/// /// <author>YR 2025-01-23</author>
+/// <author>YR 2025-01-23</author>
 class IntValidationRule : ValidationRule
 {
     /// <summary>
@@ -48,7 +48,7 @@ class IntValidationRule : ValidationRule
         if ((minValue < Min) || (minValue > Max))
         {
             return new ValidationResult(false,
-              $"Please enter an valid value: from - {Min}, till - {Max}.");
+              $"Please enter a valid value: from {Min} to {Max}.");
         }
         return ValidationResult.ValidResult;
     }

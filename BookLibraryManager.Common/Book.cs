@@ -48,7 +48,7 @@ public class Book : BindableBase
     private int _totalPages;
 
     /// <summary>
-    /// Gets or sets the publish date of the book.
+    /// Gets or sets the publication date of the book.
     /// </summary>
     public int PublishDate
     {

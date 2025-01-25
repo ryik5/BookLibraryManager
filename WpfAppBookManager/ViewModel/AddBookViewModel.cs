@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
 using BookLibraryManager.DemoApp.Model;
+using BookLibraryManager.DemoApp.Util;
 using BookLibraryManager.TestApp.View;
+using Microsoft.Win32;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 
@@ -15,8 +17,10 @@ public class AddBookViewModel : BindableBase
     /// Initializes a new instance of the AddBookViewModel class.
     /// </summary>
     /// <param name="book">An example of the book to be added.</param>
-    public AddBookViewModel(out Book book)
+    public AddBookViewModel(ILibrary libraryManager, out Book book)
     {
+        _libraryManager = libraryManager;
+
         Book =
             new()
             {
@@ -43,7 +47,7 @@ public class AddBookViewModel : BindableBase
 
         LoadingState = "Load content";
         ExecuteButtonName = "Add Book";
-        LoadContentCommand = new RelayCommand(LoadContent);
+        LoadContentCommand = new RelayCommand(LoadContent, CanLoadContent);
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
 
@@ -121,8 +125,21 @@ public class AddBookViewModel : BindableBase
     #region Methods
     private void LoadContent()
     {
+        var loader = new Loader();
+
+        // TEST
+        //var filePath = GetPathToXmlFileLibrary();
+
+        //newLib = new LibraryBookManagerModel();
+        //Task.Run(async () => await loader.LoadDataAsync(() => newLib.LoadLibrary(new XmlBookListLoader(), filePath)));
         MessageBox.Show("Haven't done yet!");
     }
+
+    // TEST
+    private bool CanLoadContent() => newLib?.ActionFinished ?? true;
+
+    // TEST
+    ILibrary newLib;
 
     /// <summary>
     /// Adds the book and closes the window.
@@ -157,9 +174,29 @@ public class AddBookViewModel : BindableBase
         window?.Close();
         _addBookWindow?.Close();
     }
+
+    /// <summary>
+    /// Returns the path to the XML file with the library.
+    /// </summary>
+    private string? GetPathToXmlFileLibrary()
+    {
+        var openDialog = new OpenFileDialog()
+        {
+            Title = "Load the library",
+            DefaultExt = ".xml",
+            Filter = "XML Books (.xml)|*.xml"
+        };
+        var dialogResult = openDialog.ShowDialog();
+        if (!dialogResult.HasValue || !dialogResult.Value)
+            return null;
+        var path = openDialog.FileName;
+
+        return path;
+    }
     #endregion
 
     #region Fields
+    private readonly ILibrary _libraryManager;
     private readonly ActionWithBookWindow _addBookWindow;
     private readonly Book _originalBook;
     private Book _book;

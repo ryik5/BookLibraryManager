@@ -58,14 +58,21 @@ public class Book : BindableBase
     private int _publishDate;
 
     /// <summary>
-    /// Gets or sets the body of the book.
+    /// Gets or sets the Content of the book.
     /// </summary>
-    public object Body
+    public object Content
     {
-        get => _body;
-        set => SetProperty(ref _body, value);
+        get => _content;
+        set => SetProperty(ref _content, value);
     }
-    private object _body;
+    private object _content;
+
+    public ContentTypeEnum ContentType
+    {
+        get => _contentType;
+        set => SetProperty(ref _contentType, value);
+    }
+    private ContentTypeEnum _contentType = ContentTypeEnum.None;
 
     /// <summary>
     /// Gets or sets the description of the book.

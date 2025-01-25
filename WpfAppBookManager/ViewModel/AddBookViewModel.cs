@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
+using BookLibraryManager.DemoApp.Model;
 using BookLibraryManager.TestApp.View;
 
 namespace BookLibraryManager.TestApp.ViewModel;
@@ -24,7 +25,6 @@ public class AddBookViewModel : BindableBase
                 Title = "Title",
                 TotalPages = 1,
                 PublishDate = 1970,
-                Body = new(),
                 Description = "Short description"
             };
 
@@ -36,11 +36,14 @@ public class AddBookViewModel : BindableBase
                 Title = Book.Title,
                 TotalPages = Book.TotalPages,
                 PublishDate = Book.PublishDate,
-                Body = Book.Body,
+                Content = Book.Content,
+                ContentType = Book.ContentType,
                 Description = Book.Description
             };
 
+        LoadingState = "Load content";
         ExecuteButtonName = "Add Book";
+        LoadContentCommand = new RelayCommand(LoadContent);
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
 
@@ -54,20 +57,17 @@ public class AddBookViewModel : BindableBase
 
     #region Properties
     /// <summary>
-    /// Value indicating whether a new book should be added to the library at the end of the procedure.
-    /// </summary>
-    public bool CanAddBook
-    {
-        get; private set;
-    }
-
-    /// <summary>
     /// The book being added.
     /// </summary>
     public Book Book
     {
         get => _book;
-        set => SetProperty(ref _book, value);
+        private set => SetProperty(ref _book, value);
+    }
+
+    public string LoadingState
+    {
+        get; private set;
     }
 
     /// <summary>
@@ -76,6 +76,14 @@ public class AddBookViewModel : BindableBase
     public string WindowTitle
     {
         get;
+    }
+
+    /// <summary>
+    /// Value indicating whether a new book should be added to the library at the end of the procedure.
+    /// </summary>
+    public bool CanAddBook
+    {
+        get; private set;
     }
 
     /// <summary>
@@ -88,6 +96,11 @@ public class AddBookViewModel : BindableBase
     #endregion
 
     #region Commands
+    public DelegateCommand LoadContentCommand
+    {
+        get;
+    }
+
     /// <summary>
     /// Command to add a book to the library.
     /// </summary>
@@ -106,6 +119,11 @@ public class AddBookViewModel : BindableBase
     #endregion
 
     #region Methods
+    private void LoadContent()
+    {
+        MessageBox.Show("Haven't done yet!");
+    }
+
     /// <summary>
     /// Adds the book and closes the window.
     /// </summary>

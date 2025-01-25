@@ -27,28 +27,30 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID"/>
         <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Id}" IsReadOnly="True" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Id}" IsReadOnly="True" MinWidth="220"/>
         </Border>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Author"/>
         <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Author}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Author}" MinWidth="220"/>
         </Border>
 
         <Label Grid.Row="2" Grid.Column="0" Content="Title"/>
         <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Title}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Title}" MinWidth="220"/>
         </Border>
 
         <Label Grid.Row="3" Grid.Column="0" Content="Pages"/>
         <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
             <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" MinWidth="220">
                 <TextBox.Text>
-                    <Binding Path="TotalPages" UpdateSourceTrigger="PropertyChanged" >
+                    <Binding Path="Book.TotalPages" UpdateSourceTrigger="PropertyChanged" >
                         <Binding.ValidationRules>
                             <util:IntValidationRule Min="1" Max="1000000000"/>
                         </Binding.ValidationRules>
@@ -62,7 +64,7 @@
         <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
             <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" MinWidth="220">
                 <TextBox.Text>
-                    <Binding Path="PublishDate" UpdateSourceTrigger="PropertyChanged" >
+                    <Binding Path="Book.PublishDate" UpdateSourceTrigger="PropertyChanged" >
                         <Binding.ValidationRules>
                             <util:IntValidationRule Min="400" Max="2100"/>
                         </Binding.ValidationRules>
@@ -73,12 +75,17 @@
 
         <Label Grid.Row="5" Grid.Column="0" Content="Description"/>
         <Border Grid.Row="5" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Description}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Description}" MinWidth="220"/>
         </Border>
 
-        <Label Grid.Row="6" Grid.Column="0" Content="Text"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Content"/>
         <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource ButtonBorderStyle}">
-            <Button Command="{Binding LoadBody}" Content="Load text of the book"/>
+            <Button Command="{Binding LoadContentCommand}" Content="{Binding LoadingState}"/>
+        </Border>
+
+        <Label Grid.Row="7" Grid.Column="0" Content="Content type"/>
+        <Border Grid.Row="7" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Book.ContentType}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
         </Border>
 
 

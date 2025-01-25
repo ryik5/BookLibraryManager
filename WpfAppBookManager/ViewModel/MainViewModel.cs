@@ -231,10 +231,9 @@ public class MainViewModel : BindableBase
         if (canAddBook)
         {
             _libraryManager.AddBook(book);
-            TextLog += $"\nAdded book with id: {book.Id}\n" +
-                           $"number of books in the library: {_libraryManager?.NumberOfBooks}";
+            TextLog += $"Last added book id:{book.Id}\nTotal books:{_libraryManager?.NumberOfBooks}";
 
-            SendMessageToStatusBar($"Added book {book.Title}");
+            SendMessageToStatusBar($"Last added book: '{book.Title}'");
         }
         else
         {
@@ -293,7 +292,7 @@ public class MainViewModel : BindableBase
 
         if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
         {
-            var text = $"Library was loaded with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nby path: {filePath}";
+            var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path: {filePath}";
             TextLog += text;
 
             SendMessageToStatusBar(text);
@@ -357,7 +356,7 @@ public class MainViewModel : BindableBase
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
             var text = result
-                    ? $"Saved Library with id: {_libraryManager.Id}\nnumber of books: {_libraryManager?.NumberOfBooks}\nLibrary's path: {pathToFile}"
+                    ? $"Saved Library with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path:{pathToFile}"
             : "Library wasn't saved";
             TextLog += text;
             SendMessageToStatusBar(text);

@@ -6,7 +6,7 @@
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}"
-        Height="350" Width="450"
+        Height="400" Width="450"
         Background="#DDDDDD">
 
     <Grid HorizontalAlignment="Stretch">
@@ -16,7 +16,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <view:BookView DataContext="{Binding Book}"/>
+        <view:BookView />
 
         <view:ExecuteCancelPanelView Grid.Row="2" DataContext="{Binding}" Padding="0 5 0 15"/>
         

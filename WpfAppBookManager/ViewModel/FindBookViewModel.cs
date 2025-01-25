@@ -24,7 +24,7 @@ public class FindBookViewModel : BindableBase
         SearchOnFly = false;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
-        DeleteSelectedBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
+        RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
         CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
 
         StatusBarItems = new StatusBarModel(_statusBarKind);
@@ -46,7 +46,7 @@ public class FindBookViewModel : BindableBase
     /// <summary>
     /// Command to delete the selected book.
     /// </summary>
-    public DelegateCommand DeleteSelectedBookCommand
+    public DelegateCommand RemoveBookCommand
     {
         get;
     }

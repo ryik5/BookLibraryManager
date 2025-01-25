@@ -3,17 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BookLibraryManager.TestApp.View"
-             mc:Ignorable="d"
-             Background="#DDDDDD">
+             mc:Ignorable="d">
 
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-        <DataGrid Background="Transparent" BorderThickness="0"
-                    ItemsSource="{Binding BookList, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedBook}"
-                    DataGrid.IsReadOnly="True"
-                    MinHeight="2"
-                    >
-        </DataGrid>
-    </ScrollViewer>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/View/Styles/DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DataGrid ItemsSource="{Binding BookList, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                       SelectedItem="{Binding SelectedBook}"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+                       MaxWidth="2000" MaxHeight="1200"
+                          Padding="3" Margin="5 0 5 0" 
+                          CanUserAddRows="False" 
+                          CanUserDeleteRows="False" 
+                          CanUserReorderColumns="True" 
+                          CanUserResizeColumns="True" 
+                          CanUserResizeRows="True" 
+                          IsReadOnly="True" 
+                          SelectionMode="Extended" 
+                          AutoGenerateColumns="True" 
+                          MinRowHeight="28" 
+                          HeadersVisibility="Column" 
+                          HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalGridLinesBrush="#707070" 
+                          VerticalGridLinesBrush="#707070" 
+                          ColumnHeaderHeight="30" 
+                          BorderThickness="1"
+                          BorderBrush="#707070"
+                          Style="{StaticResource DataGridStyle}"
+                          VirtualizingPanel.ScrollUnit="Pixel">
+
+        <!--<DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Select Book" Command="{Binding SelectBookCommand}" />
+                <MenuItem Header="Copy Book" Command="{Binding CopyBookCommand}" />
+                <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>-->
+
+        <!--<DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#00000000" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#00000000" />
+                </DataGrid.Resources>-->
+
+        <!--<DataGrid.RowStyle> 
+            <Style TargetType="DataGridRow">
+                <Setter Property="Background" Value="{Binding Background}" />
+            </Style>
+        </DataGrid.RowStyle>-->
+
+    </DataGrid>
+
 </UserControl>

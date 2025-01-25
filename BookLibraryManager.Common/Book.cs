@@ -5,7 +5,7 @@
 /// </summary>
 /// <author>YR 2025-01-09</author>
 [Serializable]
-public class Book : BindableBase
+public class Book : BindableBase, ILoadable
 {
     /// <summary>
     /// Gets or sets the unique identifier for the book.
@@ -67,6 +67,9 @@ public class Book : BindableBase
     }
     private object _content;
 
+    /// <summary>
+    /// Gets or sets the Content of the loaded data.
+    /// </summary>
     public ContentTypeEnum ContentType
     {
         get => _contentType;

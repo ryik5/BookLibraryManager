@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace BookLibraryManager.Common;
 
@@ -27,6 +28,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
     {
+        ActionFinished = false;
         var result = libraryLoader.LoadLibrary(pathToFile, out var library);
         if (result)
         {
@@ -38,8 +40,18 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
             BookList = [];
             Id = 0;
         }
+        ActionFinished = true;
         return result;
     }
+
+    [XmlIgnore]
+    public bool ActionFinished
+    {
+        get => _actionFinished;
+        private set => SetProperty(ref _actionFinished, value);
+    }
+    private bool _actionFinished = true;
+
 
     /// <summary>
     /// Saves the specified library to the specified folder.
@@ -120,11 +132,13 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <summary>
     /// Gets the total number of books in the library.
     /// </summary>
+    [XmlIgnore]
     public int NumberOfBooks => BookList.Count;
 
     /// <summary>
     /// Gets or sets the selected book.
     /// </summary>
+    [XmlIgnore]
     public Book SelectedBook
     {
         get => _selectedBook;

@@ -4,7 +4,7 @@
 /// Defines an interface for loading a library.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public interface ILibraryLoader
+public interface ILibraryLoader : ILoadable
 {
     /// <summary>
     /// Loads a library from the specified path.

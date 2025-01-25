@@ -227,7 +227,7 @@ public class MainViewModel : BindableBase
     /// </summary>
     private void AddBook()
     {
-        var canAddBook = new AddBookViewModel(out var book).CanAddBook;
+        var canAddBook = new AddBookViewModel(_libraryManager, out var book).CanAddBook;
         if (canAddBook)
         {
             _libraryManager.AddBook(book);
@@ -261,7 +261,7 @@ public class MainViewModel : BindableBase
 
             _libraryManager.AddBook(testBook);
         }
-        var text = $"Added 10 random named books\ntotal books in library: {_libraryManager?.NumberOfBooks}";
+        var text = $"Added 10 random named books. Total books:{_libraryManager?.NumberOfBooks}";
         TextLog += text;
 
         SendMessageToStatusBar(text);

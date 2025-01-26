@@ -42,7 +42,7 @@ public class LibraryBookManagerModelTests
                 new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 100, PublishDate = 2020 }
             ]
         };
-        mockLibraryLoader.Setup(loader => loader.LoadLibrary(It.IsAny<string>(), out loadedLibrary)).Returns(true);
+        mockLibraryLoader.Setup(loader => loader.TryLoadLibrary(It.IsAny<string>(), out loadedLibrary)).Returns(true);
 
         // Act
         var result = library.LoadLibrary(mockLibraryLoader.Object, "path/to/file");

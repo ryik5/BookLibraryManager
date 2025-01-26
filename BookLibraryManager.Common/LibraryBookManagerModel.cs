@@ -28,8 +28,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
     {
-        ActionFinished = false;
-        var result = libraryLoader.LoadLibrary(pathToFile, out var library);
+        libraryLoader.LoadingFinished += LibraryLoader_LoadingLibraryFinished;
+
+        var result = libraryLoader.TryLoadLibrary(pathToFile, out var library);
         if (result)
         {
             BookList = new ObservableCollection<Book>(library.BookList);
@@ -40,18 +41,10 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
             BookList = [];
             Id = 0;
         }
-        ActionFinished = true;
+        libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
+
         return result;
     }
-
-    [XmlIgnore]
-    public bool ActionFinished
-    {
-        get => _actionFinished;
-        private set => SetProperty(ref _actionFinished, value);
-    }
-    private bool _actionFinished = true;
-
 
     /// <summary>
     /// Saves the specified library to the specified folder.
@@ -146,8 +139,15 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     }
     private Book _selectedBook;
 
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+
 
     #region private methods
+    private void LibraryLoader_LoadingLibraryFinished(object? sender, ActionFinishedEventArgs e)
+    {
+        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = e.Message, IsFinished = e.IsFinished });
+    }
+
     /// <summary>
     /// Finds books in the library by a specified book element.
     /// </summary>

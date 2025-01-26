@@ -37,10 +37,10 @@ public class XmlBookListLoaderTests
             serializer.Serialize(writer, library);
         }
 
-        var loader = new XmlBookListLoader();
+        var loader = new XmlLibraryLoader();
 
         // Act
-        var result = loader.LoadLibrary(filePath, out var checkedLibrary);
+        var result = loader.TryLoadLibrary(filePath, out var checkedLibrary);
 
         // Assert
         Xunit.Assert.True(result);
@@ -67,7 +67,7 @@ public class XmlBookListLoaderTests
     {
         // Arrange
         var mockLibrary = new Mock<ILibrary>();
-        var loader = new XmlBookListLoader();
+        var loader = new XmlLibraryLoader();
         var pathToLibrary = "validLibrary.xml";
         var xmlContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LibraryAbstract xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xsi:nil=\"true\" />";
 
@@ -79,7 +79,7 @@ public class XmlBookListLoaderTests
         File.WriteAllText(pathToLibrary, xmlContent);
 
         // Act
-        var result = loader.LoadLibrary(pathToLibrary, out It.Ref<ILibrary>.IsAny);
+        var result = loader.TryLoadLibrary(pathToLibrary, out It.Ref<ILibrary>.IsAny);
 
         // Assert
         Xunit.Assert.True(result);
@@ -98,7 +98,7 @@ public class XmlBookListLoaderTests
     public void LoadLibrary_InvalidXmlFile_ReturnsFalse()
     {
         // Arrange
-        var loader = new XmlBookListLoader();
+        var loader = new XmlLibraryLoader();
         var pathToLibrary = "invalidLibrary.xml";
         var xmlContent = "<InvalidXml></InvalidXml>";
 
@@ -109,7 +109,7 @@ public class XmlBookListLoaderTests
         File.WriteAllText(pathToLibrary, xmlContent);
 
         // Act
-        var result = loader.LoadLibrary(pathToLibrary, out var library);
+        var result = loader.TryLoadLibrary(pathToLibrary, out var library);
 
         // Assert
         Xunit.Assert.False(result);
@@ -124,11 +124,11 @@ public class XmlBookListLoaderTests
     public void LoadLibrary_FileNotFound_ReturnsFalse()
     {
         // Arrange
-        var loader = new XmlBookListLoader();
+        var loader = new XmlLibraryLoader();
         var pathToLibrary = "nonExistentLibrary.xml";
 
         // Act
-        var result = loader.LoadLibrary(pathToLibrary, out var library);
+        var result = loader.TryLoadLibrary(pathToLibrary, out var library);
 
         // Assert
         Xunit.Assert.False(result);

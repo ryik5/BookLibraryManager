@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
+﻿using BookLibraryManager.XmlLibraryProvider;
 
 namespace BookLibraryManager.Common;
 
@@ -18,11 +17,10 @@ public class XmlBookListSaver : ILibraryKeeper
     {
         try
         {
-            using var fileStream = new FileStream(pathToFile, FileMode.Create);
-            new XmlSerializer(typeof(LibraryAbstract)).Serialize(fileStream, library as LibraryAbstract);
+            XMLObjectSerializer.Save(library as LibraryAbstract, pathToFile);
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             return false;
         }

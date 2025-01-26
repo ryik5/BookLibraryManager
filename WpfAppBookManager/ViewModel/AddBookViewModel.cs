@@ -1,5 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
+using AppBookManager;
 using BookLibraryManager.Common;
+using BookLibraryManager.DemoApp.Events;
 using BookLibraryManager.DemoApp.Model;
 using BookLibraryManager.DemoApp.Util;
 using BookLibraryManager.TestApp.View;
@@ -17,7 +20,7 @@ public class AddBookViewModel : BindableBase
     /// Initializes a new instance of the AddBookViewModel class.
     /// </summary>
     /// <param name="book">An example of the book to be added.</param>
-    public AddBookViewModel(ILibrary libraryManager, out Book book)
+    public AddBookViewModel(ILibrary libraryManager)
     {
         _libraryManager = libraryManager;
 
@@ -32,30 +35,19 @@ public class AddBookViewModel : BindableBase
                 Description = "Short description"
             };
 
-        _originalBook =
-            new()
-            {
-                Id = Book.Id,
-                Author = Book.Author,
-                Title = Book.Title,
-                TotalPages = Book.TotalPages,
-                PublishDate = Book.PublishDate,
-                Content = Book.Content,
-                ContentType = Book.ContentType,
-                Description = Book.Description
-            };
+        ExecuteButtonName = "Add Book";
 
         LoadingState = "Load content";
-        ExecuteButtonName = "Add Book";
-        LoadContentCommand = new RelayCommand(LoadContent, CanLoadContent);
+        canDoLoading = true;
+        LoadBookContentCommand = new RelayCommand(LoadBookContent, CanLoadContent);
+        ClearBookContentCommand = new RelayCommand(ClearBookContent, CanClearContent);
+
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
 
         WindowTitle = "Add Book";
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
-
-        book = Book;
     }
 
 
@@ -71,8 +63,10 @@ public class AddBookViewModel : BindableBase
 
     public string LoadingState
     {
-        get; private set;
+        get => _loadingState;
+        private set => SetProperty(ref _loadingState, value);
     }
+    private string _loadingState;
 
     /// <summary>
     /// Title of the AddBook window.
@@ -80,14 +74,6 @@ public class AddBookViewModel : BindableBase
     public string WindowTitle
     {
         get;
-    }
-
-    /// <summary>
-    /// Value indicating whether a new book should be added to the library at the end of the procedure.
-    /// </summary>
-    public bool CanAddBook
-    {
-        get; private set;
     }
 
     /// <summary>
@@ -100,7 +86,12 @@ public class AddBookViewModel : BindableBase
     #endregion
 
     #region Commands
-    public DelegateCommand LoadContentCommand
+    public DelegateCommand LoadBookContentCommand
+    {
+        get;
+    }
+
+    public DelegateCommand ClearBookContentCommand
     {
         get;
     }
@@ -123,23 +114,68 @@ public class AddBookViewModel : BindableBase
     #endregion
 
     #region Methods
-    private void LoadContent()
+    private void ClearBookContent()
+    {
+        Book.Content = null;
+        LoadingState = "Load content";
+    }
+
+    private async void LoadBookContent()
     {
         var loader = new Loader();
 
-        // TEST
-        //var filePath = GetPathToXmlFileLibrary();
+        LoadingFinished += NewLib_LoadingFinished;
+        Book.Content = await loader.LoadDataAsync<MediaData>(() => OpenBitmapImage());
 
-        //newLib = new LibraryBookManagerModel();
-        //Task.Run(async () => await loader.LoadDataAsync(() => newLib.LoadLibrary(new XmlBookListLoader(), filePath)));
-        MessageBox.Show("Haven't done yet!");
+        var msg = (Book.Content is null) ? "Image was not loaded" : "Image loaded";
+
+        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
+
+        await Task.Yield();
+
+        LoadingFinished -= NewLib_LoadingFinished;
     }
 
     // TEST
-    private bool CanLoadContent() => newLib?.ActionFinished ?? true;
+    private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
+    {
+        LoadingState = e.Message;
+        canDoLoading = e.IsFinished;
+    }
 
-    // TEST
-    ILibrary newLib;
+    private MediaData? OpenBitmapImage()
+    {
+        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = "Loading started", IsFinished = false });
+
+        var op = new OpenFileDialog();
+        op.Title = "Select a picture";
+        op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+          "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+          "Portable Network Graphic (*.png)|*.png";
+        if (op.ShowDialog() == true)
+        {
+            BitmapimageConvertor convertor = new BitmapimageConvertor();
+            var img = new MediaData();
+            img.Name = $"{nameof(BitmapImage)}";
+            img.OriginalPath = op.FileName;
+            img.Image = convertor.BitmapImage2Bitmap(new BitmapImage(new Uri(op.FileName)));
+           
+            return img;
+        }
+
+        return null;
+    }
+
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+
+    private bool CanLoadContent() => canDoLoading;
+
+    private bool CanClearContent() => canDoLoading && Book?.Content != null;
+
+    private bool canDoLoading
+    {
+        get; set;
+    }
 
     /// <summary>
     /// Adds the book and closes the window.
@@ -147,7 +183,8 @@ public class AddBookViewModel : BindableBase
     /// <param name="window">The window to be closed.</param>
     private void AddBook(Window window)
     {
-        CanAddBook = true;
+        _libraryManager.AddBook(Book);
+        SendMessageToStatusBar($"Last added book: '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -157,11 +194,8 @@ public class AddBookViewModel : BindableBase
     /// <param name="window">The window to be closed.</param>
     private void CancelAddBook(Window window)
     {
-        CanAddBook = false;
-        Book.Id = _originalBook.Id;
-        Book.Author = _originalBook.Author;
-        Book.Title = _originalBook.Title;
-        Book.TotalPages = _originalBook.TotalPages;
+        Book = null;
+        SendMessageToStatusBar("Adding book was canceled");
         CloseWindow(window);
     }
 
@@ -192,6 +226,15 @@ public class AddBookViewModel : BindableBase
         var path = openDialog.FileName;
 
         return path;
+    }
+
+    private void SendMessageToStatusBar(string msg)
+    {
+        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
+        {
+            Message = msg,
+            StatusBarKind = StatusBarKindEnum.MainWindow
+        });
     }
     #endregion
 

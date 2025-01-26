@@ -1,4 +1,5 @@
-﻿namespace BookLibraryManager.Common;
+﻿
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Interface of a class that can be loaded.

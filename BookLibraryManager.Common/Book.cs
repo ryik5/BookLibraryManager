@@ -1,10 +1,11 @@
-﻿namespace BookLibraryManager.Common;
+﻿using System.Xml.Serialization;
+
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a book.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-[Serializable]
 public class Book : BindableBase, ILoadable
 {
     /// <summary>
@@ -58,26 +59,6 @@ public class Book : BindableBase, ILoadable
     private int _publishDate;
 
     /// <summary>
-    /// Gets or sets the Content of the book.
-    /// </summary>
-    public object Content
-    {
-        get => _content;
-        set => SetProperty(ref _content, value);
-    }
-    private object _content;
-
-    /// <summary>
-    /// Gets or sets the Content of the loaded data.
-    /// </summary>
-    public ContentTypeEnum ContentType
-    {
-        get => _contentType;
-        set => SetProperty(ref _contentType, value);
-    }
-    private ContentTypeEnum _contentType = ContentTypeEnum.None;
-
-    /// <summary>
     /// Gets or sets the description of the book.
     /// </summary>
     public string Description
@@ -86,6 +67,28 @@ public class Book : BindableBase, ILoadable
         set => SetProperty(ref _description, value);
     }
     private string _description;
+
+    /// <summary>
+    /// Gets or sets the Content of the loaded data.
+    /// </summary>
+    [XmlElement("ContentType")]
+    public ContentTypeEnum ContentType
+    {
+        get => _contentType;
+        set => SetProperty(ref _contentType, value);
+    }
+    private ContentTypeEnum _contentType = ContentTypeEnum.None;
+
+    /// <summary>
+    /// Gets or sets the Content of the book.
+    /// </summary>
+    [XmlElement("MediaData")]
+    public MediaData Content
+    {
+        get => _content;
+        set => SetProperty(ref _content, value);
+    }
+    private MediaData _content;
 
     /// <summary>
     /// Returns a string that represents the current book.

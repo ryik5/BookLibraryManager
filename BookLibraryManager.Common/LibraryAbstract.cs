@@ -3,8 +3,11 @@ using System.Xml.Serialization;
 
 namespace BookLibraryManager.Common;
 
+[XmlInclude(typeof(Book))]
+[XmlInclude(typeof(MediaData))]
 [XmlInclude(typeof(LibraryBookManagerModel))]
 [Serializable]
+[XmlRoot("Library")]
 /// <summary>
 /// Represents an abstract base class for a library.
 /// </summary>
@@ -24,6 +27,7 @@ public abstract class LibraryAbstract : BindableBase
     /// <summary>
     /// Gets or sets the collection of books in the library.
     /// </summary>
+    [XmlArray]
     public ObservableCollection<Book> BookList
     {
         get => _bookList;

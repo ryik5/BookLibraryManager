@@ -12,5 +12,8 @@ public interface ILibraryLoader : ILoadable
     /// <param name="pathToLibrary">The path to the library.</param>
     /// <param name="library">The loaded library instance.</param>
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
-    bool LoadLibrary(string pathToLibrary, out ILibrary library);
+    bool TryLoadLibrary(string pathToLibrary, out ILibrary library);
+
+    event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+
 }

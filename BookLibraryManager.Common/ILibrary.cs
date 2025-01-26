@@ -33,11 +33,7 @@ public interface ILibrary : ILoadable
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
     bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile);
 
-    [XmlIgnore]
-    bool ActionFinished
-    {
-        get;
-    }
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
 
     /// <summary>
     /// Saves the specified library to the specified folder.
@@ -87,7 +83,6 @@ public interface ILibrary : ILoadable
     /// <summary>
     /// Gets the total number of books in the library.
     /// </summary>
-    [XmlIgnore]
     int NumberOfBooks
     {
         get;

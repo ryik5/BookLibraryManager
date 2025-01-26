@@ -227,18 +227,13 @@ public class MainViewModel : BindableBase
     /// </summary>
     private void AddBook()
     {
-        var canAddBook = new AddBookViewModel(_libraryManager, out var book).CanAddBook;
-        if (canAddBook)
-        {
-            _libraryManager.AddBook(book);
-            TextLog += $"Last added book id:{book.Id}\nTotal books:{_libraryManager?.NumberOfBooks}";
+        TextLog += "\n----\n";
+        var addBookView = new AddBookViewModel(_libraryManager);
 
-            SendMessageToStatusBar($"Last added book: '{book.Title}'");
-        }
-        else
-        {
-            TextLog += $"Adding book was canceled";
-        }
+        if (addBookView.Book is Book book)
+            TextLog += $"Last added book was '{book.Title}'\n";
+
+        TextLog += $"Total books:{_libraryManager?.NumberOfBooks}";
     }
 
     /// <summary>
@@ -247,7 +242,7 @@ public class MainViewModel : BindableBase
     private void AddRandomBooks()
     {
         counterUsingAddRandomBooks++;
-
+        TextLog += "\n----\n";
         for (var i = 0; i < 10; i++)
         {
             var testBook = new Book()
@@ -290,7 +285,7 @@ public class MainViewModel : BindableBase
 
         var filePath = GetPathToXmlFileLibrary();
 
-        if (_libraryManager.LoadLibrary(new XmlBookListLoader(), filePath))
+        if (_libraryManager.LoadLibrary(new XmlLibraryLoader(), filePath))
         {
             var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path: {filePath}";
             TextLog += text;

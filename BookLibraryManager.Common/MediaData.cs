@@ -9,6 +9,7 @@ namespace BookLibraryManager.Common;
 
 [XmlRoot(ElementName = "MediaData")]
 [Serializable]
+/// <author>YR 2025-01-26</author>
 public class MediaData : IXmlSerializable
 {
     public string Name
@@ -79,7 +80,6 @@ public class MediaData : IXmlSerializable
         ms.Position = 0;
         if (ms != null)
             Image = new Bitmap(ms);
-        //reader.ReadEndElement();
     }
 
     public void WriteXml(XmlWriter writer)

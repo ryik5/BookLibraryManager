@@ -3,6 +3,7 @@ using AppBookManager;
 
 namespace BookLibraryManager.DemoApp.Util;
 
+/// <author>YR 2025-01-26</author>
 public class Loader
 {
     public Loader()

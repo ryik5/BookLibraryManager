@@ -1,5 +1,4 @@
-﻿
-namespace BookLibraryManager.DemoApp.Events;
+﻿namespace BookLibraryManager.DemoApp.Events;
 
 /// <summary>
 /// Provides data for the StatusBar Event.

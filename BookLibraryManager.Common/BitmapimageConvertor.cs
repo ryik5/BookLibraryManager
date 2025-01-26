@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace BookLibraryManager.Common;
 
+/// <author>YR 2025-01-26</author>
 public class BitmapimageConvertor
 {
     public Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)

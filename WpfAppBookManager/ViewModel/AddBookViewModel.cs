@@ -1,12 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
-using AppBookManager;
 using BookLibraryManager.Common;
 using BookLibraryManager.DemoApp.Events;
 using BookLibraryManager.DemoApp.Model;
 using BookLibraryManager.DemoApp.Util;
+using BookLibraryManager.DemoApp.ViewModel;
 using BookLibraryManager.TestApp.View;
-using Microsoft.Win32;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 
@@ -125,9 +123,10 @@ public class AddBookViewModel : BindableBase
         var loader = new Loader();
 
         LoadingFinished += NewLib_LoadingFinished;
+        // TODO 1st step - select type of content to load
         Book.Content = await loader.LoadDataAsync<MediaData>(() => OpenBitmapImage());
 
-        var msg = (Book.Content is null) ? "Image was not loaded" : "Image loaded";
+        var msg = (Book.Content is null) ? "Load content" : "Content was loaded";
 
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
 
@@ -136,7 +135,6 @@ public class AddBookViewModel : BindableBase
         LoadingFinished -= NewLib_LoadingFinished;
     }
 
-    // TEST
     private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingState = e.Message;
@@ -147,22 +145,9 @@ public class AddBookViewModel : BindableBase
     {
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = "Loading started", IsFinished = false });
 
-        var op = new OpenFileDialog();
-        op.Title = "Select a picture";
-        op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-          "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-          "Portable Network Graphic (*.png)|*.png";
-        if (op.ShowDialog() == true)
-        {
-            var img = new MediaData();
-            img.Name = $"{nameof(BitmapImage)}";
-            img.OriginalPath = op.FileName;
-            img.Image = new BitmapimageConvertor().BitmapImage2Bitmap(new BitmapImage(new Uri(op.FileName)));
-           
-            return img;
-        }
+        var selectorFiles = new SelectionDialogHandler();
 
-        return null;
+        return selectorFiles.SelectMediaData();
     }
 
     public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
@@ -183,7 +168,7 @@ public class AddBookViewModel : BindableBase
     private void AddBook(Window window)
     {
         _libraryManager.AddBook(Book);
-        SendMessageToStatusBar($"Last added book: '{Book.Title}'");
+        MessageHandler.SendToStatusBar(StatusBarKindEnum.MainWindow, $"Last added book: '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -194,7 +179,7 @@ public class AddBookViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        SendMessageToStatusBar("Adding book was canceled");
+        MessageHandler.SendToStatusBar(StatusBarKindEnum.MainWindow, "Adding book was canceled");
         CloseWindow(window);
     }
 
@@ -207,40 +192,11 @@ public class AddBookViewModel : BindableBase
         window?.Close();
         _addBookWindow?.Close();
     }
-
-    /// <summary>
-    /// Returns the path to the XML file with the library.
-    /// </summary>
-    private string? GetPathToXmlFileLibrary()
-    {
-        var openDialog = new OpenFileDialog()
-        {
-            Title = "Load the library",
-            DefaultExt = ".xml",
-            Filter = "XML Books (.xml)|*.xml"
-        };
-        var dialogResult = openDialog.ShowDialog();
-        if (!dialogResult.HasValue || !dialogResult.Value)
-            return null;
-        var path = openDialog.FileName;
-
-        return path;
-    }
-
-    private void SendMessageToStatusBar(string msg)
-    {
-        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
-        {
-            Message = msg,
-            StatusBarKind = StatusBarKindEnum.MainWindow
-        });
-    }
     #endregion
 
     #region Fields
     private readonly ILibrary _libraryManager;
     private readonly ActionWithBookWindow _addBookWindow;
-    private readonly Book _originalBook;
     private Book _book;
     #endregion
 }

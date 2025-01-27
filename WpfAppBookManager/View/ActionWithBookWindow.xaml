@@ -18,7 +18,7 @@
 
         <view:BookView />
 
-        <view:ExecuteCancelPanelView Grid.Row="2" DataContext="{Binding}" Padding="0 5 0 15"/>
+        <view:ExecuteCancelPanelView Grid.Row="2" Padding="0 5 0 15"/>
         
     </Grid>
 </Window>

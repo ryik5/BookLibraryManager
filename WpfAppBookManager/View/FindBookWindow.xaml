@@ -11,20 +11,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <view:FindBooksControl Grid.Row="0"/>
 
-        <view:LibraryView Grid.Row="1" VerticalAlignment="Top" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                          DataContext="{Binding ., NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                         />
+        <view:LibraryView Grid.Row="1" VerticalAlignment="Top" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
+        <!-- TODO : Move log into one place -->
         <!--<view:LogView Grid.Row="2" Margin="5" Padding="5 0 0 5"/>-->
 
-        <view:StatusBarControl Grid.Row="3" VerticalAlignment="Top"
-                               DataContext="{Binding StatusBarItems, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+        <view:StatusBarControl Grid.Row="2" VerticalAlignment="Top"
+                               DataContext="{Binding StatusBarItems}"
                                 />
 
     </Grid>

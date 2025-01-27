@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using AppBookManager;
 using BookLibraryManager.Common;
 using BookLibraryManager.DemoApp.Events;
 using BookLibraryManager.DemoApp.Model;
+using BookLibraryManager.DemoApp.ViewModel;
 using BookLibraryManager.TestApp.View;
 
 namespace BookLibraryManager.TestApp.ViewModel;
@@ -147,7 +147,7 @@ public class FindBookViewModel : BindableBase
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
         var totalBooks = _libraryManager.NumberOfBooks;
         var foundBooks = BookList.Count;
-        SendMessageToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
+        MessageHandler.SendToStatusBar(_statusBarKind, $"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ public class FindBookViewModel : BindableBase
         var text = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
         TextLog = text;
-        SendMessageToStatusBar(text);
+        MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
 
     /// <summary>
@@ -186,19 +186,6 @@ public class FindBookViewModel : BindableBase
     private bool CanSearchBooks()
     {
         return _libraryManager?.BookList != null;
-    }
-
-    /// <summary>
-    /// Sends a message to the status bar.
-    /// </summary>
-    /// <param name="msg">The message to send.</param>
-    private void SendMessageToStatusBar(string msg)
-    {
-        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
-        {
-            Message = msg,
-            StatusBarKind = _statusBarKind
-        });
     }
     #endregion
 

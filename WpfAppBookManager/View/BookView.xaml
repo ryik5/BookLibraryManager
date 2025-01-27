@@ -30,7 +30,6 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID"/>
@@ -87,26 +86,21 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Style="{DynamicResource ButtonBorderStyle}">
-                <Button Command="{Binding LoadBookContentCommand}" Content="{Binding LoadingState, UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}"/>
+                <Button Command="{Binding LoadBookContentCommand}" Content="{Binding LoadingState}" HorizontalContentAlignment="Stretch"/>
             </Border>
             <Border Grid.Column="1" Style="{DynamicResource ButtonBorderStyle}">
-                <Button Command="{Binding ClearBookContentCommand}" Content="ClearContent"/>
+                <Button Command="{Binding ClearBookContentCommand}" Content="ClearContent" HorizontalContentAlignment="Stretch"/>
             </Border>
         </Grid>
 
-        <Label Grid.Row="7" Grid.Column="0" Content="Content type"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="Genre"/>
         <Border Grid.Row="7" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.ContentType}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
+            <TextBox Text="{Binding Book.Genre}" Background="Transparent" Padding="5,0,0,0" MinWidth="220"/>
         </Border>
 
-        <Label Grid.Row="8" Grid.Column="0" Content="Genre"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="ISDN"/>
         <Border Grid.Row="8" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Genre}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
-        </Border>
-
-        <Label Grid.Row="9" Grid.Column="0" Content="ISDN"/>
-        <Border Grid.Row="9" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.ISDN}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
+            <TextBox Text="{Binding Book.ISDN}" Background="Transparent" Padding="5,0,0,0" MinWidth="220"/>
         </Border>
 
     </Grid>

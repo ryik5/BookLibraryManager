@@ -13,7 +13,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DataGrid ItemsSource="{Binding BookList, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+    <DataGrid ItemsSource="{Binding BookList}"
                        SelectedItem="{Binding SelectedBook}"
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 

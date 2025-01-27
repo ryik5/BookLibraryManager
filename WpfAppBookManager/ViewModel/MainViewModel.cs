@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using System.Text;
 using System.Windows;
-using AppBookManager;
 using BookLibraryManager.Common;
 using BookLibraryManager.DemoApp.Events;
 using BookLibraryManager.DemoApp.Model;
-using Microsoft.Win32;
+using BookLibraryManager.DemoApp.ViewModel;
 
 namespace BookLibraryManager.TestApp.ViewModel;
 /// <summary>
@@ -36,7 +35,7 @@ public class MainViewModel : BindableBase
         FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
         ToggleViewCommand = new RelayCommand(ToggleView);
 
-        ExitApplicationCommand = new DelegateCommand<Window>(window => Application.Current.Shutdown());
+        ExitApplicationCommand = new DelegateCommand<Window>(window => System.Windows.Application.Current.Shutdown());
 
         LibraryViewHeight = new GridLength(1, GridUnitType.Star);
         LogViewHeight = new GridLength(0);
@@ -241,7 +240,7 @@ public class MainViewModel : BindableBase
             nameView = "Library";
         }
 
-        SendMessageToStatusBar($"View was switched to {nameView}");
+        MessageHandler.SendToStatusBar(_statusBarKind, $"View was switched to {nameView}");
     }
 
     /// <summary>
@@ -281,7 +280,7 @@ public class MainViewModel : BindableBase
         var text = $"Added 10 random named books. Total books:{_libraryManager?.NumberOfBooks}";
         TextLog += text;
 
-        SendMessageToStatusBar(text);
+        MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
 
     /// <summary>
@@ -295,7 +294,7 @@ public class MainViewModel : BindableBase
         var text = $"Created a new library with id: {_libraryManager.Id}";
         TextLog += text;
 
-        SendMessageToStatusBar(text);
+        MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
 
     /// <summary>
@@ -305,14 +304,14 @@ public class MainViewModel : BindableBase
     {
         counterUsingAddRandomBooks = 0;
 
-        var filePath = GetPathToXmlFileLibrary();
+        var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
         if (_libraryManager.LoadLibrary(new XmlLibraryLoader(), filePath))
         {
             var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path: {filePath}";
             TextLog += text;
 
-            SendMessageToStatusBar(text);
+            MessageHandler.SendToStatusBar(_statusBarKind, text);
         }
         else
         {
@@ -321,29 +320,11 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
-    /// Returns the path to the XML file with the library.
-    /// </summary>
-    private string? GetPathToXmlFileLibrary()
-    {
-        var openDialog = new OpenFileDialog()
-        {
-            Title = "Load the library",
-            DefaultExt = ".xml",
-            Filter = "XML Books (.xml)|*.xml"
-        };
-        var dialogResult = openDialog.ShowDialog();
-        if (!dialogResult.HasValue || !dialogResult.Value)
-            return null;
-        var path = openDialog.FileName;
-
-        return path;
-    }
-
-    /// <summary>
     /// Deletes a book from the library.
     /// </summary>
     private void RemoveBook()
     {
+        // TODO : replace by ILogger through DI
         TextLog += "\n----";
 
         var deletedBookId = _libraryManager.SelectedBook?.Id;
@@ -353,7 +334,7 @@ public class MainViewModel : BindableBase
             : "Nothing to delete";
         TextLog += text;
 
-        SendMessageToStatusBar(text);
+        MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
 
     /// <summary>
@@ -363,7 +344,9 @@ public class MainViewModel : BindableBase
     {
         try
         {
-            var selectedFolder = GetPathToFolderToStoreLibrary();
+            var selectedFolder = new SelectionDialogHandler().GetPathToFolder("Save books dialog");
+            if (string.IsNullOrEmpty(selectedFolder))
+                throw new Exception("Folder wasn't selected");
 
             var pathToFile = Path.Combine(selectedFolder, $"{_libraryManager.Id}.xml");
             var file = new FileInfo(pathToFile);
@@ -376,7 +359,7 @@ public class MainViewModel : BindableBase
                     ? $"Saved Library with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path:{pathToFile}"
             : "Library wasn't saved";
             TextLog += text;
-            SendMessageToStatusBar(text);
+            MessageHandler.SendToStatusBar(_statusBarKind, text);
         }
         catch (Exception ex)
         {
@@ -385,29 +368,12 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
-    /// Returns the path to the folder to store the library.
-    /// </summary>
-    private string GetPathToFolderToStoreLibrary()
-    {
-        var openDialog = new OpenFolderDialog()
-        {
-            Title = "Save books dialog",
-            Multiselect = false,
-            ValidateNames = true
-        };
-        var dialogResult = openDialog.ShowDialog();
-        if (!dialogResult.HasValue || !dialogResult.Value)
-            throw new Exception("No selected folder to save!");
-        return openDialog.FolderName;
-    }
-
-    /// <summary>
     /// Sorts the books in the library.
     /// </summary>
     private void SortLibrary()
     {
         _libraryManager.SortLibrary();
-        SendMessageToStatusBar("Library was sorted");
+        MessageHandler.SendToStatusBar(_statusBarKind, "Library was sorted");
     }
 
     /// <summary>
@@ -422,12 +388,7 @@ public class MainViewModel : BindableBase
     /// <summary>
     /// Finds books in the library that contain the specified title part.
     /// </summary>
-    private void FindBook()
-    {
-        SendMessageToStatusBar("Open 'Find books window'");
-
-        _ = new FindBookViewModel(_libraryManager);
-    }
+    private void FindBook() => new FindBookViewModel(_libraryManager);
 
     /// <summary>
     /// Repeats the word by the specified number of times.
@@ -442,18 +403,7 @@ public class MainViewModel : BindableBase
         return stringBuilder.ToString();
     }
 
-    /// <summary>
-    /// Sends a message to the status bar.
-    /// </summary>
-    /// <param name="msg">The message to send.</param>
-    private void SendMessageToStatusBar(string msg)
-    {
-        App.EventAggregator.GetEvent<StatusBarEvent>().Publish(new StatusBarEventArgs
-        {
-            Message = msg,
-            StatusBarKind = _statusBarKind
-        });
-    }
+
     #endregion
 
     #region Private Members

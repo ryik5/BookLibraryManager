@@ -7,9 +7,11 @@
              mc:Ignorable="d">
 
     <DockPanel LastChildFill="True" HorizontalAlignment="Left" VerticalAlignment="Center">
+        
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="20 5 5 5">
             <Button Content="Close window" Command="{Binding CloseWindowCommand}" Width="90"/>
         </Border>
+        
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="15 5 5 5">
             <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" Width="90"/>
         </Border>
@@ -21,9 +23,10 @@
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
             <Button Content="Find" Command="{Binding FindBooksCommand}"/>
         </Border>
+        
         <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 5 5 5">
-            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"
-                    HorizontalAlignment="Stretch" />
+            <TextBox Text="{Binding SearchText}" HorizontalAlignment="Stretch" />
         </Border>
+        
     </DockPanel>
 </UserControl>

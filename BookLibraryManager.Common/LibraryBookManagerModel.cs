@@ -55,6 +55,20 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     public bool SaveLibrary(ILibraryKeeper keeper, string pathToFolder) => keeper.SaveLibrary(this, pathToFolder);
 
     /// <summary>
+    /// Sorts the book collection by author and then by title.
+    /// </summary>
+    public void SortLibrary()
+    {
+        BookList = new ObservableCollection<Book>(BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
+    }
+
+    public void CloseLibrary()
+    {
+        BookList = null;
+        Id = -1;
+    }
+
+    /// <summary>
     /// Adds a book to the library.
     /// </summary>
     /// <param name="book">The book to add.</param>
@@ -73,14 +87,6 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
         var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages && b.PublishDate == book.PublishDate);
 
         return searchBook != null && BookList.Remove(searchBook);
-    }
-
-    /// <summary>
-    /// Sorts the book collection by author and then by title.
-    /// </summary>
-    public void SortLibrary()
-    {
-        BookList = new ObservableCollection<Book>(BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
     }
 
     /// <summary>
@@ -171,6 +177,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
             case BookElementsEnum.PublishDate:
                 tmpResult = FindBooksByPublishDate(strElement);
                 break;
+            default:
+                tmpResult = FindBooksEveryWhere(strElement);
+                break;
         }
         return tmpResult;
     }
@@ -182,7 +191,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByAuthor(string? strElement)
         => IsNotNullOrEmpty(strElement)
-        ? BookList.Where(b => b.Author.Contains(strElement, StringComparison.OrdinalIgnoreCase))
+        ? BookList.Where(b => b.Author.Contains(strElement, CurrentComparisionRule))
         : [];
 
     /// <summary>
@@ -192,7 +201,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByTitle(string? strElement)
         => IsNotNullOrEmpty(strElement)
-        ? BookList.Where(b => b.Title.Contains(strElement, StringComparison.OrdinalIgnoreCase))
+        ? BookList.Where(b => b.Title.Contains(strElement, CurrentComparisionRule))
         : [];
 
     /// <summary>
@@ -215,6 +224,29 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
         ? BookList.Where(b => b.PublishDate == intElement)
         : [];
 
+    private IEnumerable<Book> FindBooksEveryWhere(string? strElement)
+    {
+        IEnumerable<Book> tmpResult = [];
+        var isInt = IsParseable(strElement, out var intElement);
+        var isString = IsNotNullOrEmpty(strElement);
+
+        if (isInt)
+            tmpResult = BookList.Where(b =>
+            b.Id == intElement ||
+            b.TotalPages == intElement ||
+            b.PublishDate == intElement ||
+            b.Author.Contains(strElement, CurrentComparisionRule) ||
+            b.Title.Contains(strElement, CurrentComparisionRule));
+        else
+            tmpResult = isString ? BookList.Where(b =>
+            b.Author.Contains(strElement, CurrentComparisionRule) ||
+            b.Description.Contains(strElement, CurrentComparisionRule) ||
+            b.Genre.Contains(strElement, CurrentComparisionRule) ||
+            b.ISDN.Contains(strElement, CurrentComparisionRule) ||
+            b.Title.Contains(strElement, CurrentComparisionRule)) : [];
+
+        return tmpResult ?? [];
+    }
     /// <summary>
     /// Determines whether the specified string can be parsed to an integer.
     /// </summary>
@@ -229,5 +261,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="strElement">The string to check.</param>
     /// <returns>True if the string is not null or empty; otherwise, false.</returns>
     private bool IsNotNullOrEmpty(string? strElement) => !string.IsNullOrEmpty(strElement);
+
+    private StringComparison CurrentComparisionRule = StringComparison.OrdinalIgnoreCase;
     #endregion
 }

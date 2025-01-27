@@ -26,7 +26,7 @@ public class XmlLibraryLoader : ILibraryLoader
         LibraryAbstract lib = null;
         try
         {
-            lib = XMLObjectSerializer.Load<LibraryAbstract>(pathToLibrary);
+            lib = XmlObjectSerializer.Load<LibraryAbstract>(pathToLibrary);
             result = true;
             msg = "Library loaded";
         }

@@ -29,6 +29,8 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID"/>
@@ -97,6 +99,15 @@
             <TextBox Text="{Binding Book.ContentType}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
         </Border>
 
+        <Label Grid.Row="8" Grid.Column="0" Content="Genre"/>
+        <Border Grid.Row="8" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Book.Genre}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
+        </Border>
+
+        <Label Grid.Row="9" Grid.Column="0" Content="ISDN"/>
+        <Border Grid.Row="9" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Book.ISDN}" IsReadOnly="True" Background="Transparent" Padding="5,0,0,0"/>
+        </Border>
 
     </Grid>
 </UserControl>

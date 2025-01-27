@@ -16,19 +16,20 @@
             <MenuItem Header="_Library" Name="MenuLibrary">
                 <MenuItem Header="New Library" Command="{Binding CreateNewCommand}" />
                 <MenuItem Header="Load Library" Command="{Binding LoadLibraryCommand}"/>
-                <MenuItem Header="Sort Library" Command="{Binding SortLibraryCommand}" />
                 <MenuItem Header="Save Library" Command="{Binding SaveLibraryCommand}" />
+                <MenuItem Header="Close Library" Command="{Binding CloseLibraryCommand}" />
+                <MenuItem Header="Sort Library" Command="{Binding SortLibraryCommand}" />
             </MenuItem>
             <MenuItem Header="_Book" Name="MenuBook" >
                 <MenuItem Header="Add Book" Command="{Binding AddBookCommand}"/>
-                <MenuItem Header="Add random 10 books" Command="{Binding AddRandomBooksCommand}"/>
+                <MenuItem Header="Add 10 random books" Command="{Binding AddRandomBooksCommand}"/>
                 <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+                <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
                 <MenuItem Header="Find Book" Command="{Binding FindBookCommand}"/>
             </MenuItem>
             <MenuItem Header="_Settings" Name="MenuSettings" >
                 <MenuItem Header="{Binding ViewName}" Command="{Binding ToggleViewCommand}"/>
             </MenuItem>
-
             <!--<Separator />-->
             <MenuItem Header="_Exit" Command="{Binding ExitApplicationCommand}" BorderThickness="1 0 0 0" Padding="15 5 15 5"/>
         </Menu>

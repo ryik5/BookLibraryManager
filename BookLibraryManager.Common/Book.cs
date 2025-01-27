@@ -69,18 +69,24 @@ public class Book : BindableBase, ILoadable
     private string _description;
 
     /// <summary>
-    /// Gets or sets the Content of the loaded data.
+    /// Gets or sets the genre of the book.
     /// </summary>
-    [XmlElement("ContentType")]
-    public ContentTypeEnum ContentType
+    public string Genre
     {
-        get => _contentType;
-        set => SetProperty(ref _contentType, value);
+        get => _genre;
+        set => SetProperty(ref _genre, value);
     }
-    private ContentTypeEnum _contentType = ContentTypeEnum.None;
+    private string _genre;
+
+    public string ISDN
+    {
+        get => _isdn;
+        set => SetProperty(ref _isdn, value);
+    }
+    private string _isdn;
 
     /// <summary>
-    /// Gets or sets the Content of the book.
+    /// Gets or sets the media content of the book.
     /// </summary>
     [XmlElement("MediaData")]
     public MediaData Content

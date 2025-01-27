@@ -25,13 +25,14 @@ public class MainViewModel : BindableBase
 
         CreateNewCommand = new RelayCommand(CreateNewLibrary);
         LoadLibraryCommand = new RelayCommand(LoadLibrary);
-
         SaveLibraryCommand = new RelayCommand(SaveLibrary, CanOperateWithBooks);
         SortLibraryCommand = new RelayCommand(SortLibrary, CanOperateWithBooks);
+        CloseLibraryCommand = new RelayCommand(CloseLibrary, CanOperateWithBooks);
 
         AddBookCommand = new RelayCommand(AddBook, CanOperateWithBooks);
         AddRandomBooksCommand = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
         RemoveBookCommand = new RelayCommand(RemoveBook, CanRemoveBook);
+        EditBookCommand = new RelayCommand(EditBook, CanRemoveBook);
         FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
         ToggleViewCommand = new RelayCommand(ToggleView);
 
@@ -40,6 +41,11 @@ public class MainViewModel : BindableBase
         LibraryViewHeight = new GridLength(1, GridUnitType.Star);
         LogViewHeight = new GridLength(0);
         ViewName = "Toggle to Log";
+    }
+
+    private void EditBook()
+    {
+        MessageBox.Show("Not implemented yet!");
     }
 
     #region Commands
@@ -76,6 +82,14 @@ public class MainViewModel : BindableBase
     }
 
     /// <summary>
+    /// Command to close the current library.
+    /// </summary>
+    public RelayCommand CloseLibraryCommand
+    {
+        get;
+    }
+
+    /// <summary>
     /// Command to add a new book to the library.
     /// </summary>
     public DelegateCommand AddBookCommand
@@ -95,6 +109,14 @@ public class MainViewModel : BindableBase
     /// Command to delete a book from the library.
     /// </summary>
     public DelegateCommand RemoveBookCommand
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Command to edit a book in the library.
+    /// </summary>
+    public RelayCommand EditBookCommand
     {
         get;
     }
@@ -386,6 +408,15 @@ public class MainViewModel : BindableBase
     {
         _libraryManager.SortLibrary();
         SendMessageToStatusBar("Library was sorted");
+    }
+
+    /// <summary>
+    /// Closes the library and clears the book list.
+    /// </summary>
+    private void CloseLibrary()
+    {
+        // Close the current library
+        _libraryManager.CloseLibrary();
     }
 
     /// <summary>

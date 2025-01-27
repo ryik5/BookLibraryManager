@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Windows.Media.Imaging;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -10,8 +11,17 @@ namespace BookLibraryManager.Common;
 [XmlRoot(ElementName = "MediaData")]
 [Serializable]
 /// <author>YR 2025-01-26</author>
-public class MediaData : IXmlSerializable
+public class MediaData : BindableBase, IXmlSerializable
 {
+    /// <summary>
+    /// Just an example for implementation read any media file
+    /// </summary>
+    private void ReadMediaExample()
+    {
+        string pdfFilePath = "c:/myfile.pdf";
+        byte[] bytes = System.IO.File.ReadAllBytes(pdfFilePath);
+    }
+
     public string Name
     {
         get; set;
@@ -22,25 +32,50 @@ public class MediaData : IXmlSerializable
         get; set;
     }
 
+    /// <summary>
+    /// Gets or sets the content type of the loaded data.
+    /// </summary>
+    [XmlElement("ContentType")]
+    public ContentTypeEnum ContentType
+    {
+        get => _contentType;
+        set => SetProperty(ref _contentType, value);
+    }
+    private ContentTypeEnum _contentType = ContentTypeEnum.None;
+
     [XmlIgnore]
     public Bitmap Image
     {
-        get => source;
-        set => source = value;
+        get => _image;
+        set => SetProperty(ref _image, value);
     }
-    private Bitmap source;
+    private Bitmap _image;
 
+    [XmlIgnore]
+    public BitmapImage BmImage
+    {
+        get => _bmImage;
+        set => SetProperty(ref _bmImage, value);
+    }
+    private BitmapImage _bmImage;
 
     [XmlAttribute("Source")]
     public byte[] PictureByteArray
     {
         get
         {
+            //TODO : rewrite for BitmapImage
+
             //get a TypeConverter object for converting Bitmap to bytes
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(Bitmap));
-            return (byte[])converter.ConvertTo(source, typeof(byte[]));
+            return (byte[])converter.ConvertTo(_image, typeof(byte[]));
         }
-        set => source = new Bitmap(new MemoryStream(value));
+        set
+        {
+            //TODO : rewrite for BitmapImage
+
+            _image = new Bitmap(new MemoryStream(value));
+        }
     }
 
     public XmlSchema GetSchema()
@@ -56,6 +91,10 @@ public class MediaData : IXmlSerializable
         reader.GetAttribute("OriginalPath");
         OriginalPath = reader.ReadElementContentAsString();
 
+        reader.GetAttribute("ContentType");
+        var type = reader.ReadElementContentAsString();
+        Enum.TryParse(type, out ContentTypeEnum ContentType);
+
         reader.GetAttribute("Source");
         const int LEN = 4096;
         var buffer = new byte[LEN];
@@ -68,9 +107,7 @@ public class MediaData : IXmlSerializable
             if (reader.NodeType == XmlNodeType.Text)
             {
                 while ((read = reader.ReadContentAsBase64(buffer, 0, LEN)) > 0)
-                {
                     ms.Write(buffer, 0, read);
-                }
 
                 if (reader.Depth <= depth)
                     break;
@@ -78,8 +115,7 @@ public class MediaData : IXmlSerializable
         }
 
         ms.Position = 0;
-        if (ms != null)
-            Image = new Bitmap(ms);
+        Image = new Bitmap(ms);
     }
 
     public void WriteXml(XmlWriter writer)
@@ -90,6 +126,10 @@ public class MediaData : IXmlSerializable
 
         writer.WriteStartElement("OriginalPath");
         writer.WriteString(OriginalPath);
+        writer.WriteEndElement();
+
+        writer.WriteStartElement("ContentType");
+        writer.WriteString($"{ContentType}");
         writer.WriteEndElement();
 
         writer.WriteStartElement("Source");

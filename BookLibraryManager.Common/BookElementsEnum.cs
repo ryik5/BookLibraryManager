@@ -6,13 +6,14 @@
 /// <author>YR 2025-01-22</author>
 public enum BookElementsEnum
 {
+    All,
     Id,
     Author,
     Title,
     PublishDate,
     TotalPages,
-    Body,
+    MediaData,
     Description,
     Genre,
-    ISDN,
+    ISDN
 }

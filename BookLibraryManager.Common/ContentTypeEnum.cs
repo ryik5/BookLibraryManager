@@ -5,8 +5,11 @@ public enum ContentTypeEnum
 {
     None,
     Text,
+    Pdf,
     HTML,
-    Zip,
+    Jpg,
+    Png,
     Picture,
-    Media
+    Media,
+    Zip,
 }

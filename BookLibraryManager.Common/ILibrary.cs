@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Xml.Serialization;
 
 namespace BookLibraryManager.Common;
 
@@ -44,6 +43,16 @@ public interface ILibrary : ILoadable
     bool SaveLibrary(ILibraryKeeper keeper, string pathToFolder);
 
     /// <summary>
+    /// Sorts books in the library.
+    /// </summary>
+    void SortLibrary();
+
+    /// <summary>
+    /// Closes the library and clears the book list.
+    /// </summary>
+    void CloseLibrary();
+
+    /// <summary>
     /// Adds a book to the library.
     /// </summary>
     /// <param name="book">The book to add.</param>
@@ -55,11 +64,6 @@ public interface ILibrary : ILoadable
     /// <param name="book">The book to remove.</param>
     /// <returns>true if the book was successfully removed; otherwise, false.</returns>
     bool RemoveBook(Book book);
-
-    /// <summary>
-    /// Sorts books in the library.
-    /// </summary>
-    void SortLibrary();
 
     /// <summary>
     /// Retrieves the first specified number of books from the library.
@@ -87,5 +91,4 @@ public interface ILibrary : ILoadable
     {
         get;
     }
-
 }

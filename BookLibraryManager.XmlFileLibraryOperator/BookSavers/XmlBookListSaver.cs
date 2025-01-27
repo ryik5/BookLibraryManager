@@ -17,7 +17,7 @@ public class XmlBookListSaver : ILibraryKeeper
     {
         try
         {
-            XMLObjectSerializer.Save(library as LibraryAbstract, pathToFile);
+            XmlObjectSerializer.Save(library as LibraryAbstract, pathToFile);
             return true;
         }
         catch (Exception ex)

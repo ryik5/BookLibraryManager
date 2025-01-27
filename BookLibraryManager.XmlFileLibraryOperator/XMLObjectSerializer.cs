@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace BookLibraryManager.XmlLibraryProvider;
 
 /// <author>YR 2025-01-26</author>
-public class XMLObjectSerializer
+public class XmlObjectSerializer
 {
     public static void Save<T>(T obj, string flieName)
     {

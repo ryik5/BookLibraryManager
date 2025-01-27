@@ -34,4 +34,26 @@ public class BitmapimageConvertor
             return bImg;
         }
     }
+
+    public BitmapImage BitmapImageFromBytes(byte[] bytes)
+    {
+        var image = new BitmapImage();
+
+        try
+        {
+            using var ms = new MemoryStream();
+
+            image.BeginInit();
+            image.StreamSource = new MemoryStream(ms.ToArray());
+            image.EndInit();
+            ms.Close();
+
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+
+        return image;
+    }
 }

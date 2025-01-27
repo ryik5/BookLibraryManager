@@ -11,10 +11,13 @@
             <Button Content="Close window" Command="{Binding CloseWindowCommand}" Width="90"/>
         </Border>
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="15 5 5 5">
-            <Button Content="Delete Book" Command="{Binding DeleteSelectedBookCommand}" Width="90"/>
+            <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" Width="90"/>
         </Border>
+        
         <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding SearchFields}" SelectedItem="{Binding SelectedSearchField}" Width="100" Margin="5"/>
+        
         <CheckBox DockPanel.Dock="Right" Content="Search-on-fly" IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
+        
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
             <Button Content="Find" Command="{Binding FindBooksCommand}"/>
         </Border>

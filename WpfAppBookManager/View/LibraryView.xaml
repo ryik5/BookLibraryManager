@@ -39,13 +39,16 @@
                           Style="{StaticResource DataGridStyle}"
                           VirtualizingPanel.ScrollUnit="Pixel">
 
-        <!--<DataGrid.ContextMenu>
+        <DataGrid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Select Book" Command="{Binding SelectBookCommand}" />
                 <MenuItem Header="Copy Book" Command="{Binding CopyBookCommand}" />
+                <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
                 <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+
+                <MenuItem Header="About" Command="{Binding AboutCommand}" />
             </ContextMenu>
-        </DataGrid.ContextMenu>-->
+        </DataGrid.ContextMenu>
 
         <!--<DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#00000000" />

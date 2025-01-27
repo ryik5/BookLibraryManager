@@ -154,11 +154,10 @@ public class AddBookViewModel : BindableBase
           "Portable Network Graphic (*.png)|*.png";
         if (op.ShowDialog() == true)
         {
-            BitmapimageConvertor convertor = new BitmapimageConvertor();
             var img = new MediaData();
             img.Name = $"{nameof(BitmapImage)}";
             img.OriginalPath = op.FileName;
-            img.Image = convertor.BitmapImage2Bitmap(new BitmapImage(new Uri(op.FileName)));
+            img.Image = new BitmapimageConvertor().BitmapImage2Bitmap(new BitmapImage(new Uri(op.FileName)));
            
             return img;
         }

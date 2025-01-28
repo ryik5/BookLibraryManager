@@ -35,17 +35,14 @@ public class MainViewModel : BindableBase
         FindBookCommand = new RelayCommand(FindBook, CanOperateWithBooks);
         ToggleViewCommand = new RelayCommand(ToggleView);
 
-        ExitApplicationCommand = new DelegateCommand<Window>(window => System.Windows.Application.Current.Shutdown());
+        ExitApplicationCommand = new DelegateCommand<Window>(window => Application.Current.Shutdown());
 
         LibraryViewHeight = new GridLength(1, GridUnitType.Star);
         LogViewHeight = new GridLength(0);
         ViewName = "Toggle to Log";
     }
 
-    private void EditBook()
-    {
-        MessageBox.Show("Not implemented yet!");
-    }
+
 
     #region Commands
     /// <summary>
@@ -250,11 +247,12 @@ public class MainViewModel : BindableBase
     {
         TextLog += "\n----\n";
         var addBookView = new AddBookViewModel(_libraryManager);
+        addBookView.ShowDialog();
 
         if (addBookView.Book is Book book)
             TextLog += $"Last added book was '{book.Title}'\n";
 
-        TextLog += $"Total books:{_libraryManager?.NumberOfBooks}";
+        TextLog += $"Total books:{_libraryManager?.TotalBooks}";
     }
 
     /// <summary>
@@ -277,10 +275,20 @@ public class MainViewModel : BindableBase
 
             _libraryManager.AddBook(testBook);
         }
-        var text = $"Added 10 random named books. Total books:{_libraryManager?.NumberOfBooks}";
+        var text = $"Added 10 random named books. Total books:{_libraryManager?.TotalBooks}";
         TextLog += text;
 
         MessageHandler.SendToStatusBar(_statusBarKind, text);
+    }
+
+
+    private void EditBook()
+    {
+        var editBookView = new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook);
+        editBookView.ShowDialog();
+        RaisePropertyChanged(nameof(_libraryManager.BookList));
+        if (editBookView.Book is Book book)
+            TextLog += $"Last edited book was '{book.Title}'\n";
     }
 
     /// <summary>
@@ -308,7 +316,7 @@ public class MainViewModel : BindableBase
 
         if (_libraryManager.LoadLibrary(new XmlLibraryLoader(), filePath))
         {
-            var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path: {filePath}";
+            var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.TotalBooks}. Library's path: {filePath}";
             TextLog += text;
 
             MessageHandler.SendToStatusBar(_statusBarKind, text);
@@ -356,7 +364,7 @@ public class MainViewModel : BindableBase
             var result = _libraryManager.SaveLibrary(new XmlBookListSaver(), pathToFile);
 
             var text = result
-                    ? $"Saved Library with id:{_libraryManager.Id}. Total books:{_libraryManager?.NumberOfBooks}. Library's path:{pathToFile}"
+                    ? $"Saved Library with id:{_libraryManager.Id}. Total books:{_libraryManager?.TotalBooks}. Library's path:{pathToFile}"
             : "Library wasn't saved";
             TextLog += text;
             MessageHandler.SendToStatusBar(_statusBarKind, text);

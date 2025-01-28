@@ -92,10 +92,12 @@ public class StatusBarModel : BindableBase
     }
     private TextBlock _statusBarMessage = new()
     {
-        FontSize = 12,
+        FontSize = 10,
         Padding = new Thickness(0),
         Margin = new Thickness(5, 0, 5, 0),
-        VerticalAlignment = VerticalAlignment.Center
+        VerticalAlignment = VerticalAlignment.Center,
+        TextTrimming = TextTrimming.CharacterEllipsis
+
     };
 
     private readonly StatusBarKindEnum _statusBarKind;

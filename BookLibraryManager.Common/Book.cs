@@ -6,7 +6,7 @@ namespace BookLibraryManager.Common;
 /// Represents a book.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class Book : BindableBase, ILoadable
+public class Book : BindableBase, ILoadable, ICloneable
 {
     /// <summary>
     /// Gets or sets the unique identifier for the book.
@@ -103,5 +103,30 @@ public class Book : BindableBase, ILoadable
     public override string ToString()
     {
         return $"Author:{Author}-Title:{Title}-Pages:{TotalPages}-Year:{PublishDate}";
+    }
+
+    public object Clone()
+    {
+        Book clone = new()
+        {
+            Id = Id,
+            Author = Author,
+            Title = Title,
+            TotalPages = TotalPages,
+            PublishDate = PublishDate,
+            Description = Description,
+            Content = Content is null ? null : new MediaData
+            {
+                BmImage = Content.BmImage,
+                ContentType = Content.ContentType,
+                Image = Content.Image,
+                Name = Content.Name,
+                OriginalPath = Content.OriginalPath,
+                PictureByteArray = Content.PictureByteArray
+            },
+            Genre = Genre,
+            ISDN = ISDN
+        };
+        return clone;
     }
 }

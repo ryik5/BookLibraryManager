@@ -7,7 +7,7 @@ namespace BookLibraryManager.DemoApp.ViewModel;
 /// <author>YR 2025-01-27</author>
 public class SelectionDialogHandler
 {
-    
+
     public MediaData? SelectMediaData()
     {
         var op = new OpenFileDialog();

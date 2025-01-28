@@ -6,7 +6,7 @@
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}"
-        Height="470" Width="450"
+        Height="400" Width="450"
         Background="#DDDDDD">
 
     <Grid HorizontalAlignment="Stretch">

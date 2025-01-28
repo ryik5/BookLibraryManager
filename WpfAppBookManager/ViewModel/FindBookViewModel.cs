@@ -24,6 +24,7 @@ public class FindBookViewModel : BindableBase
         SearchOnFly = false;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
+        EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
         RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
         CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
 
@@ -39,6 +40,10 @@ public class FindBookViewModel : BindableBase
     /// Command to find books.
     /// </summary>
     public DelegateCommand FindBooksCommand
+    {
+        get;
+    }
+    public RelayCommand EditBookCommand
     {
         get;
     }
@@ -145,9 +150,19 @@ public class FindBookViewModel : BindableBase
     private void FindBooks()
     {
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
-        var totalBooks = _libraryManager.NumberOfBooks;
+        var totalBooks = _libraryManager.TotalBooks;
         var foundBooks = BookList.Count;
         MessageHandler.SendToStatusBar(_statusBarKind, $"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
+    }
+
+    private void EditBook()
+    {
+        var editBookView = new EditBookViewModel(_libraryManager, SelectedBook);
+        editBookView.ShowDialog();
+        RaisePropertyChanged(nameof(_libraryManager.BookList));
+        RaisePropertyChanged(nameof(BookList));
+        if (editBookView.Book is Book book)
+            MessageHandler.SendToStatusBar(_statusBarKind, $"Last edited book was '{book.Title}");
     }
 
     /// <summary>

@@ -7,12 +7,10 @@
 public enum BookElementsEnum
 {
     All,
-    Id,
     Author,
     Title,
     PublishDate,
     TotalPages,
-    MediaData,
     Description,
     Genre,
     ISDN

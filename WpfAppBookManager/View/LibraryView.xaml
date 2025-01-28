@@ -10,7 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/View/Styles/DataGridStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+       </ResourceDictionary>
     </UserControl.Resources>
 
     <DataGrid ItemsSource="{Binding BookList}"
@@ -25,8 +25,8 @@
                           CanUserResizeColumns="True" 
                           CanUserResizeRows="True" 
                           IsReadOnly="True" 
+                          AutoGenerateColumns="False"
                           SelectionMode="Extended" 
-                          AutoGenerateColumns="True" 
                           MinRowHeight="28" 
                           HeadersVisibility="Column" 
                           HorizontalScrollBarVisibility="Auto" 
@@ -38,17 +38,126 @@
                           BorderBrush="#707070"
                           Style="{StaticResource DataGridStyle}"
                           VirtualizingPanel.ScrollUnit="Pixel">
+        <DataGrid.Resources>
+            <Style x:Key="TextToolTipStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="MaxWidth" Value="300" />
+                <Setter Property="MaxHeight" Value="100" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
 
-        <DataGrid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Select Book" Command="{Binding SelectBookCommand}" />
-                <MenuItem Header="Copy Book" Command="{Binding CopyBookCommand}" />
-                <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
-                <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
-
-                <MenuItem Header="About" Command="{Binding AboutCommand}" />
-            </ContextMenu>
-        </DataGrid.ContextMenu>
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Author">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Author}" >
+                            <!--<Run Text="Author"/>-->
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding Author}" Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Author: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Title">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title}" >
+                            <!--<Run Text="Title"/>-->
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding Title}" Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Title: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Pages">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TotalPages}" >
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding TotalPages}">
+                                            <Run Text="Pages: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Publish Date">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PublishDate}" >
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding PublishDate}" >
+                                            <Run Text="Publish Year: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Content">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Content.OriginalPath}" >
+                            <!--<Run Text="Content"/>-->
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding Content.OriginalPath}" Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Content: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Description">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Description}" >
+                            <!--<Run Text="Description"/>-->
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding Description}" Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Description: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Genre">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Genre}" >
+                            <Run Text="Genre"/>
+                            <ToolTipService.ToolTip >
+                                <ToolTip>
+                                        <TextBlock Text="{Binding Genre}" Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Genre: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
 
         <!--<DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#00000000" />

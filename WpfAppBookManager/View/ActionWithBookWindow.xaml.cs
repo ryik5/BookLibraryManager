@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 namespace BookLibraryManager.TestApp.View;
+
 /// <summary>
 /// Interaction logic for AddBookWindow.xaml
 /// </summary>

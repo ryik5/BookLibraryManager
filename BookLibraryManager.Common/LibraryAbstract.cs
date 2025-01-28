@@ -25,6 +25,31 @@ public abstract class LibraryAbstract : BindableBase
     private int _id;
 
     /// <summary>
+    /// Library name.
+    /// </summary>
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+    private string _name;
+
+    /// <summary>
+    /// Short description of the book.
+    /// </summary>
+    public string Description
+    {
+        get => _description;
+        set => SetProperty(ref _description, value);
+    }
+    private string _description;
+
+    /// <summary>
+    /// Total numbers of book in the library
+    /// </summary>
+    public int TotalBooks => BookList.Count;
+
+    /// <summary>
     /// Gets or sets the collection of books in the library.
     /// </summary>
     [XmlArray]

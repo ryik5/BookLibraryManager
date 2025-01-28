@@ -72,7 +72,12 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// Adds a book to the library.
     /// </summary>
     /// <param name="book">The book to add.</param>
-    public void AddBook(Book book) => BookList.Add(book);
+    public void AddBook(Book book)
+    {
+        var max = BookList.Count == 0 ? 0 : BookList.Max(b => b.Id);
+        book.Id = max + 1;
+        BookList.Add(book);
+    }
 
     /// <summary>
     /// Removes a book from the library.
@@ -126,13 +131,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// Retrieves all books in the library.
     /// </summary>
     /// <returns>A collection of all books.</returns>
-    public List<Book> GetAllBooks() => new(BookList);
-
-    /// <summary>
-    /// Gets the total number of books in the library.
-    /// </summary>
-    [XmlIgnore]
-    public int NumberOfBooks => BookList.Count;
+    public List<Book> GetAllBooks() => BookList.ToList();
 
     /// <summary>
     /// Gets or sets the selected book.
@@ -232,21 +231,21 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
 
         if (isInt)
             tmpResult = BookList.Where(b =>
-            b.Id == intElement ||
             b.TotalPages == intElement ||
             b.PublishDate == intElement ||
-            b.Author.Contains(strElement, CurrentComparisionRule) ||
-            b.Title.Contains(strElement, CurrentComparisionRule));
+            (b.Author?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.Title?.Contains(strElement, CurrentComparisionRule) ?? false));
         else
             tmpResult = isString ? BookList.Where(b =>
-            b.Author.Contains(strElement, CurrentComparisionRule) ||
-            b.Description.Contains(strElement, CurrentComparisionRule) ||
-            b.Genre.Contains(strElement, CurrentComparisionRule) ||
-            b.ISDN.Contains(strElement, CurrentComparisionRule) ||
-            b.Title.Contains(strElement, CurrentComparisionRule)) : [];
+            (b.Author?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.Description?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.Genre?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.ISDN?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.Title?.Contains(strElement, CurrentComparisionRule) ?? false)) : [];
 
         return tmpResult ?? [];
     }
+
     /// <summary>
     /// Determines whether the specified string can be parsed to an integer.
     /// </summary>

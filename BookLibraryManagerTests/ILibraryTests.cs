@@ -90,16 +90,16 @@ public class ILibraryTests
     }
 
     /// <summary>
-    /// Tests that NumberOfBooks returns the correct number of books.
+    /// Tests that TotalBooks returns the correct number of books.
     /// </summary>
     [Fact]
     public void NumberOfBooks_ShouldReturnCorrectNumber()
     {
         // Arrange
-        _libraryMock.Setup(m => m.NumberOfBooks).Returns(5);
+        _libraryMock.Setup(m => m.TotalBooks).Returns(5);
 
         // Act
-        var result = _libraryMock.Object.NumberOfBooks;
+        var result = _libraryMock.Object.TotalBooks;
 
         // Assert
         Xunit.Assert.Equal(5, result);

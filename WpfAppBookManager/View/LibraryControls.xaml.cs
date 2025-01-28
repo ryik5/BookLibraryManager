@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 
 namespace BookLibraryManager.TestApp.View;
+
 /// <summary>
 /// Interaction logic for LibraryControls.xaml
 /// </summary>

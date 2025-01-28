@@ -22,6 +22,78 @@ public class AddBookViewModel : BindableBase
     {
         _libraryManager = libraryManager;
 
+        LoadingState = "Load content";
+        canDoLoading = true;
+        LoadBookContentCommand = new RelayCommand(LoadBookContent, CanLoadContent);
+        ClearBookContentCommand = new RelayCommand(ClearBookContent, CanClearContent);
+    }
+
+
+    #region Properties
+    /// <summary>
+    /// The book being added.
+    /// </summary>
+    public Book Book
+    {
+        get => _book;
+        set => SetProperty(ref _book, value);
+    }
+
+    public string LoadingState
+    {
+        get => _loadingState;
+        set => SetProperty(ref _loadingState, value);
+    }
+    private string _loadingState;
+
+    /// <summary>
+    /// Title of the AddBook window.
+    /// </summary>
+    public string WindowTitle
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Name of the Execute button on the ExecuteCancelPanelView.
+    /// </summary>
+    public string ExecuteButtonName
+    {
+        get; set;
+    }
+    #endregion
+
+    #region Commands
+    public DelegateCommand LoadBookContentCommand
+    {
+        get; set;
+    }
+
+    public DelegateCommand ClearBookContentCommand
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Command to add a book to the library.
+    /// </summary>
+    public DelegateCommand<Window> ExecuteCommand
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Command to cancel adding a book.
+    /// </summary>
+    public DelegateCommand<Window> CancelCommand
+    {
+        get; set;
+    }
+    #endregion
+
+    #region Methods
+    public virtual void ShowDialog()
+    {
         Book =
             new()
             {
@@ -33,85 +105,15 @@ public class AddBookViewModel : BindableBase
                 Description = "Short description"
             };
 
+        WindowTitle = "Add Book";
         ExecuteButtonName = "Add Book";
-
-        LoadingState = "Load content";
-        canDoLoading = true;
-        LoadBookContentCommand = new RelayCommand(LoadBookContent, CanLoadContent);
-        ClearBookContentCommand = new RelayCommand(ClearBookContent, CanClearContent);
-
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
 
-        WindowTitle = "Add Book";
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
     }
 
-
-    #region Properties
-    /// <summary>
-    /// The book being added.
-    /// </summary>
-    public Book Book
-    {
-        get => _book;
-        private set => SetProperty(ref _book, value);
-    }
-
-    public string LoadingState
-    {
-        get => _loadingState;
-        private set => SetProperty(ref _loadingState, value);
-    }
-    private string _loadingState;
-
-    /// <summary>
-    /// Title of the AddBook window.
-    /// </summary>
-    public string WindowTitle
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Name of the Execute button on the ExecuteCancelPanelView.
-    /// </summary>
-    public string ExecuteButtonName
-    {
-        get;
-    }
-    #endregion
-
-    #region Commands
-    public DelegateCommand LoadBookContentCommand
-    {
-        get;
-    }
-
-    public DelegateCommand ClearBookContentCommand
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Command to add a book to the library.
-    /// </summary>
-    public DelegateCommand<Window> ExecuteCommand
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Command to cancel adding a book.
-    /// </summary>
-    public DelegateCommand<Window> CancelCommand
-    {
-        get;
-    }
-    #endregion
-
-    #region Methods
     private void ClearBookContent()
     {
         Book.Content = null;
@@ -135,12 +137,6 @@ public class AddBookViewModel : BindableBase
         LoadingFinished -= NewLib_LoadingFinished;
     }
 
-    private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
-    {
-        LoadingState = e.Message;
-        canDoLoading = e.IsFinished;
-    }
-
     private MediaData? OpenBitmapImage()
     {
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = "Loading started", IsFinished = false });
@@ -148,6 +144,12 @@ public class AddBookViewModel : BindableBase
         var selectorFiles = new SelectionDialogHandler();
 
         return selectorFiles.SelectMediaData();
+    }
+
+    private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
+    {
+        LoadingState = e.Message;
+        canDoLoading = e.IsFinished;
     }
 
     public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
@@ -196,7 +198,7 @@ public class AddBookViewModel : BindableBase
 
     #region Fields
     private readonly ILibrary _libraryManager;
-    private readonly ActionWithBookWindow _addBookWindow;
+    private ActionWithBookWindow _addBookWindow;
     private Book _book;
     #endregion
 }

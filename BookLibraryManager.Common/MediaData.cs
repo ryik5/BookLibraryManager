@@ -13,15 +13,6 @@ namespace BookLibraryManager.Common;
 /// <author>YR 2025-01-26</author>
 public class MediaData : BindableBase, IXmlSerializable
 {
-    /// <summary>
-    /// Just an example for implementation read any media file
-    /// </summary>
-    private void ReadMediaExample()
-    {
-        string pdfFilePath = "c:/myfile.pdf";
-        byte[] bytes = System.IO.File.ReadAllBytes(pdfFilePath);
-    }
-
     public string Name
     {
         get; set;

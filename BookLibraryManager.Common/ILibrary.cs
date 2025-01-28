@@ -9,11 +9,35 @@ namespace BookLibraryManager.Common;
 public interface ILibrary : ILoadable
 {
     /// <summary>
-    /// Gets or sets the unique identifier for the library.
+    /// Unique identifier for the library.
     /// </summary>
     int Id
     {
         get; set;
+    }
+
+    /// <summary>
+    /// Library name.
+    /// </summary>
+    string Name
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// Description of the library.
+    /// </summary>
+    string Description
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// total number of books in the library.
+    /// </summary>
+    int TotalBooks
+    {
+        get;
     }
 
     /// <summary>
@@ -83,12 +107,4 @@ public interface ILibrary : ILoadable
     /// <param name="partOfElement">The value to search for within the specified element.</param>
     /// <returns>A list of books that match the search criteria.</returns>
     List<Book> FindBooksByBookElement(BookElementsEnum bookElement, object partOfElement);
-
-    /// <summary>
-    /// Gets the total number of books in the library.
-    /// </summary>
-    int NumberOfBooks
-    {
-        get;
-    }
 }

@@ -1,7 +1,7 @@
 ﻿namespace BookLibraryManager.Common;
 
 /// <author>YR 2025-01-25</author>
-public enum ContentTypeEnum
+public enum EContentType
 {
     None,
     Text,

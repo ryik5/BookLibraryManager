@@ -1,12 +1,33 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using AppBookManager;
+﻿using AppBookManager;
 using BookLibraryManager.DemoApp.Events;
 
 namespace BookLibraryManager.DemoApp.Model;
 
+/// <summary>
+/// The StatusBarModel class is responsible for managing the status bar in the application.
+/// It subscribes to the StatusBarEvent to update the status bar text based on the event data.
+/// The class provides properties to manage the collection of status bar items, the status bar informer item,
+/// and the text block used to display the status bar message.
+/// </summary>
+/// <author>YR 2025-01-24</author>
+public class StatusBarModel : BindableBase
+{
+    /// <summary>
+    /// Initializes a new instance of the StatusBarModel class.
+    /// Subscribes to the StatusBarEvent and sets up the status bar items.
+    /// </summary>
+    /// <param name="statusBarKind">The kind of status bar to be used.</param>
+    public StatusBarModel(EWindowKind statusBarKind)
+    {
+        _statusBarKind = statusBarKind;
+
+        App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
+    }
+
+    public void Dispose()
+    {
+        App.EventAggregator.GetEvent<StatusBarEvent>().Unsubscribe(HandleStatusBarEvent);
+    }
 /*    
    private SubscriptionToken _statusBarEventToken;
    private void Subscribe()
@@ -24,29 +45,6 @@ namespace BookLibraryManager.DemoApp.Model;
     }
 */
 
-/// <summary>
-/// The StatusBarModel class is responsible for managing the status bar in the application.
-/// It subscribes to the StatusBarEvent to update the status bar text based on the event data.
-/// The class provides properties to manage the collection of status bar items, the status bar informer item,
-/// and the text block used to display the status bar message.
-/// </summary>
-/// <author>YR 2025-01-24</author>
-public class StatusBarModel : BindableBase
-{
-    /// <summary>
-    /// Initializes a new instance of the StatusBarModel class.
-    /// Subscribes to the StatusBarEvent and sets up the status bar items.
-    /// </summary>
-    /// <param name="statusBarKind">The kind of status bar to be used.</param>
-    public StatusBarModel(StatusBarKindEnum statusBarKind)
-    {
-        _statusBarKind = statusBarKind;
-
-        App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
-
-        StatusBarInformer.Content = StatusBarText;
-        BarItems.Add(StatusBarInformer);
-    }
 
     /// <summary>
     /// Handles the StatusBarEvent by updating the status bar text if the event's status bar kind matches.
@@ -54,51 +52,57 @@ public class StatusBarModel : BindableBase
     /// <param name="e">The event arguments containing the message and status bar kind.</param>
     private void HandleStatusBarEvent(StatusBarEventArgs e)
     {
-        if (_statusBarKind == e.StatusBarKind)
-            StatusBarText.Text = e.Message;
+        switch (e.InfoKind)
+        {
+            case EInfoKind.StartInfo:
+                StartPointText = e.Message;
+                break;
+            case EInfoKind.TotalPages:
+                TotalPagesText = e.Message;
+                break;
+            default:
+                if (_statusBarKind == e.WindowKind)
+                    TextInfoText = e.Message;
+                break;
+        }
     }
 
+    #region Text Informer
     /// <summary>
-    /// Gets or sets the collection of status bar items.
+    /// Displays the common info messages.
     /// </summary>
-    public ObservableCollection<StatusBarItem> BarItems
+    public string TextInfoText
     {
-        get => _barItems;
-        set => SetProperty(ref _barItems, value);
+        get => _textInfoText;
+        set => SetProperty(ref _textInfoText, value);
     }
-    private ObservableCollection<StatusBarItem> _barItems = new();
+    private string _textInfoText;
+    #endregion
 
+    #region Total Pages
     /// <summary>
-    /// Gets or sets the status bar informer item.
+    /// Displays the total number of the books in the library.
     /// </summary>
-    public StatusBarItem StatusBarInformer
+    public string TotalPagesText
     {
-        get => _statusBarInformer;
-        set => SetProperty(ref _statusBarInformer, value);
+        get => _totalPagesText;
+        set => SetProperty(ref _totalPagesText, value);
     }
-    private StatusBarItem _statusBarInformer = new()
-    {
-        VerticalContentAlignment = VerticalAlignment.Center,
-        VerticalAlignment = VerticalAlignment.Center
-    };
+    private string _totalPagesText;
+    #endregion
 
+    #region Start Point
     /// <summary>
-    /// Gets or sets the text block used to display the status bar message.
+    /// Displays the the start point of the window.
     /// </summary>
-    public TextBlock StatusBarText
+    public string StartPointText
     {
-        get => _statusBarMessage;
-        set => SetProperty(ref _statusBarMessage, value);
+        get => _startPointText;
+        set => SetProperty(ref _startPointText, value);
     }
-    private TextBlock _statusBarMessage = new()
-    {
-        FontSize = 10,
-        Padding = new Thickness(0),
-        Margin = new Thickness(5, 0, 5, 0),
-        VerticalAlignment = VerticalAlignment.Center,
-        TextTrimming = TextTrimming.CharacterEllipsis
+    private string _startPointText;
+    #endregion
 
-    };
 
-    private readonly StatusBarKindEnum _statusBarKind;
+    private readonly EWindowKind _statusBarKind;
 }

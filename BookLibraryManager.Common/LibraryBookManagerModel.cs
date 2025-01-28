@@ -18,6 +18,12 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     {
         Id = idLibrary;
         BookList = [];
+        BookList.CollectionChanged += BookList_CollectionChanged;
+    }
+
+    private void BookList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        TotalBooksChanged.Invoke(this, new TotalBooksEventArgs { TotalBooks = BookList?.Count ?? 0 });
     }
 
     /// <summary>
@@ -30,16 +36,19 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     {
         libraryLoader.LoadingFinished += LibraryLoader_LoadingLibraryFinished;
 
+        if (BookList != null)
+            BookList.CollectionChanged -= BookList_CollectionChanged;
+
         var result = libraryLoader.TryLoadLibrary(pathToFile, out var library);
         if (result)
         {
             BookList = new ObservableCollection<Book>(library.BookList);
             Id = library.Id;
+            BookList.CollectionChanged += BookList_CollectionChanged;
         }
         else
         {
-            BookList = [];
-            Id = 0;
+            CloseLibrary();
         }
         libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
 
@@ -64,6 +73,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
 
     public void CloseLibrary()
     {
+        if (BookList != null)
+            BookList.CollectionChanged -= BookList_CollectionChanged;
+
         BookList = null;
         Id = -1;
     }
@@ -145,7 +157,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     private Book _selectedBook;
 
     public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
-
+    public event EventHandler<TotalBooksEventArgs> TotalBooksChanged;
 
     #region private methods
     private void LibraryLoader_LoadingLibraryFinished(object? sender, ActionFinishedEventArgs e)

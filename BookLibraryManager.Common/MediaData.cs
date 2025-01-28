@@ -27,12 +27,12 @@ public class MediaData : BindableBase, IXmlSerializable
     /// Gets or sets the content type of the loaded data.
     /// </summary>
     [XmlElement("ContentType")]
-    public ContentTypeEnum ContentType
+    public EContentType ContentType
     {
         get => _contentType;
         set => SetProperty(ref _contentType, value);
     }
-    private ContentTypeEnum _contentType = ContentTypeEnum.None;
+    private EContentType _contentType = EContentType.None;
 
     [XmlIgnore]
     public Bitmap Image
@@ -84,7 +84,7 @@ public class MediaData : BindableBase, IXmlSerializable
 
         reader.GetAttribute("ContentType");
         var type = reader.ReadElementContentAsString();
-        Enum.TryParse(type, out ContentTypeEnum ContentType);
+        Enum.TryParse(type, out EContentType ContentType);
 
         reader.GetAttribute("Source");
         const int LEN = 4096;

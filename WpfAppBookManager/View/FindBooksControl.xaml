@@ -16,16 +16,21 @@
             <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" Width="90"/>
         </Border>
         
-        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding SearchFields}" SelectedItem="{Binding SelectedSearchField}" Width="100" Margin="5"/>
+        <ComboBox DockPanel.Dock="Right" VerticalContentAlignment="Center"
+                  ItemsSource="{Binding SearchFields}" 
+                  SelectedItem="{Binding SelectedSearchField}" 
+                  Width="100" Margin="5"/>
         
-        <CheckBox DockPanel.Dock="Right" Content="Search-on-fly" IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
+        <CheckBox DockPanel.Dock="Right" 
+                  Content="Search-on-fly" 
+                  IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
         
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
             <Button Content="Find" Command="{Binding FindBooksCommand}"/>
         </Border>
         
         <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 5 5 5">
-            <TextBox Text="{Binding SearchText}" HorizontalAlignment="Stretch" />
+            <TextBox Text="{Binding SearchText}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
         </Border>
         
     </DockPanel>

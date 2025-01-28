@@ -14,12 +14,8 @@
     <Window.Resources>
         <local:MainViewModel x:Key="MyViewModel"/>
         <ContextMenu x:Key="ContextMenuBookEditing"  Placement="MousePoint">
-            <MenuItem Header="Select Book" Command="{Binding SelectBookCommand}" />
-            <MenuItem Header="Copy Book" Command="{Binding CopyBookCommand}" />
             <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
             <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
-
-            <MenuItem Header="About" Command="{Binding AboutCommand}" />
         </ContextMenu>
     </Window.Resources>
 

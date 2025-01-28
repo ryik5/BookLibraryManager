@@ -20,7 +20,7 @@ public class FindBookViewModel : BindableBase
     public FindBookViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
-        _statusBarKind = StatusBarKindEnum.FindBooks;
+        _statusBarKind = EWindowKind.FindBooksWindow;
         SearchOnFly = false;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
@@ -208,7 +208,7 @@ public class FindBookViewModel : BindableBase
     #region private fields
     private readonly FindBookWindow _finderWindow;
     private readonly LibraryBookManagerModel _libraryManager;
-    private readonly StatusBarKindEnum _statusBarKind;
+    private readonly EWindowKind _statusBarKind;
     private List<Book> _bookList;
     private Book _selectedBook;
     private string _searchText;

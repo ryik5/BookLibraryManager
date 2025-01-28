@@ -19,7 +19,7 @@ public class MainViewModel : BindableBase
     public MainViewModel()
     {
         _libraryManager = new LibraryBookManagerModel();
-        _statusBarKind = StatusBarKindEnum.MainWindow;
+        _statusBarKind = EWindowKind.MainWindow;
         StatusBarItems = new StatusBarModel(_statusBarKind);
 
         CreateNewCommand = new RelayCommand(CreateNewLibrary);
@@ -281,7 +281,6 @@ public class MainViewModel : BindableBase
         MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
 
-
     private void EditBook()
     {
         var editBookView = new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook);
@@ -297,10 +296,13 @@ public class MainViewModel : BindableBase
     private void CreateNewLibrary()
     {
         counterUsingAddRandomBooks = 0;
+        UnsubscribeTotalBooksChanged();
 
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
         var text = $"Created a new library with id: {_libraryManager.Id}";
         TextLog += text;
+
+        SubscribeTotalBooksChanged();
 
         MessageHandler.SendToStatusBar(_statusBarKind, text);
     }
@@ -311,6 +313,7 @@ public class MainViewModel : BindableBase
     private void LoadLibrary()
     {
         counterUsingAddRandomBooks = 0;
+        UnsubscribeTotalBooksChanged();
 
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
@@ -325,6 +328,8 @@ public class MainViewModel : BindableBase
         {
             MessageBox.Show("Library was not loaded");
         }
+
+        SubscribeTotalBooksChanged();
     }
 
     /// <summary>
@@ -389,8 +394,12 @@ public class MainViewModel : BindableBase
     /// </summary>
     private void CloseLibrary()
     {
-        // Close the current library
-        _libraryManager.CloseLibrary();
+        if (_libraryManager != null)
+        {
+            UnsubscribeTotalBooksChanged();
+
+            _libraryManager.CloseLibrary();
+        }
     }
 
     /// <summary>
@@ -411,13 +420,32 @@ public class MainViewModel : BindableBase
         return stringBuilder.ToString();
     }
 
+    private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
+    {
+        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{e?.TotalBooks ?? 0}");
+    }
+    private void UnsubscribeTotalBooksChanged()
+    {
+        if (_libraryManager != null)
+            _libraryManager.TotalBooksChanged -= LibraryTotalBooksChanged;
 
+        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{0}");
+    }
+
+    private void SubscribeTotalBooksChanged()
+    {
+        if (_libraryManager != null)
+        {
+            _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
+            MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
+        }
+    }
     #endregion
 
     #region Private Members
     private int counterUsingAddRandomBooks = 0;
     private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
     private readonly LibraryBookManagerModel _libraryManager;
-    private readonly StatusBarKindEnum _statusBarKind;
+    private readonly EWindowKind _statusBarKind;
     #endregion
 }

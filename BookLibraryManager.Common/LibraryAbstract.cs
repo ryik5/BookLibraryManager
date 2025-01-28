@@ -47,7 +47,7 @@ public abstract class LibraryAbstract : BindableBase
     /// <summary>
     /// Total numbers of book in the library
     /// </summary>
-    public int TotalBooks => BookList.Count;
+    public int TotalBooks => BookList?.Count ?? 0;
 
     /// <summary>
     /// Gets or sets the collection of books in the library.

@@ -37,7 +37,7 @@ public class EditBookViewModel : AddBookViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
-        MessageHandler.SendToStatusBar(StatusBarKindEnum.MainWindow, $"The last edited book '{Book.Title}'");
+        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, $"The last edited book '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -56,7 +56,7 @@ public class EditBookViewModel : AddBookViewModel
         Book.ISDN = _originalBook.ISDN;
         Book.Content = _originalBook.Content;
 
-        MessageHandler.SendToStatusBar(StatusBarKindEnum.MainWindow, $"Edit book '{Book.Title}' was cancelled");
+        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, $"Edit book '{Book.Title}' was cancelled");
         CloseWindow(window);
     }
 

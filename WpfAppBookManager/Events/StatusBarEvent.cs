@@ -17,7 +17,12 @@ public class StatusBarEventArgs : EventArgs
     /// <summary>
     /// Gets or sets the kind of status bar should be updated.
     /// </summary>
-    public StatusBarKindEnum StatusBarKind
+    public EWindowKind WindowKind
+    {
+        get; set;
+    }
+
+    public EInfoKind InfoKind
     {
         get; set;
     }
@@ -33,7 +38,7 @@ public class StatusBarEvent : PubSubEvent<StatusBarEventArgs>
 /// <summary>
 /// Specifies the kind of status bar to be updated.
 /// </summary>
-public enum StatusBarKindEnum
+public enum EWindowKind
 {
     /// <summary>
     /// The main window status bar.
@@ -43,5 +48,12 @@ public enum StatusBarKindEnum
     /// <summary>
     /// The find books status bar.
     /// </summary>
-    FindBooks
+    FindBooksWindow
+}
+
+public enum EInfoKind
+{
+    TotalPages,
+    CommonMessage,
+    StartInfo
 }

@@ -13,16 +13,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        
         <Grid.Resources>
             <ContextMenu x:Key="ContextMenuBookEditing"  Placement="MousePoint">
-                <MenuItem Header="Select Book" Command="{Binding SelectBookCommand}" />
-                <MenuItem Header="Copy Book" Command="{Binding CopyBookCommand}" />
                 <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
                 <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
-
-                <MenuItem Header="About" Command="{Binding AboutCommand}" />
             </ContextMenu>
-
         </Grid.Resources>
 
         <view:FindBooksControl Grid.Row="0"/>

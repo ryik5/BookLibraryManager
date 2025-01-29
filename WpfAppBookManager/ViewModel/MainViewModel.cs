@@ -19,7 +19,9 @@ public class MainViewModel : BindableBase
     public MainViewModel()
     {
         _libraryManager = new LibraryBookManagerModel();
+
         _statusBarKind = EWindowKind.MainWindow;
+
         StatusBarItems = new StatusBarModel(_statusBarKind);
 
         CreateNewCommand = new RelayCommand(CreateNewLibrary);
@@ -40,6 +42,8 @@ public class MainViewModel : BindableBase
         LibraryViewHeight = new GridLength(1, GridUnitType.Star);
         LogViewHeight = new GridLength(0);
         ViewName = "Toggle to Log";
+
+        LibraryVisibility = Visibility.Collapsed;
     }
 
 
@@ -143,6 +147,16 @@ public class MainViewModel : BindableBase
     #endregion
 
     #region Properties
+    public ILibrary Library => _libraryManager;
+
+    public Visibility LibraryVisibility
+    {
+        get => _libraryVisibility;
+        set => SetProperty(ref _libraryVisibility, value);
+    }
+    private Visibility _libraryVisibility;
+
+
     public StatusBarModel StatusBarItems
     {
         get;
@@ -167,8 +181,6 @@ public class MainViewModel : BindableBase
         set => SetProperty(ref _textLog, value);
     }
     private string _textLog = string.Empty;
-
-    public ILibrary Library => _libraryManager;
 
     /// <summary>
     /// Gets or sets the height of the log view for displaying logging messages.
@@ -429,6 +441,7 @@ public class MainViewModel : BindableBase
         if (_libraryManager != null)
             _libraryManager.TotalBooksChanged -= LibraryTotalBooksChanged;
 
+        LibraryVisibility = Visibility.Collapsed;
         MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{0}");
     }
 
@@ -436,8 +449,17 @@ public class MainViewModel : BindableBase
     {
         if (_libraryManager != null)
         {
+            if (_libraryManager.BookList is null)
+                LibraryVisibility = Visibility.Collapsed;
+            else
+                LibraryVisibility = Visibility.Visible;
+
             _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
             MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
+        }
+        else
+        {
+            LibraryVisibility = Visibility.Collapsed;
         }
     }
     #endregion

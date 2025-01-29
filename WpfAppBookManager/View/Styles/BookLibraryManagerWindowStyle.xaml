@@ -1,0 +1,119 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="BookLibraryManager.TestApp.View.BookLibraryManagerWindowStyle">
+
+    <Style x:Key="BookLibraryWindowStyle" TargetType="{x:Type Window}" >
+    <Setter Property="WindowStyle" Value="None" />
+    <Setter Property="AllowsTransparency" Value="true" />
+        <Setter Property="Background" Value="#DDDDDD" />
+    <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+    <Setter Property="ShowInTaskbar" Value="False" />
+    <Setter Property="WindowChrome.WindowChrome">
+        <Setter.Value>
+            <WindowChrome
+                    NonClientFrameEdges="None"
+                    GlassFrameThickness="0"
+                    CornerRadius="5"
+                    ResizeBorderThickness="5"
+                    CaptionHeight="32"
+                    UseAeroCaptionButtons="true"
+                    />
+        </Setter.Value>
+    </Setter>
+    <EventSetter Event="Loaded" Handler="WindowLoaded" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Window}">
+
+                <Border x:Name="PART_Container" UseLayoutRounding="True">
+                    <Grid
+                            TextOptions.TextRenderingMode="ClearType"
+                            TextOptions.TextFormattingMode="Display">
+                        <Border x:Name="PART_Border" Margin="2" CornerRadius="5"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#636363"
+                                    BorderThickness="1"
+                                    Padding="0">
+                            <DockPanel
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent"
+                                    VerticalAlignment="Stretch"
+                                    >
+                                <Border x:Name="TitleBar"
+                                            DockPanel.Dock="Top"
+                                            Background="#636363"
+                                            BorderThickness="0"
+                                            >
+                                    <Grid Height="32">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36"/>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="34"/>
+                                            <ColumnDefinition Width="34"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Title -->
+                                        <TextBlock x:Name="Caption"
+                                                                Grid.Column="0" Grid.ColumnSpan="2"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Margin="10,0,0,0"
+                                                                FontWeight="Bold"
+                                                                FontSize="12"
+                                                                Opacity="1"
+                                                                Foreground="#FFFFFF"
+                                                                Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            />
+
+                                        <Button x:Name="CloseButton" 
+                                                    Foreground="#FF0000"
+                                                    Grid.Column="4"                                           
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Width="26" Height="26"
+                                                    Margin="0,0,5,1"
+                                                     
+                                                    Click="CloseButtonClick"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                            >
+                                                <!--Style="{StaticResource BookLibraryStyleTitleBarButtonX}"-->
+                                            <Grid MaxHeight="12" MaxWidth="12">
+                                                <Path 
+                                                                            Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                                                         />
+                                                    <!--Style="{StaticResource BookLibraryStyleTitlePathSignX}"-->
+                                            </Grid>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+
+                    <Trigger Property="WindowState" Value="Normal">
+                        <Setter TargetName="PART_Border" Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect
+                                                        Color="black"
+                                                        Opacity="0.5"
+                                                        BlurRadius="7"
+                                                        ShadowDepth="2"
+                                                        Direction="315"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+
+                    <Trigger Property="IsActive" Value="False">
+                        <Setter TargetName="PART_Border" Property="BorderBrush" Value="#999999"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+    </ResourceDictionary>

@@ -8,8 +8,8 @@
         Title="{Binding WindowTitle}"
         Height="400" Width="450"
         Style="{StaticResource BookLibraryWindowStyle}"
+        Background="#DDDDDD"
         WindowStartupLocation="CenterOwner">
-
 
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>

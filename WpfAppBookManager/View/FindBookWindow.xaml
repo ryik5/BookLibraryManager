@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Find Books" 
         Height="450" Width="800"
+        Background="#DDDDDD"
         Style="{StaticResource BookLibraryWindowStyle}"
         WindowStartupLocation="CenterOwner">
-
 
     <Grid>
         <Grid.RowDefinitions>

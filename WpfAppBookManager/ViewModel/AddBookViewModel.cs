@@ -23,9 +23,10 @@ public class AddBookViewModel : BindableBase
         _libraryManager = libraryManager;
 
         LoadingState = "Load content";
-        canDoLoading = true;
-        LoadBookContentCommand = new RelayCommand(LoadBookContent, CanLoadContent);
-        ClearBookContentCommand = new RelayCommand(ClearBookContent, CanClearContent);
+        LoadBookContentCommand = new RelayCommand(LoadBookContent);
+        ClearBookContentCommand = new RelayCommand(ClearBookContent);
+        SaveContentCommand = new RelayCommand(SaveContent);
+        IsEnableLoad = true;
     }
 
 
@@ -74,6 +75,11 @@ public class AddBookViewModel : BindableBase
         get; set;
     }
 
+    public RelayCommand SaveContentCommand
+    {
+        get; set;
+    }
+
     /// <summary>
     /// Command to add a book to the library.
     /// </summary>
@@ -89,6 +95,26 @@ public class AddBookViewModel : BindableBase
     {
         get; set;
     }
+
+    public bool IsEnableLoad
+    {
+        get => _isEnableLoad;
+        set
+        {
+            if (SetProperty(ref _isEnableLoad, value))
+                IsEnableSave = !value;
+        }
+    }
+    private bool _isEnableLoad;
+
+    public bool IsEnableSave
+    {
+        get => _isEnableSave;
+        set => SetProperty(ref _isEnableSave, value);
+    }
+    private bool _isEnableSave;
+
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
     #endregion
 
     #region Methods
@@ -118,10 +144,16 @@ public class AddBookViewModel : BindableBase
     {
         Book.Content = null;
         LoadingState = "Load content";
+        IsEnableLoad = true;
     }
 
     private async void LoadBookContent()
     {
+        _isEnableLoad = false;
+        _isEnableSave = false;
+        RaisePropertyChanged(nameof(IsEnableLoad));
+        RaisePropertyChanged(nameof(IsEnableSave));
+
         var loader = new Loader();
 
         LoadingFinished += NewLib_LoadingFinished;
@@ -134,7 +166,13 @@ public class AddBookViewModel : BindableBase
 
         await Task.Yield();
 
+        IsEnableSave = Book.Content is null ? false : true;
         LoadingFinished -= NewLib_LoadingFinished;
+    }
+
+    private void SaveContent()
+    {
+        throw new NotImplementedException();
     }
 
     private MediaData? OpenBitmapImage()
@@ -149,18 +187,7 @@ public class AddBookViewModel : BindableBase
     private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingState = e.Message;
-        canDoLoading = e.IsFinished;
-    }
-
-    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
-
-    private bool CanLoadContent() => canDoLoading;
-
-    private bool CanClearContent() => canDoLoading && Book?.Content != null;
-
-    private bool canDoLoading
-    {
-        get; set;
+        IsEnableLoad = e.IsFinished;
     }
 
     /// <summary>

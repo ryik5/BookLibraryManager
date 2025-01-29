@@ -4,8 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:util="clr-namespace:BookLibraryManager.DemoApp.Util"
+             xmlns:view="clr-namespace:BookLibraryManager.DemoApp.View"
              mc:Ignorable="d" >
+    
     <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="220"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <DockPanel>
                 <TextBlock Text="!" Foreground="Red" FontSize="20" Padding="0 0 3 0"/>
@@ -32,17 +39,17 @@
 
         <Label Grid.Row="0" Grid.Column="0" Content="Author"/>
         <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Author}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Author}" />
         </Border>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Title"/>
         <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Title}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Title}" />
         </Border>
 
         <Label Grid.Row="2" Grid.Column="0" Content="Pages"/>
         <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" MinWidth="220">
+            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                 <TextBox.Text>
                     <Binding Path="Book.TotalPages" UpdateSourceTrigger="PropertyChanged" >
                         <Binding.ValidationRules>
@@ -56,7 +63,7 @@
 
         <Label Grid.Row="3" Grid.Column="0" Content="Publish Date"/>
         <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" MinWidth="220">
+            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                 <TextBox.Text>
                     <Binding Path="Book.PublishDate" UpdateSourceTrigger="PropertyChanged" >
                         <Binding.ValidationRules>
@@ -69,31 +76,20 @@
 
         <Label Grid.Row="4" Grid.Column="0" Content="Description"/>
         <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Description}" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Description}"/>
         </Border>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Content"/>
-        <Grid Grid.Row="5" Grid.Column="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Style="{DynamicResource ButtonBorderStyle}">
-                <Button Command="{Binding LoadBookContentCommand}" Content="{Binding LoadingState}" HorizontalContentAlignment="Stretch"/>
-            </Border>
-            <Border Grid.Column="1" Style="{DynamicResource ButtonBorderStyle}">
-                <Button Command="{Binding ClearBookContentCommand}" Content="ClearContent" HorizontalContentAlignment="Stretch"/>
-            </Border>
-        </Grid>
+        <view:BookViewControls Grid.Row="5" Grid.Column="1"/>
 
         <Label Grid.Row="6" Grid.Column="0" Content="Genre"/>
         <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Genre}" Background="Transparent" Padding="5,0,0,0" MinWidth="220"/>
+            <TextBox Text="{Binding Book.Genre}"/>
         </Border>
 
         <Label Grid.Row="7" Grid.Column="0" Content="ISDN"/>
         <Border Grid.Row="7" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.ISDN}" Background="Transparent" Padding="5,0,0,0" MinWidth="220"/>
+            <TextBox Text="{Binding Book.ISDN}"/>
         </Border>
 
     </Grid>

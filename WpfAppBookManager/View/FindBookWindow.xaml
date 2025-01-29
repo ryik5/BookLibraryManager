@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:BookLibraryManager.TestApp.View"
         mc:Ignorable="d"
-        Title="FindBookWindow" Height="450" Width="800">
+        Title="Find Books" 
+        Height="450" Width="800">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -26,11 +27,11 @@
         <view:LibraryView ContextMenu="{StaticResource ContextMenuBookEditing}"
                           Grid.Row="1" VerticalAlignment="Top" 
                           VerticalContentAlignment="Top" 
-                          HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                          HorizontalContentAlignment="Stretch"
+                          HorizontalAlignment="Stretch"/>
 
         <view:StatusBarControl Grid.Row="2" VerticalAlignment="Top"
-                               DataContext="{Binding StatusBarItems}"
-                                />
+                               DataContext="{Binding StatusBarItems}"/>
 
     </Grid>
 </Window>

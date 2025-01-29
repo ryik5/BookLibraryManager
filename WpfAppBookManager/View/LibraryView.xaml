@@ -14,48 +14,26 @@
     </UserControl.Resources>
 
     <DataGrid ItemsSource="{Binding BookList}"
-                       SelectedItem="{Binding SelectedBook}"
-                       HorizontalAlignment="Left" 
-                       VerticalAlignment="Top" 
-                       MaxWidth="2000" MaxHeight="1200"
-                          Padding="3" Margin="5 0 5 0" 
-                          CanUserAddRows="False" 
-                          CanUserDeleteRows="False" 
-                          CanUserReorderColumns="True" 
-                          CanUserResizeColumns="True" 
-                          CanUserResizeRows="True" 
-                          IsReadOnly="True" 
-                          AutoGenerateColumns="False"
-                          SelectionMode="Extended" 
-                          MinRowHeight="28" 
-                          HeadersVisibility="Column" 
-                          HorizontalScrollBarVisibility="Auto" 
-                          VerticalScrollBarVisibility="Auto" 
-                          HorizontalGridLinesBrush="#707070" 
-                          VerticalGridLinesBrush="#707070" 
-                          ColumnHeaderHeight="30" 
-                          BorderThickness="1"
-                          BorderBrush="#707070"
-                          Style="{StaticResource DataGridStyle}"
-                          VirtualizingPanel.ScrollUnit="Pixel">
-        <DataGrid.Resources>
-            <Style x:Key="TextToolTipStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="MaxWidth" Value="300" />
-                <Setter Property="MaxHeight" Value="100" />
-                <Setter Property="TextWrapping" Value="Wrap" />
-            </Style>
+              SelectedItem="{Binding SelectedBook}"
+              Padding="3"
+              Margin="5 0 5 0">
 
-        </DataGrid.Resources>
+        <!--<DataGrid.RowStyle> 
+            <Style TargetType="DataGridRow">
+                <Setter Property="Background" Value="{Binding Background}" />
+            </Style>
+        </DataGrid.RowStyle>-->
+
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Author">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Author}" >
-                            <!--<Run Text="Author"/>-->
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding Author}" Style="{DynamicResource TextToolTipStyle}">
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
                                             <Run Text="Author: " FontWeight="Bold"/>
+                                            <Run Text="{Binding Author}"/>
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -67,11 +45,11 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}" >
-                            <!--<Run Text="Title"/>-->
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding Title}" Style="{DynamicResource TextToolTipStyle}">
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
                                             <Run Text="Title: " FontWeight="Bold"/>
+                                            <Run Text="{Binding Title}"/>
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -85,8 +63,9 @@
                         <TextBlock Text="{Binding TotalPages}" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding TotalPages}">
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
                                             <Run Text="Pages: " FontWeight="Bold"/>
+                                            <Run Text="{Binding TotalPages}"/>
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -100,8 +79,9 @@
                         <TextBlock Text="{Binding PublishDate}" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding PublishDate}" >
-                                            <Run Text="Publish Year: " FontWeight="Bold"/>
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Publish Date: " FontWeight="Bold"/>
+                                            <Run Text="{Binding PublishDate}"/>
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -113,11 +93,11 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Content.OriginalPath}" >
-                            <!--<Run Text="Content"/>-->
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding Content.OriginalPath}" Style="{DynamicResource TextToolTipStyle}">
-                                            <Run Text="Content: " FontWeight="Bold"/>
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
+                                            <Run Text="Path to original content: " FontWeight="Bold"/>
+                                            <Run Text="{Binding Content.OriginalPath}" />
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -129,11 +109,11 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Description}" >
-                            <!--<Run Text="Description"/>-->
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding Description}" Style="{DynamicResource TextToolTipStyle}">
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
                                             <Run Text="Description: " FontWeight="Bold"/>
+                                            <Run Text="{Binding Description}" />
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -145,11 +125,11 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Genre}" >
-                            <Run Text="Genre"/>
                             <ToolTipService.ToolTip >
                                 <ToolTip>
-                                        <TextBlock Text="{Binding Genre}" Style="{DynamicResource TextToolTipStyle}">
+                                        <TextBlock Style="{DynamicResource TextToolTipStyle}">
                                             <Run Text="Genre: " FontWeight="Bold"/>
+                                            <Run Text="{Binding Genre}" />
                                         </TextBlock>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
@@ -158,17 +138,6 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-
-        <!--<DataGrid.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#00000000" />
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#00000000" />
-                </DataGrid.Resources>-->
-
-        <!--<DataGrid.RowStyle> 
-            <Style TargetType="DataGridRow">
-                <Setter Property="Background" Value="{Binding Background}" />
-            </Style>
-        </DataGrid.RowStyle>-->
 
     </DataGrid>
 

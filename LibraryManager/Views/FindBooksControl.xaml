@@ -28,7 +28,7 @@
             <Button Content="Find" Command="{Binding FindBooksCommand}"/>
         </Border>
 
-        <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 5 5 5">
+        <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 3 5 3">
             <TextBox Text="{Binding SearchText}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
         </Border>
 

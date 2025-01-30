@@ -165,7 +165,6 @@ internal class MainViewModel : BindableBase
     }
     private Visibility _libraryVisibility;
 
-
     public StatusBarModel StatusBarItems
     {
         get;
@@ -264,9 +263,9 @@ internal class MainViewModel : BindableBase
     private void AboutBook()
     {
         MessageBox.Show(
-            "Developer: @YR\nDesighner: Ilona Ryabchenko", 
+            "Developer: @YR\nDesighner: Ilona Ryabchenko",
             "About software",
-            MessageBoxButton.OK, 
+            MessageBoxButton.OK,
             MessageBoxImage.Information);
     }
 
@@ -467,10 +466,7 @@ internal class MainViewModel : BindableBase
     {
         if (_libraryManager != null)
         {
-            if (_libraryManager.BookList is null)
-                LibraryVisibility = Visibility.Collapsed;
-            else
-                LibraryVisibility = Visibility.Visible;
+            LibraryVisibility = _libraryManager.BookList is null ? Visibility.Collapsed : LibraryVisibility = Visibility.Visible;
 
             _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
             MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");

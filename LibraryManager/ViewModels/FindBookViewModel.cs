@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Utils;
-using System.Windows;
 using LibraryManager.Views;
 
 namespace LibraryManager.ViewModels;
@@ -26,13 +21,16 @@ internal class FindBookViewModel : BindableBase
         _libraryManager = libraryManager;
         _statusBarKind = EWindowKind.FindBooksWindow;
         SearchOnFly = false;
+        LibraryVisibility = Visibility.Collapsed;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
+
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
         RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
         CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
 
         StatusBarItems = new StatusBarModel(_statusBarKind);
+
 
         _finderWindow = new FindBookWindow() { DataContext = this };
         _finderWindow.ShowDialog();
@@ -96,6 +94,13 @@ internal class FindBookViewModel : BindableBase
         set => SetProperty(ref _bookList, value);
     }
 
+    public Visibility LibraryVisibility
+    {
+        get => _libraryVisibility;
+        set => SetProperty(ref _libraryVisibility, value);
+    }
+    private Visibility _libraryVisibility;
+
     /// <summary>
     /// Gets or sets the selected book.
     /// </summary>
@@ -156,6 +161,9 @@ internal class FindBookViewModel : BindableBase
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
         var totalBooks = _libraryManager.TotalBooks;
         var foundBooks = BookList.Count;
+
+        LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
+
         MessageHandler.SendToStatusBar(_statusBarKind, $"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 

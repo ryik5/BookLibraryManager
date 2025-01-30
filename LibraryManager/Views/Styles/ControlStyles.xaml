@@ -1,0 +1,175 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="HorizontalLineBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="#CCCCCC"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style x:Key="VerticalLineBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Width" Value="1"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="#CCCCCC"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Bd" Padding="7,0,7,0" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" 
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    SnapsToDevicePixels="True" Uid="Border_38"
+                    >
+                        <ContentPresenter x:Name="ContentPresenter" 
+                                  Content="{TemplateBinding Content}" 
+                                  Grid.Column="1" ContentSource="Content" 
+                                  Margin="{TemplateBinding Padding}" 
+                                  RecognizesAccessKey="True" 
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                  Uid="ContentPresenter_33"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="ButtonBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="5 1 5 0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="DarkGray"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightGray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="26"/>
+    </Style>
+    
+    <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="TextBoxBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="5 1 5 0"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="BorderThickness" Value=" 0 0 1 0"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Grid SnapsToDevicePixels="true">
+                        <Border x:Name="Bd" Padding="7,0,7,0" 
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="True" Uid="Border_38"
+                                >
+                            <ContentPresenter x:Name="ContentPresenter" 
+                                              Content="{TemplateBinding Header}" 
+                                              Grid.Column="1" ContentSource="Header" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True"
+                                              HorizontalAlignment="Center"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              Uid="ContentPresenter_33"/>
+                        </Border>
+
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="true" 
+                               Focusable="false" 
+                               HorizontalOffset="1" 
+                               IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" 
+                               PopupAnimation="None" 
+                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                               Placement="Bottom" 
+                               VerticalOffset="-1">
+                            <Border BorderBrush="DarkGray"
+                                    BorderThickness="1"
+                                    Background="#E3E3E3">
+                                <ScrollViewer x:Name="SubMenuScrollViewer" 
+                                              CanContentScroll="true" 
+                                              Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                    <Grid>
+                                        <ItemsPresenter x:Name="ItemsPresenter" 
+                                                        KeyboardNavigation.DirectionalNavigation="Cycle" 
+                                                        Grid.IsSharedSizeScope="true" Margin="2" 
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                        KeyboardNavigation.TabNavigation="Cycle"/>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                        <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Background" TargetName="Bd" Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="LightGray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ControlBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#E3E3E3"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    
+</ResourceDictionary>

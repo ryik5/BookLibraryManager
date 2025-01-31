@@ -25,6 +25,7 @@ internal class AddBookViewModel : BindableBase
         ClearBookContentCommand = new RelayCommand(ClearBookContent);
         SaveContentCommand = new RelayCommand(SaveContent);
         IsEnableLoad = true;
+        IsEnableSave = false;
     }
 
 
@@ -97,11 +98,7 @@ internal class AddBookViewModel : BindableBase
     public bool IsEnableLoad
     {
         get => _isEnableLoad;
-        set
-        {
-            if (SetProperty(ref _isEnableLoad, value))
-                IsEnableSave = !value;
-        }
+        set => SetProperty(ref _isEnableLoad, value);
     }
     private bool _isEnableLoad;
 
@@ -142,15 +139,15 @@ internal class AddBookViewModel : BindableBase
     {
         Book.Content = null;
         LoadingState = "Load content";
+
         IsEnableLoad = true;
+        IsEnableSave = false;
     }
 
     private async void LoadBookContent()
     {
-        _isEnableLoad = false;
-        _isEnableSave = false;
-        RaisePropertyChanged(nameof(IsEnableLoad));
-        RaisePropertyChanged(nameof(IsEnableSave));
+        IsEnableSave = false;
+        IsEnableSave = false;
 
         var loader = new Loader();
 
@@ -170,7 +167,7 @@ internal class AddBookViewModel : BindableBase
 
     private void SaveContent()
     {
-        throw new NotImplementedException();
+        MessageBox.Show("it hasn't implemented yet!");
     }
 
     private MediaData? OpenBitmapImage()

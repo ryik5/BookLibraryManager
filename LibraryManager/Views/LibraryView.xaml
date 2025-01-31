@@ -16,7 +16,7 @@
     <DataGrid ItemsSource="{Binding BookList}"
               SelectedItem="{Binding SelectedBook}"
               Padding="3"
-              Margin="5 0 5 0">
+              Margin="5 0 5 0" Background="#63A1D0">
 
         <!--<DataGrid.RowStyle> 
             <Style TargetType="DataGridRow">
@@ -28,7 +28,7 @@
             <DataGridTemplateColumn Header="Author">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Author}" >
+                        <TextBlock Text="{Binding Author}" FontFamily="{StaticResource ManropeFont}" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -44,7 +44,7 @@
             <DataGridTemplateColumn Header="Title">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Title}" >
+                        <TextBlock Text="{Binding Title}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -60,7 +60,7 @@
             <DataGridTemplateColumn Header="Pages">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding TotalPages}" >
+                        <TextBlock Text="{Binding TotalPages}" FontFamily="{StaticResource ManropeFont}" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -76,7 +76,7 @@
             <DataGridTemplateColumn Header="Publish Date">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding PublishDate}" >
+                        <TextBlock Text="{Binding PublishDate}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -92,7 +92,7 @@
             <DataGridTemplateColumn Header="Content">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Content.OriginalPath}" >
+                        <TextBlock Text="{Binding Content.OriginalPath}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -108,7 +108,7 @@
             <DataGridTemplateColumn Header="Description">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Description}" >
+                        <TextBlock Text="{Binding Description}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -124,7 +124,7 @@
             <DataGridTemplateColumn Header="Genre">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Genre}" >
+                        <TextBlock Text="{Binding Genre}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">

@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Images\YR40.ico</ApplicationIcon>
+    <ApplicationIcon>Properties\Resources\YR40.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <Title>Library manager</Title>
     <Authors>YR</Authors>
@@ -17,17 +17,14 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <None Remove="Properties\Images\YR40.ico" />
+    <Resource Include="Properties\Resources\arrow-down.png" />
+    <Resource Include="Properties\Resources\Manrope.ttf" />
+    <Resource Include="Properties\Resources\YR40.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\arrow-down.png" />
-    <Resource Include="Images\YR40.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Images\" />
     <Folder Include="Views\Styles\" />
   </ItemGroup>
 
@@ -36,9 +33,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </Resource>
-    <EmbeddedResource Include="Properties\Images\YR40.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

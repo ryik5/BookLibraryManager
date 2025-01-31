@@ -5,12 +5,14 @@
         <Setter Property="MaxWidth" Value="300" />
         <Setter Property="MaxHeight" Value="100" />
         <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
     </Style>
     
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="TextBlock.TextAlignment" Value="Justify" />
         <Setter Property="TextBlock.FontSize" Value="11" />
         <Setter Property="TextBlock.Foreground" Value="#000000" />
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="MaxWidth" Value="600" />
         <Setter Property="Template">
             <Setter.Value>
@@ -24,13 +26,13 @@
     </Style>
    
     <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="TextBlock.TextAlignment" Value="Center" />
         <Setter Property="TextBlock.FontSize" Value="12.5" />
         <Setter Property="TextBlock.Foreground" Value="#000000" />
         <Setter Property="TextBlock.FontWeight" Value="Medium" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="#d6d6d6" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="BorderBrush" Value="#707070" />
         <Setter Property="Padding" Value="4,0" />
@@ -38,7 +40,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                     <Border
-                                            Background="#d6d6d6"
+                                            Background="#63A1D0"
                                             BorderThickness="0,0,1,1"
                                             Padding="4,0"
                                             BorderBrush="#707070"
@@ -55,7 +57,8 @@
         <Setter Property="MaxHeight" Value="1200" />
         <Setter Property="MinRowHeight" Value="28" />
         <Setter Property="ColumnHeaderHeight" Value="30" />
-
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="#707070" />
         <Setter Property="HorizontalGridLinesBrush" Value="#707070" />
@@ -147,8 +150,8 @@
             </Setter.Value>
         </Setter>
         <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#80ECEBEB" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#ECEBEB" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#ECEBEB" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#97C4E6" />
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
             <!-- To hide selection:

@@ -33,6 +33,7 @@ internal class FindBookViewModel : BindableBase
 
 
         _finderWindow = new FindBookWindow() { DataContext = this };
+        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
         _finderWindow.ShowDialog();
     }
 
@@ -186,6 +187,7 @@ internal class FindBookViewModel : BindableBase
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
         TextLog = text;
         MessageHandler.SendToStatusBar(_statusBarKind, text);
+        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
     }
 
     /// <summary>

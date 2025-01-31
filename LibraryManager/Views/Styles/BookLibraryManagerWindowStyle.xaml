@@ -8,8 +8,18 @@
     <!-- Define the FontFamily as a resource -->
     <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
 
-    
-    <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
+    <!-- black -->
+    <SolidColorBrush x:Key="ColorSet0" Color="#000000" />
+    <SolidColorBrush x:Key="ColorSet1" Color="#005596" />
+    <SolidColorBrush x:Key="ColorSet2" Color="#0079d5" />
+    <SolidColorBrush x:Key="ColorSet3" Color="#4CA1E2" />
+    <SolidColorBrush x:Key="ColorSet4" Color="#87C0EB" />
+    <SolidColorBrush x:Key="ColorSet5" Color="#CCE4F7" />
+    <SolidColorBrush x:Key="ColorSet6" Color="#EDF6FC" />
+    <!-- white -->
+    <SolidColorBrush x:Key="ColorSet7" Color="#FFFFFF" />
+
+        <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -66,7 +76,7 @@
                                     Width="Auto"
                                     Height="Auto"
                                     Background="#FFFFFF"
-                                    BorderBrush="#368FD3"
+                                    BorderBrush="{StaticResource ColorSet1}"
                                     BorderThickness="1"
                                     Padding="0">
                                 <DockPanel
@@ -76,7 +86,7 @@
                                     >
                                     <Border x:Name="TitleBar"
                                             DockPanel.Dock="Top"
-                                            Background="#368FD3"
+                                            Background="{StaticResource ColorSet1}"
                                             BorderThickness="0"
                                             >
                                         <Grid Height="32">

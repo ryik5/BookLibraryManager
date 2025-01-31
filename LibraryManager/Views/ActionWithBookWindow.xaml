@@ -10,15 +10,7 @@
         Style="{StaticResource BookLibraryWindowStyle}"
         Background="#DDDDDD"
         WindowStartupLocation="CenterOwner">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
-                <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    
+
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

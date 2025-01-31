@@ -1,0 +1,22 @@
+﻿ Style Element Resources<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Define the icon as a resource -->
+    <ImageSource x:Key="WindowIcon">/Properties/Resources/YR40.ico</ImageSource>
+
+    <!-- Define the FontFamily as a resource -->
+    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
+
+    <!-- Define the ColorSet as a resource -->
+    <!-- black -->
+    <SolidColorBrush x:Key="ColorSet0" Color="#000000" />
+    <SolidColorBrush x:Key="ColorSet1" Color="#005596" />
+    <SolidColorBrush x:Key="ColorSet2" Color="#0079d5" />
+    <SolidColorBrush x:Key="ColorSet3" Color="#4CA1E2" />
+    <SolidColorBrush x:Key="ColorSet4" Color="#87C0EB" />
+    <SolidColorBrush x:Key="ColorSet5" Color="#CCE4F7" />
+    <SolidColorBrush x:Key="ColorSet6" Color="#EDF6FC" />
+    <!-- white -->
+    <SolidColorBrush x:Key="ColorSet7" Color="#FFFFFF" />
+
+</ResourceDictionary>

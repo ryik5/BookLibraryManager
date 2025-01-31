@@ -20,10 +20,6 @@
                 <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
                 <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
             </ContextMenu>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
-                <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 

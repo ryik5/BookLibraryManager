@@ -13,6 +13,7 @@
         <Setter Property="Margin" Value="0"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="TextElement.FontFamily" Value="{StaticResource ManropeFont}"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -40,16 +41,16 @@
     <Style x:Key="ButtonBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Margin" Value="5 1 5 0"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="DarkGray"/>
-        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="Background" Value="{StaticResource ColorSet4}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorSet1}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightGray"/>
+                <Setter Property="Background" Value="{StaticResource ColorSet3}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="LightGray"/>
+                <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -64,24 +65,31 @@
     </Style>
     
     <Style x:Key="TextBoxBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="Margin" Value="5 1 5 0"/>
+        <Setter Property="Margin" Value="5 2 5 0"/>
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
     
     <Style TargetType="{x:Type Label}">
-        <Setter Property="Margin" Value="2"/>
         <Setter Property="Width" Value="100"/>
-        <Setter Property="Height" Value="30"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style x:Key="LabelBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorSet4}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2"/>
     </Style>
 
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="BorderThickness" Value=" 0 0 1 0"/>
-        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
@@ -136,7 +144,7 @@
                     </Grid>
                         <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Background" TargetName="Bd" Value="LightGray"/>
+                            <Setter Property="Background" TargetName="Bd" Value="#CCE4F7"/> <!--ColorSet5-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

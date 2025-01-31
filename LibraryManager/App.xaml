@@ -7,9 +7,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Views/Styles/Resources.xaml" />
                 <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+    
 </Application>

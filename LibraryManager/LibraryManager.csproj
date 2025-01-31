@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Styles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="..\..\YR.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

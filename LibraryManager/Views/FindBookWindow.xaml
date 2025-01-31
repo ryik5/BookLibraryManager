@@ -11,15 +11,6 @@
         Style="{StaticResource BookLibraryWindowStyle}"
         WindowStartupLocation="CenterOwner">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
-                <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

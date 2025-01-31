@@ -22,42 +22,58 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Author"/>
+        <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Author"/>
+        </Border>
         <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Author}" MinWidth="200" Height="26" />
+            <TextBox Text="{Binding Book.Author}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Title"/>
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Title"/>
+        </Border>
         <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Title}" MinWidth="200" Height="26" />
+            <TextBox Text="{Binding Book.Title}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Pages"/>
+        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Pages"/>
+        </Border>
         <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.TotalPages}" MinWidth="200" Height="26" />
+            <TextBox Text="{Binding Book.TotalPages}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
-        <Label Grid.Row="3" Grid.Column="0" Content="Publish Date"/>
+        <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Publish Date"/>
+        </Border>
         <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.PublishDate}" MinWidth="200" Height="26" />
-        </Border>
-        
-        <Label Grid.Row="4" Grid.Column="0" Content="Description"/>
-        <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Description}" MinWidth="200" Height="26"/>
+            <TextBox Text="{Binding Book.PublishDate}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
-        <Label Grid.Row="5" Grid.Column="0" Content="Content"/>
+        <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Description"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
+            <TextBox Text="{Binding Book.Description}" MinWidth="200" Margin="5 0 0 0"/>
+        </Border>
+
+        <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Content"/>
+        </Border>
         <view:BookViewControls Grid.Row="5" Grid.Column="1"/>
 
-        <Label Grid.Row="6" Grid.Column="0" Content="Genre"/>
+        <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="Genre"/>
+        </Border>
         <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Genre}" MinWidth="200" Height="26"/>
+            <TextBox Text="{Binding Book.Genre}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
-        <Label Grid.Row="7" Grid.Column="0" Content="ISDN"/>
+        <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource LabelBorderStyle}">
+            <Label Content="ISDN"/>
+        </Border>
         <Border Grid.Row="7" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.ISDN}" MinWidth="200" Height="26"/>
+            <TextBox Text="{Binding Book.ISDN}" MinWidth="200" Margin="5 0 0 0"/>
         </Border>
 
     </Grid>

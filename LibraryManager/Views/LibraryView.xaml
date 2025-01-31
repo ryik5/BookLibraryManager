@@ -13,22 +13,21 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DataGrid ItemsSource="{Binding BookList}"
-              SelectedItem="{Binding SelectedBook}"
-              Padding="3"
-              Margin="5 0 5 0" Background="#63A1D0">
+    <Border Style="{StaticResource DatagridBorderStyle}" HorizontalAlignment="Stretch">
+        <DataGrid ItemsSource="{Binding BookList}"
+              SelectedItem="{Binding SelectedBook}" >
 
-        <!--<DataGrid.RowStyle> 
+            <!--<DataGrid.RowStyle> 
             <Style TargetType="DataGridRow">
                 <Setter Property="Background" Value="{Binding Background}" />
             </Style>
         </DataGrid.RowStyle>-->
 
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Author">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Author}" FontFamily="{StaticResource ManropeFont}" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Author" Width="0.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Author}" FontFamily="{StaticResource ManropeFont}" TextTrimming="CharacterEllipsis" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -38,13 +37,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Title">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Title}" FontFamily="{StaticResource ManropeFont}">
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Title" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}" FontFamily="{StaticResource ManropeFont}" TextTrimming="CharacterEllipsis">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -54,13 +53,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Pages">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding TotalPages}" FontFamily="{StaticResource ManropeFont}" >
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Pages">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TotalPages}" FontFamily="{StaticResource ManropeFont}" >
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -70,13 +69,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Publish Date">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding PublishDate}" FontFamily="{StaticResource ManropeFont}">
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Publish Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PublishDate}" FontFamily="{StaticResource ManropeFont}">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -86,13 +85,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Content">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Content.OriginalPath}" FontFamily="{StaticResource ManropeFont}">
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Content"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content.OriginalPath}" FontFamily="{StaticResource ManropeFont}" TextTrimming="CharacterEllipsis">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -102,13 +101,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Description">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Description}" FontFamily="{StaticResource ManropeFont}">
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Description" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description}" FontFamily="{StaticResource ManropeFont}" TextTrimming="CharacterEllipsis">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -118,13 +117,13 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Genre">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Genre}" FontFamily="{StaticResource ManropeFont}">
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Genre" Width="0.3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Genre}" FontFamily="{StaticResource ManropeFont}" TextTrimming="CharacterEllipsis">
                             <ToolTipService.ToolTip >
                                 <ToolTip>
                                         <TextBlock Style="{DynamicResource TextToolTipStyle}">
@@ -134,11 +133,12 @@
                                 </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 
-    </DataGrid>
-
+        </DataGrid>
+    </Border>
+    
 </UserControl>

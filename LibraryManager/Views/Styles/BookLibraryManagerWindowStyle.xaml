@@ -83,15 +83,15 @@
                                             </Grid.ColumnDefinitions>
                                             
                                             <!--Logo-->
-                                            <!--<Border Grid.Column="0" 
+                                            <Border Grid.Column="0" 
                                                     Background="White" 
                                                     BorderThickness="1" 
                                                     BorderBrush="Transparent"
                                                     CornerRadius="5"
                                                     Margin="3"
                                                     >
-                                                <Image Source="{StaticResource WindowIcon}" />
-                                            </Border>-->
+                                                <Image Source="{StaticResource ApplicationLogo}" />
+                                            </Border>
                                             
                                             <!-- Title -->
                                             <Button Grid.Column="1" Grid.ColumnSpan="4" 

@@ -16,7 +16,18 @@
     <Window.Resources>
         <ResourceDictionary>
             <local:MainViewModel x:Key="MyViewModel"/>
-            <ContextMenu x:Key="ContextMenuBookEditing"  Placement="Mouse" DataContext="{DynamicResource MyViewModel}">
+            <ContextMenu x:Key="ContextMenuBookEditing"
+                         Placement="Mouse"
+                         Background="Transparent"
+                         DataContext="{DynamicResource MyViewModel}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    
+                </ControlTemplate>
                 <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
                 <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
             </ContextMenu>

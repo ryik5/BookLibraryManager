@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManagerTests", "BookLibraryManagerTests\BookLibraryManagerTests.csproj", "{2129ED72-000E-4C6F-B1C1-9405B6CB91DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{309897EF-9499-4BAC-9188-368B8D659F6C} = {309897EF-9499-4BAC-9188-368B8D659F6C}
+		{73C21687-38C9-4072-8C85-893647AC8A9F} = {73C21687-38C9-4072-8C85-893647AC8A9F}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.Common", "BookLibraryManager.Common\BookLibraryManager.Common.csproj", "{6DA3BF58-FED0-47E4-9610-620E346BA5B6}"

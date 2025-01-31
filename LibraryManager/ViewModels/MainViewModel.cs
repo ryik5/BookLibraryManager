@@ -263,7 +263,7 @@ internal class MainViewModel : BindableBase
     private void AboutBook()
     {
         MessageBox.Show(
-            "Developer: @YR\nDesighner: Ilona Ryabchenko",
+            "Developer: @YR\nDesighner: @Ilona Yavorska",
             "About software",
             MessageBoxButton.OK,
             MessageBoxImage.Information);

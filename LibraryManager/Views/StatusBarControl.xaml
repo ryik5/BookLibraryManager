@@ -17,15 +17,26 @@
 
     <Border Style="{DynamicResource ControlBorderStyle}">
         <StatusBar  Background="Transparent" BorderThickness="0">
-            <StatusBarItem HorizontalAlignment="Left"  BorderThickness="0 0 1 0" BorderBrush="DarkGray">
-                <TextBlock Text="{Binding StartPointText}"/>
+            <StatusBarItem HorizontalAlignment="Left" 
+                           BorderThickness="1" 
+                           Padding="0"
+                           BorderBrush="Transparent" 
+                           >
+                <Border BorderBrush="Transparent" 
+                        BorderThickness="0" Margin="1"
+                        CornerRadius="2"
+                        Background="White">
+                 <Image Source="{StaticResource WindowIcon}" />
+                   
+                </Border>
+
             </StatusBarItem>
             <StatusBarItem >
-                <TextBlock Text="{Binding TextInfoText}"/>
+                <TextBlock Text="{Binding TextInfoText}" FontFamily="{StaticResource ManropeFont}"/>
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right" BorderThickness="1 0 0 0" BorderBrush="DarkGray"
                            ToolTip="Total number of books in the current library">
-                <TextBlock >
+                <TextBlock FontFamily="{StaticResource ManropeFont}">
                     <Run Text="Book(s): " FontWeight="Bold"/>
                     <Run Text="{Binding TotalPagesText}"/>
                 </TextBlock>

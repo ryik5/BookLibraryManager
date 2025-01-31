@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:LibraryManager.ViewModels"
         xmlns:view="clr-namespace:LibraryManager.Views"
         mc:Ignorable="d"
-        Icon="/Images/YR40.ico"
         Title="The Library Manager    @YR"
         Height="600" Width="850"
         x:Name="BookLibraryMainWindow"
@@ -15,20 +14,25 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <local:MainViewModel x:Key="MyViewModel"/>
-        <ContextMenu x:Key="ContextMenuBookEditing"  Placement="Mouse" DataContext="{DynamicResource MyViewModel}">
-            <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
-            <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
-        </ContextMenu>
+        <ResourceDictionary>
+            <local:MainViewModel x:Key="MyViewModel"/>
+            <ContextMenu x:Key="ContextMenuBookEditing"  Placement="Mouse" DataContext="{DynamicResource MyViewModel}">
+                <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
+                <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+            </ContextMenu>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-
 
     <Grid x:Name="gridMainView" DataContext="{DynamicResource MyViewModel}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="{Binding LibraryViewHeight}"/>
             <RowDefinition Height="{Binding LogViewHeight}"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
 
         <view:LibraryControls HorizontalAlignment="Stretch" Margin="5 5 0 0"/>

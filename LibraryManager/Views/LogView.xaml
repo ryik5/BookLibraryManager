@@ -8,7 +8,11 @@
 
     <Border Style="{DynamicResource ControlBorderStyle}">
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-            <TextBlock Text="{Binding TextLog}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding TextLog}"
+                       TextWrapping="Wrap"
+                       FontSize="12"
+                       FontFamily="{StaticResource ManropeFont}"
+                        />
         </ScrollViewer>
     </Border>
 </UserControl>

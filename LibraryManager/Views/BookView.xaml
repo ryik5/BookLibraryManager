@@ -4,22 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:LibraryManager.Views"
-             xmlns:util="clr-namespace:LibraryManager.Utils"
              mc:Ignorable="d" >
-
-    <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="MinWidth" Value="220"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-        <ControlTemplate x:Key="ValidationTemplate">
-            <DockPanel>
-                <TextBlock Text="!" Foreground="Red" FontSize="20" Padding="0 0 3 0"/>
-                <AdornedElementPlaceholder/>
-            </DockPanel>
-        </ControlTemplate>
-    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -39,44 +24,27 @@
 
         <Label Grid.Row="0" Grid.Column="0" Content="Author"/>
         <Border Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Author}" />
+            <TextBox Text="{Binding Book.Author}" MinWidth="200" Height="26" />
         </Border>
 
         <Label Grid.Row="1" Grid.Column="0" Content="Title"/>
         <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Title}" />
+            <TextBox Text="{Binding Book.Title}" MinWidth="200" Height="26" />
         </Border>
 
         <Label Grid.Row="2" Grid.Column="0" Content="Pages"/>
         <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
-                <TextBox.Text>
-                    <Binding Path="Book.TotalPages" UpdateSourceTrigger="PropertyChanged" >
-                        <Binding.ValidationRules>
-                            <util:IntValidationRule Min="1" Max="1000000000"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-
+            <TextBox Text="{Binding Book.TotalPages}" MinWidth="200" Height="26" />
         </Border>
 
         <Label Grid.Row="3" Grid.Column="0" Content="Publish Date"/>
         <Border Grid.Row="3" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
-                <TextBox.Text>
-                    <Binding Path="Book.PublishDate" UpdateSourceTrigger="PropertyChanged" >
-                        <Binding.ValidationRules>
-                            <util:IntValidationRule Min="400" Max="2100"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <TextBox Text="{Binding Book.PublishDate}" MinWidth="200" Height="26" />
         </Border>
-
+        
         <Label Grid.Row="4" Grid.Column="0" Content="Description"/>
         <Border Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Description}"/>
+            <TextBox Text="{Binding Book.Description}" MinWidth="200" Height="26"/>
         </Border>
 
         <Label Grid.Row="5" Grid.Column="0" Content="Content"/>
@@ -84,12 +52,12 @@
 
         <Label Grid.Row="6" Grid.Column="0" Content="Genre"/>
         <Border Grid.Row="6" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.Genre}"/>
+            <TextBox Text="{Binding Book.Genre}" MinWidth="200" Height="26"/>
         </Border>
 
         <Label Grid.Row="7" Grid.Column="0" Content="ISDN"/>
         <Border Grid.Row="7" Grid.Column="1" Style="{DynamicResource TextBoxBorderStyle}">
-            <TextBox Text="{Binding Book.ISDN}"/>
+            <TextBox Text="{Binding Book.ISDN}" MinWidth="200" Height="26"/>
         </Border>
 
     </Grid>

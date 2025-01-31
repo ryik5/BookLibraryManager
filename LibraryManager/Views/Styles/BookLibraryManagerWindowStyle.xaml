@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:Class="LibraryManager.Views.BookLibraryManagerWindowStyle">
 
+    <!-- Define the icon as a resource -->
+    <ImageSource x:Key="WindowIcon">/Properties/Resources/YR40.ico</ImageSource>
+
+    <!-- Define the FontFamily as a resource -->
+    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
+
+    
     <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -28,9 +35,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!-- Define the icon as a resource -->
-    <ImageSource x:Key="WindowIcon">/Images/YR40.ico</ImageSource>
 
     <Style x:Key="BookLibraryWindowStyle" TargetType="{x:Type Window}" >
         <Setter Property="WindowStyle" Value="None" />
@@ -62,7 +66,7 @@
                                     Width="Auto"
                                     Height="Auto"
                                     Background="#FFFFFF"
-                                    BorderBrush="#636363"
+                                    BorderBrush="#368FD3"
                                     BorderThickness="1"
                                     Padding="0">
                                 <DockPanel
@@ -72,7 +76,7 @@
                                     >
                                     <Border x:Name="TitleBar"
                                             DockPanel.Dock="Top"
-                                            Background="#636363"
+                                            Background="#368FD3"
                                             BorderThickness="0"
                                             >
                                         <Grid Height="32">
@@ -85,7 +89,7 @@
                                             </Grid.ColumnDefinitions>
                                             
                                             <!--Logo-->
-                                            <Border Grid.Column="0" 
+                                            <!--<Border Grid.Column="0" 
                                                     Background="White" 
                                                     BorderThickness="1" 
                                                     BorderBrush="Transparent"
@@ -93,7 +97,7 @@
                                                     Margin="3"
                                                     >
                                                 <Image Source="{StaticResource WindowIcon}" />
-                                            </Border>
+                                            </Border>-->
                                             
                                             <!-- Title -->
                                             <Button Grid.Column="1" Grid.ColumnSpan="4" 
@@ -103,11 +107,14 @@
                                                 WindowChrome.IsHitTestVisibleInChrome="True"
                                                 Style="{StaticResource ButtonTitleBarStyle}" >
                                                 <TextBlock x:Name="Caption"
-                                                                FontWeight="Bold"
-                                                                FontSize="12"
-                                                                Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                                Foreground="#FFFFFF"
-                                                                Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                           FontWeight="Bold"
+                                                           FontSize="12"
+                                                           FontFamily="{StaticResource ManropeFont}"
+                                                           Opacity="1" 
+                                                           HorizontalAlignment="Left" 
+                                                           VerticalAlignment="Center" 
+                                                           Foreground="#FFFFFF"
+                                                           Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </Button>
                                         </Grid>
                                     </Border>
@@ -152,4 +159,5 @@
             </Style>
         </Style.Resources>
     </Style>
+
 </ResourceDictionary>

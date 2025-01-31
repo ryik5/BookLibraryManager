@@ -20,29 +20,13 @@ internal class StatusBarModel : BindableBase
     {
         _statusBarKind = statusBarKind;
 
-        App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
+        _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
     }
 
     public void Dispose()
     {
-        App.EventAggregator.GetEvent<StatusBarEvent>().Unsubscribe(HandleStatusBarEvent);
+        App.EventAggregator.GetEvent<StatusBarEvent>().Unsubscribe(_token);
     }
-    /*    
-       private SubscriptionToken _statusBarEventToken;
-       private void Subscribe()
-        {
-            App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(OnGridEvents);
-
-        // 2. _statusBarEventToken = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(OnGridEvents);
-        }
-
-        private void Unsubscribe()
-        {
-            App.EventAggregator.GetEvent<StatusBarEvent>().Unsubscribe(OnGridEvents);
-
-          //2.  App.EventAggregator.GetEvent<StatusBarEvent>().Unsubscribe(_statusBarEventToken);
-        }
-    */
 
 
     /// <summary>
@@ -53,9 +37,6 @@ internal class StatusBarModel : BindableBase
     {
         switch (e.InfoKind)
         {
-            case EInfoKind.StartInfo:
-                StartPointText = e.Message;
-                break;
             case EInfoKind.TotalPages:
                 TotalPagesText = e.Message;
                 break;
@@ -90,18 +71,7 @@ internal class StatusBarModel : BindableBase
     private string _totalPagesText;
     #endregion
 
-    #region Start Point
-    /// <summary>
-    /// Displays the the start point of the window.
-    /// </summary>
-    public string StartPointText
-    {
-        get => _startPointText;
-        set => SetProperty(ref _startPointText, value);
-    }
-    private string _startPointText;
-    #endregion
-
 
     private readonly EWindowKind _statusBarKind;
+    private readonly SubscriptionToken _token;
 }

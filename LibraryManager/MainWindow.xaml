@@ -22,7 +22,6 @@
             </ContextMenu>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
-                <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

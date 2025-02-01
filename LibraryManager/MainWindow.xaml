@@ -45,6 +45,7 @@
         <view:LibraryControls HorizontalAlignment="Stretch" Margin="5 5 0 0"/>
 
         <Grid x:Name="dump" Width="1" Height="1" Visibility="{Binding LibraryVisibility}"/>
+
         <view:LibraryView Grid.Row="1" 
                           Visibility="{Binding ElementName=dump, Path=Visibility}"
                           ContextMenu="{StaticResource ContextMenuBookEditing}"

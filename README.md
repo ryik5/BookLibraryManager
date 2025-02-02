@@ -11,7 +11,7 @@ The application provides the following functionality:
 5. Search for a book by part of its author, title, publish year, or total pages.
 6. Save the list of books into an XML file (implemented in a separate .dll).
 
-The library is implemented in .NET/C# version 9.0.
+The library and plugins are implemented in .NET/C# version 9.0.
 
 ## Project Structure
 

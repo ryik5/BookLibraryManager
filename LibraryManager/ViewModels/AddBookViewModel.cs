@@ -192,7 +192,7 @@ internal class AddBookViewModel : BindableBase
     private void AddBook(Window window)
     {
         _libraryManager.AddBook(Book);
-        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, $"Last added book: '{Book.Title}'");
+        MessageHandler.SendToStatusBar($"Last added book: '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -203,7 +203,7 @@ internal class AddBookViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, "Adding book was canceled");
+        MessageHandler.SendToStatusBar("Adding book was canceled");
         CloseWindow(window);
     }
 

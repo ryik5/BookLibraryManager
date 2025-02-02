@@ -3,7 +3,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--<Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />-->
-
     <Style TargetType="{x:Type Button}">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -12,12 +11,10 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0"/>
-        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
-        <Setter Property="TextElement.FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
+                <ControlTemplate x:Name="Bt" TargetType="{x:Type Button}">
                     <Border x:Name="Bd" Padding="7,0,7,0" 
                     BorderBrush="{TemplateBinding BorderBrush}" 
                     BorderThickness="{TemplateBinding BorderThickness}" 
@@ -34,9 +31,24 @@
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                   Uid="ContentPresenter_33"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.5" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="White" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style x:Key="ButtonBorderStyle" TargetType="{x:Type Border}">
@@ -62,7 +74,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Height" Value="26"/>
-        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
     </Style>
     
     <Style x:Key="TextBoxBorderStyle" TargetType="{x:Type Border}">
@@ -76,9 +87,9 @@
     
     <Style TargetType="{x:Type Label}">
         <Setter Property="Width" Value="100"/>
-        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
+        
     <Style x:Key="LabelBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet4}"/>
@@ -92,15 +103,13 @@
         <Setter Property="BorderThickness" Value=" 0 0 1 0"/>
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}" />
-        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Padding" Value="5" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid SnapsToDevicePixels="true">
-                        <Border x:Name="Bd" Padding="7,0,7,0" 
+                        <Border x:Name="Bd" Padding="0" 
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 

@@ -35,6 +35,7 @@
   <ItemGroup>
     <PackageReference Include="Prism.Container.Abstractions" Version="9.0.107" />
     <PackageReference Include="Prism.Core" Version="9.0.537" />
+    <PackageReference Include="Prism.Wpf" Version="9.0.537" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
-using LibraryManager.Models;
 using LibraryManager.Utils;
 using LibraryManager.Views;
 
@@ -38,7 +37,7 @@ internal class EditBookViewModel : AddBookViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
-        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, $"The last edited book '{Book.Title}'");
+        MessageHandler.SendToStatusBar($"The last edited book '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -57,7 +56,7 @@ internal class EditBookViewModel : AddBookViewModel
         Book.ISDN = _originalBook.ISDN;
         Book.Content = _originalBook.Content;
 
-        MessageHandler.SendToStatusBar(EWindowKind.MainWindow, $"Edit book '{Book.Title}' was cancelled");
+        MessageHandler.SendToStatusBar($"Edit book '{Book.Title}' was cancelled");
         CloseWindow(window);
     }
 

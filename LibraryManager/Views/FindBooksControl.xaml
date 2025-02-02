@@ -6,10 +6,11 @@
              mc:Ignorable="d">
 
     <DockPanel LastChildFill="True" HorizontalAlignment="Left" VerticalAlignment="Center">
-
-        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="20 5 5 5">
-            <Button Content="Close window" Command="{Binding CloseWindowCommand}" Width="90"/>
-        </Border>
+        <DockPanel.Resources>
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+            </Style>
+        </DockPanel.Resources>
 
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="15 5 5 5">
             <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" Width="90"/>
@@ -21,7 +22,7 @@
                   Width="100" Margin="5"/>
 
         <CheckBox DockPanel.Dock="Right" 
-                  Content="Search-on-fly" 
+                  Content="Search-on-fly"
                   IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
 
         <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
@@ -29,7 +30,7 @@
         </Border>
 
         <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 3 5 3">
-            <TextBox Text="{Binding SearchText}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
+            <TextBox Text="{Binding SearchText}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"/>
         </Border>
 
     </DockPanel>

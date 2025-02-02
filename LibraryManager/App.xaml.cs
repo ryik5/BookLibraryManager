@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using LibraryManager.ViewModels;
+using LibraryManager.Views;
 
 namespace LibraryManager;
 
@@ -10,5 +12,14 @@ public partial class App : Application
 {
     public static readonly IEventAggregator EventAggregator = new EventAggregator();
 
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var app = new ApplicationView();
+        var context = new ApplicationViewModel();
+        app.DataContext = context;
+        app.Show();
+    }
 }
 

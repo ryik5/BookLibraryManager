@@ -6,9 +6,6 @@
 
     <ImageSource x:Key="ApplicationLogo">/Properties/Resources/application.png</ImageSource>
 
-    <!-- Define the FontFamily as a resource -->
-    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
-
     <!-- Define the ColorSet as a resource -->
     <!-- black -->
     <SolidColorBrush x:Key="ColorSet0" Color="#000000" />
@@ -20,5 +17,46 @@
     <SolidColorBrush x:Key="ColorSet6" Color="#EDF6FC" />
     <!-- white -->
     <SolidColorBrush x:Key="ColorSet7" Color="#FFFFFF" />
+
+
+    <!-- Define the FontFamily as a resource -->
+    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
+     
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" >
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" >
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" >
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}" >
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}"/>
+    </Style>
+
+    <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+        <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
+    </Style>
+
+    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}" >
+        <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
+    </Style>
 
 </ResourceDictionary>

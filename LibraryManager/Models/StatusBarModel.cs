@@ -9,17 +9,15 @@ namespace LibraryManager.Models;
 /// and the text block used to display the status bar message.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-internal class StatusBarModel : BindableBase
+public class StatusBarModel : BindableBase
 {
     /// <summary>
     /// Initializes a new instance of the StatusBarModel class.
     /// Subscribes to the StatusBarEvent and sets up the status bar items.
     /// </summary>
     /// <param name="statusBarKind">The kind of status bar to be used.</param>
-    public StatusBarModel(EWindowKind statusBarKind)
+    public StatusBarModel()
     {
-        _statusBarKind = statusBarKind;
-
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
     }
 
@@ -41,8 +39,7 @@ internal class StatusBarModel : BindableBase
                 TotalPagesText = e.Message;
                 break;
             default:
-                if (_statusBarKind == e.WindowKind)
-                    TextInfoText = e.Message;
+                TextInfoText = e.Message;
                 break;
         }
     }
@@ -72,6 +69,5 @@ internal class StatusBarModel : BindableBase
     #endregion
 
 
-    private readonly EWindowKind _statusBarKind;
     private readonly SubscriptionToken _token;
 }

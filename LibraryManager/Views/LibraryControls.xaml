@@ -10,7 +10,7 @@
         Background="{StaticResource ColorSet3}" 
         BorderThickness="1" 
         CornerRadius="5" 
-        Margin="5" 
+        Margin="2" 
         HorizontalAlignment="Stretch">
         <Menu Background="Transparent">
             <ItemsControl.ItemsPanel>
@@ -19,30 +19,18 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
-            <MenuItem Header="_Library" Name="MenuLibrary">
-                <MenuItem Header="New Library" Command="{Binding CreateNewCommand}" />
-                <MenuItem Header="Load Library" Command="{Binding LoadLibraryCommand}"/>
-                <MenuItem Header="Save Library" Command="{Binding SaveLibraryCommand}" />
-                <MenuItem Header="Close Library" Command="{Binding CloseLibraryCommand}" />
-                <MenuItem Header="Sort Library" Command="{Binding SortLibraryCommand}" />
-            </MenuItem>
-            <MenuItem Header="_Book" Name="MenuBook" >
-                <MenuItem Header="Add Book" Command="{Binding AddBookCommand}"/>
-                <MenuItem Header="Add 10 random books" Command="{Binding AddRandomBooksCommand}"/>
-                <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
-                <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
-            </MenuItem>
-            <MenuItem Header="_Tools" Name="MenuTools" >
-                <MenuItem Header="Find Book" Command="{Binding FindBookCommand}"/>
-            </MenuItem>
-            <MenuItem Header="_Window" Name="MenuWindow" >
-                <MenuItem Header="{Binding ViewName}" Command="{Binding ToggleViewCommand}"/>
-            </MenuItem>
-            <MenuItem Header="_Help" Name="MenuHelp" >
-                <MenuItem Header="About" Command="{Binding AboutBookCommand}"/>
-            </MenuItem>
-            <!--<Separator />-->
-            <MenuItem Header="_Exit" Command="{Binding ExitApplicationCommand}"/>
+            <MenuItem Header="New Library" Command="{Binding CreateNewCommand}" />
+            <MenuItem Header="Load Library" Command="{Binding LoadLibraryCommand}"/>
+            <MenuItem Header="Save Library" Command="{Binding SaveLibraryCommand}" />
+            <MenuItem Header="Close Library" Command="{Binding CloseLibraryCommand}" />
+            
+            <MenuItem Header="Sort Library" Command="{Binding SortLibraryCommand}" />
+            
+            <MenuItem Header="Add Book" Command="{Binding AddBookCommand}"/>
+            <MenuItem Header="Add 10 books" Command="{Binding AddRandomBooksCommand}"/>
+            <MenuItem Header="Edit Book" Command="{Binding EditBookCommand}"/>
+            <MenuItem Header="Delete Book" Command="{Binding RemoveBookCommand}"/>
+
         </Menu>
     </Border>
 </UserControl>

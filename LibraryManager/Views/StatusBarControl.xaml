@@ -4,19 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" >
-    
+
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="{StaticResource ColorSet7}"/>
             <Setter Property="Margin" Value="5 0 5 0"/>
         </Style>
     </UserControl.Resources>
 
-    <Border Style="{DynamicResource ControlBorderStyle}">
-        <StatusBar  Background="Transparent" BorderThickness="0">
+    <Border Style="{DynamicResource ControlBorderStyle}" 
+            Background="{StaticResource ColorSet1}" Margin="0"
+            TextOptions.TextRenderingMode="ClearType" 
+            SnapsToDevicePixels="True"
+            TextOptions.TextFormattingMode="Display"
+            >
+        <StatusBar Background="Transparent" BorderThickness="0">
             <StatusBarItem HorizontalAlignment="Left" 
                            BorderThickness="1" 
                            Padding="0"
@@ -26,14 +33,14 @@
                         BorderThickness="0" Margin="1"
                         CornerRadius="2"
                         Background="White">
-                 <Image Source="{StaticResource WindowIcon}" />
-                   
+                    <Image Source="{StaticResource WindowIcon}" />
                 </Border>
-
             </StatusBarItem>
+            
             <StatusBarItem >
                 <TextBlock Text="{Binding TextInfoText}" FontFamily="{StaticResource ManropeFont}"/>
             </StatusBarItem>
+            
             <StatusBarItem HorizontalAlignment="Right" BorderThickness="1 0 0 0" BorderBrush="DarkGray"
                            ToolTip="Total number of books in the current library">
                 <TextBlock FontFamily="{StaticResource ManropeFont}">

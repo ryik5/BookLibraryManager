@@ -24,14 +24,6 @@ public class StatusBarEventArgs : EventArgs
         get; set;
     }
 
-    /// <summary>
-    /// Gets or sets the kind of status bar should be updated.
-    /// </summary>
-    public EWindowKind WindowKind
-    {
-        get; set;
-    }
-
     public EInfoKind InfoKind
     {
         get; set;

@@ -2,7 +2,6 @@
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Utils;
-using LibraryManager.Views;
 
 namespace LibraryManager.ViewModels;
 
@@ -19,7 +18,6 @@ internal class FindBookViewModel : BindableBase
     public FindBookViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
-        _statusBarKind = EWindowKind.FindBooksWindow;
         SearchOnFly = false;
         LibraryVisibility = Visibility.Collapsed;
         SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
@@ -27,16 +25,7 @@ internal class FindBookViewModel : BindableBase
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
         RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
-        CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
-
-        StatusBarItems = new StatusBarModel(_statusBarKind);
-
-
-        _finderWindow = new FindBookWindow() { DataContext = this };
-        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
-        _finderWindow.ShowDialog();
     }
-
 
     #region Commands
     /// <summary>
@@ -46,6 +35,7 @@ internal class FindBookViewModel : BindableBase
     {
         get;
     }
+
     public RelayCommand EditBookCommand
     {
         get;
@@ -70,14 +60,6 @@ internal class FindBookViewModel : BindableBase
 
 
     #region Properties
-    /// <summary>
-    /// Gets the status bar items.
-    /// </summary>
-    public StatusBarModel StatusBarItems
-    {
-        get;
-    }
-
     /// <summary>
     /// The fields of the book to perform search.
     /// </summary>
@@ -142,14 +124,7 @@ internal class FindBookViewModel : BindableBase
         set => SetProperty(ref _selectedSearchField, value);
     }
 
-    /// <summary>
-    /// Text log of operations.
-    /// </summary>
-    public string TextLog
-    {
-        get => _textLog;
-        set => SetProperty(ref _textLog, value);
-    }
+    public string Name => "Find Book";
     #endregion
 
 
@@ -165,7 +140,7 @@ internal class FindBookViewModel : BindableBase
 
         LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
 
-        MessageHandler.SendToStatusBar(_statusBarKind, $"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
+        MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 
     private void EditBook()
@@ -175,7 +150,7 @@ internal class FindBookViewModel : BindableBase
         RaisePropertyChanged(nameof(_libraryManager.BookList));
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)
-            MessageHandler.SendToStatusBar(_statusBarKind, $"Last edited book was '{book.Title}");
+            MessageHandler.SendToStatusBar($"Last edited book was '{book.Title}");
     }
 
     /// <summary>
@@ -185,18 +160,9 @@ internal class FindBookViewModel : BindableBase
     {
         var text = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
         BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
-        TextLog = text;
-        MessageHandler.SendToStatusBar(_statusBarKind, text);
-        MessageHandler.SendToStatusBar(EInfoKind.TotalPages, $"{_libraryManager.TotalBooks}");
-    }
 
-    /// <summary>
-    /// Closes the specified window.
-    /// </summary>
-    private void CloseWindow(Window window)
-    {
-        window?.Close();
-        _finderWindow?.Close();
+        MessageHandler.SendToStatusBar(text);
+        MessageHandler.SendToStatusBar($"{_libraryManager.TotalBooks}", EInfoKind.TotalPages);
     }
 
     /// <summary>
@@ -220,14 +186,11 @@ internal class FindBookViewModel : BindableBase
 
 
     #region private fields
-    private readonly FindBookWindow _finderWindow;
     private readonly LibraryBookManagerModel _libraryManager;
-    private readonly EWindowKind _statusBarKind;
     private List<Book> _bookList;
     private Book _selectedBook;
     private string _searchText;
     private bool _searchOnFly;
     private BookElementsEnum _selectedSearchField;
-    private string _textLog;
     #endregion
 }

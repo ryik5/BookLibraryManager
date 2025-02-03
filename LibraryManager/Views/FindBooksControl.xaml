@@ -5,32 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
 
-    <DockPanel LastChildFill="True" HorizontalAlignment="Left" VerticalAlignment="Center">
+    <DockPanel LastChildFill="True" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 0 5" Height="24">
+        <DockPanel.Resources>
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+            </Style>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBordedStyle}"/>
+        </DockPanel.Resources>
 
-        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="20 5 5 5">
-            <Button Content="Close window" Command="{Binding CloseWindowCommand}" Width="90"/>
-        </Border>
-
-        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Margin="15 5 5 5">
-            <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" Width="90"/>
-        </Border>
+        <Button Content="Delete Book" Command="{Binding RemoveBookCommand}"
+                DockPanel.Dock="Right" 
+                Width="90"/>
 
         <ComboBox DockPanel.Dock="Right" VerticalContentAlignment="Center"
-                  ItemsSource="{Binding SearchFields}" 
+                  ItemsSource="{Binding SearchFields}" Style="{StaticResource ComboBoxBordedStyle}"
                   SelectedItem="{Binding SelectedSearchField}" 
-                  Width="100" Margin="5"/>
+                  Width="100" Margin="5 0 5 0"/>
 
         <CheckBox DockPanel.Dock="Right" 
-                  Content="Search-on-fly" 
-                  IsChecked="{Binding SearchOnFly}" Margin="5" VerticalContentAlignment="Center"/>
+                  Content="Search-on-fly" Style="{StaticResource CheckBoxBordedStyle1}"
+                  IsChecked="{Binding SearchOnFly}" Margin="5 0 0 0" VerticalContentAlignment="Center"/>
 
-        <Border DockPanel.Dock="Right" Style="{DynamicResource ButtonBorderStyle}" Width="50" Margin="5">
-            <Button Content="Find" Command="{Binding FindBooksCommand}"/>
-        </Border>
+        <Button Content="Find" Command="{Binding FindBooksCommand}"
+                DockPanel.Dock="Right" 
+                Width="80" HorizontalContentAlignment="Center"/>
 
-        <Border DockPanel.Dock="Left" Style="{DynamicResource TextBoxBorderStyle}" MinWidth="100" Margin="10 3 5 3">
-            <TextBox Text="{Binding SearchText}" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
-        </Border>
+        <TextBox DockPanel.Dock="Left" 
+                     Text="{Binding SearchText}" 
+                 Style="{StaticResource TextBoxBordedStyle}"
+                     Margin="2 0 5 0" MinWidth="120" Padding="0"
+                 />
 
     </DockPanel>
 </UserControl>

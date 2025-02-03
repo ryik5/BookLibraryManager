@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="LibraryManager.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" >
+
+    <Border Style="{StaticResource TextBoxBorderStyle}" Background="{StaticResource ColorSet6}" BorderBrush="Transparent" Margin="0 5 0 0 ">
+        <Grid >
+            <Image Source="{StaticResource ApplicationLogo}" Opacity="0.7" />
+            <Border 
+                CornerRadius="5"
+                Background="{StaticResource ColorSet3}" Opacity="0.3" 
+                BorderBrush="Transparent"
+                Width="{Binding ElementName=txtAbout, Path=ActualWidth}"
+                Height="{Binding ElementName=txtAbout, Path=ActualHeight}"
+                >
+            </Border>
+            <TextBlock x:Name="txtAbout" 
+                               Text="{Binding Message}" 
+                               Foreground="{StaticResource ColorSet1}"
+                               FontWeight="Bold" FontStyle="Normal"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               FontSize="28"
+                               Padding="5"/>
+        </Grid>
+    </Border>
+</UserControl>

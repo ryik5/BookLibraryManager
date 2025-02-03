@@ -4,7 +4,40 @@
                     x:Class="LibraryManager.Views.BookLibraryManagerWindowStyle">
 
     <!--<Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />-->
+    
+    <Style x:Key="PathSignX" TargetType="{x:Type Path}">
+        <Setter Property="Data" Value="M0,0 L8,8 M0,8 L8,0" />
+        <Setter Property="Stretch" Value="Fill" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeStartLineCap" Value="Square" />
+        <Setter Property="Fill" Value="Black"/>
+        <Setter Property="StrokeEndLineCap" Value="Square" />
+    </Style>
 
+    <Style x:Key="ButtonX" TargetType="{x:Type Button}">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="BorderX" CornerRadius="14" Background="White" BorderThickness="0" Padding="0" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderX" Property="Background" Value="White" />
+                            <Setter TargetName="BorderX" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BorderX" Property="Opacity" Value="0.7" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
     <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -81,22 +114,22 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="34"/>
                                                 <ColumnDefinition Width="34"/>
-                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="34"/>
                                             </Grid.ColumnDefinitions>
 
                                             <!--Logo-->
                                             <Border Grid.Column="0" 
-                                                    Background="White" 
+                                                    Background="Transparent" 
                                                     BorderThickness="1" 
                                                     BorderBrush="Transparent"
                                                     CornerRadius="5"
-                                                    Margin="3"
+                                                    Margin="0"
                                                     >
                                                 <Image Source="{StaticResource ApplicationLogo}" />
                                             </Border>
 
                                             <!-- Title -->
-                                            <Button Grid.Column="1" Grid.ColumnSpan="4" 
+                                            <Button Grid.Column="1" Grid.ColumnSpan="3" 
                                                 PreviewMouseDoubleClick="TitleMouseDoubleClick"
                                                 HorizontalAlignment="Stretch"
                                                 Margin="10,0,0,0" 
@@ -105,13 +138,40 @@
                                                 <TextBlock x:Name="Caption"
                                                            FontWeight="Bold"
                                                            FontSize="12"
-                                                           FontFamily="{StaticResource ManropeFont}"
                                                            Opacity="1" 
                                                            HorizontalAlignment="Left" 
                                                            VerticalAlignment="Center" 
                                                            Foreground="{StaticResource ColorSet7}"
                                                            Text="{Binding Path=Title, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </Button>
+
+                                            <Button x:Name="CloseButton" Grid.Column="4"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Margin="0" 
+                                                    Opacity="0.7"
+                                                    Click="CloseButtonClick"
+                                                    Background="Transparent" 
+                                                    BorderThickness="0"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True" >
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter Property="Opacity" Value="1"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                                <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    CornerRadius="10" Width="20" Height="19"
+                                                    Background="Red"
+                                                    Margin="0" Padding="4">
+                                                    <Path Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" 
+                                                          Style="{StaticResource PathSignX}"/>
+                                                </Border>
+                                            </Button>
+
                                         </Grid>
                                     </Border>
                                     <ContentPresenter />

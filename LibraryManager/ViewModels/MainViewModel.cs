@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
@@ -148,22 +147,21 @@ namespace LibraryManager.ViewModels
         /// </summary>
         private void AddRandomBooks()
         {
-            counterUsingAddRandomBooks++;
-
             for (var i = 0; i < 10; i++)
             {
-                var testBook = new Book()
+                var generatedBook = DemoBookMaker.GenerateBook();
+                var example = new Book()
                 {
-                    Id = Random.Shared.Next(),
-                    Author = $"{RepeaterWords(tenWords[tenWords.Length - 1 - i], counterUsingAddRandomBooks)}",
-                    Title = $"{RepeaterWords(tenWords[i], counterUsingAddRandomBooks)} {Random.Shared.Next()}",
-                    TotalPages = 20,
-                    PublishDate = 2020
+                    Id = generatedBook.Id,
+                    Author = generatedBook.Author,
+                    Title = generatedBook.Title,
+                    TotalPages = generatedBook.Pages,
+                    PublishDate = generatedBook.Year
                 };
 
-                _libraryManager.AddBook(testBook);
+                _libraryManager.AddBook(example);
             }
-            var text = $"Added 10 random named books. Total books:{_libraryManager?.TotalBooks}";
+            var text = $"Added 10 randomly generated books. Total books:{_libraryManager?.TotalBooks}";
 
             MessageHandler.SendToStatusBar(text);
         }
@@ -174,7 +172,6 @@ namespace LibraryManager.ViewModels
         /// </summary>
         private void CreateNewLibrary()
         {
-            counterUsingAddRandomBooks = 0;
             UnsubscribeTotalBooksChanged();
 
             _libraryManager.CreateNewLibrary(Random.Shared.Next());
@@ -190,7 +187,6 @@ namespace LibraryManager.ViewModels
         /// </summary>
         private void LoadLibrary()
         {
-            counterUsingAddRandomBooks = 0;
             UnsubscribeTotalBooksChanged();
 
             var filePath = new SelectionDialogHandler().GetPathToXmlFile();
@@ -281,24 +277,11 @@ namespace LibraryManager.ViewModels
             }
         }
 
-
-        /// <summary>
-        /// Repeats the word by the specified number of times.
-        /// </summary>
-        private string RepeaterWords(string word, int times)
-        {
-            StringBuilder stringBuilder = new();
-            for (var i = 0; i < times; i++)
-            {
-                stringBuilder.Append($"{word}");
-            }
-            return stringBuilder.ToString();
-        }
-
         private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
         {
             MessageHandler.SendToStatusBar($"{e?.TotalBooks ?? 0}", EInfoKind.TotalPages);
         }
+
         private void UnsubscribeTotalBooksChanged()
         {
             if (_libraryManager != null)
@@ -325,8 +308,6 @@ namespace LibraryManager.ViewModels
         #endregion
 
         #region Private Members
-        private int counterUsingAddRandomBooks = 0;
-        private readonly string[] tenWords = ["a", "A", "b", "B", "c", "C", "e", "E", "f", "F"];
         private readonly LibraryBookManagerModel _libraryManager;
         #endregion        
     }

@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 
@@ -22,7 +21,7 @@ namespace LibraryManager.ViewModels
 
             ChangePageCommand = new DelegateCommand<string>(Navigate);
 
-            if (PageViewModels.TryGetValue("Home", out var viewModel)) // Default page
+            if (PageViewModels.TryGetValue("Main", out var viewModel)) // Default page
                 CurrentViewModel = viewModel;
         }
 

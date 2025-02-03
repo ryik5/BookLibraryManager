@@ -28,8 +28,7 @@
 
         <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="28" Margin="2"/>
 
-        <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="70" 
-                Background="{StaticResource ColorSet6}">
+        <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="80" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -45,19 +44,15 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="5 5 5 0" BorderThickness="0" Padding="5 5 0 5"
-                                Background="{StaticResource ColorSet5}" Style="{StaticResource ButtonBorderStyle}">
-
-                            <Button Content="{Binding Key}" Style="{StaticResource ButtonTitleBarStyle}"
+                        <Button Content="{Binding Key}" Style="{StaticResource ButtonMainMenuStyle}"
                                 Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding Value.Name}"
-                                HorizontalAlignment="Left" />
-                        </Border>
+                                CommandParameter="{Binding Value.Name}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+                
             </ItemsControl>
 
-            <Border Margin="0 5 0 0" Width="70" BorderThickness="0" Padding="10 15 0 0" Grid.Row="1" VerticalAlignment="Top"
+            <Border Margin="0 15 0 0" Width="70" BorderThickness="0" Padding="10 15 0 0" Grid.Row="1" VerticalAlignment="Top"
                 Style="{DynamicResource ControlBorderStyle}" 
                 Background="{DynamicResource ColorSet6}">
                 

@@ -34,10 +34,6 @@ internal class Loader
                     mutex.ReleaseMutex();
                 }
             }
-            else
-            {
-                // skip loading
-            }
         }
     }
 
@@ -81,10 +77,6 @@ internal class Loader
                 {
                     mutex.ReleaseMutex();
                 }
-            }
-            else
-            {
-                // skip loading
             }
         }
         return bitmap;

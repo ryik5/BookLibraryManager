@@ -5,7 +5,6 @@ using LibraryManager.Views;
 
 namespace LibraryManager.ViewModels;
 
-
 /// <author>YR 2025-01-28</author>
 internal class EditBookViewModel : AddBookViewModel
 {
@@ -70,6 +69,7 @@ internal class EditBookViewModel : AddBookViewModel
         _addBookWindow?.Close();
     }
     #endregion
+
 
     #region Fields
     private ActionWithBookWindow _addBookWindow;

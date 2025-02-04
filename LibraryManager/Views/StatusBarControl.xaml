@@ -17,11 +17,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Style="{DynamicResource ControlBorderStyle}" 
-            Background="{StaticResource ColorSet1}" Margin="0"
-            TextOptions.TextRenderingMode="ClearType" 
+    <Border Background="{StaticResource ColorSet1}"
+            Margin="0" CornerRadius="5"
             SnapsToDevicePixels="True"
             TextOptions.TextFormattingMode="Display"
+            TextOptions.TextRenderingMode="ClearType"
             >
         <StatusBar Background="Transparent" BorderThickness="0">
             <StatusBarItem HorizontalAlignment="Left" 

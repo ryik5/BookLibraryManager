@@ -27,6 +27,27 @@ public class StatusBarModel : BindableBase
     }
 
 
+    #region Properties
+    /// <summary>
+    /// Displays the common info messages.
+    /// </summary>
+    public string TextInfoText
+    {
+        get => _textInfoText;
+        set => SetProperty(ref _textInfoText, value);
+    }
+
+    /// <summary>
+    /// Displays the total number of the books in the library.
+    /// </summary>
+    public string TotalPagesText
+    {
+        get => _totalPagesText;
+        set => SetProperty(ref _totalPagesText, value);
+    }
+    #endregion
+
+
     /// <summary>
     /// Handles the StatusBarEvent by updating the status bar text if the event's status bar kind matches.
     /// </summary>
@@ -44,30 +65,10 @@ public class StatusBarModel : BindableBase
         }
     }
 
-    #region Text Informer
-    /// <summary>
-    /// Displays the common info messages.
-    /// </summary>
-    public string TextInfoText
-    {
-        get => _textInfoText;
-        set => SetProperty(ref _textInfoText, value);
-    }
+
+    #region Fields
     private string _textInfoText;
-    #endregion
-
-    #region Total Pages
-    /// <summary>
-    /// Displays the total number of the books in the library.
-    /// </summary>
-    public string TotalPagesText
-    {
-        get => _totalPagesText;
-        set => SetProperty(ref _totalPagesText, value);
-    }
     private string _totalPagesText;
-    #endregion
-
-
     private readonly SubscriptionToken _token;
+    #endregion
 }

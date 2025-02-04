@@ -50,7 +50,7 @@ public static class DemoBookMaker
             var author1Part = GetRandomElement(author1);
             var author2Part = GetRandomElement(author2);
 
-            author = random.Next(2) == 0 ? $"{author1Part} {author2Part}" : $"{author2Part} {author1Part}";
+            author = $"{author2Part} {author1Part}";
         }
         while (generatedAuthors.Contains(author));
 

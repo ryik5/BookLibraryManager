@@ -4,8 +4,13 @@
     <!-- Define the icon as a resource -->
     <ImageSource x:Key="WindowIcon">/Properties/Resources/YR40.ico</ImageSource>
 
+    <!-- Define the Logo as a resource -->
     <ImageSource x:Key="ApplicationLogo">/Properties/Resources/application.png</ImageSource>
 
+    <!-- Define the FontFamily as a resource -->
+    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
+
+     
     <!-- Define the ColorSet as a resource -->
     <!-- black -->
     <SolidColorBrush x:Key="ColorSet0" Color="#000000" />
@@ -18,9 +23,6 @@
     <!-- white -->
     <SolidColorBrush x:Key="ColorSet7" Color="#FFFFFF" />
 
-
-    <!-- Define the FontFamily as a resource -->
-    <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
      
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" >
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}"/>

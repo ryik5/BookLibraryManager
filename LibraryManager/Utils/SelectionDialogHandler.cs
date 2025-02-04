@@ -66,5 +66,4 @@ internal class SelectionDialogHandler
 
         return openDialog.FolderName;
     }
-
 }

@@ -44,7 +44,6 @@ internal class AddBookViewModel : BindableBase
         get => _loadingState;
         set => SetProperty(ref _loadingState, value);
     }
-    private string _loadingState;
 
     /// <summary>
     /// Title of the AddBook window.
@@ -61,6 +60,8 @@ internal class AddBookViewModel : BindableBase
     {
         get; set;
     }
+
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
     #endregion
 
     #region Commands
@@ -100,31 +101,18 @@ internal class AddBookViewModel : BindableBase
         get => _isEnableLoad;
         set => SetProperty(ref _isEnableLoad, value);
     }
-    private bool _isEnableLoad;
 
     public bool IsEnableSave
     {
         get => _isEnableSave;
         set => SetProperty(ref _isEnableSave, value);
     }
-    private bool _isEnableSave;
-
-    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
     #endregion
 
     #region Methods
     public virtual void ShowDialog()
     {
-        Book =
-            new()
-            {
-                Id = 1,
-                Author = "Author",
-                Title = "Title",
-                TotalPages = 1,
-                PublishDate = 1970,
-                Description = "Short description"
-            };
+        Book = CreateDemoBook();
 
         WindowTitle = "Add Book";
         ExecuteButtonName = "Add Book";
@@ -135,6 +123,22 @@ internal class AddBookViewModel : BindableBase
         _addBookWindow.ShowDialog();
     }
 
+    public static Book CreateDemoBook()
+    {
+        var generatedBook = DemoBookMaker.GenerateBook();
+        return new Book()
+        {
+            Id = generatedBook.Id,
+            Author = generatedBook.Author,
+            Title = generatedBook.Title,
+            TotalPages = generatedBook.Pages,
+            PublishDate = generatedBook.Year
+        };
+    }
+    #endregion
+
+
+    #region private methods
     private void ClearBookContent()
     {
         Book.Content = null;
@@ -222,5 +226,8 @@ internal class AddBookViewModel : BindableBase
     private readonly ILibrary _libraryManager;
     private ActionWithBookWindow _addBookWindow;
     private Book _book;
+    private string _loadingState;
+    private bool _isEnableLoad;
+    private bool _isEnableSave;
     #endregion
 }

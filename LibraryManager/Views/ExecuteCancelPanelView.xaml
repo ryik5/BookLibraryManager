@@ -6,12 +6,17 @@
              mc:Ignorable="d" >
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-        <Border Style="{DynamicResource ButtonBorderStyle}">
-            <Button Content="{Binding ExecuteButtonName}" Command="{Binding ExecuteCommand}" Width="85" Height="30"/>
-        </Border>
-        <Border Style="{DynamicResource ButtonBorderStyle}">
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Width="85" Height="30"/>
-        </Border>
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBordedStyle}" >
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="MinWidth" Value="80"/>
+            </Style>
+        </StackPanel.Resources>
+        
+        <Button Content="{Binding ExecuteButtonName}" Command="{Binding ExecuteCommand}"/>
+
+        <Button Content="Cancel" Command="{Binding CancelCommand}" />
+
     </StackPanel>
 
 </UserControl>

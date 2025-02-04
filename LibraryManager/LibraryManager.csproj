@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Resource Include="Properties\Resources\application.png" />
-    <Resource Include="Properties\Resources\arrow-down.png" />
     <Resource Include="Properties\Resources\Manrope.ttf" />
     <Resource Include="Properties\Resources\YR40.ico" />
   </ItemGroup>

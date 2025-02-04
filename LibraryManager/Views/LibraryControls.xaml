@@ -6,15 +6,17 @@
              xmlns:local="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <StackPanel Margin="0 5 0 0"
+    <StackPanel
         Orientation="Horizontal" 
         Background="Transparent" 
         VerticalAlignment="Center" 
         HorizontalAlignment="Stretch">
         <StackPanel.Resources>
-            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBordedStyle}" />
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBordedStyle}" >
+                <Setter Property="Padding" Value="5 0 2 0"/>
+                <Setter Property="Margin" Value="2 0 1 0"/>
+            </Style>
         </StackPanel.Resources>
-
 
         <Button Content="New Library" Command="{Binding CreateNewCommand}" />
         <Button Content="Load Library" Command="{Binding LoadLibraryCommand}"/>

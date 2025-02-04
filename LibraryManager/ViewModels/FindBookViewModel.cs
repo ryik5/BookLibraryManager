@@ -9,7 +9,7 @@ namespace LibraryManager.ViewModels;
 /// ViewModel for finding books in the <see cref="ILibrary"/>.
 /// </summary>
 /// <author>YR 2025-01-21</author>
-internal class FindBookViewModel : BindableBase
+internal class FindBookViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FindBookViewModel"/> class.
@@ -27,39 +27,16 @@ internal class FindBookViewModel : BindableBase
         RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
     }
 
-    #region Commands
-    /// <summary>
-    /// Command to find books.
-    /// </summary>
-    public DelegateCommand FindBooksCommand
-    {
-        get;
-    }
-
-    public RelayCommand EditBookCommand
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Command to delete the selected book.
-    /// </summary>
-    public DelegateCommand RemoveBookCommand
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Command to close the window.
-    /// </summary>
-    public DelegateCommand<Window> CloseWindowCommand
-    {
-        get;
-    }
-    #endregion
-
 
     #region Properties
+    public string Name => "Find Book";
+
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set => SetProperty(ref _isChecked, value);
+    }
+
     /// <summary>
     /// The fields of the book to perform search.
     /// </summary>
@@ -82,7 +59,6 @@ internal class FindBookViewModel : BindableBase
         get => _libraryVisibility;
         set => SetProperty(ref _libraryVisibility, value);
     }
-    private Visibility _libraryVisibility;
 
     /// <summary>
     /// Gets or sets the selected book.
@@ -123,8 +99,38 @@ internal class FindBookViewModel : BindableBase
         get => _selectedSearchField;
         set => SetProperty(ref _selectedSearchField, value);
     }
+    #endregion
 
-    public string Name => "Find Book";
+
+    #region Commands
+    /// <summary>
+    /// Command to find books.
+    /// </summary>
+    public DelegateCommand FindBooksCommand
+    {
+        get;
+    }
+
+    public RelayCommand EditBookCommand
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Command to delete the selected book.
+    /// </summary>
+    public DelegateCommand RemoveBookCommand
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Command to close the window.
+    /// </summary>
+    public DelegateCommand<Window> CloseWindowCommand
+    {
+        get;
+    }
     #endregion
 
 
@@ -192,5 +198,7 @@ internal class FindBookViewModel : BindableBase
     private string _searchText;
     private bool _searchOnFly;
     private BookElementsEnum _selectedSearchField;
+    private bool _isChecked;
+    private Visibility _libraryVisibility;
     #endregion
 }

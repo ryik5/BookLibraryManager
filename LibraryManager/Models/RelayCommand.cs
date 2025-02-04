@@ -5,7 +5,7 @@ namespace LibraryManager.Models;
 /// <summary>
 /// Represents a command that can be bound to UI elements and executed based on the provided delegates.
 /// </summary>
-/// /// <author>YR 2025-01-24</author>
+/// <author>YR 2025-01-24</author>
 public class RelayCommand : DelegateCommand
 {
     public RelayCommand(Action executeMethode) : base(executeMethode)

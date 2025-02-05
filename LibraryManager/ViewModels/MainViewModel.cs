@@ -174,7 +174,6 @@ public class MainViewModel : BindableBase, IViewModelPageable
         MessageHandler.SendToStatusBar(text);
     }
 
-
     /// <summary>
     /// Creates a new library or changes an instance of the existing library by creating a new one.
     /// </summary>

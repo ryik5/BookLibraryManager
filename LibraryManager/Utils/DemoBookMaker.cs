@@ -2,20 +2,32 @@
 
 namespace LibraryManager.Utils;
 
+/// <summary>
+/// A utility class for generating demo book data.
+/// </summary>
 /// <author>YR 2025-02-03</author>
 public static class DemoBookMaker
 {
+    /// <summary>
+    /// Generates a random book model.
+    /// </summary>
+    /// <returns>A new instance of SimpleBookModel with random properties.</returns>
     public static SimpleBookModel GenerateBook()
     {
         var id = Random.Shared.Next();
         var title = GenerateTitle();
         var author = GenerateAuthor();
-        var year = GetRandomInt(1934, 2025, generatedYear);
+        var year = GetRandomInt(1934, 2025, generatedYears);
         var pages = GetRandomInt(1, 777, generatedPages);
         return new SimpleBookModel(id, author, title, year, pages);
     }
 
 
+    #region private methods
+    /// <summary>
+    /// Generates a random book title.
+    /// </summary>
+    /// <returns>A unique book title.</returns>
     private static string GenerateTitle()
     {
         string title;
@@ -42,6 +54,10 @@ public static class DemoBookMaker
         return title;
     }
 
+    /// <summary>
+    /// Generates a random book author.
+    /// </summary>
+    /// <returns>A unique book author.</returns>
     private static string GenerateAuthor()
     {
         string author;
@@ -62,11 +78,24 @@ public static class DemoBookMaker
         return author;
     }
 
+    /// <summary>
+    /// Retrieves a random element from the specified array.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the array.</typeparam>
+    /// <param name="array">The array to retrieve an element from.</param>
+    /// <returns>A random element from the array.</returns>
     private static T GetRandomElement<T>(T[] array)
     {
         return array[random.Next(array.Length)];
     }
 
+    /// <summary>
+    /// Generates a random integer within the specified range.
+    /// </summary>
+    /// <param name="min">The minimum value (inclusive).</param>
+    /// <param name="max">The maximum value (exclusive).</param>
+    /// <param name="generatedInt">A list of previously generated integers.</param>
+    /// <returns>A unique random integer within the specified range.</returns>
     private static int GetRandomInt(int min, int max, List<int> generatedInt)
     {
         int expectedInt;
@@ -80,10 +109,9 @@ public static class DemoBookMaker
 
         return expectedInt;
     }
+    #endregion
 
-
-
-
+    #region constants
     private static readonly string[] titleCombining = [". ", ": ", " - "];
 
     private static readonly string[] title1 = [
@@ -177,10 +205,13 @@ public static class DemoBookMaker
 
 
     private const int totalVariations = 50;
+    #endregion
 
+    #region private fields
     private static readonly Random random = new();
     private static readonly List<string> generatedAuthors = new();
     private static readonly List<string> generatedTitles = new();
-    private static readonly List<int> generatedYear = new();
+    private static readonly List<int> generatedYears = new();
     private static readonly List<int> generatedPages = new();
+    #endregion
 }

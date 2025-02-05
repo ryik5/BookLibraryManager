@@ -35,14 +35,8 @@ public class MainViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    /// <summary>
-    /// Gets the name of this view model.
-    /// </summary>
     public string Name => "Main";
 
-    /// <summary>
-    /// Value indicating whether the current viewmodel was selected among other IViewModelPageable classes
-    /// </summary>
     public bool IsChecked
     {
         get => _isChecked;

@@ -1,5 +1,8 @@
 ﻿namespace LibraryManager.Models;
 
+/// <summary>
+/// Represents a view model that supports pagination and selection.
+/// </summary>
 /// <author>YR 2025-02-04</author>
 public interface IViewModelPageable
 {
@@ -19,5 +22,4 @@ public interface IViewModelPageable
     {
         get; set;
     }
-
 }

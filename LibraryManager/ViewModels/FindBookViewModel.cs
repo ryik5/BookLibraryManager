@@ -54,6 +54,9 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _bookList, value);
     }
 
+    /// <summary>
+    /// Gets or sets the visibility of the Library's table.
+    /// </summary>
     public Visibility LibraryVisibility
     {
         get => _libraryVisibility;
@@ -149,6 +152,9 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
         MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
     }
 
+    /// <summary>
+    /// Call EditBookViewModel to edit of the SelectedBook.
+    /// </summary>
     private void EditBook()
     {
         var editBookView = new EditBookViewModel(_libraryManager, SelectedBook);

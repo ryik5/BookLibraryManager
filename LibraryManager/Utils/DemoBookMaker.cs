@@ -1,4 +1,4 @@
-﻿using LibraryManager.Models;
+﻿using BookLibraryManager.Common;
 
 namespace LibraryManager.Utils;
 
@@ -11,15 +11,23 @@ public static class DemoBookMaker
     /// <summary>
     /// Generates a random book model.
     /// </summary>
-    /// <returns>A new instance of SimpleBookModel with random properties.</returns>
-    public static SimpleBookModel GenerateBook()
+    /// <returns>A new instance of Book with random properties.</returns>
+    public static Book GenerateBook()
     {
         var id = Random.Shared.Next();
         var title = GenerateTitle();
         var author = GenerateAuthor();
         var year = GetRandomInt(1934, 2025, generatedYears);
         var pages = GetRandomInt(1, 777, generatedPages);
-        return new SimpleBookModel(id, author, title, year, pages);
+
+        return new Book()
+        {
+            Id = id,
+            Author = author,
+            Title = title,
+            TotalPages = pages,
+            PublishDate = year
+        };
     }
 
 

@@ -91,7 +91,11 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     public bool SearchOnFly
     {
         get => _searchOnFly;
-        set => SetProperty(ref _searchOnFly, value);
+        set
+        {
+            if (SetProperty(ref _searchOnFly, value) && value && !string.IsNullOrEmpty(SearchText))
+                FindBooks();
+        }
     }
 
     /// <summary>
@@ -100,7 +104,11 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     public BookElementsEnum SelectedSearchField
     {
         get => _selectedSearchField;
-        set => SetProperty(ref _selectedSearchField, value);
+        set
+        {
+            if (SetProperty(ref _selectedSearchField, value) && SearchOnFly && !string.IsNullOrEmpty(SearchText))
+                FindBooks();
+        }
     }
     #endregion
 

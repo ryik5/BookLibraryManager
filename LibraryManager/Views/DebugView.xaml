@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="LibraryManager.Views.DebugView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+        
+        <TextBlock Text="{Binding DebugTextLog}"
+                       TextWrapping="Wrap"
+                       FontSize="12"
+                        />
+    </ScrollViewer>
+
+</UserControl>

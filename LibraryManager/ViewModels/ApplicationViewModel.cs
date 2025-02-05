@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
+using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
@@ -21,6 +22,7 @@ public class ApplicationViewModel : BindableBase
         {
             { "Main", new MainViewModel(_libraryManager) }, //CheckBox content, ViewModel
             { "Find Book", new FindBookViewModel(_libraryManager) },
+            { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
         StatusBar = new StatusBarModel();
@@ -86,6 +88,7 @@ public class ApplicationViewModel : BindableBase
 
             CurrentViewModel = viewModel;
             CurrentViewModel.IsChecked = true;
+            MessageHandler.SendToStatusBar($"Switched to {pageName}");
         }
     }
     #endregion

@@ -18,10 +18,12 @@
         <DataTemplate DataType="{x:Type local:FindBookViewModel}">
             <view:FindBookView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DebugViewModel}">
+            <view:DebugView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type local:AboutViewModel}">
             <view:AboutView />
         </DataTemplate>
-
     </Window.Resources>
 
     <DockPanel LastChildFill="True">

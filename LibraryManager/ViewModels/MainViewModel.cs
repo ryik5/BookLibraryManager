@@ -6,9 +6,16 @@ using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// Main view model for the library manager application.
+/// </summary>
 /// <author>YR 2025-02-02</author>
 public class MainViewModel : BindableBase, IViewModelPageable
 {
+    /// <summary>
+    /// Initializes a new instance of the MainViewModel class.
+    /// </summary>
+    /// <param name="libraryManager">The library manager model.</param>
     public MainViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
@@ -28,16 +35,28 @@ public class MainViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
+    /// <summary>
+    /// Gets the name of this view model.
+    /// </summary>
     public string Name => "Main";
 
+    /// <summary>
+    /// Value indicating whether the current viewmodel was selected among other IViewModelPageable classes
+    /// </summary>
     public bool IsChecked
     {
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
     }
 
+    /// <summary>
+    /// Gets the library manager model.
+    /// </summary>
     public ILibrary Library => _libraryManager;
 
+    /// <summary>
+    /// Gets or sets the visibility of the Library's table.
+    /// </summary>
     public Visibility LibraryVisibility
     {
         get => _libraryVisibility;
@@ -200,6 +219,9 @@ public class MainViewModel : BindableBase, IViewModelPageable
         SubscribeTotalBooksChanged();
     }
 
+    /// <summary>
+    /// Call EditBookViewModel to edit of the _libraryManager.SelectedBook.
+    /// </summary>
     private void EditBook()
     {
         var editBookView = new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook);
@@ -272,11 +294,18 @@ public class MainViewModel : BindableBase, IViewModelPageable
         }
     }
 
+    /// <summary>
+    /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.
+    /// </summary>
+    /// <param name="e">The event arguments containing the new total number of books and a kind of the event.</param>
     private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
     {
         MessageHandler.SendToStatusBar($"{e?.TotalBooks ?? 0}", EInfoKind.TotalPages);
     }
 
+    /// <summary>
+    /// Unsubscribes from the TotalBooksChanged event and updates the library's table visibility and status bar accordingly.
+    /// </summary>
     private void UnsubscribeTotalBooksChanged()
     {
         if (_libraryManager != null)
@@ -286,6 +315,9 @@ public class MainViewModel : BindableBase, IViewModelPageable
         MessageHandler.SendToStatusBar($"{0}", EInfoKind.TotalPages);
     }
 
+    /// <summary>
+    /// Subscribes to the TotalBooksChanged event and updates the library's table visibility and status bar accordingly.
+    /// </summary>
     private void SubscribeTotalBooksChanged()
     {
         if (_libraryManager != null)

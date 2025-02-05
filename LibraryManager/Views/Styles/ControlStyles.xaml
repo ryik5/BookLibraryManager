@@ -2,8 +2,6 @@
     <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--<Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />-->
-
     <Style x:Key="ButtonBordedStyle" TargetType="{x:Type Button}">
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>

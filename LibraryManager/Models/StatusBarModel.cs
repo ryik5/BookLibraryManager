@@ -59,7 +59,7 @@ public class StatusBarModel : BindableBase
             case EInfoKind.TotalPages:
                 TotalPagesText = e.Message;
                 break;
-            default:
+            case EInfoKind.CommonMessage:
                 TextInfoText = e.Message;
                 break;
         }

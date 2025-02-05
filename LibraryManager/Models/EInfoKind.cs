@@ -4,5 +4,6 @@
 public enum EInfoKind
 {
     TotalPages,
-    CommonMessage
+    CommonMessage,
+    DebugMessage
 }

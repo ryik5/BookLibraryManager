@@ -25,7 +25,7 @@ public class ApplicationViewModel : BindableBase
             { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
-        StatusBar = new StatusBarModel();
+        StatusBar = new StatusBarViewModel();
 
 
         ChangePageCommand = new DelegateCommand<string>(Navigate);
@@ -55,7 +55,7 @@ public class ApplicationViewModel : BindableBase
     /// <summary>
     /// Gets or sets the status bar of the application.
     /// </summary>
-    public StatusBarModel StatusBar
+    public StatusBarViewModel StatusBar
     {
         get => _statusBar;
         set => SetProperty(ref _statusBar, value);
@@ -88,7 +88,7 @@ public class ApplicationViewModel : BindableBase
 
             CurrentViewModel = viewModel;
             CurrentViewModel.IsChecked = true;
-            MessageHandler.SendToStatusBar($"Switched to {pageName}");
+            MessageHandler.SendToStatusBar($"Switched to '{pageName}' page", EInfoKind.DebugMessage);
         }
     }
     #endregion
@@ -96,6 +96,6 @@ public class ApplicationViewModel : BindableBase
     #region private fields
     private IViewModelPageable _currentViewModel;
     private readonly LibraryBookManagerModel _libraryManager;
-    private StatusBarModel _statusBar;
+    private StatusBarViewModel _statusBar;
     #endregion
 }

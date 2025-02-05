@@ -158,10 +158,9 @@ public static class DemoBookMaker
         "Rapid Development",
         "The Annotated Turing",
         "Data Structures",
-        "he Little Schemer",
+        "The Little Schemer",
         "The Art of Computer Programming",
-        "Proofs and Refutations",
-        "The Cursed Child"
+        "Proofs and Refutations"
     ];
 
     private static readonly string[] title3 = [
@@ -180,7 +179,8 @@ public static class DemoBookMaker
         ".NET",
         "Unity",
         "Android",
-        "Swift"
+        "Swift",
+        "The Cursed Child"
         ];
     private static readonly string[] author1 = [
         "McConnell",

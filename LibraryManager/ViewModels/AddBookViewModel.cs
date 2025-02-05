@@ -117,6 +117,16 @@ internal class AddBookViewModel : BindableBase
 
     #region Methods
     /// <summary>
+    /// Adds the book to the library and closes the window.
+    /// </summary>
+    /// <param name="window">The window to be closed.</param>
+    public void AddBook(Book book)
+    {
+        _libraryManager.AddBook(book);
+        MessageHandler.SendToStatusBar($"Last added book '{book.Title}' (ID '{book.Id}')");
+    }
+
+    /// <summary>
     /// Displays the dialog for adding a new book.
     /// </summary>
     public virtual void ShowDialog()
@@ -136,7 +146,7 @@ internal class AddBookViewModel : BindableBase
     #endregion
 
 
-    #region private methods
+    #region methods
     /// <summary>
     /// Clears the book content and resets the loading state.
     /// </summary>
@@ -164,6 +174,8 @@ internal class AddBookViewModel : BindableBase
         // Subscribe to the loading finished event
         LoadingFinished += NewLib_LoadingFinished;
 
+        MessageHandler.SendToStatusBar($"Attempt to load new content", EInfoKind.DebugMessage);
+
         // Load the book content (TODO: select type of content to load)
         Book.Content = await loader.LoadDataAsync<MediaData>(() => OpenBitmapImage());
 
@@ -177,6 +189,13 @@ internal class AddBookViewModel : BindableBase
         await Task.Yield();
 
         IsSaveEnabled = Book.Content is null ? false : true;
+
+        if (Book.Content is null)
+            MessageHandler.SendToStatusBar("Content was not loaded successfully", EInfoKind.DebugMessage);
+        else
+            MessageHandler.SendToStatusBar($"Loaded new content into the book '{Book.Content.OriginalPath}'", EInfoKind.DebugMessage);
+
+
         // Unsubscribe from the loading finished event
         LoadingFinished -= NewLib_LoadingFinished;
     }
@@ -187,6 +206,8 @@ internal class AddBookViewModel : BindableBase
     private void SaveContent()
     {
         MessageBox.Show("This functionality has not been implemented yet!");
+        //  MessageHandler.SendToStatusBar($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing", EInfoKind.DebugMessage);
+
     }
 
     /// <summary>
@@ -222,8 +243,8 @@ internal class AddBookViewModel : BindableBase
     /// <param name="window">The window to be closed.</param>
     private void AddBook(Window window)
     {
-        _libraryManager.AddBook(Book);
-        MessageHandler.SendToStatusBar($"Last added book: '{Book.Title}'");
+        AddBook(Book);
+
         CloseWindow(window);
     }
 
@@ -234,7 +255,7 @@ internal class AddBookViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendToStatusBar("Adding book was canceled");
+        MessageHandler.SendToStatusBar("Adding book was canceled", EInfoKind.DebugMessage);
         CloseWindow(window);
     }
 

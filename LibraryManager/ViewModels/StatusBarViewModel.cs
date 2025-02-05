@@ -1,6 +1,7 @@
 ﻿using LibraryManager.Events;
+using LibraryManager.Models;
 
-namespace LibraryManager.Models;
+namespace LibraryManager.ViewModels;
 
 /// <summary>
 /// The StatusBarModel class is responsible for managing the status bar in the application.
@@ -9,14 +10,14 @@ namespace LibraryManager.Models;
 /// and the text block used to display the status bar message.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public class StatusBarModel : BindableBase
+public class StatusBarViewModel : BindableBase
 {
     /// <summary>
     /// Initializes a new instance of the StatusBarModel class.
     /// Subscribes to the StatusBarEvent and sets up the status bar items.
     /// </summary>
     /// <param name="statusBarKind">The kind of status bar to be used.</param>
-    public StatusBarModel()
+    public StatusBarViewModel()
     {
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
     }

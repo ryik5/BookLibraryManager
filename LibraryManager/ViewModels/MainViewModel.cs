@@ -131,10 +131,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    #endregion
 
-
-    #region Methods
     /// <summary>
     /// Determines whether operations can be performed on the books in the library.
     /// </summary>
@@ -152,7 +149,10 @@ public class MainViewModel : BindableBase, IViewModelPageable
     {
         return _libraryManager?.BookList != null && _libraryManager?.SelectedBook is Book;
     }
+    #endregion
 
+
+    #region Methods
     /// <summary>
     /// Adds a new book to the library.
     /// </summary>
@@ -167,11 +167,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     private void AddRandomBooks()
     {
         for (var i = 0; i < 10; i++)
-            _libraryManager.AddBook(DemoBookMaker.GenerateBook());
-
-        var text = $"Added 10 randomly generated books. Total books:{_libraryManager?.TotalBooks}";
-
-        MessageHandler.SendToStatusBar(text);
+            new AddBookViewModel(_libraryManager).AddBook(DemoBookMaker.GenerateBook());
     }
 
     /// <summary>
@@ -182,11 +178,10 @@ public class MainViewModel : BindableBase, IViewModelPageable
         UnsubscribeTotalBooksChanged();
 
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
-        var text = $"Created a new library with id: {_libraryManager.Id}";
 
         SubscribeTotalBooksChanged();
 
-        MessageHandler.SendToStatusBar(text);
+        MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Id}");
     }
 
     /// <summary>
@@ -200,13 +195,13 @@ public class MainViewModel : BindableBase, IViewModelPageable
 
         if (_libraryManager.LoadLibrary(new XmlLibraryLoader(), filePath))
         {
-            var text = $"Library was loaded with id:{_libraryManager.Id}. Total books:{_libraryManager?.TotalBooks}. Library's path: {filePath}";
-
-            MessageHandler.SendToStatusBar(text);
+            MessageHandler.SendToStatusBar($"The library was loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
+            MessageHandler.SendToStatusBar($"{_libraryManager?.TotalBooks}", EInfoKind.TotalPages);
+            MessageHandler.SendToStatusBar($"Library loaded with ID: {_libraryManager.Id}");
         }
         else
         {
-            MessageBox.Show("Library was not loaded");
+            MessageHandler.SendToStatusBar($"Library was not loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
         }
 
         SubscribeTotalBooksChanged();
@@ -217,9 +212,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        var editBookView = new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook);
-        editBookView.ShowDialog();
-        RaisePropertyChanged(nameof(_libraryManager.BookList));
+        new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook).ShowDialog();
     }
 
     /// <summary>
@@ -281,6 +274,8 @@ public class MainViewModel : BindableBase, IViewModelPageable
     {
         if (_libraryManager != null)
         {
+            MessageHandler.SendToStatusBar($"Library '{_libraryManager.Id}' was closed");
+
             UnsubscribeTotalBooksChanged();
 
             _libraryManager.CloseLibrary();

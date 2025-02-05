@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
+using LibraryManager.Models;
 using LibraryManager.Utils;
 using LibraryManager.Views;
 
@@ -26,6 +27,9 @@ internal class EditBookViewModel : AddBookViewModel
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);
 
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
+        MessageHandler.SendToStatusBar($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing", EInfoKind.DebugMessage);
+        MessageHandler.SendToStatusBar($"Original state of the book: '{_originalBook}'", EInfoKind.DebugMessage);
+
         _addBookWindow.ShowDialog();
     }
 
@@ -36,6 +40,7 @@ internal class EditBookViewModel : AddBookViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
+        MessageHandler.SendToStatusBar($"After editing the book has look: '{Book}'", EInfoKind.DebugMessage);
         MessageHandler.SendToStatusBar($"The last edited book '{Book.Title}'");
         CloseWindow(window);
     }
@@ -55,7 +60,7 @@ internal class EditBookViewModel : AddBookViewModel
         Book.ISDN = _originalBook.ISDN;
         Book.Content = _originalBook.Content;
 
-        MessageHandler.SendToStatusBar($"Edit book '{Book.Title}' was cancelled");
+        MessageHandler.SendToStatusBar($"Edit of book '{_originalBook.Title}' (ID {_originalBook.Id}') was cancelled");
         CloseWindow(window);
     }
 

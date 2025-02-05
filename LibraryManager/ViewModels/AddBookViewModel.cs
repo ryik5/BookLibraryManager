@@ -24,8 +24,8 @@ internal class AddBookViewModel : BindableBase
         LoadBookContentCommand = new RelayCommand(LoadBookContent);
         ClearBookContentCommand = new RelayCommand(ClearBookContent);
         SaveContentCommand = new RelayCommand(SaveContent);
-        IsEnableLoad = true;
-        IsEnableSave = false;
+        IsLoadEnabled = true;
+        IsSaveEnabled = false;
     }
 
 
@@ -96,101 +96,128 @@ internal class AddBookViewModel : BindableBase
         get; set;
     }
 
-    public bool IsEnableLoad
+    /// <summary>
+    /// Gets or sets a value indicating whether the load content is enabled.
+    /// </summary>
+    public bool IsLoadEnabled
     {
-        get => _isEnableLoad;
-        set => SetProperty(ref _isEnableLoad, value);
+        get => _isLoadEnabled;
+        set => SetProperty(ref _isLoadEnabled, value);
     }
 
-    public bool IsEnableSave
+    /// <summary>
+    /// Gets or sets a value indicating whether the loaded content is enabled to save on the disk.
+    /// </summary>
+    public bool IsSaveEnabled
     {
-        get => _isEnableSave;
-        set => SetProperty(ref _isEnableSave, value);
+        get => _isSaveEnabled;
+        set => SetProperty(ref _isSaveEnabled, value);
     }
     #endregion
 
     #region Methods
+    /// <summary>
+    /// Displays the dialog for adding a new book.
+    /// </summary>
     public virtual void ShowDialog()
     {
-        Book = CreateDemoBook();
+        // Generate a new book with default values
+        Book = DemoBookMaker.GenerateBook();
 
+        // Set up the dialog window properties
         WindowTitle = "Add Book";
         ExecuteButtonName = "Add Book";
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
-
+        // Create and show the dialog window
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
-    }
-
-    public static Book CreateDemoBook()
-    {
-        var generatedBook = DemoBookMaker.GenerateBook();
-        return new Book()
-        {
-            Id = generatedBook.Id,
-            Author = generatedBook.Author,
-            Title = generatedBook.Title,
-            TotalPages = generatedBook.Pages,
-            PublishDate = generatedBook.Year
-        };
     }
     #endregion
 
 
     #region private methods
+    /// <summary>
+    /// Clears the book content and resets the loading state.
+    /// </summary>
     private void ClearBookContent()
     {
+        // Clear the book content
         Book.Content = null;
         LoadingState = "Load content";
-
-        IsEnableLoad = true;
-        IsEnableSave = false;
+        // Enable the load functionality and disable the save functionality
+        IsLoadEnabled = true;
+        IsSaveEnabled = false;
     }
 
+    /// <summary>
+    /// Loads the book content asynchronously.
+    /// </summary>
     private async void LoadBookContent()
     {
-        IsEnableSave = false;
-        IsEnableSave = false;
+        // Disable the save functionality
+        IsSaveEnabled = false;
 
+        // Create a new loader instance
         var loader = new Loader();
 
+        // Subscribe to the loading finished event
         LoadingFinished += NewLib_LoadingFinished;
-        // TODO 1st step - select type of content to load
+
+        // Load the book content (TODO: select type of content to load)
         Book.Content = await loader.LoadDataAsync<MediaData>(() => OpenBitmapImage());
 
+        // Set the loading state message
         var msg = (Book.Content is null) ? "Load content" : "Content was loaded";
 
+        // Invoke the loading finished event
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
 
+        // Yield to allow other tasks to run before next
         await Task.Yield();
 
-        IsEnableSave = Book.Content is null ? false : true;
+        IsSaveEnabled = Book.Content is null ? false : true;
+        // Unsubscribe from the loading finished event
         LoadingFinished -= NewLib_LoadingFinished;
     }
 
+    /// <summary>
+    /// Saves the book content (not implemented yet).
+    /// </summary>
     private void SaveContent()
     {
-        MessageBox.Show("it hasn't implemented yet!");
+        MessageBox.Show("This functionality has not been implemented yet!");
     }
 
+    /// <summary>
+    /// Opens a bitmap image (not implemented yet).
+    /// </summary>
+    /// <returns>The selected media data.</returns>
     private MediaData? OpenBitmapImage()
     {
-        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = "Loading started", IsFinished = false });
+        // Invoke the loading started event
+        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs
+        {
+            Message = "Loading started",
+            IsFinished = false
+        });
 
         var selectorFiles = new SelectionDialogHandler();
 
         return selectorFiles.SelectMediaData();
     }
 
+    /// <summary>
+    /// Handles the loading finished event.
+    /// </summary>
     private void NewLib_LoadingFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingState = e.Message;
-        IsEnableLoad = e.IsFinished;
+        IsLoadEnabled = e.IsFinished;
     }
 
     /// <summary>
-    /// Adds the book and closes the window.
+    /// Adds the book to the library and closes the window.
     /// </summary>
     /// <param name="window">The window to be closed.</param>
     private void AddBook(Window window)
@@ -227,7 +254,7 @@ internal class AddBookViewModel : BindableBase
     private ActionWithBookWindow _addBookWindow;
     private Book _book;
     private string _loadingState;
-    private bool _isEnableLoad;
-    private bool _isEnableSave;
+    private bool _isLoadEnabled;
+    private bool _isSaveEnabled;
     #endregion
 }

@@ -167,7 +167,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     private void AddRandomBooks()
     {
         for (var i = 0; i < 10; i++)
-            _libraryManager.AddBook(AddBookViewModel.CreateDemoBook());
+            _libraryManager.AddBook(DemoBookMaker.GenerateBook());
 
         var text = $"Added 10 randomly generated books. Total books:{_libraryManager?.TotalBooks}";
 

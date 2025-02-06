@@ -282,6 +282,8 @@ public class MainViewModel : BindableBase, IViewModelPageable
             UnsubscribeTotalBooksChanged();
 
             _libraryManager.CloseLibrary();
+
+            MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
         }
     }
 

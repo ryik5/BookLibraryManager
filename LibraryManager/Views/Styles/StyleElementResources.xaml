@@ -7,9 +7,6 @@
     <!-- Define the Logo as a resource -->
     <ImageSource x:Key="ApplicationLogo">/Properties/Resources/application.png</ImageSource>
 
-    <!-- Define the Exit as a resource -->
-    <ImageSource x:Key="ExitIcon">/Properties/Resources/exit.png</ImageSource>
-
     <!-- Define the FontFamily as a resource -->
     <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>
 

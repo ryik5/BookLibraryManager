@@ -3,51 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <UserControl.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Foreground" Value="{StaticResource ColorSet7}"/>
-            <Setter Property="Margin" Value="5 0 5 0"/>
-        </Style>
-    </UserControl.Resources>
+    <Border Style="{StaticResource DockPanelBordedStyle}">
+        <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
-    <Border Background="{StaticResource ColorSet1}"
-            Margin="0" CornerRadius="5"
-            SnapsToDevicePixels="True"
-            TextOptions.TextFormattingMode="Display"
-            TextOptions.TextRenderingMode="ClearType"
-            >
-        <StatusBar Background="Transparent" BorderThickness="0">
-            <StatusBarItem HorizontalAlignment="Left" 
-                           BorderThickness="1" 
-                           Padding="0"
-                           BorderBrush="Transparent" 
-                           >
-                <Border BorderBrush="Transparent" 
-                        BorderThickness="0" Margin="1"
-                        CornerRadius="2"
-                        Background="White">
-                    <Image Source="{StaticResource WindowIcon}" />
-                </Border>
-            </StatusBarItem>
-            
-            <StatusBarItem >
-                <TextBlock Text="{Binding TextInfoText}" FontFamily="{StaticResource ManropeFont}"/>
-            </StatusBarItem>
-            
-            <StatusBarItem HorizontalAlignment="Right" BorderThickness="1 0 0 0" BorderBrush="DarkGray"
-                           ToolTip="Total number of books in the current library">
-                <TextBlock FontFamily="{StaticResource ManropeFont}">
-                    <Run Text="Book(s): " FontWeight="Bold"/>
-                    <Run Text="{Binding TotalPagesText}"/>
-                </TextBlock>
-            </StatusBarItem>
-        </StatusBar>
+            <Image DockPanel.Dock="Left" Source="{StaticResource WindowIcon}" />
+
+            <ComboBox DockPanel.Dock="Right" Width="110" SelectedIndex="0" 
+                  Style="{StaticResource ComboBoxForStatusBarStyle}" 
+                  BorderBrush="{StaticResource ColorSet6}"
+                  BorderThickness="1 0 1 0"
+                  VerticalContentAlignment="Center"
+                  ToolTipService.IsEnabled="True"
+                  Margin="0 0 -2 0"
+                  ToolTip="{Binding ToolTip}"
+                  SelectedItem="{Binding SelectedInfoItem}"
+                 >
+                <ComboBox.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Padding" Value="5 0 5 0"/>
+                        <Setter Property="Margin" Value="2 0 0 0"/>
+                    </Style>
+                    <Style TargetType="{x:Type ToolTip}">
+                        <Setter Property="Content" Value="{Binding ToolTip}" />
+                    </Style>
+                </ComboBox.Resources>
+
+                <ComboBox.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Control.ToolTip" Value="{Binding ToolTip}" />
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+
+                <ComboBoxItem DataContext="{Binding TotalPagesText}" Tag="{Binding ToolTip}">
+                    <ComboBoxItem.Content>
+                        <TextBlock>
+                            <Run Text="Book(s): " FontWeight="Bold"/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem DataContext="{Binding VersionText}" Tag="{Binding ToolTip}">
+                    <ComboBoxItem.Content>
+                        <TextBlock>
+                            <Run Text="App.: " FontWeight="Bold"/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                <ComboBoxItem DataContext="{Binding LibraryInfoText}" Tag="{Binding ToolTip}">
+                    <ComboBoxItem.Content>
+                        <TextBlock>
+                            <Run Text="Lib.: " FontWeight="Bold"/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <ComboBox Margin="2 0 0 0" SelectedIndex="0"
+                  Style="{StaticResource ComboBoxForStatusBarStyle}"
+                  BorderBrush="{StaticResource ColorSet6}"
+                  BorderThickness="1 0 1 0" 
+                  HorizontalAlignment="Stretch"
+                  MinWidth="150">
+                <ComboBoxItem Content="{Binding TextInfoText1}"/>
+                <ComboBoxItem Content="{Binding TextInfoText2}"/>
+                <ComboBoxItem Content="{Binding TextInfoText3}"/>
+            </ComboBox>
+
+        </DockPanel>
     </Border>
+
 </UserControl>

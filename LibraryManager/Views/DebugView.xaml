@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Background="{StaticResource ColorSet6}">
+    <ScrollViewer HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  VerticalScrollBarVisibility="Auto" 
+                  Background="{StaticResource ColorSet6}">
         
         <TextBlock Text="{Binding DebugTextLog}"
-                       TextWrapping="Wrap"
-                       FontSize="12"
+                   TextWrapping="Wrap"
+                   FontSize="12"
                         />
     </ScrollViewer>
 

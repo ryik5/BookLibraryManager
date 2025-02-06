@@ -1,4 +1,9 @@
-﻿using LibraryManager.Events;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Controls;
+using BookLibraryManager.Common;
+using LibraryManager.Events;
 using LibraryManager.Models;
 
 namespace LibraryManager.ViewModels;
@@ -17,9 +22,22 @@ public class StatusBarViewModel : BindableBase
     /// Subscribes to the StatusBarEvent and sets up the status bar items.
     /// </summary>
     /// <param name="statusBarKind">The kind of status bar to be used.</param>
-    public StatusBarViewModel()
+    public StatusBarViewModel(ILibrary libraryManager)
     {
+        _libraryManager = libraryManager;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
+
+        TotalPagesText.ToolTip = "Total pages in the library";
+        InfoList.Add(TotalPagesText);
+
+        UpdateSysInfo();
+        UpdateLibraryInfo();
+
+        InfoList.Add(VersionText);
+        InfoList.Add(LibraryInfoText);
+
+        SelectedInfoItem.Content = TotalPagesText.Name;
+        ToolTip = TotalPagesText.ToolTip;
     }
 
     public void Dispose()
@@ -32,19 +50,61 @@ public class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the common info messages.
     /// </summary>
-    public string TextInfoText
+    public string TextInfoText1
     {
-        get => _textInfoText;
-        set => SetProperty(ref _textInfoText, value);
+        get => _textInfoText1;
+        set => SetProperty(ref _textInfoText1, value);
+    }
+    public string TextInfoText2
+    {
+        get => _textInfoText2;
+        set => SetProperty(ref _textInfoText2, value);
+    }
+    public string TextInfoText3
+    {
+        get => _textInfoText3;
+        set => SetProperty(ref _textInfoText3, value);
     }
 
     /// <summary>
     /// Displays the total number of the books in the library.
     /// </summary>
-    public string TotalPagesText
+    public Message TotalPagesText
     {
         get => _totalPagesText;
         set => SetProperty(ref _totalPagesText, value);
+    }
+
+    public Message VersionText
+    {
+        get => _versionText;
+        set => SetProperty(ref _versionText, value);
+    }
+
+    public Message LibraryInfoText
+    {
+        get => _libraryInfoText;
+        set => SetProperty(ref _libraryInfoText, value);
+    }
+
+    public ComboBoxItem SelectedInfoItem
+    {
+        get => _selectedInfoItem;
+        set
+        {
+            if (SetProperty(ref _selectedInfoItem, value))
+                ToolTip = value?.Tag;
+        }
+    }
+    public object ToolTip
+    {
+        get => _toolTip;
+        set => SetProperty(ref _toolTip, value);
+    }
+    public ObservableCollection<Message> InfoList
+    {
+        get => _infoList;
+        set => SetProperty(ref _infoList, value);
     }
     #endregion
 
@@ -58,18 +118,71 @@ public class StatusBarViewModel : BindableBase
         switch (e.InfoKind)
         {
             case EInfoKind.TotalPages:
-                TotalPagesText = e.Message;
+                TotalPagesText.Name = e.Message;
+                RaisePropertyChanged(nameof(TotalPagesText));
                 break;
             case EInfoKind.CommonMessage:
-                TextInfoText = e.Message;
+                SetTextInfoText(e.Message);
+                break;
+            case EInfoKind.DebugMessage:
+                UpdateSysInfo();
+                UpdateLibraryInfo();
                 break;
         }
     }
 
+    private void SetTextInfoText(string msg)
+    {
+        TextInfoText3 = TextInfoText2;
+        TextInfoText2 = TextInfoText1;
+        TextInfoText1 = msg;
+    }
+
+    private void UpdateSysInfo()
+    {
+        var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+        VersionText.Name = $"{versionInfo.CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
+        VersionText.ToolTip = "App. Info";
+    }
+
+    private void UpdateLibraryInfo()
+    {
+        LibraryInfoText.Name = $"{_libraryManager.Id}";
+        LibraryInfoText.ToolTip = $"Library information.\nID:'{_libraryManager.Id}'\nName:'{_libraryManager.Name}'\nDescription:'{_libraryManager.Description}'";
+    }
 
     #region Fields
-    private string _textInfoText;
-    private string _totalPagesText;
+    private string _textInfoText1 = string.Empty;
+    private string _textInfoText2 = string.Empty;
+    private string _textInfoText3 = string.Empty;
+    private Message _totalPagesText = new();
+    private Message _versionText = new();
+    private Message _libraryInfoText = new();
+    private ComboBoxItem _selectedInfoItem = new();
+    private object _toolTip;
+    private ObservableCollection<Message> _infoList = new();
     private readonly SubscriptionToken _token;
+    private readonly ILibrary _libraryManager;
     #endregion
+}
+
+public class Message : BindableBase
+{
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+
+    public string ToolTip
+    {
+        get => _toolTip;
+        set => SetProperty(ref _toolTip, value);
+    }
+
+    public override string ToString() => Name;
+
+
+    private string _name;
+    private string _toolTip;
 }

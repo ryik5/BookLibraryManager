@@ -7,25 +7,17 @@
     <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
                         <Border x:Name="BorderTitleBar" Background="Transparent" BorderThickness="0" Padding="0" />
-                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <ContentPresenter 
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}" />
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BorderTitleBar" Property="Background" Value="Transparent" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="false">
-                            <Setter TargetName="BorderTitleBar" Property="Background" Value="Transparent" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -64,10 +56,11 @@
     </Style>
 
     <Style x:Key="ExitButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Opacity" Value="0.9"/>
+        <Setter Property="Opacity" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Margin" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -77,8 +70,11 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Opacity="{TemplateBinding Opacity}"
                             BorderBrush="Transparent"
-                            Padding="5">
-                        <Image Source="{StaticResource ExitIcon}"/>
+                            Padding="9">
+                        <Border BorderThickness="1" BorderBrush="Orange" CornerRadius="7" Background="Orange" Padding="3">
+                            <Path Style="{StaticResource PathSignX}"
+                                  Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

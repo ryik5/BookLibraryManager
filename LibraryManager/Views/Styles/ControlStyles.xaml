@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="ButtonBordedStyle" TargetType="{x:Type Button}">
@@ -54,6 +54,7 @@
 
     <Style x:Key="ButtonMainMenuStyle" TargetType="{x:Type Button}">
         <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -98,10 +99,11 @@
         </Style.Triggers>
     </Style>
 
-     <Style x:Key="TextBoxBordedStyle" TargetType="{x:Type TextBox}">
+    <Style x:Key="TextBoxBordedStyle" TargetType="{x:Type TextBox}">
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="Background" Value="{StaticResource ColorSet5}"/>
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate x:Name="Tb" TargetType="{x:Type TextBox}">
@@ -128,10 +130,11 @@
 
     <Style x:Key="LabelBordedStyle" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate x:Name="Lbl" TargetType="{x:Type Label}">
-                    <Border x:Name="Bd"
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border 
                 SnapsToDevicePixels="True" 
                 Uid="Border_38" 
                 MinHeight="24"
@@ -141,7 +144,7 @@
                 CornerRadius="5"
                 BorderBrush="Transparent"
                 Background="{StaticResource ColorSet6}">
-                        <ContentPresenter x:Name="ContentHost" 
+                        <ContentPresenter 
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"
                               Margin="{TemplateBinding Margin}"/>
@@ -151,7 +154,72 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TextBlockBordedStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LabelBordedStyle}"/>
+    <Style x:Key="TextBlockBordedStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LabelBordedStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+    </Style>
+
+    <Style x:Key="CheckBoxApplicationStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
+        <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
+        <Setter Property="Background" Value="{StaticResource ColorSet5}"/>
+        <Setter Property="Padding" Value="10 0 5 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="Bd"
+                SnapsToDevicePixels="True" 
+                Uid="Border_38" 
+                MinHeight="24"
+                Margin="10 0 2 0"
+                Padding="{TemplateBinding Padding}"
+                BorderThickness="1"
+                CornerRadius="5"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                Background="{TemplateBinding Background}">
+                        <BulletDecorator x:Name="BulletDecorator"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="CheckMark"
+                            Width="10"
+                            Height="10"
+                            Background="{StaticResource ColorSet4}"
+                            BorderThickness="1"
+                            CornerRadius="5"
+                            BorderBrush="{TemplateBinding BorderBrush}"/>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter x:Name="ContentPresenter" 
+                          Content="{TemplateBinding Content}" 
+                          ContentSource="Content" 
+                          Margin="3 0 0 0" 
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Left"
+                          RecognizesAccessKey="True" 
+                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </BulletDecorator>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource ColorSet4}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
+                            <Setter Property="Margin" Value="-8 0 0 0"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="ComboBoxBordedStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
@@ -265,45 +333,98 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="CheckBoxApplicationStyle" TargetType="{x:Type CheckBox}">
-        <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
-        <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
-        <Setter Property="Background" Value="{StaticResource ColorSet5}"/>
-        <Setter Property="Padding" Value="10 0 5 0"/>
+    <Style x:Key="ComboBoxForStatusBarStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="Foreground" Value="{StaticResource ColorSet6}"/>
+        <Setter Property="Background" Value="{StaticResource ColorSet1}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
+                <ControlTemplate TargetType="{x:Type ComboBox}">
                     <Border x:Name="Bd"
-                SnapsToDevicePixels="True" 
-                Uid="Border_38" 
-                MinHeight="24"
-                Margin="10 0 2 0"
-                Padding="{TemplateBinding Padding}"
-                BorderThickness="1"
-                CornerRadius="5"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                Background="{TemplateBinding Background}">
-                        <BulletDecorator x:Name="BulletDecorator"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left">
-                            <BulletDecorator.Bullet>
-                                <Border x:Name="CheckMark"
-                            Width="10"
-                            Height="10"
-                            Background="{StaticResource ColorSet4}"
-                            BorderThickness="1"
-                            CornerRadius="5"
-                            BorderBrush="{TemplateBinding BorderBrush}"/>
-                            </BulletDecorator.Bullet>
+                    SnapsToDevicePixels="True" 
+                    Uid="Border_38" 
+                    Margin="{TemplateBinding Margin}"
+                    Padding="{TemplateBinding Padding}"
+                    BorderThickness="0"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    Background="{TemplateBinding Background}"
+                    Width="{TemplateBinding Width}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
                             <ContentPresenter x:Name="ContentPresenter" 
-                          Content="{TemplateBinding Content}" 
-                          ContentSource="Content" 
-                          Margin="3 0 0 0" 
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Left"
-                          RecognizesAccessKey="True" 
-                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </BulletDecorator>
+                              Content="{TemplateBinding SelectionBoxItem}" 
+                              ContentSource="SelectionBoxItem" 
+                              Margin="{TemplateBinding Margin}" 
+                              ToolTip="{TemplateBinding ToolTip}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              RecognizesAccessKey="True" 
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                              Uid="ContentPresenter_33"/>
+                            <ToggleButton x:Name="ToggleButton" 
+                                      Grid.Column="1"
+                                      Margin="-2 -1 1 -1"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ClickMode="Press">
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                    <Border x:Name="Border"
+                                                    Background="{StaticResource ColorSet5}"
+                                                    BorderBrush="{StaticResource ColorSet2}"
+                                                    BorderThickness="0"
+                                                    CornerRadius="2">
+                                                        <Path x:Name="Arrow"
+                                                      Fill="{StaticResource ColorSet1}"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ColorSet4}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                            <Popup x:Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                                  SnapsToDevicePixels="True"
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    BorderBrush="{StaticResource ColorSet2}"
+                                    Background="{StaticResource ColorSet2}">
+                                        <ScrollViewer x:Name="DropDownScrollViewer"
+                                                  SnapsToDevicePixels="True">
+                                            <ItemsPresenter x:Name="ItemsPresenter"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="True">
@@ -313,22 +434,34 @@
                             <Setter TargetName="Bd" Property="Opacity" Value="0.5" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource ColorSet4}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource ColorSet2}" />
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-                            <Setter Property="Margin" Value="-8 0 0 0"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed" />
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource ColorSet1}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource ColorSet6}" />
+            </Trigger>
+            <Trigger Property="IsFocused" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource ColorSet6}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-        
+    <Style x:Key="DockPanelBordedStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource ColorSet1}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Padding" Value="5 2 5 2"/>
+        <Setter Property="Margin" Value="5 2 2 2"/>
+    </Style>
+
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="BorderThickness" Value=" 0 0 1 0"/>
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet1}"/>
@@ -397,6 +530,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 
 </ResourceDictionary>

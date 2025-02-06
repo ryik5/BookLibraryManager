@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:model="clr-namespace:LibraryManager.Models"
         xmlns:local="clr-namespace:LibraryManager.ViewModels"
-        xmlns:view="clr-namespace:LibraryManager.Views" xmlns:models="clr-namespace:LibraryManager.Models" d:DataContext="{d:DesignInstance Type=models:StatusBarModel}"
+        xmlns:view="clr-namespace:LibraryManager.Views"
+        xmlns:models="clr-namespace:LibraryManager.Models" 
+        d:DataContext="{d:DesignInstance Type=local:StatusBarViewModel}"
         mc:Ignorable="d"
         Title="The Library Manager"
         Height="600" Width="850"
@@ -28,7 +30,7 @@
 
     <DockPanel LastChildFill="True">
 
-        <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="28" Margin="2"/>
+        <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="2"/>
 
         <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="100" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>

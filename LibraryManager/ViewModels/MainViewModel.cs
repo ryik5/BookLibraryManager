@@ -182,6 +182,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
         SubscribeTotalBooksChanged();
 
         MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Id}");
+        MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
     }
 
     /// <summary>
@@ -203,6 +204,8 @@ public class MainViewModel : BindableBase, IViewModelPageable
         {
             MessageHandler.SendToStatusBar($"Library was not loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
         }
+
+        MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
 
         SubscribeTotalBooksChanged();
     }

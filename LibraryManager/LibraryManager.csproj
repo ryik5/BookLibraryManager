@@ -17,14 +17,9 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Properties\Resources\exit.png" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <Resource Include="Properties\Resources\application.png" />
-    <Resource Include="Properties\Resources\exit.png" />
     <Resource Include="Properties\Resources\Manrope.ttf" />
     <Resource Include="Properties\Resources\YR40.ico" />
   </ItemGroup>

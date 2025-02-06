@@ -25,7 +25,7 @@ public class ApplicationViewModel : BindableBase
             { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
-        StatusBar = new StatusBarViewModel();
+        StatusBar = new StatusBarViewModel(_libraryManager);
 
 
         ChangePageCommand = new DelegateCommand<string>(Navigate);

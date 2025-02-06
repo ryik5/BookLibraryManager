@@ -154,10 +154,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TextBlockBordedStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource LabelBordedStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
-    </Style>
-
     <Style x:Key="CheckBoxApplicationStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>

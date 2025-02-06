@@ -3,27 +3,93 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <Border Background="{StaticResource ColorSet6}" BorderThickness="0" Margin="2">
+    <Border Background="{StaticResource ColorSet6}" BorderThickness="0" Margin="2" x:Name="borderAbout">
+
         <Grid >
-            <Image Source="{StaticResource ApplicationLogo}" Opacity="0.7" />
-            <Border 
-                CornerRadius="5"
-                Background="{StaticResource ColorSet3}" Opacity="0.3" 
-                BorderBrush="Transparent"
-                Width="{Binding ElementName=txtAbout, Path=ActualWidth}"
-                Height="{Binding ElementName=txtAbout, Path=ActualHeight}"
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition />
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            
+            <Label Content="{Binding Header}" Style="{StaticResource LabelBordedStyle}"
+                       FontWeight="Bold" HorizontalAlignment="Center" 
+                       FontSize="12"
+                       />
+
+            <FlowDocumentScrollViewer Grid.Row="1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                Width="{Binding ElementName=borderAbout, Path=ActualWidth}" 
                 >
-            </Border>
-            <TextBlock x:Name="txtAbout" 
-                               Text="{Binding Message}" 
-                               Foreground="{StaticResource ColorSet1}"
-                               FontWeight="Bold" FontStyle="Normal"
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center" 
-                               FontSize="28"
-                               Padding="5"/>
+                <FlowDocument ColumnWidth="{Binding ElementName=borderAbout, Path=ActualWidth}"  >
+                    <Paragraph TextAlignment="Center">
+                        <Bold>Welcome to the Book Library Manager!</Bold>
+                    </Paragraph>
+                    <Paragraph>
+                        This application helps you efficiently manage a collection of books with a modular plugin architecture.
+                    </Paragraph>
+
+                    <Paragraph>
+                        <Bold>Key Features:</Bold>
+                    </Paragraph>
+
+                    <List>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Load Books from XML:</Bold> Import a list of books from an XML file using a dedicated plugin.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Add New Books:</Bold> Input new book details, save book content to the local disk, and clear book content as needed.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Remove Books:</Bold> Delete books from the collection.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Sort Books:</Bold> Organize books alphabetically by author and then by title within each author's works.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Search Functionality:</Bold> Find books by searching for partial matches in the author's name, title, publication year, or total pages.
+                            </Paragraph>
+                        </ListItem>
+                        <ListItem>
+                            <Paragraph>
+                                <Bold>Save Books to XML:</Bold> Export the current book list to an XML file through a dedicated plugin.
+                            </Paragraph>
+                        </ListItem>
+                    </List>
+
+                    <Paragraph>
+                        Designed for flexibility and extensibility, this application allows for the integration of additional plugins to enhance or customize its functionality.
+                    </Paragraph>
+
+                    <Paragraph>
+                        Enjoy managing your book collection with ease!
+                    </Paragraph>
+
+                    <Paragraph>
+                        For more information and to access the source code, visit:
+                        <Hyperlink NavigateUri="https://github.com/ryik5/BookLibraryManager">GitHub Repository</Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+
+            <!--<Image Source="{StaticResource ApplicationLogo}" Opacity="0.7" />-->
+
+            <Label Content="{Binding Footer}" Style="{StaticResource LabelBordedStyle}"
+                       FontSize="12"
+                       HorizontalAlignment="Left" 
+                       Grid.Row="2"
+                       />
         </Grid>
     </Border>
 </UserControl>

@@ -21,14 +21,16 @@
    
    2.1 build .dll in BookLibraryManager.Common 
    
-   2.2.1 build .dll in BookLibraryManager.XmlFileLibraryOperator 
-   or 
+   2.2.1 build .dll in BookLibraryManager.XmlFileLibraryOperator
+   
+   or
+   
    2.2.2. build your own providers and modify LibraryManager code to work with other kind of library's storages.
    
    2.3 add external icon/logo in project to customise the application
    
 
-3. **Run the Application:**
+4. **Run the Application:**
    ```sh
    [command_to_run_application]
    ```

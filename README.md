@@ -1,26 +1,67 @@
-# **Library Manager with plugins**
+# LibraryManager
 
-The application provides the following functionality:
-1. Load a list of books from an XML file (implemented in a separate .dll).
-2. Add a new book to the list.  
-2.1. Load content into the new book.  
-2.2. Save book content onto the local disk.  
-2.3. Clear content of the new book.  
-3. Remove a book from the list.  
-4. Sort the list in alphabetical order by author first, then by title for each author. Example: first all Andersen’s books, then all King’s books. Andersen’s books: first The Little Mermaid, then The Ugly Duckling, etc.  (implemented in a separate .dll)
-5. Search for a book by part of its author, title, publish year, or total pages.
-6. Save the list of books into an XML file (implemented in a separate .dll).
+**LibraryManager** is a comprehensive application designed to help users efficiently catalog, organize, and manage their personal or institutional book collections. With features such as ISBN scanning, detailed book information storage, and lending management, it serves as an essential tool for book enthusiasts and librarians alike.
 
-The library and plugins are implemented in .NET/C# version 9.0.
+## Features
 
-## Project Structure
+- **Comprehensive Book Details** - Store and view information such as title, author, genre, publication date, and more.
+- **Search and Filter** - Easily find books in your collection using various search criteria and filters.
+- **Customizable Categories** - Organize your books into categories that suit your preferences.
 
-### LibraryManager
-This project contains the application written in WPF.
+## Installation
 
-### BookLibraryManager.Common
-This library contains common objects and the main functionality of the library. It is a mandatory DLL.
-### BookLibraryManager.XmlFileLibraryOperator
-This library provides operations for managing the library stored as an XML file.
-### BookLibraryManagerTests
-This project contains `BookLibraryManager.Common` unit tests for the xUnit framework.
+1. **Clone the Repository:**
+   ```sh
+   git clone https://github.com/ryik5/BookLibraryManager.git
+   cd BookLibraryManager/LibraryManager
+   ```
+
+2. **Install Dependencies and Resources:**
+   Ensure you have the required dependencies, libraries and resources installed.
+   
+   2.1 build .dll in BookLibraryManager.Common 
+   
+   2.2.1 build .dll in BookLibraryManager.XmlFileLibraryOperator 
+   or 
+   2.2.2. build your own providers and modify LibraryManager code to work with other kind of library's storages.
+   
+   2.3 add external icon/logo in project to customise the application
+   
+
+3. **Run the Application:**
+   ```sh
+   [command_to_run_application]
+   ```
+
+## Usage
+
+### Adding Books
+- Navigate to the **'Add Book'** section.
+- Scan the book's ISBN or enter the details manually.
+- Attach additional data
+- Click **'Save'** to add the book to your collection.
+
+### Searching for Books
+- Use the **search bar** at the top to enter keywords.
+- Use **search-on-fly** to search books while inputting a part of keyword.
+- Apply **filters** to narrow down results by author, genre, or status.
+
+## Screenshots
+
+![Dashboard](path_to_screenshot/dashboard.png)
+*The main dashboard displaying an overview of your collection.*
+
+![Add Book](path_to_screenshot/add_book.png)
+*The 'Add Book' interface with ISBN scanning feature.*
+
+![Search Management](path_to_screenshot/search_management.png)
+*Track books you've lent out and their return status.*
+
+## License
+
+This project is licensed under the [MIT License](link_to_license).
+
+## Contact
+
+For questions or support, please contact **me** at **github**.
+

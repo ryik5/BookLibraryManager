@@ -7,10 +7,10 @@
         xmlns:local="clr-namespace:LibraryManager.ViewModels"
         xmlns:view="clr-namespace:LibraryManager.Views"
         xmlns:models="clr-namespace:LibraryManager.Models" 
-        d:DataContext="{d:DesignInstance Type=local:StatusBarViewModel}"
         mc:Ignorable="d"
         Title="The Library Manager"
         Height="600" Width="850"
+        WindowStartupLocation="CenterScreen"
         Style="{StaticResource BookLibraryWindowStyle}">
 
     <Window.Resources>
@@ -26,12 +26,17 @@
         <DataTemplate DataType="{x:Type local:AboutViewModel}">
             <view:AboutView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type local:StatusBarViewModel}">
+            <view:StatusBarControl />
+        </DataTemplate>
     </Window.Resources>
 
     <DockPanel LastChildFill="True">
 
-        <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="2"/>
+        <!-- Status bar -->
+        <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="0"/>
 
+        <!-- Navigation bar -->
         <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="100" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

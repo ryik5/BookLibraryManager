@@ -19,14 +19,14 @@ public class MainViewModel : BindableBase, IViewModelPageable
     public MainViewModel(LibraryBookManagerModel libraryManager)
     {
         _libraryManager = libraryManager;
-        CreateNewCommand = new DelegateCommand(CreateNewLibrary);
+        CreateLibraryCommand = new DelegateCommand(CreateLibrary);
         LoadLibraryCommand = new DelegateCommand(LoadLibrary);
         SaveLibraryCommand = new RelayCommand(SaveLibrary, CanOperateWithBooks);
         SortLibraryCommand = new RelayCommand(SortLibrary, CanOperateWithBooks);
         CloseLibraryCommand = new RelayCommand(CloseLibrary, CanOperateWithBooks);
 
         AddBookCommand = new RelayCommand(AddBook, CanOperateWithBooks);
-        AddRandomBooksCommand = new RelayCommand(AddRandomBooks, CanOperateWithBooks);
+        DemoAddBooksCommand = new RelayCommand(DemoAddRandomBooks, CanOperateWithBooks);
         RemoveBookCommand = new RelayCommand(RemoveBook, CanRemoveBook);
         EditBookCommand = new RelayCommand(EditBook, CanRemoveBook);
 
@@ -63,7 +63,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Command to create a new library.
     /// </summary>
-    public DelegateCommand CreateNewCommand
+    public DelegateCommand CreateLibraryCommand
     {
         get;
     }
@@ -111,7 +111,7 @@ public class MainViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Command to add random books to the library.
     /// </summary>
-    public DelegateCommand AddRandomBooksCommand
+    public DelegateCommand DemoAddBooksCommand
     {
         get;
     }
@@ -164,16 +164,38 @@ public class MainViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Adds randomly filled books to the library.
     /// </summary>
-    private void AddRandomBooks()
+    private void DemoAddRandomBooks()
     {
         for (var i = 0; i < 10; i++)
             new AddBookViewModel(_libraryManager).AddBook(DemoBookMaker.GenerateBook());
     }
 
     /// <summary>
+    /// Call EditBookViewModel to edit of the _libraryManager.SelectedBook.
+    /// </summary>
+    private void EditBook()
+    {
+        new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook).ShowDialog();
+    }
+
+    /// <summary>
+    /// Deletes a book from the library.
+    /// </summary>
+    private void RemoveBook()
+    {
+        var deletedBookId = _libraryManager.SelectedBook?.Id;
+        var result = _libraryManager.RemoveBook(_libraryManager.SelectedBook);
+        var text = result
+            ? $"Deleted book with id: {deletedBookId}"
+            : "Nothing to delete";
+
+        MessageHandler.SendToStatusBar(text);
+    }
+
+    /// <summary>
     /// Creates a new library or changes an instance of the existing library by creating a new one.
     /// </summary>
-    private void CreateNewLibrary()
+    private void CreateLibrary()
     {
         UnsubscribeTotalBooksChanged();
 
@@ -208,28 +230,6 @@ public class MainViewModel : BindableBase, IViewModelPageable
         MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
 
         SubscribeTotalBooksChanged();
-    }
-
-    /// <summary>
-    /// Call EditBookViewModel to edit of the _libraryManager.SelectedBook.
-    /// </summary>
-    private void EditBook()
-    {
-        new EditBookViewModel(_libraryManager, _libraryManager.SelectedBook).ShowDialog();
-    }
-
-    /// <summary>
-    /// Deletes a book from the library.
-    /// </summary>
-    private void RemoveBook()
-    {
-        var deletedBookId = _libraryManager.SelectedBook?.Id;
-        var result = _libraryManager.RemoveBook(_libraryManager.SelectedBook);
-        var text = result
-            ? $"Deleted book with id: {deletedBookId}"
-            : "Nothing to delete";
-
-        MessageHandler.SendToStatusBar(text);
     }
 
     /// <summary>

@@ -9,7 +9,7 @@
     <Border Style="{StaticResource DockPanelBordedStyle}">
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
-            <Image DockPanel.Dock="Left" Source="{StaticResource WindowIcon}" />
+            <Image DockPanel.Dock="Left" Source="{StaticResource LogoSVG}" SnapsToDevicePixels="True" />
 
             <ComboBox DockPanel.Dock="Right" Width="110" SelectedIndex="0" 
                   Style="{StaticResource ComboBoxForStatusBarStyle}" 

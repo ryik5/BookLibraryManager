@@ -1,11 +1,11 @@
 ﻿ <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Define the icon as a resource -->
-    <ImageSource x:Key="WindowIcon">/Properties/Resources/YR40.ico</ImageSource>
+    <!-- Define the personal logo as a resource -->
+    <ImageSource x:Key="WindowIcon">/Properties/Resources/logo.ico</ImageSource>
 
-    <!-- Define the Logo as a resource -->
-    <ImageSource x:Key="ApplicationLogo">/Properties/Resources/application.png</ImageSource>
+    <!-- Define the application qr as a resource -->
+    <ImageSource x:Key="AppQR">/Properties/Resources/qr.png</ImageSource>
 
     <!-- Define the FontFamily as a resource -->
     <FontFamily x:Key="ManropeFont">pack://application:,,,/Properties/Resources/#Manrope ExtraLight</FontFamily>

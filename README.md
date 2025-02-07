@@ -57,7 +57,7 @@
 *The 'Add Book' interface with ISBN scanning feature.*
 
 ![Search Management](path_to_screenshot/search_management.png)
-*Track books you've lent out and their return status.*
+*Find books in your library and check them.*
 
 ## License
 

@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Properties\Resources\YR40.ico</ApplicationIcon>
+    <ApplicationIcon>Properties\Resources\logo.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <Title>Library manager</Title>
     <Authors>YR</Authors>
@@ -17,18 +17,19 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Properties\Resources\logo.ico" />
+    <None Remove="Properties\Resources\qr.png" />
+  </ItemGroup>
+
 
   <ItemGroup>
-    <Resource Include="Properties\Resources\application.png" />
+    <Resource Include="Properties\Resources\logo.ico" />
     <Resource Include="Properties\Resources\Manrope.ttf" />
-    <Resource Include="Properties\Resources\YR40.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="..\..\YR.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </Resource>
+    <Resource Include="Properties\Resources\qr.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
-# LibraryManager
+# Library Manager
 
-**LibraryManager** is a comprehensive application designed to help users efficiently catalog, organize, and manage their personal or institutional book collections. With features such as ISBN scanning, detailed book information storage, and lending management, it serves as an essential tool for book enthusiasts and librarians alike.
+**Library Manager** is a comprehensive application designed to help users efficiently catalog, organize, and manage their personal or institutional book collections. With features such as ISBN scanning, detailed book information storage, and lending management, it serves as an essential tool for book enthusiasts and librarians alike.
 
 ## Features
 

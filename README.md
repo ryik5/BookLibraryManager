@@ -28,7 +28,8 @@
    2.2.2. build your own providers and modify LibraryManager code to work with other kind of library's storages.
    
    2.3 add external icon/logo in project to customise the application
-   
+
+   2.4. build **LibraryManager**
 
 4. **Run the Application:**
    ```sh

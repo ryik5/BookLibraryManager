@@ -12,7 +12,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="28"/>
                 <RowDefinition />
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="45"/>
             </Grid.RowDefinitions>
 
             <!-- Header -->
@@ -29,7 +29,7 @@
                         <Bold>Welcome to the Book Library Manager!</Bold>
                     </Paragraph>
                     <Paragraph>
-                        This application helps you efficiently manage a collection of books with a modular plugin architecture.
+                        This application with a modular plugin architecture helps you efficiently manage a numerous of  collections of books.
                     </Paragraph>
 
                     <Paragraph>

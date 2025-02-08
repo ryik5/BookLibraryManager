@@ -37,7 +37,7 @@
                     </Style>
                 </ComboBox.ItemContainerStyle>
 
-                <ComboBoxItem DataContext="{Binding TotalPagesText}" Tag="{Binding ToolTip}">
+                <ComboBoxItem DataContext="{Binding TotalBooksText}" Tag="{Binding ToolTip}">
                     <ComboBoxItem.Content>
                         <TextBlock>
                             <Run Text="Book(s): " FontWeight="Bold"/>
@@ -45,18 +45,20 @@
                         </TextBlock>
                     </ComboBoxItem.Content>
                 </ComboBoxItem>
-                <ComboBoxItem DataContext="{Binding VersionText}" Tag="{Binding ToolTip}">
-                    <ComboBoxItem.Content>
-                        <TextBlock>
-                            <Run Text="App.: " FontWeight="Bold"/>
-                            <Run Text="{Binding Name}"/>
-                        </TextBlock>
-                    </ComboBoxItem.Content>
-                </ComboBoxItem>
+                
                 <ComboBoxItem DataContext="{Binding LibraryInfoText}" Tag="{Binding ToolTip}">
                     <ComboBoxItem.Content>
                         <TextBlock>
                             <Run Text="Lib.: " FontWeight="Bold"/>
+                            <Run Text="{Binding Name}"/>
+                        </TextBlock>
+                    </ComboBoxItem.Content>
+                </ComboBoxItem>
+                
+                <ComboBoxItem DataContext="{Binding VersionText}" Tag="{Binding ToolTip}">
+                    <ComboBoxItem.Content>
+                        <TextBlock>
+                            <Run Text="App.: " FontWeight="Bold"/>
                             <Run Text="{Binding Name}"/>
                         </TextBlock>
                     </ComboBoxItem.Content>

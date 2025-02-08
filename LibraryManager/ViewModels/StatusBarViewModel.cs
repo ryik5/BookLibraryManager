@@ -27,8 +27,8 @@ public class StatusBarViewModel : BindableBase
         _library = library;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
 
-        TotalPagesText.ToolTip = "Total pages in the library";
-        InfoList.Add(TotalPagesText);
+        TotalBooksText.ToolTip = "Total pages in the library";
+        InfoList.Add(TotalBooksText);
 
         UpdateSysInfo();
         UpdateLibraryInfo();
@@ -36,8 +36,8 @@ public class StatusBarViewModel : BindableBase
         InfoList.Add(VersionText);
         InfoList.Add(LibraryInfoText);
 
-        SelectedInfoItem.Content = TotalPagesText.Name;
-        ToolTip = TotalPagesText.ToolTip;
+        SelectedInfoItem.Content = TotalBooksText.Name;
+        ToolTip = TotalBooksText.ToolTip;
     }
 
     public void Dispose()
@@ -69,10 +69,10 @@ public class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the total number of the books in the library.
     /// </summary>
-    public Message TotalPagesText
+    public Message TotalBooksText
     {
-        get => _totalPagesText;
-        set => SetProperty(ref _totalPagesText, value);
+        get => _totalBooksText;
+        set => SetProperty(ref _totalBooksText, value);
     }
 
     public Message VersionText
@@ -118,8 +118,9 @@ public class StatusBarViewModel : BindableBase
         switch (e.InfoKind)
         {
             case EInfoKind.TotalPages:
-                TotalPagesText.Name = e.Message;
-                RaisePropertyChanged(nameof(TotalPagesText));
+                TotalBooksText.Name = e.Message;
+                TotalBooksText.ToolTip = $"Total pages in the library: {_library.TotalBooks}";
+                RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:
                 SetTextInfoText(e.Message);
@@ -142,20 +143,20 @@ public class StatusBarViewModel : BindableBase
     {
         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
         VersionText.Name = $"{versionInfo.CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
-        VersionText.ToolTip = "App. Info";
+        VersionText.ToolTip = $"App. Info:{Environment.NewLine}Name:'{versionInfo.ProductName}'{Environment.NewLine}Company:'{versionInfo.CompanyName}'{Environment.NewLine}Version:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
     }
 
     private void UpdateLibraryInfo()
     {
-        LibraryInfoText.Name = $"{_library.Id}";
-        LibraryInfoText.ToolTip = $"Library information.\nID:'{_library.Id}'\nName:'{_library.Name}'\nDescription:'{_library.Description}'";
+        LibraryInfoText.Name = $"Lib: {_library.Id}";
+        LibraryInfoText.ToolTip = $"Library information.{Environment.NewLine}ID:'{_library.Id}'{Environment.NewLine}Name:'{_library.Name}'{Environment.NewLine}Description:'{_library.Description}'";
     }
 
     #region Fields
     private string _textInfoText1 = string.Empty;
     private string _textInfoText2 = string.Empty;
     private string _textInfoText3 = string.Empty;
-    private Message _totalPagesText = new();
+    private Message _totalBooksText = new();
     private Message _versionText = new();
     private Message _libraryInfoText = new();
     private ComboBoxItem _selectedInfoItem = new();

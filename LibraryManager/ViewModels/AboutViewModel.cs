@@ -7,6 +7,14 @@ namespace LibraryManager.ViewModels;
 /// <author>YR 2025-02-02</author>
 public class AboutViewModel : BindableBase, IViewModelPageable
 {
+    public AboutViewModel()
+    {
+        versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+
+        _headMessage = $"App.:{versionInfo.ProductName}, Company:'{versionInfo.CompanyName}', version:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
+        _footMessage = $"Developer: @YR{Environment.NewLine}Designer: @Ila Yavorska";
+    }
+
 
     #region Properties
     public string Header => _headMessage;
@@ -33,8 +41,11 @@ public class AboutViewModel : BindableBase, IViewModelPageable
     #endregion
 
     #region Fields
-    private string _footMessage = $"Developer: @YR\nDesigner: @Ila Yavorska\nVersion: {Assembly.GetExecutingAssembly().GetName().Version}";
-    private readonly string _headMessage = $"App. {FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
+
+
+    private FileVersionInfo? versionInfo = null;
+    private string _footMessage;
+    private string _headMessage;
     private bool _isChecked;
     private bool _isEnabled = true;
     #endregion

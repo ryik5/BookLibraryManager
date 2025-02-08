@@ -15,12 +15,12 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// Initializes a new instance of the <see cref="FindBookViewModel"/> class.
     /// </summary>
     /// <param name="libraryManager">The library manager.</param>
-    public FindBookViewModel(LibraryBookManagerModel libraryManager)
+    public FindBookViewModel(IBookManageable libraryManager)
     {
         _libraryManager = libraryManager;
         SearchOnFly = false;
         LibraryVisibility = Visibility.Collapsed;
-        SearchFields = Enum.GetValues(typeof(BookElementsEnum)).Cast<BookElementsEnum>().ToList();
+        SearchFields = Enum.GetValues(typeof(EBibliographicKindInformation)).Cast<EBibliographicKindInformation>().ToList();
 
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
@@ -29,7 +29,7 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "Find Book";
+    public string Name => "Find Books";
 
     public bool IsChecked
     {
@@ -37,10 +37,16 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isChecked, value);
     }
 
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetProperty(ref _isEnabled, value);
+    }
+
     /// <summary>
     /// The fields of the book to perform search.
     /// </summary>
-    public List<BookElementsEnum> SearchFields
+    public List<EBibliographicKindInformation> SearchFields
     {
         get;
     }
@@ -101,7 +107,7 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Gets or sets the field of the book to perform search.
     /// </summary>
-    public BookElementsEnum SelectedSearchField
+    public EBibliographicKindInformation SelectedSearchField
     {
         get => _selectedSearchField;
         set
@@ -151,13 +157,12 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void FindBooks()
     {
-        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
-        var totalBooks = _libraryManager.TotalBooks;
+        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
         var foundBooks = BookList.Count;
 
         LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
 
-        MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks} from {totalBooks}");
+        MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks}");
     }
 
     /// <summary>
@@ -167,7 +172,6 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     {
         var editBookView = new EditBookViewModel(_libraryManager, SelectedBook);
         editBookView.ShowDialog();
-        RaisePropertyChanged(nameof(_libraryManager.BookList));
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)
             MessageHandler.SendToStatusBar($"Last edited book was '{book.Title}");
@@ -178,11 +182,11 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void DeleteSelectedBook()
     {
-        var text = _libraryManager.RemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
-        BookList = _libraryManager.FindBooksByBookElement(SelectedSearchField, SearchText);
+        var text = _libraryManager.TryRemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
+        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
 
         MessageHandler.SendToStatusBar(text);
-        MessageHandler.SendToStatusBar($"{_libraryManager.TotalBooks}", EInfoKind.TotalPages);
+        MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalPages);
     }
 
     /// <summary>
@@ -200,19 +204,20 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// <returns>true if the library has a book list; otherwise, false.</returns>
     private bool CanSearchBooks()
     {
-        return _libraryManager?.BookList != null;
+        return _libraryManager.Library?.BookList != null;
     }
     #endregion
 
 
     #region private fields
-    private readonly LibraryBookManagerModel _libraryManager;
+    private readonly IBookManageable _libraryManager;
     private List<Book> _bookList;
     private Book _selectedBook;
     private string _searchText;
     private bool _searchOnFly;
-    private BookElementsEnum _selectedSearchField;
+    private EBibliographicKindInformation _selectedSearchField;
     private bool _isChecked;
+    private bool _isEnabled = true;
     private Visibility _libraryVisibility;
     #endregion
 }

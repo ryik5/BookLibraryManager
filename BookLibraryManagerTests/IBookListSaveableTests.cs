@@ -15,10 +15,10 @@ public class IBookListSaveableTests
         var mockBookListSaveable = new Mock<ILibraryKeeper>();
         var selectedFolder = "C:\\LibraryFolder";
 
-        mockBookListSaveable.Setup(x => x.SaveLibrary(mockLibrary.Object, selectedFolder)).Returns(true);
+        mockBookListSaveable.Setup(x => x.TrySaveLibrary(mockLibrary.Object, selectedFolder)).Returns(true);
 
         // Act
-        var result = mockBookListSaveable.Object.SaveLibrary(mockLibrary.Object, selectedFolder);
+        var result = mockBookListSaveable.Object.TrySaveLibrary(mockLibrary.Object, selectedFolder);
 
         // Assert
         Xunit.Assert.True(result);
@@ -32,10 +32,10 @@ public class IBookListSaveableTests
         var mockBookListSaveable = new Mock<ILibraryKeeper>();
         var selectedFolder = "C:\\LibraryFolder";
 
-        mockBookListSaveable.Setup(x => x.SaveLibrary(mockLibrary.Object, selectedFolder)).Returns(false);
+        mockBookListSaveable.Setup(x => x.TrySaveLibrary(mockLibrary.Object, selectedFolder)).Returns(false);
 
         // Act
-        var result = mockBookListSaveable.Object.SaveLibrary(mockLibrary.Object, selectedFolder);
+        var result = mockBookListSaveable.Object.TrySaveLibrary(mockLibrary.Object, selectedFolder);
 
         // Assert
         Xunit.Assert.False(result);

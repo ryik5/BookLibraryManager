@@ -1,83 +1,57 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Xml.Serialization;
+﻿using System.Windows;
+using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
 
-/// <summary>
-/// Represents a model for managing a library of books.
-/// </summary>
 /// <author>YR 2025-01-09</author>
-public class LibraryBookManagerModel : LibraryAbstract, ILibrary
+public class BookManagerModel : BindableBase, IBookManageable
 {
-    /// <summary>
-    /// Creates a new library with the specified ID.
-    /// </summary>
-    /// <param name="idLibrary">The ID of the new library.</param>
-    public void CreateNewLibrary(int idLibrary)
+    public BookManagerModel(ILibrary library)
     {
-        Id = idLibrary;
-        BookList = [];
-        BookList.CollectionChanged += BookList_CollectionChanged;
+        if (library is null)
+            throw new ArgumentNullException(nameof(library));
+
+        _library = library;
+        RaisePropertyChanged(nameof(Library));
     }
 
-    private void BookList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        TotalBooksChanged.Invoke(this, new TotalBooksEventArgs { TotalBooks = BookList?.Count ?? 0 });
-    }
 
+    #region public methods
     /// <summary>
-    /// Loads a library from the specified file path.
+    /// Loads a book from the specified file path.
     /// </summary>
-    /// <param name="libraryLoader">The loader responsible for loading the library.</param>
-    /// <param name="pathToFile">The path to the file containing the library data.</param>
-    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
-    public bool LoadLibrary(ILibraryLoader libraryLoader, string pathToFile)
+    /// <param name="bookLoader">The loader responsible for loading the book.</param>
+    /// <param name="pathToFile">The path to the file containing the book data.</param>
+    /// <returns>True if the book was successfully loaded; otherwise, false.</returns>
+    public bool TryLoadBook(IBookLoader bookLoader, string pathToFile)
     {
-        libraryLoader.LoadingFinished += LibraryLoader_LoadingLibraryFinished;
+        bookLoader.LoadingFinished += BookLoader_LoadingBookFinished;
 
-        if (BookList != null)
-            BookList.CollectionChanged -= BookList_CollectionChanged;
-
-        var result = libraryLoader.TryLoadLibrary(pathToFile, out var library);
+        var result = bookLoader.TryLoadBook(pathToFile, out var book);
         if (result)
         {
-            BookList = new ObservableCollection<Book>(library.BookList);
-            Id = library.Id;
-            BookList.CollectionChanged += BookList_CollectionChanged;
+            AddBook(book);
         }
-        else
-        {
-            CloseLibrary();
-        }
-        libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
+        bookLoader.LoadingFinished -= BookLoader_LoadingBookFinished;
 
         return result;
     }
 
     /// <summary>
-    /// Saves the specified library to the specified folder.
+    /// Saves the selected book to the specified folder.
     /// </summary>
-    /// <param name="keeper">The keeper responsible for saving the library.</param>
-    /// <param name="pathToFolder">The path to the folder where the library will be saved.</param>
-    /// <returns>True if the library was successfully saved; otherwise, false.</returns>
-    public bool SaveLibrary(ILibraryKeeper keeper, string pathToFolder) => keeper.SaveLibrary(this, pathToFolder);
+    /// <param name="keeper">The keeper responsible for saving the book.</param>
+    /// <param name="pathToFolder">The path to the folder where the book will be saved.</param>
+    /// <returns>True if the book was successfully saved; otherwise, false.</returns>
+    public bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder)
+        => keeper.TrySaveBook(book, pathToFolder);
 
     /// <summary>
     /// Sorts the book collection by author and then by title.
     /// </summary>
-    public void SortLibrary()
+    public void SortBooks()
     {
-        BookList = new ObservableCollection<Book>(BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
-    }
-
-    public void CloseLibrary()
-    {
-        if (BookList != null)
-            BookList.CollectionChanged -= BookList_CollectionChanged;
-
-        BookList = null;
-        Id = -1;
+        Library.BookList.ResetAndAddRange(Library.BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
     }
 
     /// <summary>
@@ -86,9 +60,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="book">The book to add.</param>
     public void AddBook(Book book)
     {
-        var max = BookList.Count == 0 ? 0 : BookList.Max(b => b.Id);
+        var max = Library.BookList.Count == 0 ? 0 : Library.BookList.Max(b => b.Id);
         book.Id = max + 1;
-        BookList.Add(book);
+        Library.BookList.Add(book);
     }
 
     /// <summary>
@@ -96,14 +70,11 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <param name="book">The book to remove.</param>
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
-    public bool RemoveBook(Book book)
+    public bool TryRemoveBook(Book book)
     {
-        if (book is null)
-            return false;
+        var result = Library.BookList.RemoveItem(book);
 
-        var searchBook = BookList.FirstOrDefault(b => b.Id == book.Id && b.Author == book.Author && b.Title == book.Title && b.TotalPages == book.TotalPages && b.PublishDate == book.PublishDate);
-
-        return searchBook != null && BookList.Remove(searchBook);
+        return result;
     }
 
     /// <summary>
@@ -112,7 +83,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="bookElement">The element of the book to search by.</param>
     /// <param name="partElement">The value of the element to search for.</param>
     /// <returns>A list of books that match the search criteria.</returns>
-    public List<Book> FindBooksByBookElement(BookElementsEnum bookElement, object partElement)
+    public List<Book> FindBooksByKind(EBibliographicKindInformation bookElement, object partElement)
     {
         IEnumerable<Book> tmpResult = [];
         var strElement = partElement?.ToString();
@@ -137,30 +108,32 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// </summary>
     /// <param name="amountFirstBooks">The number of books to retrieve.</param>
     /// <returns>A collection of the first books.</returns>
-    public List<Book> GetFirstBooks(int amountFirstBooks) => BookList.Take(amountFirstBooks).ToList();
+    public List<Book> GetFirstBooks(int amountFirstBooks) => Library.BookList.Take(amountFirstBooks).ToList();
 
     /// <summary>
     /// Retrieves all books in the library.
     /// </summary>
     /// <returns>A collection of all books.</returns>
-    public List<Book> GetAllBooks() => BookList.ToList();
+    public List<Book> GetAllBooks() => Library.BookList.ToList();
+    #endregion
 
+
+    #region Properties
     /// <summary>
-    /// Gets or sets the selected book.
+    /// Gets or sets a library.
     /// </summary>
-    [XmlIgnore]
-    public Book SelectedBook
+    public ILibrary Library
     {
-        get => _selectedBook;
-        set => SetProperty(ref _selectedBook, value);
+        get => _library;
+        set => SetProperty(ref _library, value);
     }
-    private Book _selectedBook;
 
     public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
-    public event EventHandler<TotalBooksEventArgs> TotalBooksChanged;
+    #endregion
+
 
     #region private methods
-    private void LibraryLoader_LoadingLibraryFinished(object? sender, ActionFinishedEventArgs e)
+    private void BookLoader_LoadingBookFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = e.Message, IsFinished = e.IsFinished });
     }
@@ -171,21 +144,21 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <param name="bookElement">The element of the book to search by.</param>
     /// <param name="strElement">The value of the element to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    private IEnumerable<Book> FindBooks(BookElementsEnum bookElement, string? strElement)
+    private IEnumerable<Book> FindBooks(EBibliographicKindInformation bookElement, string? strElement)
     {
         IEnumerable<Book> tmpResult = [];
         switch (bookElement)
         {
-            case BookElementsEnum.Author:
+            case EBibliographicKindInformation.Author:
                 tmpResult = FindBooksByAuthor(strElement);
                 break;
-            case BookElementsEnum.Title:
+            case EBibliographicKindInformation.Title:
                 tmpResult = FindBooksByTitle(strElement);
                 break;
-            case BookElementsEnum.TotalPages:
+            case EBibliographicKindInformation.TotalPages:
                 tmpResult = FindBooksByTotalPages(strElement);
                 break;
-            case BookElementsEnum.PublishDate:
+            case EBibliographicKindInformation.PublishDate:
                 tmpResult = FindBooksByPublishDate(strElement);
                 break;
             default:
@@ -202,7 +175,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByAuthor(string? strElement)
         => IsNotNullOrEmpty(strElement)
-        ? BookList.Where(b => b.Author.Contains(strElement, CurrentComparisionRule))
+        ? Library.BookList.Where(b => b.Author.Contains(strElement, CurrentComparisionRule))
         : [];
 
     /// <summary>
@@ -212,7 +185,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByTitle(string? strElement)
         => IsNotNullOrEmpty(strElement)
-        ? BookList.Where(b => b.Title.Contains(strElement, CurrentComparisionRule))
+        ? Library.BookList.Where(b => b.Title.Contains(strElement, CurrentComparisionRule))
         : [];
 
     /// <summary>
@@ -222,7 +195,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByTotalPages(string? strElement)
         => IsParseable(strElement, out var intElement)
-        ? BookList.Where(b => b.TotalPages == intElement)
+        ? Library.BookList.Where(b => b.TotalPages == intElement)
         : [];
 
     /// <summary>
@@ -232,7 +205,7 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
     private IEnumerable<Book> FindBooksByPublishDate(string? strElement)
         => IsParseable(strElement, out var intElement)
-        ? BookList.Where(b => b.PublishDate == intElement)
+        ? Library.BookList.Where(b => b.PublishDate == intElement)
         : [];
 
     private IEnumerable<Book> FindBooksEveryWhere(string? strElement)
@@ -242,17 +215,17 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
         var isString = IsNotNullOrEmpty(strElement);
 
         if (isInt)
-            tmpResult = BookList.Where(b =>
+            tmpResult = Library.BookList.Where(b =>
             b.TotalPages == intElement ||
             b.PublishDate == intElement ||
             (b.Author?.Contains(strElement, CurrentComparisionRule) ?? false) ||
             (b.Title?.Contains(strElement, CurrentComparisionRule) ?? false));
         else
-            tmpResult = isString ? BookList.Where(b =>
+            tmpResult = isString ? Library.BookList.Where(b =>
             (b.Author?.Contains(strElement, CurrentComparisionRule) ?? false) ||
             (b.Description?.Contains(strElement, CurrentComparisionRule) ?? false) ||
             (b.Genre?.Contains(strElement, CurrentComparisionRule) ?? false) ||
-            (b.ISDN?.Contains(strElement, CurrentComparisionRule) ?? false) ||
+            (b.ISBN?.Contains(strElement, CurrentComparisionRule) ?? false) ||
             (b.Title?.Contains(strElement, CurrentComparisionRule) ?? false)) : [];
 
         return tmpResult ?? [];
@@ -273,6 +246,9 @@ public class LibraryBookManagerModel : LibraryAbstract, ILibrary
     /// <returns>True if the string is not null or empty; otherwise, false.</returns>
     private bool IsNotNullOrEmpty(string? strElement) => !string.IsNullOrEmpty(strElement);
 
-    private StringComparison CurrentComparisionRule = StringComparison.OrdinalIgnoreCase;
+
+    private const StringComparison CurrentComparisionRule = StringComparison.OrdinalIgnoreCase;
+
+    private ILibrary _library;
     #endregion
 }

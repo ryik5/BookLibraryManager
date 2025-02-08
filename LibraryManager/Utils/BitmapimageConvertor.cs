@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace BookLibraryManager.Common;
+namespace LibraryManager.Utils;
 
 /// <author>YR 2025-01-26</author>
 public class BitmapimageConvertor
@@ -25,7 +25,7 @@ public class BitmapimageConvertor
         using (var ms = new MemoryStream())
         {
             image.Save(ms, ImageFormat.Png);
-            BitmapImage bImg = new BitmapImage();
+            var bImg = new BitmapImage();
             bImg.BeginInit();
             bImg.StreamSource = new MemoryStream(ms.ToArray());
             bImg.EndInit();

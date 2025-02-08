@@ -28,6 +28,12 @@ public class DebugViewModel : BindableBase, IViewModelPageable
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
     }
+
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetProperty(ref _isEnabled, value);
+    }
     #endregion
 
 
@@ -40,10 +46,10 @@ public class DebugViewModel : BindableBase, IViewModelPageable
         switch (e.InfoKind)
         {
             case EInfoKind.TotalPages:
-                DebugTextLog += MakeLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}");
+                DebugTextLog += CreateLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}");
                 break;
             default:
-                DebugTextLog += MakeLogEntry(LogLevel.Info, e.Message);
+                DebugTextLog += CreateLogEntry(LogLevel.Info, e.Message);
                 break;
         }
 
@@ -54,15 +60,12 @@ public class DebugViewModel : BindableBase, IViewModelPageable
     /// </summary>
     /// <param name="level">The log level (e.g. Debug, Info, Warn, Error).</param>
     /// <param name="message">The message to log.</param>
-    private string MakeLogEntry(LogLevel level, string message)
-    {
-        var logMessage = new LogMessage(level, message);
-        return $"{logMessage}\n";
-    }
+    private string CreateLogEntry(LogLevel level, string message) => $"{new LogMessage(level, message)}{Environment.NewLine}";
 
     #region private fields
     private string _debugTextLog = string.Empty;
     private bool _isChecked;
+    private bool _isEnabled = true;
     #endregion
 }
 

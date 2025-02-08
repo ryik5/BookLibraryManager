@@ -1,0 +1,43 @@
+﻿namespace BookLibraryManager.Common;
+
+/// <summary>
+/// Represents a library interface that provides functionalities to add, remove, sort, and display Library.
+/// </summary>
+/// <author>YR 2025-01-09</author>
+public interface ILibraryManageable : ILoadable
+{
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+    public event EventHandler<TotalBooksEventArgs> TotalBooksChanged;
+
+    /// <summary>
+    /// Creates a new library with the specified ID.
+    /// </summary>
+    /// <param name="idLibrary">The ID of the new library.</param>
+    void CreateNewLibrary(int idLibrary);
+
+    /// <summary>
+    /// Loads a library from the specified file path.
+    /// </summary>
+    /// <param name="libraryLoader">The loader responsible for loading the library.</param>
+    /// <param name="pathToFile">The path to the file containing the library data.</param>
+    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
+    bool TryLoadLibrary(ILibraryLoader libraryLoader, string pathToFile);
+
+    /// <summary>
+    /// Saves the specified library to the specified folder.
+    /// </summary>
+    /// <param name="keeper">The keeper responsible for saving the library.</param>
+    /// <param name="pathToFolder">The path to the folder where the library will be saved.</param>
+    /// <returns>True if the library was successfully saved; otherwise, false.</returns>
+    bool TrySaveLibrary(ILibraryKeeper keeper, string pathToFolder);
+
+    /// <summary>
+    /// Closes the library and clears the book list.
+    /// </summary>
+    void TryCloseLibrary();
+
+    ILibrary Library
+    {
+        get; set;
+    }
+}

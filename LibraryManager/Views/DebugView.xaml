@@ -10,10 +10,8 @@
                   VerticalScrollBarVisibility="Auto" 
                   Background="{StaticResource ColorSet6}">
         
-        <TextBlock Text="{Binding DebugTextLog}"
-                   TextWrapping="Wrap"
-                   FontSize="12"
-                        />
+        <TextBlock Text="{Binding DebugTextLog}" TextWrapping="Wrap" FontSize="12" />
+        
     </ScrollViewer>
 
 </UserControl>

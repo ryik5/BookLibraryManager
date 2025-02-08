@@ -24,11 +24,18 @@ public class AboutViewModel : BindableBase, IViewModelPageable
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
     }
+
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetProperty(ref _isEnabled, value);
+    }
     #endregion
 
     #region Fields
     private string _footMessage = $"Developer: @YR\nDesigner: @Ila Yavorska\nVersion: {Assembly.GetExecutingAssembly().GetName().Version}";
     private readonly string _headMessage = $"App. {FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
     private bool _isChecked;
+    private bool _isEnabled = true;
     #endregion
 }

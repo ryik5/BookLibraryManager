@@ -9,7 +9,7 @@ namespace LibraryManager.Utils;
 public static class DemoBookMaker
 {
     /// <summary>
-    /// Generates a random book model.
+    /// Generates a book with randomly generated properties.
     /// </summary>
     /// <returns>A new instance of Book with random properties.</returns>
     public static Book GenerateBook()
@@ -119,7 +119,7 @@ public static class DemoBookMaker
     }
     #endregion
 
-    #region constants
+    #region constants and dictionaries
     private static readonly string[] titleCombining = [". ", ": ", " - "];
 
     private static readonly string[] title1 = [

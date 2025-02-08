@@ -27,7 +27,7 @@ public class ILibraryTests
     public void FindBooksByBookElement_ShouldReturnBooks_WhenBooksMatchCriteria()
     {
         // Arrange
-        var bookElement = BookElementsEnum.Author;
+        var bookElement = EBibliographicKindInformation.Author;
         var partOfElement = "John Doe";
         var expectedBooks = new List<Book>
         {
@@ -52,7 +52,7 @@ public class ILibraryTests
     public void FindBooksByBookElement_ShouldReturnEmptyList_WhenNoBooksMatchCriteria()
     {
         // Arrange
-        var bookElement = BookElementsEnum.Title;
+        var bookElement = EBibliographicKindInformation.Title;
         var partOfElement = "Nonexistent Book";
         var expectedBooks = new List<Book>();
 

@@ -22,9 +22,9 @@ public class StatusBarViewModel : BindableBase
     /// Subscribes to the StatusBarEvent and sets up the status bar items.
     /// </summary>
     /// <param name="statusBarKind">The kind of status bar to be used.</param>
-    public StatusBarViewModel(ILibrary libraryManager)
+    public StatusBarViewModel(ILibrary library)
     {
-        _libraryManager = libraryManager;
+        _library = library;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
 
         TotalPagesText.ToolTip = "Total pages in the library";
@@ -147,8 +147,8 @@ public class StatusBarViewModel : BindableBase
 
     private void UpdateLibraryInfo()
     {
-        LibraryInfoText.Name = $"{_libraryManager.Id}";
-        LibraryInfoText.ToolTip = $"Library information.\nID:'{_libraryManager.Id}'\nName:'{_libraryManager.Name}'\nDescription:'{_libraryManager.Description}'";
+        LibraryInfoText.Name = $"{_library.Id}";
+        LibraryInfoText.ToolTip = $"Library information.\nID:'{_library.Id}'\nName:'{_library.Name}'\nDescription:'{_library.Description}'";
     }
 
     #region Fields
@@ -162,7 +162,7 @@ public class StatusBarViewModel : BindableBase
     private object _toolTip;
     private ObservableCollection<Message> _infoList = new();
     private readonly SubscriptionToken _token;
-    private readonly ILibrary _libraryManager;
+    private readonly ILibrary _library;
     #endregion
 }
 

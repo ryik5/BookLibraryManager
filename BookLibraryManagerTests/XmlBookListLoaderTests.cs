@@ -20,7 +20,7 @@ public class XmlBookListLoaderTests
         {
             File.Delete(filePath);
         }
-        var library = new LibraryBookManagerModel
+        var library = new LibraryManagerModel
         {
             Id = 1,
             BookList =
@@ -30,7 +30,7 @@ public class XmlBookListLoaderTests
             ]
         };
 
-        var serializer = new XmlSerializer(typeof(LibraryAbstract));
+        var serializer = new XmlSerializer(typeof(Library));
 
         using (var writer = new StreamWriter(filePath))
         {

@@ -78,12 +78,15 @@ public class Book : BindableBase, ILoadable, ICloneable
     }
     private string _genre;
 
-    public string ISDN
+    /// <summary>
+    /// Gets or sets the ISBN of the book.
+    /// </summary>
+    public string ISBN
     {
-        get => _isdn;
-        set => SetProperty(ref _isdn, value);
+        get => _isbn;
+        set => SetProperty(ref _isbn, value);
     }
-    private string _isdn;
+    private string _isbn;
 
     /// <summary>
     /// Gets or sets the media content of the book.
@@ -105,6 +108,10 @@ public class Book : BindableBase, ILoadable, ICloneable
         return $"Author:{Author}-Title:{Title}-Pages:{TotalPages}-Year:{PublishDate}";
     }
 
+    /// <summary>
+    /// Creates a deep copy of the current Book object.
+    /// </summary>
+    /// <returns>A new Book object that is a copy of the current object.</returns>
     public object Clone()
     {
         Book clone = new()
@@ -115,7 +122,7 @@ public class Book : BindableBase, ILoadable, ICloneable
             TotalPages = TotalPages,
             PublishDate = PublishDate,
             Description = Description,
-            Content = Content is null ? null : new MediaData
+            Content = Content is null ? null : new()
             {
                 BmImage = Content.BmImage,
                 ContentType = Content.ContentType,
@@ -125,7 +132,7 @@ public class Book : BindableBase, ILoadable, ICloneable
                 PictureByteArray = Content.PictureByteArray
             },
             Genre = Genre,
-            ISDN = ISDN
+            ISBN = ISBN
         };
         return clone;
     }

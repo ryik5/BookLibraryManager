@@ -50,14 +50,15 @@
         <Label Content="Description" Grid.Row="4" Grid.Column="0"/>
         <TextBox Text="{Binding Book.Description}" Grid.Row="4" Grid.Column="1" />
 
-        <Label Content="Content" Grid.Row="5" Grid.Column="0"/>
-        <view:BookViewControls Grid.Row="5" Grid.Column="1"/>
+        <Label Content="Genre" Grid.Row="5" Grid.Column="0"/>
+        <TextBox Text="{Binding Book.Genre}" Grid.Row="5" Grid.Column="1"/>
 
-        <Label Content="Genre" Grid.Row="6" Grid.Column="0"/>
-        <TextBox Text="{Binding Book.Genre}" Grid.Row="6" Grid.Column="1"/>
+        <Label Content="ISBN" Grid.Row="6" Grid.Column="0"/>
+        <TextBox Text="{Binding Book.ISBN}" Grid.Row="6" Grid.Column="1"/>
 
-        <Label Content="ISDN" Grid.Row="7" Grid.Column="0"/>
-        <TextBox Text="{Binding Book.ISDN}" Grid.Row="7" Grid.Column="1"/>
+        <Label Content="Content" Grid.Row="7" Grid.Column="0"/>
+        <view:BookViewControls Grid.Row="7" Grid.Column="1"/>
 
     </Grid>
+
 </UserControl>

@@ -4,7 +4,7 @@
 /// Enumeration representing the different elements of a book.
 /// </summary>
 /// <author>YR 2025-01-22</author>
-public enum BookElementsEnum
+public enum EBibliographicKindInformation
 {
     All,
     Author,

@@ -10,7 +10,7 @@ namespace LibraryManager.ViewModels;
 internal class EditBookViewModel : AddBookViewModel
 {
 
-    public EditBookViewModel(ILibrary libraryManager, Book editedBook) : base(libraryManager)
+    public EditBookViewModel(IBookManageable libraryManager, Book editedBook) : base(libraryManager)
     {
         Book = editedBook;
         _originalBook = (Book)editedBook.Clone();
@@ -26,11 +26,12 @@ internal class EditBookViewModel : AddBookViewModel
         ExecuteCommand = new DelegateCommand<Window>(SaveEditedBook);
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);
 
-        _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         MessageHandler.SendToStatusBar($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing", EInfoKind.DebugMessage);
         MessageHandler.SendToStatusBar($"Original state of the book: '{_originalBook}'", EInfoKind.DebugMessage);
 
-        _addBookWindow.ShowDialog();
+        _editBookWindow = new ActionWithBookWindow() { DataContext = this };
+
+        _editBookWindow.ShowDialog();
     }
 
 
@@ -57,7 +58,7 @@ internal class EditBookViewModel : AddBookViewModel
         Book.PublishDate = _originalBook.PublishDate;
         Book.TotalPages = _originalBook.TotalPages;
         Book.Description = _originalBook.Description;
-        Book.ISDN = _originalBook.ISDN;
+        Book.ISBN = _originalBook.ISBN;
         Book.Content = _originalBook.Content;
 
         MessageHandler.SendToStatusBar($"Edit of book '{_originalBook.Title}' (ID {_originalBook.Id}') was cancelled");
@@ -71,13 +72,13 @@ internal class EditBookViewModel : AddBookViewModel
     private void CloseWindow(Window window)
     {
         window?.Close();
-        _addBookWindow?.Close();
+        _editBookWindow?.Close();
     }
     #endregion
 
 
     #region Fields
-    private ActionWithBookWindow _addBookWindow;
+    private ActionWithBookWindow _editBookWindow;
     private Book _originalBook;
     #endregion
 }

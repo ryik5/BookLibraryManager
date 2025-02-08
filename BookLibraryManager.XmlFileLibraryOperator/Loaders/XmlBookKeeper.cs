@@ -1,46 +1,16 @@
 ﻿using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
-using BookLibraryManager.XmlLibraryProvider;
+using BookLibraryManager.Common;
 
-namespace BookLibraryManager.Common;
+namespace BookLibraryManager.XmlLibraryProvider.Loaders;
 
 /// <summary>
-/// Loader of the library from XML file stored on a local disk.
+/// Loader of the Book from XML file stored on a local disk.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class XmlLibraryLoader : ILibraryLoader
+public class XmlBookKeeper : IBookLoader
 {
-    /// <summary>
-    /// Loads the library from the specified XML file.
-    /// </summary>
-    /// <param name="pathToLibrary">The path to the XML file containing the library data.</param>
-    /// <param name="library">The loaded library instance.</param>
-    /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
-    public bool TryLoadLibrary(string pathToLibrary, out ILibrary? library)
-    {
-        var result = false;
-        library = null;
-        var msg = string.Empty;
-        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = "Loading started", IsFinished = false });
-        LibraryAbstract lib = null;
-        try
-        {
-            lib = XmlObjectSerializer.Load<LibraryAbstract>(pathToLibrary);
-            result = true;
-            msg = "Library loaded";
-        }
-        catch (Exception ex)
-        {
-            result = false;
-            msg = "Library was not loaded";
-        }
-        library = lib as ILibrary;
-
-        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = result });
-        return result;
-    }
-
     public bool TryLoadBook(string pathToBook, out Book? book)
     {
         var result = false;

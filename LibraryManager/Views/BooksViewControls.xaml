@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LibraryManager.Views.LibraryControls"
+﻿<UserControl x:Class="LibraryManager.Views.BooksViewControls"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,10 +18,12 @@
             </Style>
         </StackPanel.Resources>
 
-        <Button Content="New Library" Command="{Binding CreateLibraryCommand}" ToolTip="Create a new library"/>
-        <Button Content="Load Library" Command="{Binding LoadLibraryCommand}" ToolTip="Load a library"/>
-        <Button Content="Save Library" Command="{Binding SaveLibraryCommand}" ToolTip="Save the library"/>
-        <Button Content="Close Library" Command="{Binding CloseLibraryCommand}" ToolTip="Close the current library"/>
+        <Button Content="Add Book" Command="{Binding AddBookCommand}" ToolTip="Add a new book to the library"/>
+        <Button Content="Demo 'Add Books'" Command="{Binding DemoAddBooksCommand}" ToolTip="Add 10 randomly filled books to the library"/>
+        <Button Content="Edit Book" Command="{Binding EditBookCommand}" ToolTip="Edit the selected book"/>
+        <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" ToolTip="Delete the selected book from the library"/>
+
+        <Button Content="Sort Library" Command="{Binding SortLibraryCommand}" ToolTip="Sort the library by author then title"/>
 
     </StackPanel>
 </UserControl>

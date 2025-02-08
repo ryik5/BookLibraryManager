@@ -4,10 +4,16 @@ using Microsoft.Win32;
 
 namespace LibraryManager.Utils;
 
+/// <summary>
+/// Handles the selection of media data through a dialog.
+/// </summary>
 /// <author>YR 2025-01-27</author>
 internal class SelectionDialogHandler
 {
-
+    /// <summary>
+    /// Opens a dialog for selecting a media file and returns the selected media data.
+    /// </summary>
+    /// <returns>The selected media data, or null if no file was selected.</returns>
     public MediaData? SelectMediaData()
     {
         var op = new OpenFileDialog();

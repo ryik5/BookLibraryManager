@@ -16,7 +16,7 @@ internal class AddBookViewModel : BindableBase
     /// Initializes a new instance of the AddBookViewModel class.
     /// </summary>
     /// <param name="book">An example of the book to be added.</param>
-    public AddBookViewModel(ILibrary libraryManager)
+    public AddBookViewModel(IBookManageable libraryManager)
     {
         _libraryManager = libraryManager;
 
@@ -195,7 +195,6 @@ internal class AddBookViewModel : BindableBase
         else
             MessageHandler.SendToStatusBar($"Loaded new content into the book '{Book.Content.OriginalPath}'", EInfoKind.DebugMessage);
 
-
         // Unsubscribe from the loading finished event
         LoadingFinished -= NewLib_LoadingFinished;
     }
@@ -271,7 +270,7 @@ internal class AddBookViewModel : BindableBase
     #endregion
 
     #region Fields
-    private readonly ILibrary _libraryManager;
+    private readonly IBookManageable _libraryManager;
     private ActionWithBookWindow _addBookWindow;
     private Book _book;
     private string _loadingState;

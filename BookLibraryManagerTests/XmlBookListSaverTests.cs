@@ -21,7 +21,7 @@ public class XmlBookListSaverTests
             new() { Id = 1, Author = "Author1", Title = "Title1", TotalPages = 1 },
             new() { Id = 2, Author = "Author2", Title = "Title2", TotalPages = 2 }
         ]);
-        var saver = new XmlBookListSaver();
+        var saver = new XmlLibraryKeeper();
         var pathToFile = "testLibrary.xml";
         if (File.Exists(pathToFile))
         {
@@ -29,7 +29,7 @@ public class XmlBookListSaverTests
         }
 
         // Act
-        var result = saver.SaveLibrary(mockLibrary.Object, pathToFile);
+        var result = saver.TrySaveLibrary(mockLibrary.Object, pathToFile);
 
         // Assert
         Xunit.Assert.True(result);
@@ -49,7 +49,7 @@ public class XmlBookListSaverTests
     public void SaveLibrary_NullLibrary_ThrowsException()
     {
         // Arrange
-        var xmlBookListSaver = new XmlBookListSaver();
+        var xmlBookListSaver = new XmlLibraryKeeper();
         var pathToFile = "testLibrary.xml";
         if (File.Exists(pathToFile))
         {
@@ -60,7 +60,7 @@ public class XmlBookListSaverTests
         bool result;
         try
         {
-            Xunit.Assert.Throws<InvalidCastException>(() => xmlBookListSaver.SaveLibrary(null, pathToFile));
+            Xunit.Assert.Throws<InvalidCastException>(() => xmlBookListSaver.TrySaveLibrary(null, pathToFile));
             result = true;
         }
         catch

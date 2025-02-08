@@ -16,23 +16,27 @@ public class ApplicationViewModel : BindableBase
     /// </summary>
     public ApplicationViewModel()
     {
-        _libraryManager = new LibraryBookManagerModel();
+        _library = new Library();
+
+        _libraryManager = new LibraryManagerModel(_library);
+        _bookManager = new BookManagerModel(_library);
 
         PageViewModels = new Dictionary<string, IViewModelPageable>
         {
-            { "Main", new MainViewModel(_libraryManager) }, //CheckBox content, ViewModel
-            { "Find Book", new FindBookViewModel(_libraryManager) },
+            { "Library", new LibraryViewModel(_libraryManager) },
+            { "Books", new BooksViewModel(_bookManager) },
+            { "Find Books", new FindBookViewModel(_bookManager) },
+           // { "Tools", null }, // TODO : Create viewModel and view for settings parameters of application
             { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
-        StatusBar = new StatusBarViewModel(_libraryManager);
 
+        StatusBar = new StatusBarViewModel(_library);
 
         ChangePageCommand = new DelegateCommand<string>(Navigate);
 
-        Navigate("Main"); // Default page
+        Navigate("Library"); // Default page
     }
-
 
     #region Properties
     /// <summary>
@@ -81,7 +85,7 @@ public class ApplicationViewModel : BindableBase
     /// <param name="pageName">The name of the page to navigate to.</param>
     private void Navigate(string pageName)
     {
-        if (pageName != null && PageViewModels.TryGetValue(pageName, out var viewModel))
+        if (pageName != null && TryGetPage(pageName, out var viewModel))
         {
             foreach (var kv in PageViewModels.Where(p => p.Value.IsChecked == true))
                 kv.Value.IsChecked = false;
@@ -91,11 +95,16 @@ public class ApplicationViewModel : BindableBase
             MessageHandler.SendToStatusBar($"Switched to '{pageName}' page", EInfoKind.DebugMessage);
         }
     }
+
+    private bool TryGetPage(string pageName, out IViewModelPageable viewModel) => PageViewModels.TryGetValue(pageName, out viewModel);
+
     #endregion
 
     #region private fields
     private IViewModelPageable _currentViewModel;
-    private readonly LibraryBookManagerModel _libraryManager;
+    private readonly ILibraryManageable _libraryManager;
+    private readonly IBookManageable _bookManager;
+    private readonly ILibrary _library;
     private StatusBarViewModel _statusBar;
     #endregion
 }

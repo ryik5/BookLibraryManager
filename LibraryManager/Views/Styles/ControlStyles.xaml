@@ -131,11 +131,11 @@
     <Style x:Key="LabelBordedStyle" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
                     <Border 
-                SnapsToDevicePixels="True" 
                 Uid="Border_38" 
                 MinHeight="24"
                 Margin="5 2 2 2"
@@ -143,6 +143,7 @@
                 BorderThickness="1"
                 CornerRadius="5"
                 BorderBrush="Transparent"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                 Background="{StaticResource ColorSet6}">
                         <ContentPresenter 
                               HorizontalAlignment="Stretch"

@@ -7,7 +7,7 @@ using LibraryManager.Views;
 namespace LibraryManager.ViewModels;
 
 /// <author>YR 2025-01-28</author>
-internal class EditBookViewModel : AddBookViewModel
+internal class EditBookViewModel : ActionWithBookViewModel
 {
 
     public EditBookViewModel(IBookManageable libraryManager, Book editedBook) : base(libraryManager)
@@ -22,6 +22,10 @@ internal class EditBookViewModel : AddBookViewModel
     {
         ExecuteButtonName = "Save Book";
         WindowTitle = "Edit Book";
+
+        var isContentNull = Book.Content is null;
+        LoadingState = isContentNull ? "Load content" : "Content was loaded";
+        IsLoadEnabled = isContentNull;
 
         ExecuteCommand = new DelegateCommand<Window>(SaveEditedBook);
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);

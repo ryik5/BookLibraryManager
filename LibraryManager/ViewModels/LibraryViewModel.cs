@@ -102,8 +102,9 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     {
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
 
-        MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Library.Id}");
+        UpdateLibraryState();
 
+        MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Library.Id}");
         MessageHandler.SendToStatusBar("0", EInfoKind.TotalPages);
     }
 
@@ -125,7 +126,8 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
             MessageHandler.SendToStatusBar($"Library was not loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
         }
 
-        MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
+        MessageHandler.SendToStatusBar("Library loading finished.", EInfoKind.DebugMessage);
+        UpdateLibraryState();
     }
 
     /// <summary>
@@ -140,6 +142,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
                 throw new Exception("Folder wasn't selected");
 
             var pathToFile = Path.Combine(selectedFolder, $"{_libraryManager.Library.Id}.xml");
+
             var file = new FileInfo(pathToFile);
             if (file.Exists)
                 file.Delete();
@@ -167,10 +170,13 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
             MessageHandler.SendToStatusBar($"Library '{_libraryManager.Library.Id}' was closed");
 
             _libraryManager.TryCloseLibrary();
-
+            UpdateLibraryState();
             MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
         }
     }
+
+    private void UpdateLibraryState() => IsEnabled = Library.Id != 0;
+
 
     /// <summary>
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.

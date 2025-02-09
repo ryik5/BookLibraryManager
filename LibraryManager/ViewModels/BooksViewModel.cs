@@ -5,11 +5,14 @@ using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// Represents a view model for managing books in a library.
+/// </summary>
 /// <author>YR 2025-02-02</author>
 public class BooksViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
-    /// Initializes a new instance of the MainViewModel class.
+    /// Initializes a new instance of the BooksViewModel class.
     /// </summary>
     /// <param name="libraryManager">The library manager model.</param>
     public BooksViewModel(IBookManageable libraryManager)
@@ -47,13 +50,14 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     public IBookManageable BookManager => _bookManager;
 
     /// <summary>
-    /// Gets or sets the visibility of the Library's table.
+    /// Gets or sets the visibility of the library's table.
     /// </summary>
     public Visibility LibraryVisibility
     {
         get => _libraryVisibility;
         set => SetProperty(ref _libraryVisibility, value);
     }
+
     /// <summary>
     /// Gets or sets the selected book.
     /// </summary>
@@ -133,7 +137,7 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void AddBook()
     {
-        new AddBookViewModel(_bookManager).ShowDialog();
+        new ActionWithBookViewModel(_bookManager).ShowDialog();
     }
 
     /// <summary>
@@ -141,12 +145,11 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void DemoAddRandomBooks()
     {
-        for (var i = 0; i < 10; i++)
-            new AddBookViewModel(_bookManager).AddBook(DemoBookMaker.GenerateBook());
+        new ActionWithBookViewModel(_bookManager).AddExampleBooks(10);
     }
 
     /// <summary>
-    /// Call EditBookViewModel to edit of the _libraryManager.SelectedBook.
+    /// Calls EditBookViewModel to edit the selected book.
     /// </summary>
     private void EditBook()
     {
@@ -161,7 +164,7 @@ public class BooksViewModel : BindableBase, IViewModelPageable
         var deletedBookId = SelectedBook?.Id;
 
         if (_bookManager.TryRemoveBook(SelectedBook))
-            MessageHandler.SendToStatusBar($"From library ID:{BookManager.Library.Id} was deleted book with id: {deletedBookId}");
+            MessageHandler.SendToStatusBar($"From library ID: {BookManager.Library.Id} was deleted book with ID: {deletedBookId}");
     }
 
     /// <summary>

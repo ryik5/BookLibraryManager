@@ -25,39 +25,48 @@
 
      
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}"/>
     </Style>
 
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
     </Style>
 
     <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
         <Setter Property="TextBlock.FontFamily" Value="{StaticResource ManropeFont}" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
     </Style>
 
     <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}" >
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
     </Style>
 

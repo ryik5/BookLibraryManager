@@ -3,12 +3,12 @@
 namespace LibraryManager.Views;
 
 /// <summary>
-/// Interaction logic for LibreryPropertiesView.xaml
+/// Interaction logic for LibraryPropertiesView.xaml
 /// </summary>
 /// <author>YR 2025-02-02</author>
-public partial class LibreryPropertiesView : UserControl
+public partial class LibraryPropertiesView : UserControl
 {
-    public LibreryPropertiesView()
+    public LibraryPropertiesView()
     {
         InitializeComponent();
     }

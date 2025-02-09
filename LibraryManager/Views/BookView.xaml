@@ -20,6 +20,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         
         <Grid.Resources>
@@ -58,6 +59,11 @@
 
         <Label Content="Content" Grid.Row="7" Grid.Column="0"/>
         <view:BookViewControls Grid.Row="7" Grid.Column="1"/>
+
+        <Label Content="Original path" ToolTip="Path to the loaded original file" 
+               Grid.Row="8" Grid.Column="0"/>
+        <TextBox Text="{Binding Book.Content.OriginalPath}" ToolTip="{Binding Book.Content.OriginalPath, Mode=OneWay}" 
+                 Grid.Row="8" Grid.Column="1"/>
 
     </Grid>
 

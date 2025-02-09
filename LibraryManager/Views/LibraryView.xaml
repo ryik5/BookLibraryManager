@@ -14,7 +14,7 @@
 
         <view:LibraryControls Grid.Row="0"/>
 
-        <view:LibreryPropertiesView Grid.Row="1" VerticalAlignment="Top" />
+        <view:LibraryPropertiesView Grid.Row="1" VerticalAlignment="Top" />
     </Grid>
 
 </UserControl>

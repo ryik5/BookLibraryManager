@@ -7,16 +7,16 @@ using LibraryManager.Views;
 namespace LibraryManager.ViewModels;
 
 /// <summary>
-/// ViewModel for adding a new book.
+/// ActionWithBookViewModel for working with a book.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-internal class AddBookViewModel : BindableBase
+internal class ActionWithBookViewModel : BindableBase
 {
     /// <summary>
-    /// Initializes a new instance of the AddBookViewModel class.
+    /// Initializes a new instance of the ActionWithBookViewModel class.
     /// </summary>
-    /// <param name="book">An example of the book to be added.</param>
-    public AddBookViewModel(IBookManageable libraryManager)
+    /// <param name="book">An example of the book to be managed.</param>
+    public ActionWithBookViewModel(IBookManageable libraryManager)
     {
         _libraryManager = libraryManager;
 
@@ -116,14 +116,10 @@ internal class AddBookViewModel : BindableBase
     #endregion
 
     #region Methods
-    /// <summary>
-    /// Adds the book to the library and closes the window.
-    /// </summary>
-    /// <param name="window">The window to be closed.</param>
-    public void AddBook(Book book)
+    public void AddExampleBooks(int countBooks)
     {
-        _libraryManager.AddBook(book);
-        MessageHandler.SendToStatusBar($"Last added book '{book.Title}' (ID '{book.Id}')");
+        for (var i = 0; i < countBooks; i++)
+            AddBook(DemoBookMaker.GenerateBook());
     }
 
     /// <summary>
@@ -143,10 +139,8 @@ internal class AddBookViewModel : BindableBase
         _addBookWindow = new ActionWithBookWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
     }
-    #endregion
 
 
-    #region methods
     /// <summary>
     /// Clears the book content and resets the loading state.
     /// </summary>
@@ -234,6 +228,15 @@ internal class AddBookViewModel : BindableBase
     {
         LoadingState = e.Message;
         IsLoadEnabled = e.IsFinished;
+    }
+
+    /// <summary>
+    /// Adds the book to the library 
+    /// </summary>
+    private void AddBook(Book book)
+    {
+        _libraryManager.AddBook(book);
+        MessageHandler.SendToStatusBar($"Last added book '{book.Title}' (ID '{book.Id}')");
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LibraryManager.Views.LibreryPropertiesView"
+﻿<UserControl x:Class="LibraryManager.Views.LibraryPropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -31,16 +31,24 @@
         </Grid.Resources>
 
         <Label Content="Id" Grid.Row="0" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.Id}" Grid.Row="0" Grid.Column="1"/>
+        <TextBox Text="{Binding Library.Id}" 
+                 IsReadOnly="True"
+                 Grid.Row="0" Grid.Column="1"/>
 
         <Label Content="Name" Grid.Row="1" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.Name}" Grid.Row="1" Grid.Column="1" />
+        <TextBox Text="{Binding Library.Name}" 
+                 IsEnabled="{Binding IsEnabled}" 
+                 Grid.Row="1" Grid.Column="1" />
 
         <Label Content="Description" Grid.Row="2" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.Description}" Grid.Row="2" Grid.Column="1" />
+        <TextBox Text="{Binding Library.Description}"
+                 IsEnabled="{Binding IsEnabled}" 
+                 Grid.Row="2" Grid.Column="1" />
 
         <Label Content="Total Books" Grid.Row="3" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.TotalBooks, Mode=OneWay}" Grid.Row="3" Grid.Column="1" />
+        <TextBox Text="{Binding Library.TotalBooks, Mode=OneWay}"
+                 IsReadOnly="True"
+                 Grid.Row="3" Grid.Column="1" />
 
     </Grid>
 

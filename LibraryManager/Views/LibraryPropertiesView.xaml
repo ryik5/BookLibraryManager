@@ -36,10 +36,14 @@
                  Grid.Row="0" Grid.Column="1"/>
 
         <Label Content="Name" Grid.Row="1" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.Name}" Grid.Row="1" Grid.Column="1" />
+        <TextBox Text="{Binding Library.Name}" 
+                 IsEnabled="{Binding IsEnabled}" 
+                 Grid.Row="1" Grid.Column="1" />
 
         <Label Content="Description" Grid.Row="2" Grid.Column="0"/>
-        <TextBox Text="{Binding Library.Description}" Grid.Row="2" Grid.Column="1" />
+        <TextBox Text="{Binding Library.Description}"
+                 IsEnabled="{Binding IsEnabled}" 
+                 Grid.Row="2" Grid.Column="1" />
 
         <Label Content="Total Books" Grid.Row="3" Grid.Column="0"/>
         <TextBox Text="{Binding Library.TotalBooks, Mode=OneWay}"

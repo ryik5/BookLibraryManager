@@ -26,6 +26,7 @@ internal class EditBookViewModel : ActionWithBookViewModel
         var isContentNull = Book.Content is null;
         LoadingState = isContentNull ? "Load content" : "Content was loaded";
         IsLoadEnabled = isContentNull;
+        IsSaveEnabled = !IsLoadEnabled;
 
         ExecuteCommand = new DelegateCommand<Window>(SaveEditedBook);
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);

@@ -23,7 +23,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
         LoadLibraryCommand = new DelegateCommand(LoadLibrary);
         SaveLibraryCommand = new RelayCommand(SaveLibrary, CanOperateWithBooks);
         CloseLibraryCommand = new RelayCommand(CloseLibrary, CanOperateWithBooks);
-
+        UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
     }
 

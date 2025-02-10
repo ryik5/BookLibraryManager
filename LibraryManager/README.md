@@ -1,4 +1,4 @@
-# Book Library
+# Library Manager
 
 LibraryManager is a WPF-based desktop application designed to manage a library's collection of books, movies, and games. It provides a user-friendly interface for both patrons and administrators, allowing them to handle reservations, and inventory management seamlessly.
 

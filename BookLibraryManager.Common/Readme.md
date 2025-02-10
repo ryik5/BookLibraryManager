@@ -1,27 +1,18 @@
-# **The Book Library Plugin**
+# BookLibraryManager.Common
 
-## Functionality
+**BookLibraryManager.Common** is the core library (DLL) for the LibraryManager, providing shared functionality and models used across various modules of the project. It serves as the foundation for maintaining consistent data structures and logic throughout the application.
 
-The library provides the following functionality:
-1. **Load Books**: Load a list of books from a universal source.
-2. **Add Book**: Add a new book to the list.
-3. **Sort Books**: Sort the list in alphabetical order by author first. Then for each author, sort it in alphabetical order by title. 
-   - Example: 
-     - Andersen�s books: 
-       - The Little Mermaid
-       - The Ugly Duckling
-     - King�s books: 
-       - Carrie
-       - The Shining
-4. **Search Books**: Search for a book by a part of its title.
-5. **Save Books**: Save the list of books into a universal source.
+## Features
+- **Shared Data Models** – Defines core entities such as books, libraries.
+- **Utility Functions** – Provides reusable helper methods for data processing and validation.
+- **Cross-Module Integration** – Facilitates communication between different components of the application.
 
-## Implementation
+## Technologies Used
+- **C#/.NET 9.0**
+- **MVVM Architecture** – Ensures a clean separation of concerns.
+- **Dependency Injection** – Promotes modularity and testability.
 
-The library is implemented in .NET/C#.
-
-## Current State
-
-- The project is currently targeting .NET 9.
-- The core functionalities have been implemented, including loading, adding, sorting, searching, and saving books.
-- The library is designed to be easily extendable and maintainable, following best practices in C# development.
+## Use Cases
+- Standardizing data structures across all modules.
+- Centralizing commonly used methods and objects.
+- Enabling seamless integration between various components of the LibraryManager.

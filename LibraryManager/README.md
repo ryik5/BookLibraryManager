@@ -1,6 +1,6 @@
-# Book Library Management Plugin
+# Book Library
 
-This project is an example application demonstrating the functionality of a book library management plugin. The plugin allows users to manage a collection of books, including adding, editing, and removing books from the library.
+LibraryManager is a WPF-based desktop application designed to manage a library's collection of books, movies, and games. It provides a user-friendly interface for both patrons and administrators, allowing them to handle reservations, and inventory management seamlessly.
 
 ## Features
 
@@ -10,20 +10,41 @@ This project is an example application demonstrating the functionality of a book
 - Search for books by title, author, or genre
 - View detailed information about each book
 
-## Getting Started
+## Technologies Used
 
-To get started with the application, follow these steps:
+- **C#** – Core programming language.
+- **.NET 9.0** – Framework for application development.
+- **WPF (Windows Presentation Foundation)** – UI framework for building a modern desktop experience.
+- **MVVM (Model-View-ViewModel)** – Architectural pattern for code separation and maintainability.
+- **XAML** – Used for defining UI layouts.
+- **Git** – Version control for tracking changes and collaboration.
 
-1. Clone the repository to your local machine.
-2. Open the solution in Visual Studio.
-3. Build the solution to restore the necessary packages.
-4. Run the application.
+## Installation
+
+To set up the BookLibraryManager application locally, follow these steps:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/ryik5/BookLibraryManager.git
+   cd BookLibraryManager/LibraryManager
+   ```
+
+2. **Build and Run the Application**:
+   - Open the project in Visual Studio.
+   - Restore NuGet packages.
+   - Build and run the application.
 
 ## Requirements
 
 - .NET 9 SDK
 - Visual Studio 2022 or later
 
-## Usage
+## Contributing
 
-The example application shows how to use the functionality of the book library management plugin. You can use the provided UI to interact with the library and manage your book collection.
+Contributions to the LibraryManager project are welcome. To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes with clear and descriptive messages.
+4. Push your changes to your forked repository.
+5. Submit a pull request detailing your changes and their purpose.

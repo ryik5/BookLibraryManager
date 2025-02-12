@@ -61,7 +61,7 @@ internal class ActionWithBookViewModel : BindableBase
         get; set;
     }
 
-    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+    public event EventHandler<ActionFinishedEventArgs> ActionFinished;
     #endregion
 
     #region Commands
@@ -163,62 +163,92 @@ internal class ActionWithBookViewModel : BindableBase
         IsSaveEnabled = false;
 
         // Create a new loader instance
-        var loader = new Loader();
+        var loader = new Handler();
 
         // Subscribe to the loading finished event
-        LoadingFinished += NewLib_LoadingFinished;
+        ActionFinished += NewLib_LoadingFinished;
 
         MessageHandler.SendToStatusBar($"Attempt to load new content", EInfoKind.DebugMessage);
 
         // Load the book content (TODO: select type of content to load)
-        Book.Content = await loader.LoadDataAsync<MediaData>(() => OpenBitmapImage());
+        var taskResult = await Handler.ExecuteTaskAsync(() => OpenContentAttachDialog(Book));
 
+        await Task.Yield();
+        var isNotLoaded = (Book.Content is null) || taskResult.IsFaulted || taskResult.IsCanceled;
         // Set the loading state message
-        var msg = (Book.Content is null) ? "Load content" : "Content was loaded";
+        var msg = isNotLoaded ? "Load content" : "Content was loaded";
 
         // Invoke the loading finished event
-        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
+        ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
 
         // Yield to allow other tasks to run before next
-        await Task.Yield();
 
-        IsSaveEnabled = Book.Content is null ? false : true;
+        IsSaveEnabled = !isNotLoaded;
 
-        if (Book.Content is null)
+        if (isNotLoaded)
             MessageHandler.SendToStatusBar("Content was not loaded successfully", EInfoKind.DebugMessage);
         else
             MessageHandler.SendToStatusBar($"Loaded new content into the book '{Book.Content.OriginalPath}'", EInfoKind.DebugMessage);
 
         // Unsubscribe from the loading finished event
-        LoadingFinished -= NewLib_LoadingFinished;
+        ActionFinished -= NewLib_LoadingFinished;
     }
 
     /// <summary>
     /// Saves the book content (not implemented yet).
     /// </summary>
-    private void SaveContent()
+    private async void SaveContent()
     {
-        MessageBox.Show("This functionality has not been implemented yet!");
-        //  MessageHandler.SendToStatusBar($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing", EInfoKind.DebugMessage);
+        if (Book.Content != null)
+        {
+            // Subscribe to the saving finished event
+            ActionFinished += NewLib_LoadingFinished;
 
+            MessageHandler.SendToStatusBar($"Attempt to save content", EInfoKind.DebugMessage);
+
+            var result = await Handler.ExecuteTaskAsync(() => SaveContentDialog(Book));
+
+            var msg = result.Result ? "Content saved" : "Content wasn't saved successfully";
+
+            ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
+        }
+        else
+        {
+            MessageBox.Show("No content to save.");
+        }
+
+        // Unsubscribe from the saving finished event
+        ActionFinished -= NewLib_LoadingFinished;
     }
 
     /// <summary>
     /// Opens a bitmap image (not implemented yet).
     /// </summary>
     /// <returns>The selected media data.</returns>
-    private MediaData? OpenBitmapImage()
+    private async Task OpenContentAttachDialog(Book book)
     {
         // Invoke the loading started event
-        LoadingFinished?.Invoke(this, new ActionFinishedEventArgs
+        ActionFinished?.Invoke(this, new ActionFinishedEventArgs
         {
             Message = "Loading started",
             IsFinished = false
         });
 
         var selectorFiles = new SelectionDialogHandler();
+        book.Content = await selectorFiles.ReadContentOpenDialogTask();
+    }
 
-        return selectorFiles.SelectMediaData();
+    private async Task<bool> SaveContentDialog(Book book)
+    {
+        // Invoke the loading started event
+        ActionFinished?.Invoke(this, new ActionFinishedEventArgs
+        {
+            Message = "Saving started",
+            IsFinished = false
+        });
+
+        var Saver = new SelectionDialogHandler();
+        return await Saver.SaveContentDialogTask(book);
     }
 
     /// <summary>

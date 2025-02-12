@@ -1,4 +1,5 @@
-﻿using BookLibraryManager.Common.Util;
+﻿using System.Windows;
+using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
 
@@ -51,7 +52,7 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
             Library.Id = library.Id;
             Library.Name = library.Name;
             Library.Description = library.Description;
-            Library.BookList.ResetAndAddRange(library.BookList);
+            InvokeOnUiThread(() => Library.BookList.ResetAndAddRange(library.BookList));
         }
 
         libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
@@ -74,8 +75,9 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
     /// </summary>
     public void TryCloseLibrary()
     {
+
         if (0 < Library.BookList.Count)
-            Library.BookList.Clear();
+            InvokeOnUiThread(() => Library.BookList.Clear());
 
         Library.Name = string.Empty;
         Library.Description = string.Empty;
@@ -111,6 +113,7 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = e.Message, IsFinished = e.IsFinished });
     }
 
+    private void InvokeOnUiThread(Action action) => Application.Current?.Dispatcher?.Invoke(action);
 
     private ILibrary _library;
     #endregion

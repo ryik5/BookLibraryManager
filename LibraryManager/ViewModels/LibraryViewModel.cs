@@ -111,11 +111,17 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Loads an existing library from a file.
     /// </summary>
-    private void LoadLibrary()
+    private async void LoadLibrary()
     {
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
-        if (_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath))
+        MessageHandler.SendToStatusBar("Library is loading go on...", EInfoKind.CommonMessage);
+        await Task.Yield();
+
+        // TODO : add lock for buttons while loading
+        var result = await Handler.ExecuteTaskAsync(() => LoadLibraryTask(filePath));
+
+        if (result?.Result ?? false)
         {
             MessageHandler.SendToStatusBar($"The library was loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
             MessageHandler.SendToStatusBar($"{_libraryManager.Library?.TotalBooks}", EInfoKind.TotalPages);
@@ -131,9 +137,18 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
+    /// Loads an existing library from a file asynchronously.
+    /// </summary>
+    /// <param name="filePath">The path to the XML file to load.</param>
+    /// <returns>A boolean indicating whether the library was loaded successfully.</returns>
+    private async Task<bool> LoadLibraryTask(string filePath)
+       => await Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath));
+
+
+    /// <summary>
     /// Saves the current library to a file.
     /// </summary>
-    private void SaveLibrary()
+    private async void SaveLibrary()
     {
         try
         {
@@ -147,9 +162,13 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
             if (file.Exists)
                 file.Delete();
 
-            var result = _libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile);
+            MessageHandler.SendToStatusBar("Library is saving go on...", EInfoKind.CommonMessage);
+            await Task.Yield();
 
-            var text = result
+            // TODO : add lock for buttons while saving
+            var result = await Handler.ExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
+
+            var text = result?.Result ?? false
                     ? $"Saved Library with id:{_libraryManager.Library.Id}. Total books:{_libraryManager.Library?.TotalBooks}. Library's path:{pathToFile}"
             : "Library wasn't saved";
             MessageHandler.SendToStatusBar(text);
@@ -159,6 +178,14 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
             MessageBox.Show(ex.Message);
         }
     }
+
+    /// <summary>
+    /// Saves the current library to a file asynchronously.
+    /// </summary>
+    /// <param name="pathToFile">The path to the XML file to save.</param>
+    /// <returns>A boolean indicating whether the library was saved successfully.</returns>
+    private async Task<bool> SaveLibraryTask(string pathToFile)
+        => await Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile));
 
     /// <summary>
     /// Closes the library and clears the book list.

@@ -20,7 +20,7 @@ internal class EditBookViewModel : ActionWithBookViewModel
     #region Methods
     public override void ShowDialog()
     {
-        ExecuteButtonName = "Save Book";
+        ExecuteButtonName = "Save changes";
         WindowTitle = "Edit Book";
 
         var isContentNull = Book.Content is null;

@@ -29,9 +29,8 @@ public class BookManagerModel : BindableBase, IBookManageable
 
         var result = bookLoader.TryLoadBook(pathToFile, out var book);
         if (result)
-        {
             AddBook(book);
-        }
+        
         bookLoader.LoadingFinished -= BookLoader_LoadingBookFinished;
 
         return result;
@@ -51,7 +50,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     public void SortBooks()
     {
-        Library.BookList.ResetAndAddRange(Library.BookList.OrderBy(b => b.Author).ThenBy(b => b.Title));
+        InvokeOnUiThread(() => Library.BookList.ResetAndAddRange(Library.BookList.OrderBy(b => b.Author).ThenBy(b => b.Title)));
     }
 
     /// <summary>
@@ -88,20 +87,11 @@ public class BookManagerModel : BindableBase, IBookManageable
         IEnumerable<Book> tmpResult = [];
         var strElement = partElement?.ToString();
 
-        if (Application.Current is null)
-        {
-            tmpResult = FindBooks(bookElement, strElement);
-        }
-        else
-        {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                tmpResult = FindBooks(bookElement, strElement);
-            }));
-        }
+        InvokeOnUiThread(() => tmpResult = FindBooks(bookElement, strElement));
 
         return tmpResult?.ToList() ?? [];
     }
+
 
     /// <summary>
     /// Retrieves a collection of the first specified number of books from the library.
@@ -162,7 +152,7 @@ public class BookManagerModel : BindableBase, IBookManageable
                 tmpResult = FindBooksByPublishDate(strElement);
                 break;
             default:
-                tmpResult = FindBooksEveryWhere(strElement);
+                tmpResult = FindBooksAnyWhere(strElement);
                 break;
         }
         return tmpResult;
@@ -173,8 +163,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     /// <param name="strElement">The author to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    private IEnumerable<Book> FindBooksByAuthor(string? strElement)
-        => IsNotNullOrEmpty(strElement)
+    private IEnumerable<Book> FindBooksByAuthor(string? strElement)  => IsNotNullOrEmpty(strElement)
         ? Library.BookList.Where(b => b.Author.Contains(strElement, CurrentComparisionRule))
         : [];
 
@@ -208,7 +197,7 @@ public class BookManagerModel : BindableBase, IBookManageable
         ? Library.BookList.Where(b => b.PublishDate == intElement)
         : [];
 
-    private IEnumerable<Book> FindBooksEveryWhere(string? strElement)
+    private IEnumerable<Book> FindBooksAnyWhere(string? strElement)
     {
         IEnumerable<Book> tmpResult = [];
         var isInt = IsParseable(strElement, out var intElement);
@@ -246,6 +235,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <returns>True if the string is not null or empty; otherwise, false.</returns>
     private bool IsNotNullOrEmpty(string? strElement) => !string.IsNullOrEmpty(strElement);
 
+    private void InvokeOnUiThread(Action action) => Application.Current?.Dispatcher?.Invoke(action);
 
     private const StringComparison CurrentComparisionRule = StringComparison.OrdinalIgnoreCase;
 

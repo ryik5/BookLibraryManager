@@ -47,6 +47,9 @@ public interface IBookManageable : ILoadable
     /// <returns>A list of books that match the search criteria.</returns>
     List<Book> FindBooksByKind(EBibliographicKindInformation bookElement, object partOfElement);
 
+    /// <summary>
+    /// Gets or sets the library.
+    /// </summary>
     ILibrary Library
     {
         get; set;

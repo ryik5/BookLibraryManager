@@ -8,7 +8,7 @@ namespace LibraryManager.Utils;
 /// <author>YR 2025-01-26</author>
 public class BitmapimageConvertor
 {
-    public Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+    public Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
     {
         using var outStream = new MemoryStream();
 
@@ -20,7 +20,8 @@ public class BitmapimageConvertor
         return new Bitmap(bitmap);
     }
 
-    public BitmapImage BitmapConverter(Bitmap image)
+    /// <author>YR 2025-01-26</author>
+    public BitmapImage BitmapToBitmapImage(Bitmap image)
     {
         using (var ms = new MemoryStream())
         {

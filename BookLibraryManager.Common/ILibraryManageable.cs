@@ -36,6 +36,9 @@ public interface ILibraryManageable : ILoadable
     /// </summary>
     void TryCloseLibrary();
 
+    /// <summary>
+    /// Gets or sets the library.
+    /// </summary>
     ILibrary Library
     {
         get; set;

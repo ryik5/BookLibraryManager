@@ -1,4 +1,5 @@
 ﻿using System.IO.Pipes;
+using LibraryManager.Models;
 
 namespace LibraryManager.Utils;
 
@@ -6,16 +7,30 @@ namespace LibraryManager.Utils;
 /// A utility class responsible for loading data asynchronously.
 /// </summary>
 /// <author>YR 2025-01-26</author>
-internal class Loader
+internal class Handler
 {
+    public static async Task<T?> ExecuteTaskAsync<T>(Func<T> task) where T : class
+    {
+        try
+        {
+            return await Task.Run(task);
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception
+            MessageHandler.SendToStatusBar($"An error occurred: {ex.Message}", EInfoKind.DebugMessage);
+
+            return default;
+        }
+    }
+
+
+
     /// <summary>
     /// Loads data asynchronously using the provided action.
     /// </summary>
     /// <param name="loadData">The action to load the data.</param>
-    public void LoadDataAsync(Action loadData)
-    {
-        Task.Run(async () => await TryLoadByOneStream(loadData));
-    }
+    private void LoadDataAsync(Action loadData)=> ExecuteTaskAsync(()=> Task.FromResult(TryLoadByOneStream(loadData)));
 
     /// <summary>
     /// Attempts to load data by one stream, ensuring that only one instance can load data at a time.
@@ -65,25 +80,11 @@ internal class Loader
     }
 
     /// <summary>
-    /// Loads data asynchronously using the provided function and returns the result.
+    /// Attempts to invoke action by one stream, ensuring that only one instance can do it at a time.
     /// </summary>
-    /// <typeparam name="T">The type of data to load.</typeparam>
-    /// <param name="loadData">The function to load the data.</param>
-    /// <returns>The loaded data.</returns>
-    public async Task<T> LoadDataAsync<T>(Func<T> loadData) where T : class
+    /// <param name="action">The action to invoke.</param>
+    public async Task TryInvokeActionAsync(Action action)
     {
-        return await TryLoadDataTaskByOneStream(loadData);
-    }
-
-    /// <summary>
-    /// Attempts to load data by one stream, ensuring that only one instance can load data at a time, and returns the result.
-    /// </summary>
-    /// <typeparam name="T">The type of data to load.</typeparam>
-    /// <param name="loadData">The function to load the data.</param>
-    /// <returns>The loaded data.</returns>
-    private async Task<T> TryLoadDataTaskByOneStream<T>(Func<T> loadData) where T : class
-    {
-        T bitmap = null;
         using (var mutex = new Mutex(true, _mutexName, out var onlyInstance))
         {
             if (onlyInstance)
@@ -92,7 +93,7 @@ internal class Loader
                 {
                     var cancellationTokenSource = new CancellationTokenSource();
                     var cancellationToken = cancellationTokenSource.Token;
-                    bitmap = await LoadDataTask(cancellationToken, loadData);
+                    await InvokeActionTask(cancellationToken, action);
 
                     cancellationTokenSource.Cancel();
                 }
@@ -102,19 +103,17 @@ internal class Loader
                 }
             }
         }
-        return bitmap;
     }
+
 
     /// <summary>
     /// Loads data asynchronously using the provided cancellation token and function.
     /// </summary>
     /// <typeparam name="T">The type of data to load.</typeparam>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
-    /// <param name="loadData">The function to load the data.</param>
-    /// <returns>The loaded data.</returns>
-    private async Task<T> LoadDataTask<T>(CancellationToken cancellationToken, Func<T> loadData)
+    /// <param name="action">The function to load the data.</param>
+    private async Task InvokeActionTask(CancellationToken cancellationToken, Action action)
     {
-        T? data = default;
         using (var pipeServer = new NamedPipeServerStream(_namedPipeName))
         {
             var IsLoading = true;
@@ -122,15 +121,14 @@ internal class Loader
             {
                 await App.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    data = loadData.Invoke(); // Load content
+                    action.Invoke(); // Invoke action
                     IsLoading = false;
                 });
             }
         }
-        return data;
     }
 
 
-    private const string _mutexName = "BookManager";
-    private const string _namedPipeName = "BookManagerPipeServer";
+    private const string _mutexName = "LibraryManager";
+    private const string _namedPipeName = "LibraryManagerPipeServer";
 }

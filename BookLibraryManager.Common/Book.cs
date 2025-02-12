@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace BookLibraryManager.Common;
 
@@ -6,7 +8,7 @@ namespace BookLibraryManager.Common;
 /// Represents a book.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class Book : BindableBase, ILoadable, ICloneable
+public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
 {
     /// <summary>
     /// Gets or sets the unique identifier for the book.
@@ -91,13 +93,95 @@ public class Book : BindableBase, ILoadable, ICloneable
     /// <summary>
     /// Gets or sets the media content of the book.
     /// </summary>
-    [XmlElement("MediaData")]
     public MediaData Content
     {
         get => _content;
         set => SetProperty(ref _content, value);
     }
     private MediaData _content;
+
+    public XmlSchema? GetSchema() => throw new NotImplementedException();
+
+    /// <summary>
+    /// Reads the book data from the specified XML reader.
+    /// </summary>
+    /// <param name="reader">The XML reader to read the book data from.</param>
+    public void ReadXml(XmlReader reader)
+    {
+        var isRead = true;
+        while (reader.Read() && isRead)
+        {
+            switch (reader.NodeType)
+            {
+                case XmlNodeType.Element:
+                    switch (reader.Name)
+                    {
+                        case "Id":
+                            Id = reader.ReadElementContentAsInt();
+                            break;
+                        case "Author":
+                            Author = reader.ReadElementContentAsString();
+                            break;
+                        case "Title":
+                            Title = reader.ReadElementContentAsString();
+                            break;
+                        case "TotalPages":
+                            TotalPages = reader.ReadElementContentAsInt();
+                            break;
+                        case "PublishDate":
+                            PublishDate = reader.ReadElementContentAsInt();
+                            break;
+                        case "Description":
+                            Description = reader.ReadElementContentAsString();
+                            break;
+                        case "Genre":
+                            Genre = reader.ReadElementContentAsString();
+                            break;
+                        case "ISBN":
+                            ISBN = reader.ReadElementContentAsString();
+                            break;
+                        case "Content":
+                            if (reader.IsEmptyElement)
+                            {
+                                Content = null;
+                                reader.Read();
+                            }
+                            else
+                            {
+                                Content = new MediaData();
+                                Content.ReadXml(reader);
+                            }
+                            isRead = false;
+                            reader.ReadEndElement(); // Added to ensure proper reading of the 'Source' element
+                            break;
+                    }
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Writes the book data to the specified XML writer.
+    /// </summary>
+    /// <param name="writer">The XML writer to write the book data to.</param>
+    public void WriteXml(XmlWriter writer)
+    {
+        writer.WriteStartElement("Book");
+        writer.WriteElementString("Id", Id.ToString());
+        writer.WriteElementString("Author", Author);
+        writer.WriteElementString("Title", Title);
+        writer.WriteElementString("TotalPages", TotalPages.ToString());
+        writer.WriteElementString("PublishDate", PublishDate.ToString());
+        writer.WriteElementString("Description", Description);
+        writer.WriteElementString("Genre", Genre);
+        writer.WriteElementString("ISBN", ISBN);
+
+        writer.WriteStartElement("Content");
+        try { Content?.WriteXml(writer); } catch { }
+        writer.WriteEndElement();
+
+        writer.WriteEndElement();
+    }
 
     /// <summary>
     /// Returns a string that represents the current book.
@@ -124,12 +208,10 @@ public class Book : BindableBase, ILoadable, ICloneable
             Description = Description,
             Content = Content is null ? null : new()
             {
-                BmImage = Content.BmImage,
-                ContentType = Content.ContentType,
-                Image = Content.Image,
                 Name = Content.Name,
+                Ext = Content.Ext,
                 OriginalPath = Content.OriginalPath,
-                PictureByteArray = Content.PictureByteArray
+                ObjectByteArray = Content.ObjectByteArray
             },
             Genre = Genre,
             ISBN = ISBN

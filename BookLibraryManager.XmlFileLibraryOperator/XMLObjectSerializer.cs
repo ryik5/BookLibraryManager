@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace BookLibraryManager.XmlLibraryProvider;
@@ -12,13 +13,23 @@ public class XmlObjectSerializer
         //Create a FileStream object connected to the target file
         var fileStream = new FileStream(flieName, FileMode.Create);
         serializer.Serialize(fileStream, obj);
+        fileStream.Flush();
         fileStream.Close();
     }
 
     public static T Load<T>(string fileName)
     {
         var deserializer = new XmlSerializer(typeof(T));
-        T obj = (T)deserializer.Deserialize(new FileStream(fileName, FileMode.Open));
-        return obj;
+        var settings = new XmlReaderSettings
+        {
+            IgnoreWhitespace = false,
+            IgnoreComments = false
+        };
+        using (var fileStream = new FileStream(fileName, FileMode.Open))
+        using (var xmlReader = XmlReader.Create(fileStream, settings))
+        {
+            T obj = (T)deserializer.Deserialize(xmlReader);
+            return obj;
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.IO;
+using System.Windows;
 using BookLibraryManager.Common;
+using LibraryManager.Models;
 using Microsoft.Win32;
 
 namespace LibraryManager.Utils;
@@ -10,30 +12,92 @@ namespace LibraryManager.Utils;
 /// <author>YR 2025-01-27</author>
 internal class SelectionDialogHandler
 {
-    /// <summary>
-    /// Opens a dialog for selecting a media file and returns the selected media data.
-    /// </summary>
-    /// <returns>The selected media data, or null if no file was selected.</returns>
-    public MediaData? SelectMediaData()
+    public async Task<MediaData> ReadContentOpenDialogTask()
     {
-        var op = new OpenFileDialog();
-        op.Title = "Select a picture";
-        op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-          "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-          "Portable Network Graphic (*.png)|*.png";
+        MediaData media = null;
+        var op = new OpenFileDialog
+        {
+            Title = "Select a file",
+            Filter = "All (*.*)|*.*"
+        };
+
         if (op.ShowDialog() == true)
         {
-            var img = new MediaData();
-            img.Name = $"{nameof(BitmapImage)}";
-            img.OriginalPath = op.FileName;
-            img.Image = new BitmapimageConvertor().BitmapImage2Bitmap(new BitmapImage(new Uri(op.FileName)));
+            var fi = new FileInfo(op.FileName);
+            media = new MediaData
+            {
+                Name = fi.Name,
+                OriginalPath = op.FileName,
+                Ext = fi.Extension
+            };
 
-            return img;
+            if (fi.Length < 20_000_000)
+            {
+                try
+                {
+                    media.ObjectByteArray = File.ReadAllBytes(op.FileName);
+                    media.IsLoaded = true;
+                }
+                catch
+                {
+                    media.IsLoaded = false;
+                }
+            }
+            else
+            {
+                media.IsLoaded = false;
+            }
         }
 
-        return null;
+        await Task.Yield();
+
+        return media;
     }
 
+    /// <summary>
+    /// Saves the content of a book using a save file dialog.
+    /// </summary>
+    /// <param name="book">The book whose content is to be saved.</param>
+    /// <returns>True if the content was saved successfully, false otherwise.</returns>
+    public async Task<bool> SaveContentDialogTask(Book book)
+    {
+        // Create a new save file dialog with the default filter set to all files
+        var saveFileDialog = new SaveFileDialog
+        {
+            Filter = "All Files (*.*)|*.*",
+            // Set the default file name to the book's title or the original path if available
+            FileName = book.Content?.OriginalPath != null ? Path.GetFileName(book.Content.OriginalPath) : book.Title
+        };
+
+        // Check if the book's content is loaded and the save file dialog was shown successfully
+        if (book.Content?.ObjectByteArray != null && book.Content.IsLoaded && (saveFileDialog.ShowDialog() ?? false))
+        {
+            try
+            {
+                // Save the book's content to the selected file
+                File.WriteAllBytes(saveFileDialog.FileName, book.Content.ObjectByteArray);
+                await Task.Yield();
+                // Send a debug message to the status bar indicating the content was saved successfully
+                MessageHandler.SendToStatusBar($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}", EInfoKind.DebugMessage);
+                // Show a message box indicating the content was saved successfully
+                MessageBox.Show("Book content saved successfully.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during the save operation
+                MessageHandler.SendToStatusBar($"Error saving book content: {ex.Message}", EInfoKind.DebugMessage);
+                return false;
+            }
+        }
+        else
+        {
+            // Send a debug message to the status bar indicating the content was not saved
+            MessageHandler.SendToStatusBar($"The book content '{book.Title}' was not saved because it is stored separately", EInfoKind.DebugMessage);
+            await Task.Yield();
+            return false;
+        }
+    }
 
     /// <summary>
     /// Returns the path to the XML file with the library.

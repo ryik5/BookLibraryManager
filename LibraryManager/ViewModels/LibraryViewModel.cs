@@ -20,8 +20,8 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     {
         _libraryManager = libraryManager;
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
-        LoadLibraryCommand = new DelegateCommand(LoadLibrary);
-        SaveLibraryCommand = new RelayCommand(SaveLibrary, CanOperateWithBooks);
+        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibrary));
+        SaveLibraryCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveLibrary), CanOperateWithBooks);
         CloseLibraryCommand = new RelayCommand(CloseLibrary, CanOperateWithBooks);
         UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
@@ -41,6 +41,15 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get => _isEnabled;
         set => SetProperty(ref _isEnabled, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the buttons are unlocked.
+    /// </summary>
+    public bool IsUnLocked
+    {
+        get => _isUnLocked;
+        set => SetProperty(ref _isUnLocked, value);
     }
 
     /// <summary>
@@ -96,6 +105,17 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
 
     #region Methods
     /// <summary>
+    /// Locks the buttons while executing the specified asynchronous function.
+    /// </summary>
+    /// <param name="func">The asynchronous function to execute.</param>
+    private async Task LockButtonsOnExecuteAsync(Func<Task> func)
+    {
+        IsUnLocked = false;
+        await func();
+        IsUnLocked = true;
+    }
+
+    /// <summary>
     /// Creates a new library or changes an instance of the existing library by creating a new one.
     /// </summary>
     private void CreateLibrary()
@@ -111,14 +131,13 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Loads an existing library from a file.
     /// </summary>
-    private async void LoadLibrary()
+    private async Task LoadLibrary()
     {
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
         MessageHandler.SendToStatusBar("Library is loading go on...", EInfoKind.CommonMessage);
         await Task.Yield();
 
-        // TODO : add lock for buttons while loading
         var result = await Handler.ExecuteTaskAsync(() => LoadLibraryTask(filePath));
 
         if (result?.Result ?? false)
@@ -148,7 +167,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Saves the current library to a file.
     /// </summary>
-    private async void SaveLibrary()
+    private async Task SaveLibrary()
     {
         try
         {
@@ -165,7 +184,6 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
             MessageHandler.SendToStatusBar("Library is saving go on...", EInfoKind.CommonMessage);
             await Task.Yield();
 
-            // TODO : add lock for buttons while saving
             var result = await Handler.ExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
 
             var text = result?.Result ?? false
@@ -202,8 +220,16 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
         }
     }
 
-    private void UpdateLibraryState() => IsEnabled = Library.Id != 0;
+    /// <summary>
+    /// Updates the library state by raising a property changed event for the Library property
+    /// and setting the IsEnabled property based on whether the Library Id differs from the default value of 0.
+    /// </summary>
+    private void UpdateLibraryState()
+    {
+        RaisePropertyChanged(nameof(Library));
 
+        IsEnabled = Library.Id != 0;
+    }
 
     /// <summary>
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.
@@ -220,5 +246,6 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     private readonly ILibraryManageable _libraryManager;
     private bool _isChecked;
     private bool _isEnabled = true;
+    private bool _isUnLocked = true;
     #endregion
 }

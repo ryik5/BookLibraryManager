@@ -21,9 +21,9 @@ internal class ActionWithBookViewModel : BindableBase
         _libraryManager = libraryManager;
 
         LoadingState = "Load content";
-        LoadBookContentCommand = new RelayCommand(LoadBookContent);
+        LoadBookContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(LoadBookContent));
         ClearBookContentCommand = new RelayCommand(ClearBookContent);
-        SaveContentCommand = new RelayCommand(SaveContent);
+        SaveContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveContent));
         IsLoadEnabled = true;
         IsSaveEnabled = false;
     }
@@ -39,6 +39,10 @@ internal class ActionWithBookViewModel : BindableBase
         set => SetProperty(ref _book, value);
     }
 
+    /// <summary>
+    /// Gets or sets text of the current loading state.
+    /// </summary>
+    /// <value>The loading state.</value>
     public string LoadingState
     {
         get => _loadingState;
@@ -61,6 +65,18 @@ internal class ActionWithBookViewModel : BindableBase
         get; set;
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the buttons are unlocked.
+    /// </summary>
+    public bool IsUnLocked
+    {
+        get => _isUnLocked;
+        set => SetProperty(ref _isUnLocked, value);
+    }
+
+    /// <summary>
+    /// Event raised when an action is started and finished.
+    /// </summary>
     public event EventHandler<ActionFinishedEventArgs> ActionFinished;
     #endregion
 
@@ -116,6 +132,21 @@ internal class ActionWithBookViewModel : BindableBase
     #endregion
 
     #region Methods
+    /// <summary>
+    /// Locks the buttons while executing the specified asynchronous function.
+    /// </summary>
+    /// <param name="func">The asynchronous function to execute.</param>
+    private async Task LockButtonsOnExecuteAsync(Func<Task> func)
+    {
+        IsUnLocked = false;
+        await func();
+        IsUnLocked = true;
+    }
+
+    /// <summary>
+    /// Adds a specified number of example books to the library.
+    /// </summary>
+    /// <param name="countBooks">The number of example books to add.</param>
     public void AddExampleBooks(int countBooks)
     {
         for (var i = 0; i < countBooks; i++)
@@ -157,7 +188,7 @@ internal class ActionWithBookViewModel : BindableBase
     /// <summary>
     /// Loads the book content asynchronously.
     /// </summary>
-    private async void LoadBookContent()
+    private async Task LoadBookContent()
     {
         // Disable the save functionality
         IsSaveEnabled = false;
@@ -197,7 +228,7 @@ internal class ActionWithBookViewModel : BindableBase
     /// <summary>
     /// Saves the book content (not implemented yet).
     /// </summary>
-    private async void SaveContent()
+    private async Task SaveContent()
     {
         if (Book.Content != null)
         {
@@ -238,6 +269,11 @@ internal class ActionWithBookViewModel : BindableBase
         book.Content = await selectorFiles.ReadContentOpenDialogTask();
     }
 
+    /// <summary>
+    /// Saves the content of the specified book using a dialog.
+    /// </summary>
+    /// <param name="book">The book whose content is to be saved.</param>
+    /// <returns>A boolean indicating whether the content was saved successfully.</returns>
     private async Task<bool> SaveContentDialog(Book book)
     {
         // Invoke the loading started event
@@ -309,5 +345,6 @@ internal class ActionWithBookViewModel : BindableBase
     private string _loadingState;
     private bool _isLoadEnabled;
     private bool _isSaveEnabled;
+    private bool _isUnLocked = true;
     #endregion
 }

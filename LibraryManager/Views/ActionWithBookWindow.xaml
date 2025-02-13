@@ -10,7 +10,8 @@
         Style="{StaticResource BookLibraryWindowStyle}"
         WindowStartupLocation="CenterOwner">
 
-    <Grid HorizontalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch"
+          IsEnabled="{Binding IsUnLocked}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

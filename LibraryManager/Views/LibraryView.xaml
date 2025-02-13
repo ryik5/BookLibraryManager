@@ -6,7 +6,8 @@
              xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d">
 
-    <Grid Margin="5">
+    <Grid Margin="5"
+        IsEnabled="{Binding IsUnLocked}">
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>
             <RowDefinition Height="*"/>

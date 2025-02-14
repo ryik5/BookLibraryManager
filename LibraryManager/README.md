@@ -1,6 +1,6 @@
 # Library Manager
 
-LibraryManager is a WPF-based desktop application designed to manage a library's collection of books, movies, and games. It provides a user-friendly interface for both patrons and administrators, allowing them to handle reservations, and inventory management seamlessly.
+Library Manager is a WPF-based desktop application designed to manage a library's collection of books, movies, and games. It provides a user-friendly interface for both patrons and administrators, allowing them to handle reservations, and inventory management seamlessly.
 
 ## Features
 
@@ -22,18 +22,26 @@ LibraryManager is a WPF-based desktop application designed to manage a library's
 
 ## Installation
 
-To set up the BookLibraryManager application locally, follow these steps:
+To set up the Library Manager application locally, follow these steps:
 
-1. **Clone the Repository**:
+1. **Clone the entire solution**:
    ```bash
    git clone https://github.com/ryik5/BookLibraryManager.git
    cd BookLibraryManager/LibraryManager
    ```
 
-2. **Build and Run the Application**:
+2. **Build and Run the .dll libraries**:
+   - Open the projects in Visual Studio.
+   - Restore NuGet packages.
+   - Replace icons/logos links to yours.
+   - Build BookLibraryManager.Common to provide general objects
+   - Build either BookLibraryManager.XmlFileLibraryOperator if you are going to work with .xml library form or create your own provider.
+     
+3. **Build and Run the Application**:
    - Open the project in Visual Studio.
    - Restore NuGet packages.
    - Replace icons/logos links to yours.
+   - Copy dll or add links into applicatio's project for .dll
    - Build and run the application.
 
 ## Requirements

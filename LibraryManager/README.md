@@ -8,6 +8,7 @@ LibraryManager is a WPF-based desktop application designed to manage a library's
 - Edit existing book details
 - Remove books from the library
 - Search for books by title, author, or genre
+- Store content of the book within the library
 - View detailed information about each book
 
 ## Technologies Used
@@ -32,6 +33,7 @@ To set up the BookLibraryManager application locally, follow these steps:
 2. **Build and Run the Application**:
    - Open the project in Visual Studio.
    - Restore NuGet packages.
+   - Replace icons/logos links to yours.
    - Build and run the application.
 
 ## Requirements
@@ -41,7 +43,7 @@ To set up the BookLibraryManager application locally, follow these steps:
 
 ## Contributing
 
-Contributions to the LibraryManager project are welcome. To contribute:
+Contributions to the Library Manager project are welcome. To contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.

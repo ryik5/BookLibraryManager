@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
     <Border Style="{StaticResource DockPanelBordedStyle}">
@@ -33,33 +32,37 @@
 
                 <ComboBox.ItemContainerStyle>
                     <Style>
-                        <Setter Property="Control.ToolTip" Value="{Binding ToolTip}" />
+                        <Setter Property="Control.ToolTip"
+                                Value="{Binding ToolTip}" />
                     </Style>
                 </ComboBox.ItemContainerStyle>
 
-                <ComboBoxItem DataContext="{Binding TotalBooksText}" Tag="{Binding ToolTip}">
+                <ComboBoxItem DataContext="{Binding TotalBooksText}"
+                              Tag="{Binding ToolTip}">
                     <ComboBoxItem.Content>
                         <TextBlock>
                             <Run Text="Book(s): " FontWeight="Bold"/>
-                            <Run Text="{Binding Name}"/>
+                            <Run Text="{Binding MessageText}"/>
                         </TextBlock>
                     </ComboBoxItem.Content>
                 </ComboBoxItem>
                 
-                <ComboBoxItem DataContext="{Binding LibraryInfoText}" Tag="{Binding ToolTip}">
+                <ComboBoxItem DataContext="{Binding LibraryInfoText}"
+                              Tag="{Binding ToolTip}">
                     <ComboBoxItem.Content>
                         <TextBlock>
                             <Run Text="Lib.: " FontWeight="Bold"/>
-                            <Run Text="{Binding Name}"/>
+                            <Run Text="{Binding MessageText}"/>
                         </TextBlock>
                     </ComboBoxItem.Content>
                 </ComboBoxItem>
                 
-                <ComboBoxItem DataContext="{Binding VersionText}" Tag="{Binding ToolTip}">
+                <ComboBoxItem DataContext="{Binding VersionText}"
+                              Tag="{Binding ToolTip}">
                     <ComboBoxItem.Content>
                         <TextBlock>
                             <Run Text="App.: " FontWeight="Bold"/>
-                            <Run Text="{Binding Name}"/>
+                            <Run Text="{Binding MessageText}"/>
                         </TextBlock>
                     </ComboBoxItem.Content>
                 </ComboBoxItem>

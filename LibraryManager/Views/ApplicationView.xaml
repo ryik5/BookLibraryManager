@@ -14,21 +14,27 @@
         Style="{StaticResource BookLibraryWindowStyle}">
 
     <Window.Resources>
+        
         <DataTemplate DataType="{x:Type local:LibraryViewModel}">
             <view:LibraryView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type local:BooksViewModel}">
             <view:BooksView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type local:FindBookViewModel}">
             <view:FindBookView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type local:DebugViewModel}">
             <view:DebugView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type local:AboutViewModel}">
             <view:AboutView />
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type local:StatusBarViewModel}">
             <view:StatusBarControl />
         </DataTemplate>
@@ -36,10 +42,10 @@
 
     <DockPanel LastChildFill="True">
 
-        <!-- Status bar -->
+        <!-- Bootom. Status bar -->
         <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="0"/>
 
-        <!-- Navigation bar -->
+        <!-- Left. Navigation bar -->
         <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="100" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -76,7 +82,7 @@
             </ItemsControl>
         </Grid>
 
-        <!-- Content current view  -->        
+        <!-- Right. Content current view  -->        
         <ContentControl Content="{Binding CurrentViewModel}" />
 
     </DockPanel>

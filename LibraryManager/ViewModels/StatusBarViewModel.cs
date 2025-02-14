@@ -36,7 +36,7 @@ public class StatusBarViewModel : BindableBase
         InfoList.Add(VersionText);
         InfoList.Add(LibraryInfoText);
 
-        SelectedInfoItem.Content = TotalBooksText.Name;
+        SelectedInfoItem.Content = TotalBooksText.MessageText;
         ToolTip = TotalBooksText.ToolTip;
     }
 
@@ -69,19 +69,19 @@ public class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the total number of the books in the library.
     /// </summary>
-    public Message TotalBooksText
+    public StatusBarMessage TotalBooksText
     {
         get => _totalBooksText;
         set => SetProperty(ref _totalBooksText, value);
     }
 
-    public Message VersionText
+    public StatusBarMessage VersionText
     {
         get => _versionText;
         set => SetProperty(ref _versionText, value);
     }
 
-    public Message LibraryInfoText
+    public StatusBarMessage LibraryInfoText
     {
         get => _libraryInfoText;
         set => SetProperty(ref _libraryInfoText, value);
@@ -101,7 +101,7 @@ public class StatusBarViewModel : BindableBase
         get => _toolTip;
         set => SetProperty(ref _toolTip, value);
     }
-    public ObservableCollection<Message> InfoList
+    public ObservableCollection<StatusBarMessage> InfoList
     {
         get => _infoList;
         set => SetProperty(ref _infoList, value);
@@ -118,7 +118,7 @@ public class StatusBarViewModel : BindableBase
         switch (e.InfoKind)
         {
             case EInfoKind.TotalPages:
-                TotalBooksText.Name = e.Message;
+                TotalBooksText.MessageText = e.Message;
                 TotalBooksText.ToolTip = $"Total pages in the library: {_library.TotalBooks}";
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
@@ -142,13 +142,13 @@ public class StatusBarViewModel : BindableBase
     private void UpdateSysInfo()
     {
         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
-        VersionText.Name = $"{versionInfo.CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
+        VersionText.MessageText = $"{versionInfo.CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
         VersionText.ToolTip = $"App. Info:{Environment.NewLine}Name:'{versionInfo.ProductName}'{Environment.NewLine}Company:'{versionInfo.CompanyName}'{Environment.NewLine}Version:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
     }
 
     private void UpdateLibraryInfo()
     {
-        LibraryInfoText.Name = $"Lib: {_library.Id}";
+        LibraryInfoText.MessageText = $"Lib: {_library.Id}";
         LibraryInfoText.ToolTip = $"Library information.{Environment.NewLine}ID:'{_library.Id}'{Environment.NewLine}Name:'{_library.Name}'{Environment.NewLine}Description:'{_library.Description}'";
     }
 
@@ -156,34 +156,13 @@ public class StatusBarViewModel : BindableBase
     private string _textInfoText1 = string.Empty;
     private string _textInfoText2 = string.Empty;
     private string _textInfoText3 = string.Empty;
-    private Message _totalBooksText = new();
-    private Message _versionText = new();
-    private Message _libraryInfoText = new();
+    private StatusBarMessage _totalBooksText = new();
+    private StatusBarMessage _versionText = new();
+    private StatusBarMessage _libraryInfoText = new();
     private ComboBoxItem _selectedInfoItem = new();
     private object _toolTip;
-    private ObservableCollection<Message> _infoList = new();
+    private ObservableCollection<StatusBarMessage> _infoList = new();
     private readonly SubscriptionToken _token;
     private readonly ILibrary _library;
     #endregion
-}
-
-public class Message : BindableBase
-{
-    public string Name
-    {
-        get => _name;
-        set => SetProperty(ref _name, value);
-    }
-
-    public string ToolTip
-    {
-        get => _toolTip;
-        set => SetProperty(ref _toolTip, value);
-    }
-
-    public override string ToString() => Name;
-
-
-    private string _name;
-    private string _toolTip;
 }

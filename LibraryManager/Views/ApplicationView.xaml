@@ -30,23 +30,27 @@
         <DataTemplate DataType="{x:Type local:DebugViewModel}">
             <view:DebugView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:ToolsViewModel}">
+            <view:ToolsView />
+        </DataTemplate>
         
         <DataTemplate DataType="{x:Type local:AboutViewModel}">
             <view:AboutView />
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type local:StatusBarViewModel}">
-            <view:StatusBarControl />
+            <view:StatusBarView />
         </DataTemplate>
     </Window.Resources>
 
     <DockPanel LastChildFill="True">
 
         <!-- Bootom. Status bar -->
-        <view:StatusBarControl DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="0"/>
+        <view:StatusBarView DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="0"/>
 
         <!-- Left. Navigation bar -->
-        <Grid DockPanel.Dock="Left" Margin="0 5 0 0" Width="100" Background="{StaticResource ColorSet6}">
+        <Grid DockPanel.Dock="Left" Margin="0 10 0 0" Width="100" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>

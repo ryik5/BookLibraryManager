@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryManager.Models;
+﻿using LibraryManager.Models;
 
-namespace LibraryManager.ViewModels
+namespace LibraryManager.ViewModels;
+
+/// <author>YR 2025-02-14</author>
+public class ToolsViewModel : BindableBase, IViewModelPageable
 {
-    public class ToolsViewModel : BindableBase, IViewModelPageable
-    {
-        public string Name => throw new NotImplementedException();
 
-        public bool IsChecked
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
-        public bool IsEnabled
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+    #region Properties
+    public string Name => "Tools";
+
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set => SetProperty(ref _isChecked, value);
     }
+
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set => SetProperty(ref _isEnabled, value);
+    }
+    #endregion
+
+    #region Fields
+    private bool _isChecked;
+    private bool _isEnabled = true;
+    #endregion
 }

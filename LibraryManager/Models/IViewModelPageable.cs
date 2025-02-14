@@ -24,7 +24,7 @@ public interface IViewModelPageable
     }
 
     /// <summary>
-    /// Value indicating whether the current IViewModelPageable model is enabled 
+    /// Value indicating whether the current IViewModelPageable model is enabled to use or locked
     /// </summary>
     bool IsEnabled
     {

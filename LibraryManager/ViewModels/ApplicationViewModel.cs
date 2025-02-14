@@ -26,7 +26,7 @@ public class ApplicationViewModel : BindableBase
             { "Library", new LibraryViewModel(_libraryManager) },
             { "Books", new BooksViewModel(_bookManager) },
             { "Find Books", new FindBookViewModel(_bookManager) },
-           // { "Tools", null }, // TODO : Create viewModel and view for settings parameters of application
+            { "Tools", new ToolsViewModel() }, 
             { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
@@ -34,6 +34,7 @@ public class ApplicationViewModel : BindableBase
         StatusBar = new StatusBarViewModel(_library);
 
         ChangePageCommand = new DelegateCommand<string>(Navigate);
+
 
         Navigate("Library"); // Default page
     }

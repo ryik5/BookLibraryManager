@@ -67,11 +67,8 @@
 
 *Find books in your library and check them.*
 
-## License
-
-This project is licensed under the [MIT License](link_to_license).
 
 ## Contact
 
-For questions or support, please contact **me** at **github**.
+For questions or support, please contact **me** on **[github](https://github.com/ryik5)**.
 

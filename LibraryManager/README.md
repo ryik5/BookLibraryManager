@@ -21,19 +21,19 @@ Library Manager is a WPF-based desktop application designed to manage a library'
 - **Git** – Version control for tracking changes and collaboration.
 ## Screenshots
 
-![Library](Images/Library.png)
+![Library](/Images/Library.png)
 
 *The main dashboard displaying an overview of your collection.*
 
-![Books View](Images/BookDetails.png)
+![Books View](/Images/BookDetails.png)
 
 *The 'Books view' interface.*
 
-![Add Book](Images/AddBook.png)
+![Add Book](/Images/AddBook.png)
 
 *The 'Add Book' interface with ISBN scanning feature.*
 
-![Search Management](Images/FindBooks.png)
+![Search Management](/Images/FindBooks.png)
 
 *Find books in your library and check them.*
 

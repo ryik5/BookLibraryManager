@@ -17,29 +17,33 @@ internal sealed class ApplicationViewModel : BindableBase
     public ApplicationViewModel()
     {
         _settings = new SettingsModel();
-        var tools = new ToolsViewModel(_settings);
+        var toolsVM = new ToolsViewModel(_settings);
 
         _library = new Library();
 
         _libraryManager = new LibraryManagerModel(_library);
         _bookManager = new BookManagerModel(_library);
 
+        var libraryVM = new LibraryViewModel(_libraryManager);
+        var booksVM = new BooksViewModel(_bookManager);
+        var finderVM = new FindBookViewModel(_bookManager, _settings);
+        var debugVM = new DebugViewModel();
+        var aboutVM = new AboutViewModel();
         PageViewModels = new Dictionary<string, IViewModelPageable>
         {
-            { "Library", new LibraryViewModel(_libraryManager) },
-            { "Books", new BooksViewModel(_bookManager) },
-            { "Find Books", new FindBookViewModel(_bookManager,_settings) },
-            { "Tools",  tools},
-            { "Debug", new DebugViewModel() },
-            { "About", new AboutViewModel() }
+            { libraryVM.Name, libraryVM },
+            { booksVM.Name, booksVM },
+            { finderVM.Name, finderVM},
+            { toolsVM.Name,  toolsVM},
+            {debugVM.Name, debugVM},
+            { aboutVM.Name, aboutVM }
         };
 
         StatusBar = new StatusBarViewModel(_library);
 
         ChangePageCommand = new DelegateCommand<string>(Navigate);
 
-
-        Navigate("Library"); // Default page
+        Navigate(libraryVM.Name); // Default page
     }
 
     #region Properties
@@ -89,7 +93,7 @@ internal sealed class ApplicationViewModel : BindableBase
     /// <param name="pageName">The name of the page to navigate to.</param>
     private void Navigate(string pageName)
     {
-        if (pageName != null && TryGetPage(pageName, out var viewModel))
+        if (pageName != null && PageViewModels.TryGetValue(pageName, out var viewModel))
         {
             foreach (var kv in PageViewModels.Where(p => p.Value.IsChecked == true))
                 kv.Value.IsChecked = false;
@@ -99,9 +103,6 @@ internal sealed class ApplicationViewModel : BindableBase
             MessageHandler.SendToStatusBar($"Switched to '{pageName}' page", EInfoKind.DebugMessage);
         }
     }
-
-    private bool TryGetPage(string pageName, out IViewModelPageable viewModel) => PageViewModels.TryGetValue(pageName, out viewModel);
-
     #endregion
 
     #region private fields

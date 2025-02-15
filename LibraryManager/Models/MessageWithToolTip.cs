@@ -1,13 +1,13 @@
 ﻿namespace LibraryManager.Models;
 
 /// <summary>
-/// Represents a status bar message with a name and tooltip.
+/// Represents a two string properties class with a message <see cref="MessageText"/> and tooltip to message <see cref="ToolTip"/>.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public sealed class StatusBarMessage : BindableBase
+public sealed class MessageWithToolTip : BindableBase
 {
     /// <summary>
-    /// Represents the text of message for the status bar.
+    /// Represents the text of message
     /// </summary>
     public string MessageText
     {
@@ -16,7 +16,7 @@ public sealed class StatusBarMessage : BindableBase
     }
 
     /// <summary>
-    /// Represents the tooltip of the status bar message.
+    /// Represents the tooltip for the <see cref="MessageText"/> .
     /// </summary>
     public string ToolTip
     {

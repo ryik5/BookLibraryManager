@@ -69,19 +69,19 @@ public sealed class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the total number of the books in the library.
     /// </summary>
-    public StatusBarMessage TotalBooksText
+    public MessageWithToolTip TotalBooksText
     {
         get => _totalBooksText;
         set => SetProperty(ref _totalBooksText, value);
     }
 
-    public StatusBarMessage VersionText
+    public MessageWithToolTip VersionText
     {
         get => _versionText;
         set => SetProperty(ref _versionText, value);
     }
 
-    public StatusBarMessage LibraryInfoText
+    public MessageWithToolTip LibraryInfoText
     {
         get => _libraryInfoText;
         set => SetProperty(ref _libraryInfoText, value);
@@ -96,12 +96,14 @@ public sealed class StatusBarViewModel : BindableBase
                 ToolTip = value?.Tag;
         }
     }
+
     public object ToolTip
     {
         get => _toolTip;
         set => SetProperty(ref _toolTip, value);
     }
-    public ObservableCollection<StatusBarMessage> InfoList
+
+    public ObservableCollection<MessageWithToolTip> InfoList
     {
         get => _infoList;
         set => SetProperty(ref _infoList, value);
@@ -119,7 +121,7 @@ public sealed class StatusBarViewModel : BindableBase
         {
             case EInfoKind.TotalBooks:
                 TotalBooksText.MessageText = e.Message;
-                TotalBooksText.ToolTip = Constants.TotalBookInLibrary(_library.TotalBooks);// $"Total books in the library: {}";
+                TotalBooksText.ToolTip = Constants.TotalBookInLibrary(_library.TotalBooks);
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:
@@ -156,12 +158,12 @@ public sealed class StatusBarViewModel : BindableBase
     private string _textInfoText1 = string.Empty;
     private string _textInfoText2 = string.Empty;
     private string _textInfoText3 = string.Empty;
-    private StatusBarMessage _totalBooksText = new();
-    private StatusBarMessage _versionText = new();
-    private StatusBarMessage _libraryInfoText = new();
+    private MessageWithToolTip _totalBooksText = new();
+    private MessageWithToolTip _versionText = new();
+    private MessageWithToolTip _libraryInfoText = new();
     private ComboBoxItem _selectedInfoItem = new();
     private object _toolTip;
-    private ObservableCollection<StatusBarMessage> _infoList = new();
+    private ObservableCollection<MessageWithToolTip> _infoList = new();
     private readonly SubscriptionToken _token;
     private readonly ILibrary _library;
     #endregion

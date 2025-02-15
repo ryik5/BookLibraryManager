@@ -55,11 +55,11 @@
 *The main dashboard displaying an overview of your collection.*
 
 
-![Books View]Images/BookDetails.png)
+![Books View](Images/BookDetails.png)
 *The 'Books view' interface.*
 
 
-![Add Book]Images/AddBook.png)
+![Add Book](Images/AddBook.png)
 *The 'Add Book' interface with ISBN scanning feature.*
 
 

@@ -32,7 +32,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "Find Books";
+    public string Name => Constants.FIND_BOOKS;
 
     public bool IsChecked
     {

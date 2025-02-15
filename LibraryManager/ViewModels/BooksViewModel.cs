@@ -30,7 +30,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "Books";
+    public string Name => Constants.BOOKS;
 
     public bool IsChecked
     {

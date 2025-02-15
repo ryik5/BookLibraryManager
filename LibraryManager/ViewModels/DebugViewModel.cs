@@ -21,7 +21,7 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _debugTextLog, value);
     }
 
-    public string Name => "Debug";
+    public string Name => Constants.DEBUG;
 
     public bool IsChecked
     {

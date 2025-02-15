@@ -4,6 +4,9 @@ using LibraryManager.Models;
 namespace LibraryManager.Utils;
 
 /// <author>YR 2025-01-27</author>
+/// <summary>
+/// Sends a message to the status bar.
+/// </summary>
 internal sealed class MessageHandler
 {
     /// <summary>
@@ -18,5 +21,6 @@ internal sealed class MessageHandler
             Message = msg,
         });
     }
-}
 
+   public static void SendDebugMessag(string msg) =>SendToStatusBar(msg, EInfoKind.DebugMessage);
+}

@@ -29,7 +29,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "Library";
+    public string Name => Constants.LIBRARY;
 
     public bool IsChecked
     {
@@ -138,20 +138,20 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         MessageHandler.SendToStatusBar("Library is loading go on...", EInfoKind.CommonMessage);
         await Task.Yield();
 
-        var result = await Handler.ExecuteTaskAsync(() => LoadLibraryTask(filePath));
+        var result = await Handler.TryExecuteTaskAsync(() => LoadLibraryTask(filePath));
 
         if (result?.Result ?? false)
         {
-            MessageHandler.SendToStatusBar($"The library was loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag($"The library was loaded from the path: '{filePath}'");
             MessageHandler.SendToStatusBar($"{_libraryManager.Library?.TotalBooks}", EInfoKind.TotalBooks);
             MessageHandler.SendToStatusBar($"Library loaded with ID: {_libraryManager.Library.Id}");
         }
         else
         {
-            MessageHandler.SendToStatusBar($"Library was not loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag($"Library was not loaded from the path: '{filePath}'");
         }
 
-        MessageHandler.SendToStatusBar("Library loading finished.", EInfoKind.DebugMessage);
+        MessageHandler.SendDebugMessag("Library loading finished.");
         UpdateLibraryState();
     }
 
@@ -184,7 +184,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             MessageHandler.SendToStatusBar("Library is saving go on...", EInfoKind.CommonMessage);
             await Task.Yield();
 
-            var result = await Handler.ExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
+            var result = await Handler.TryExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
 
             var text = result?.Result ?? false
                     ? $"Saved Library with id:{_libraryManager.Library.Id}. Total books:{_libraryManager.Library?.TotalBooks}. Library's path:{pathToFile}"
@@ -216,7 +216,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
             _libraryManager.TryCloseLibrary();
             UpdateLibraryState();
-            MessageHandler.SendToStatusBar("Library updating", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag("Library updating");
         }
     }
 

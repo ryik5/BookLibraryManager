@@ -14,7 +14,7 @@ internal sealed class SelectionDialogHandler
 {
     public async Task<MediaData> ReadContentOpenDialogTask()
     {
-        MediaData media = null;
+        MediaData? media = null;
         var op = new OpenFileDialog
         {
             Title = "Select a file",
@@ -40,6 +40,7 @@ internal sealed class SelectionDialogHandler
                 }
                 catch
                 {
+                    media.ObjectByteArray = null;
                     media.IsLoaded = false;
                 }
             }
@@ -78,7 +79,7 @@ internal sealed class SelectionDialogHandler
                 File.WriteAllBytes(saveFileDialog.FileName, book.Content.ObjectByteArray);
                 await Task.Yield();
                 // Send a debug message to the status bar indicating the content was saved successfully
-                MessageHandler.SendToStatusBar($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}", EInfoKind.DebugMessage);
+                MessageHandler.SendDebugMessag($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}");
                 // Show a message box indicating the content was saved successfully
                 MessageBox.Show("Book content saved successfully.");
                 return true;
@@ -86,14 +87,14 @@ internal sealed class SelectionDialogHandler
             catch (Exception ex)
             {
                 // Handle any exceptions that occur during the save operation
-                MessageHandler.SendToStatusBar($"Error saving book content: {ex.Message}", EInfoKind.DebugMessage);
+                MessageHandler.SendDebugMessag($"Error saving book content: {ex.Message}");
                 return false;
             }
         }
         else
         {
             // Send a debug message to the status bar indicating the content was not saved
-            MessageHandler.SendToStatusBar($"The book content '{book.Title}' was not saved because it is stored separately", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag($"The book content '{book.Title}' was not saved because it is stored separately");
             await Task.Yield();
             return false;
         }

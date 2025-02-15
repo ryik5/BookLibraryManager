@@ -20,7 +20,7 @@ internal sealed class AboutViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "About";
+    public string Name => Constants.ABOUT;
 
     public bool IsChecked
     {

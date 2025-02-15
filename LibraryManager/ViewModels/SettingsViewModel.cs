@@ -46,7 +46,14 @@ internal sealed class SettingsViewModel : BindableBase
     }
 
 
-
+    /// <summary>
+    /// Attempts to parse a string setting into an enumeration value of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
+    /// <param name="key">The string key to parse.</param>
+    /// <param name="_value">The reference to the enumeration value to be updated.</param>
+    /// <param name="Value">The enumeration value to raise a property changed event for.</param>
+    /// <returns><c>true</c> if the parsing was successful; otherwise, <c>false</c>.</returns>
     private bool TryParseStringSettings<T>(string key, ref T _value, T Value) where T : Enum
     {
         var result = false;

@@ -20,7 +20,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     {
         _libraryManager = libraryManager;
 
-        LoadingState = "Load content";
+        LoadingState = Constants.LOAD_CONTENT;
         LoadBookContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(LoadBookContent));
         ClearBookContentCommand = new RelayCommand(ClearBookContent);
         SaveContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveContent));
@@ -162,8 +162,8 @@ internal class CreatorBookDetailsViewModel : BindableBase
         Book = DemoBookMaker.GenerateBook();
 
         // Set up the dialog window properties
-        WindowTitle = "Add Book";
-        ExecuteButtonName = "Add Book";
+        WindowTitle = Constants.ADD_BOOK;
+        ExecuteButtonName = Constants.ADD_BOOK;
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
         // Create and show the dialog window
@@ -179,7 +179,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     {
         // Clear the book content
         Book.Content = null;
-        LoadingState = "Load content";
+        LoadingState = Constants.LOAD_CONTENT;
         // Enable the load functionality and disable the save functionality
         IsLoadEnabled = true;
         IsSaveEnabled = false;
@@ -199,15 +199,15 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Subscribe to the loading finished event
         ActionFinished += NewLib_LoadingFinished;
 
-        MessageHandler.SendToStatusBar($"Attempt to load new content", EInfoKind.DebugMessage);
+        MessageHandler.SendDebugMessag($"Attempt to load new content");
 
         // Load the book content (TODO: select type of content to load)
-        var taskResult = await Handler.ExecuteTaskAsync(() => OpenContentAttachDialog(Book));
+        var taskResult = await Handler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
 
         await Task.Yield();
         var isNotLoaded = (Book.Content is null) || taskResult.IsFaulted || taskResult.IsCanceled;
         // Set the loading state message
-        var msg = isNotLoaded ? "Load content" : "Content was loaded";
+        var msg = isNotLoaded ? Constants.LOAD_CONTENT : "Content was loaded";
 
         // Invoke the loading finished event
         ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
@@ -217,9 +217,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
         IsSaveEnabled = !isNotLoaded;
 
         if (isNotLoaded)
-            MessageHandler.SendToStatusBar("Content was not loaded successfully", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag("Content was not loaded successfully");
         else
-            MessageHandler.SendToStatusBar($"Loaded new content into the book '{Book.Content.OriginalPath}'", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
 
         // Unsubscribe from the loading finished event
         ActionFinished -= NewLib_LoadingFinished;
@@ -235,9 +235,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
             // Subscribe to the saving finished event
             ActionFinished += NewLib_LoadingFinished;
 
-            MessageHandler.SendToStatusBar($"Attempt to save content", EInfoKind.DebugMessage);
+            MessageHandler.SendDebugMessag($"Attempt to save content");
 
-            var result = await Handler.ExecuteTaskAsync(() => SaveContentDialog(Book));
+            var result = await Handler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
 
             var msg = result.Result ? "Content saved" : "Content wasn't saved successfully";
 
@@ -323,7 +323,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendToStatusBar("Adding book was canceled", EInfoKind.DebugMessage);
+        MessageHandler.SendDebugMessag("Adding book was canceled");
         CloseWindow(window);
     }
 

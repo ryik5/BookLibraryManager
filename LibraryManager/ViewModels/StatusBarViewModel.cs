@@ -27,7 +27,7 @@ public sealed class StatusBarViewModel : BindableBase
         _library = library;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
 
-        TotalBooksText.ToolTip = "Total pages in the library";
+        TotalBooksText.ToolTip = Constants.TotalBookInLibrary();
         InfoList.Add(TotalBooksText);
 
         UpdateSysInfo();
@@ -119,7 +119,7 @@ public sealed class StatusBarViewModel : BindableBase
         {
             case EInfoKind.TotalBooks:
                 TotalBooksText.MessageText = e.Message;
-                TotalBooksText.ToolTip = $"Total pages in the library: {_library.TotalBooks}";
+                TotalBooksText.ToolTip = Constants.TotalBookInLibrary(_library.TotalBooks);// $"Total books in the library: {}";
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:
@@ -143,7 +143,7 @@ public sealed class StatusBarViewModel : BindableBase
     {
         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
         VersionText.MessageText = $"{versionInfo.CompanyName}, b.{Assembly.GetExecutingAssembly().GetName().Version}";
-        VersionText.ToolTip = $"App. Info:{Environment.NewLine}Name:'{versionInfo.ProductName}'{Environment.NewLine}Company:'{versionInfo.CompanyName}'{Environment.NewLine}Version:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
+        VersionText.ToolTip = $"App. Info:{Environment.NewLine}Name:'{versionInfo.ProductName}'{Environment.NewLine}Company:'{versionInfo.CompanyName}'{Environment.NewLine}Build:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
     }
 
     private void UpdateLibraryInfo()

@@ -16,7 +16,7 @@ internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
 
 
     #region Properties
-    public string Name => "Tools";
+    public string Name => Constants.TOOLS;
 
     public bool IsChecked
     {

@@ -4,7 +4,7 @@ using LibraryManager.Models;
 namespace LibraryManager.ViewModels;
 
 /// <author>YR 2025-02-05</author>
-public class DebugViewModel : BindableBase, IViewModelPageable
+internal sealed class DebugViewModel : BindableBase, IViewModelPageable
 {
     public DebugViewModel()
     {
@@ -45,7 +45,7 @@ public class DebugViewModel : BindableBase, IViewModelPageable
     {
         switch (e.InfoKind)
         {
-            case EInfoKind.TotalPages:
+            case EInfoKind.TotalBooks:
                 DebugTextLog += CreateLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}");
                 break;
             default:

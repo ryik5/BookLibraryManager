@@ -8,7 +8,7 @@ namespace LibraryManager.ViewModels;
 /// Represents a view model for the About page.
 /// </summary>
 /// <author>YR 2025-02-02</author>
-public class AboutViewModel : BindableBase, IViewModelPageable
+internal sealed class AboutViewModel : BindableBase, IViewModelPageable
 {
     public AboutViewModel()
     {

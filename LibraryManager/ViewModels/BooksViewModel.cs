@@ -9,7 +9,7 @@ namespace LibraryManager.ViewModels;
 /// Represents a view model for managing books in a library.
 /// </summary>
 /// <author>YR 2025-02-02</author>
-public class BooksViewModel : BindableBase, IViewModelPageable
+internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
     /// Initializes a new instance of the BooksViewModel class.
@@ -137,7 +137,7 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void AddBook()
     {
-        new ActionWithBookViewModel(_bookManager).ShowDialog();
+        new CreatorBookDetailsViewModel(_bookManager).ShowDialog();
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void DemoAddRandomBooks()
     {
-        new ActionWithBookViewModel(_bookManager).AddExampleBooks(10);
+        new CreatorBookDetailsViewModel(_bookManager).AddExampleBooks(10);
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        new EditBookViewModel(_bookManager, SelectedBook).ShowDialog();
+        new EditorBookDetailsViewModel(_bookManager, SelectedBook).ShowDialog();
     }
 
     /// <summary>

@@ -10,7 +10,7 @@ namespace LibraryManager.ViewModels;
 /// LibraryViewModel view model for the library manager application.
 /// </summary>
 /// <author>YR 2025-02-02</author>
-public class LibraryViewModel : BindableBase, IViewModelPageable
+internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
     /// Initializes a new instance of the MainViewModel class.
@@ -125,7 +125,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
         UpdateLibraryState();
 
         MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Library.Id}");
-        MessageHandler.SendToStatusBar("0", EInfoKind.TotalPages);
+        MessageHandler.SendToStatusBar("0", EInfoKind.TotalBooks);
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
         if (result?.Result ?? false)
         {
             MessageHandler.SendToStatusBar($"The library was loaded from the path: '{filePath}'", EInfoKind.DebugMessage);
-            MessageHandler.SendToStatusBar($"{_libraryManager.Library?.TotalBooks}", EInfoKind.TotalPages);
+            MessageHandler.SendToStatusBar($"{_libraryManager.Library?.TotalBooks}", EInfoKind.TotalBooks);
             MessageHandler.SendToStatusBar($"Library loaded with ID: {_libraryManager.Library.Id}");
         }
         else
@@ -237,7 +237,7 @@ public class LibraryViewModel : BindableBase, IViewModelPageable
     /// <param name="e">The event arguments containing the new total number of books and a kind of the event.</param>
     private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
     {
-        MessageHandler.SendToStatusBar($"{e?.TotalBooks ?? 0}", EInfoKind.TotalPages);
+        MessageHandler.SendToStatusBar($"{e?.TotalBooks ?? 0}", EInfoKind.TotalBooks);
     }
     #endregion
 

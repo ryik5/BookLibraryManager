@@ -6,7 +6,7 @@ namespace LibraryManager.Utils;
 /// A utility class for generating demo book data.
 /// </summary>
 /// <author>YR 2025-02-03</author>
-public static class DemoBookMaker
+internal static class DemoBookMaker
 {
     /// <summary>
     /// Generates a book with randomly generated properties.

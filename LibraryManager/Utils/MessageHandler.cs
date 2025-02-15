@@ -4,7 +4,7 @@ using LibraryManager.Models;
 namespace LibraryManager.Utils;
 
 /// <author>YR 2025-01-27</author>
-internal class MessageHandler
+internal sealed class MessageHandler
 {
     /// <summary>
     /// Sends a message to the status bar.

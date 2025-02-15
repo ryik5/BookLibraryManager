@@ -4,7 +4,7 @@
 /// Represents a status bar message with a name and tooltip.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public class StatusBarMessage : BindableBase
+public sealed class StatusBarMessage : BindableBase
 {
     /// <summary>
     /// Represents the text of message for the status bar.

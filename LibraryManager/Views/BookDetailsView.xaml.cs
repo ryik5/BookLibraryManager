@@ -3,15 +3,15 @@
 namespace LibraryManager.Views;
 
 /// <summary>
-/// Interaction logic for BookView.xaml
+/// Interaction logic for BookDetailsView.xaml
 /// </summary>
 /// <author>YR 2025-01-20</author>
-public partial class BookView : UserControl
+public partial class BookDetailsView : UserControl
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BookView"/> class.
+    /// Initializes a new instance of the <see cref="BookDetailsView"/> class.
     /// </summary>
-    public BookView()
+    public BookDetailsView()
     {
         InitializeComponent();
     }

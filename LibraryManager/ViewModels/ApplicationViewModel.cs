@@ -9,13 +9,16 @@ namespace LibraryManager.ViewModels;
 /// The view model for the application (start point).
 /// </summary>
 /// <author>YR 2025-02-02</author>
-public class ApplicationViewModel : BindableBase
+internal sealed class ApplicationViewModel : BindableBase
 {
     /// <summary>
     /// Initializes a new instance of the ApplicationViewModel class.
     /// </summary>
     public ApplicationViewModel()
     {
+        _settings = new SettingsModel();
+        var tools = new ToolsViewModel(_settings);
+
         _library = new Library();
 
         _libraryManager = new LibraryManagerModel(_library);
@@ -25,8 +28,8 @@ public class ApplicationViewModel : BindableBase
         {
             { "Library", new LibraryViewModel(_libraryManager) },
             { "Books", new BooksViewModel(_bookManager) },
-            { "Find Books", new FindBookViewModel(_bookManager) },
-            { "Tools", new ToolsViewModel() }, 
+            { "Find Books", new FindBookViewModel(_bookManager,_settings) },
+            { "Tools",  tools},
             { "Debug", new DebugViewModel() },
             { "About", new AboutViewModel() }
         };
@@ -102,10 +105,11 @@ public class ApplicationViewModel : BindableBase
     #endregion
 
     #region private fields
+    private readonly SettingsModel _settings;
+    private readonly ILibrary _library;
     private IViewModelPageable _currentViewModel;
     private readonly ILibraryManageable _libraryManager;
     private readonly IBookManageable _bookManager;
-    private readonly ILibrary _library;
     private StatusBarViewModel _statusBar;
     #endregion
 }

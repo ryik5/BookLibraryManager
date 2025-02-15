@@ -4,7 +4,7 @@
 /// A log message with a specified log level, message, and timestamp.
 /// </summary>
 /// <author>YR 2025-02-05</author>
-public class LogMessage
+public sealed class LogMessage
 {
     /// <summary>
     /// Gets the log level of the message.

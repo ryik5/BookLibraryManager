@@ -6,11 +6,18 @@ using LibraryManager.Views;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// View model for editing book details.
+/// </summary>
 /// <author>YR 2025-01-28</author>
-internal class EditBookViewModel : ActionWithBookViewModel
+internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
 {
-
-    public EditBookViewModel(IBookManageable libraryManager, Book editedBook) : base(libraryManager)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EditorBookDetailsViewModel"/> class.
+    /// </summary>
+    /// <param name="bookManager">The book manager instance.</param>
+    /// <param name="editedBook">The book being edited.</param>
+    public EditorBookDetailsViewModel(IBookManageable bookManager, Book editedBook) : base(bookManager)
     {
         Book = editedBook;
         _originalBook = (Book)editedBook.Clone();
@@ -18,6 +25,9 @@ internal class EditBookViewModel : ActionWithBookViewModel
 
 
     #region Methods
+    /// <summary>
+    /// Shows the edit book dialog.
+    /// </summary>
     public override void ShowDialog()
     {
         ExecuteButtonName = "Save changes";
@@ -34,14 +44,14 @@ internal class EditBookViewModel : ActionWithBookViewModel
         MessageHandler.SendToStatusBar($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing", EInfoKind.DebugMessage);
         MessageHandler.SendToStatusBar($"Original state of the book: '{_originalBook}'", EInfoKind.DebugMessage);
 
-        _editBookWindow = new ActionWithBookWindow() { DataContext = this };
+        _editBookWindow = new EditBookDetailsWindow() { DataContext = this };
 
         _editBookWindow.ShowDialog();
     }
 
 
     /// <summary>
-    /// Adds the book and closes the window.
+    /// Saves the edited book and closes the window.
     /// </summary>
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
@@ -52,7 +62,7 @@ internal class EditBookViewModel : ActionWithBookViewModel
     }
 
     /// <summary>
-    /// Cancels adding the book and closes the window.
+    /// Cancels editing the book and closes the window.
     /// </summary>
     /// <param name="window">The window to be closed.</param>
     private void CancelEditBook(Window window)
@@ -83,7 +93,7 @@ internal class EditBookViewModel : ActionWithBookViewModel
 
 
     #region Fields
-    private ActionWithBookWindow _editBookWindow;
+    private EditBookDetailsWindow _editBookWindow;
     private Book _originalBook;
     #endregion
 }

@@ -12,10 +12,7 @@ public static class Constants
     #endregion
 
     #region StatusBarViewModel
-    /// <summary>
-    /// "Total books in the library"
-    /// </summary>
-    public static string TotalBookInLibrary(int? books = null) => books is null ? "Total books in the library" : $"Total books in the library: {books}";
+    public const string TOTAL_BOOKS_IN_LIBRARY = "Total books in the library";
     #endregion
 
     #region LibraryViewModel

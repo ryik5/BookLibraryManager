@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using BookLibraryManager.Common;
 using LibraryManager.Events;
 using LibraryManager.Models;
+using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
@@ -27,7 +28,7 @@ public sealed class StatusBarViewModel : BindableBase
         _library = library;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
 
-        TotalBooksText.ToolTip = Constants.TotalBookInLibrary();
+        TotalBooksText.ToolTip = Constants.TOTAL_BOOKS_IN_LIBRARY;
         InfoList.Add(TotalBooksText);
 
         UpdateSysInfo();
@@ -121,7 +122,7 @@ public sealed class StatusBarViewModel : BindableBase
         {
             case EInfoKind.TotalBooks:
                 TotalBooksText.MessageText = e.Message;
-                TotalBooksText.ToolTip = Constants.TotalBookInLibrary(_library.TotalBooks);
+                TotalBooksText.ToolTip = GeneralHandler.TotalBooksInLibrary(_library.TotalBooks);
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:

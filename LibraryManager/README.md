@@ -19,6 +19,23 @@ Library Manager is a WPF-based desktop application designed to manage a library'
 - **MVVM (Model-View-ViewModel)** – Architectural pattern for code separation and maintainability.
 - **XAML** – Used for defining UI layouts.
 - **Git** – Version control for tracking changes and collaboration.
+## Screenshots
+
+![Library](Images/Library.png)
+
+*The main dashboard displaying an overview of your collection.*
+
+![Books View](Images/BookDetails.png)
+
+*The 'Books view' interface.*
+
+![Add Book](Images/AddBook.png)
+
+*The 'Add Book' interface with ISBN scanning feature.*
+
+![Search Management](Images/FindBooks.png)
+
+*Find books in your library and check them.*
 
 ## Installation
 
@@ -51,10 +68,16 @@ To set up the Library Manager application locally, follow these steps:
 
 ## Contributing
 
-Contributions to the Library Manager project are welcome. To contribute:
+Contributions to the Library Manager project are welcome.
 
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
 3. Commit your changes with clear and descriptive messages.
 4. Push your changes to your forked repository.
 5. Submit a pull request detailing your changes and their purpose.
+
+
+## Contact
+
+For questions or support, please contact **me** on **[github](https://github.com/ryik5)**.
+

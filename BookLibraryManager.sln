@@ -18,6 +18,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibraryManager.XmlLibra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManager", "LibraryManager\LibraryManager.csproj", "{73C21687-38C9-4072-8C85-893647AC8A9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{4064805A-86A8-4886-9F78-295C5E11BF6C}"
+	ProjectSection(SolutionItems) = preProject
+		Images\AddBook.png = Images\AddBook.png
+		Images\BookDetails.png = Images\BookDetails.png
+		Images\FindBooks.png = Images\FindBooks.png
+		Images\LastActions.png = Images\LastActions.png
+		Images\Library.png = Images\Library.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

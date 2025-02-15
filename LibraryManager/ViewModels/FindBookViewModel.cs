@@ -9,18 +9,21 @@ namespace LibraryManager.ViewModels;
 /// ViewModel for finding books in the <see cref="ILibrary"/>.
 /// </summary>
 /// <author>YR 2025-01-21</author>
-internal class FindBookViewModel : BindableBase, IViewModelPageable
+internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FindBookViewModel"/> class.
     /// </summary>
     /// <param name="libraryManager">The library manager.</param>
-    public FindBookViewModel(IBookManageable libraryManager)
+    public FindBookViewModel(IBookManageable libraryManager, SettingsModel settings)
     {
+        _settings = settings;
         _libraryManager = libraryManager;
-        SearchOnFly = false;
+
         LibraryVisibility = Visibility.Collapsed;
         SearchFields = Enum.GetValues(typeof(EBibliographicKindInformation)).Cast<EBibliographicKindInformation>().ToList();
+        RaisePropertyChanged(nameof(SearchOnFly));
+        RaisePropertyChanged(nameof(SelectedSearchField));
 
         FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
         EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
@@ -96,10 +99,10 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     public bool SearchOnFly
     {
-        get => _searchOnFly;
+        get => _settings.SearchOnFly;
         set
         {
-            if (SetProperty(ref _searchOnFly, value) && value && !string.IsNullOrEmpty(SearchText))
+            if (SetProperty(ref _settings.SearchOnFly, value) && value && !string.IsNullOrEmpty(SearchText))
                 FindBooks();
         }
     }
@@ -109,10 +112,10 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     public EBibliographicKindInformation SelectedSearchField
     {
-        get => _selectedSearchField;
+        get => _settings.SearchField;
         set
         {
-            if (SetProperty(ref _selectedSearchField, value) && SearchOnFly && !string.IsNullOrEmpty(SearchText))
+            if (SetProperty(ref _settings.SearchField, value) && SearchOnFly && !string.IsNullOrEmpty(SearchText))
                 FindBooks();
         }
     }
@@ -170,7 +173,7 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        var editBookView = new EditBookViewModel(_libraryManager, SelectedBook);
+        var editBookView = new EditorBookDetailsViewModel(_libraryManager, SelectedBook);
         editBookView.ShowDialog();
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)
@@ -186,7 +189,7 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
         BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
 
         MessageHandler.SendToStatusBar(text);
-        MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalPages);
+        MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalBooks);
     }
 
     /// <summary>
@@ -211,11 +214,10 @@ internal class FindBookViewModel : BindableBase, IViewModelPageable
 
     #region private fields
     private readonly IBookManageable _libraryManager;
+    private SettingsModel _settings;
     private List<Book> _bookList;
     private Book _selectedBook;
     private string _searchText;
-    private bool _searchOnFly;
-    private EBibliographicKindInformation _selectedSearchField;
     private bool _isChecked;
     private bool _isEnabled = true;
     private Visibility _libraryVisibility;

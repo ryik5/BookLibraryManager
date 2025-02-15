@@ -3,9 +3,87 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
-    
-    <Grid>
-            
+
+    <Grid Margin="2" Background="{StaticResource ColorSet6}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBordedStyle}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="MinWidth" Value="100"/>
+                <Setter Property="Height" Value="27"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Height" Value="27"/>
+                <Setter Property="Width" Value="120"/>
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxBordedStyle}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+
+        <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
+            <Border 
+                HorizontalAlignment="Center" Margin="15 5 0 0" Padding="2 0 2 0" 
+                BorderBrush="{StaticResource ColorSet1}" BorderThickness="0 0 0 2">
+                <TextBlock Text="Settings" 
+                   FontSize="16" FontStretch="Expanded" Foreground="{StaticResource ColorSet1}"/>
+            </Border>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="300"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Tab 'Find Books'" 
+                      Grid.Row="0" Grid.Column="0" 
+                      Margin="0 5 0 5"
+                      Background="{StaticResource ColorSet6}" 
+                      BorderBrush="{StaticResource ColorSet3}"
+                      Foreground="{StaticResource ColorSet1}"
+                      >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32" />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Search Fields" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
+                        <ComboBox ItemsSource="{Binding Settings.SearchFields, Mode=OneWay}" 
+                              SelectedItem="{Binding Settings.SearchField}" 
+                              Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
+                              Style="{StaticResource ComboBoxBordedStyle}"
+                              Width="100" Height="25" Margin="3 0 5 0"/>
+
+                        <Label Content="Search-On-Fly" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
+                        <ComboBox ItemsSource="{Binding Settings.Bools, Mode=OneWay}" 
+                              SelectedItem="{Binding Settings.SearchOnFly}" 
+                              Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"
+                              Style="{StaticResource ComboBoxBordedStyle}"
+                              Width="100" Height="25" Margin="3 0 5 0"/>
+                    </Grid>
+                </GroupBox>
+
+            </Grid>
+
+        </StackPanel>
+
     </Grid>
 </UserControl>

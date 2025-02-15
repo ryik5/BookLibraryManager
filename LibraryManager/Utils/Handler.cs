@@ -7,7 +7,7 @@ namespace LibraryManager.Utils;
 /// A utility class responsible for loading data asynchronously.
 /// </summary>
 /// <author>YR 2025-01-26</author>
-internal class Handler
+internal sealed class Handler
 {
     public static async Task<T?> ExecuteTaskAsync<T>(Func<T> task) where T : class
     {

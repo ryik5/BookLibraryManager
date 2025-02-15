@@ -7,7 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Views/Styles/LogoSVG.xaml" />
                 <ResourceDictionary Source="/Views/Styles/StyleElementResources.xaml" />
-                <ResourceDictionary Source="/Views/Styles/BookLibraryManagerWindowStyle.xaml" />
+                <ResourceDictionary Source="/Views/Styles/WindowStyle.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

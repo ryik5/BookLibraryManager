@@ -3,12 +3,12 @@
 namespace LibraryManager.Views;
 
 /// <summary>
-/// Interaction logic for ActionWithBookWindow.xaml
+/// Interaction logic for EditBookDetailsWindow.xaml
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public partial class ActionWithBookWindow : Window
+public partial class EditBookDetailsWindow : Window
 {
-    public ActionWithBookWindow()
+    public EditBookDetailsWindow()
     {
         InitializeComponent();
     }

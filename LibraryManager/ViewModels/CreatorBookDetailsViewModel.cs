@@ -7,16 +7,16 @@ using LibraryManager.Views;
 namespace LibraryManager.ViewModels;
 
 /// <summary>
-/// ActionWithBookViewModel for working with a book.
+/// CreatorBookDetailsViewModel for working with a book.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-internal class ActionWithBookViewModel : BindableBase
+internal class CreatorBookDetailsViewModel : BindableBase
 {
     /// <summary>
-    /// Initializes a new instance of the ActionWithBookViewModel class.
+    /// Initializes a new instance of the CreatorBookDetailsViewModel class.
     /// </summary>
     /// <param name="book">An example of the book to be managed.</param>
-    public ActionWithBookViewModel(IBookManageable libraryManager)
+    public CreatorBookDetailsViewModel(IBookManageable libraryManager)
     {
         _libraryManager = libraryManager;
 
@@ -167,7 +167,7 @@ internal class ActionWithBookViewModel : BindableBase
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
         // Create and show the dialog window
-        _addBookWindow = new ActionWithBookWindow() { DataContext = this };
+        _addBookWindow = new EditBookDetailsWindow() { DataContext = this };
         _addBookWindow.ShowDialog();
     }
 
@@ -340,7 +340,7 @@ internal class ActionWithBookViewModel : BindableBase
 
     #region Fields
     private readonly IBookManageable _libraryManager;
-    private ActionWithBookWindow _addBookWindow;
+    private EditBookDetailsWindow _addBookWindow;
     private Book _book;
     private string _loadingState;
     private bool _isLoadEnabled;

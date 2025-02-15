@@ -22,5 +22,29 @@ namespace LibraryManager.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("EBibliographicKindInformation.All")]
+        public string FindBooks_LastSearchField {
+            get {
+                return ((string)(this["FindBooks_LastSearchField"]));
+            }
+            set {
+                this["FindBooks_LastSearchField"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FindBooks_SearchOnFly {
+            get {
+                return ((bool)(this["FindBooks_SearchOnFly"]));
+            }
+            set {
+                this["FindBooks_SearchOnFly"] = value;
+            }
+        }
     }
 }

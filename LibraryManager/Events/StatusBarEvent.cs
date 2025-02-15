@@ -6,7 +6,7 @@ namespace LibraryManager.Events;
 /// Represents an event that updates the status bar.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public class StatusBarEvent : PubSubEvent<StatusBarEventArgs>
+public sealed class StatusBarEvent : PubSubEvent<StatusBarEventArgs>
 {
 }
 
@@ -14,7 +14,7 @@ public class StatusBarEvent : PubSubEvent<StatusBarEventArgs>
 /// Provides data for the StatusBar Event.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public class StatusBarEventArgs : EventArgs
+public sealed class StatusBarEventArgs : EventArgs
 {
     /// <summary>
     /// Gets or sets the message to be displayed in the status bar.

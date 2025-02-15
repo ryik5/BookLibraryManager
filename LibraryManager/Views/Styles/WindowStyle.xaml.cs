@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using LibraryManager.Events;
 
 namespace LibraryManager.Views;
 
-#region  BookLibraryManager Window Style. Start block 
+#region  WindowStyle. Start block 
 /// <summary>
-/// Interaction logic for BookLibraryManager.xaml
+/// Interaction logic for WindowStyle.xaml
 /// </summary>
-public partial class BookLibraryManagerWindowStyle
+public partial class WindowStyle
 {
     void WindowLoaded(object sender, RoutedEventArgs e)
     {
@@ -47,6 +48,8 @@ public partial class BookLibraryManagerWindowStyle
 
     void CloseButtonClick(object sender, RoutedEventArgs e)
     {
+        App.EventAggregator.GetEvent<ApplicationShutdownEvent>().Publish(new ApplicationShutdownEventArgs());
+
         sender.ForWindowFromTemplate(w => SystemCommands.CloseWindow(w));
     }
 

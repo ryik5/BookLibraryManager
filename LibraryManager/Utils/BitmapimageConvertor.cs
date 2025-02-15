@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 namespace LibraryManager.Utils;
 
 /// <author>YR 2025-01-26</author>
-public class BitmapimageConvertor
+internal sealed class BitmapimageConvertor
 {
     public Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
     {

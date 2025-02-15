@@ -475,5 +475,5 @@
         <Setter Property="Padding" Value="5 2 5 2"/>
         <Setter Property="Margin" Value="5 2 2 2"/>
     </Style>
-
+    
 </ResourceDictionary>

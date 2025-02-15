@@ -10,7 +10,7 @@ namespace LibraryManager.Utils;
 /// Handles the selection of media data through a dialog.
 /// </summary>
 /// <author>YR 2025-01-27</author>
-internal class SelectionDialogHandler
+internal sealed class SelectionDialogHandler
 {
     public async Task<MediaData> ReadContentOpenDialogTask()
     {

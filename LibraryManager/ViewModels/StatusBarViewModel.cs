@@ -15,7 +15,7 @@ namespace LibraryManager.ViewModels;
 /// and the text block used to display the status bar message.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public class StatusBarViewModel : BindableBase
+public sealed class StatusBarViewModel : BindableBase
 {
     /// <summary>
     /// Initializes a new instance of the StatusBarModel class.
@@ -117,7 +117,7 @@ public class StatusBarViewModel : BindableBase
     {
         switch (e.InfoKind)
         {
-            case EInfoKind.TotalPages:
+            case EInfoKind.TotalBooks:
                 TotalBooksText.MessageText = e.Message;
                 TotalBooksText.ToolTip = $"Total pages in the library: {_library.TotalBooks}";
                 RaisePropertyChanged(nameof(TotalBooksText));

@@ -1,10 +1,19 @@
-﻿using LibraryManager.Models;
+﻿using LibraryManager.Events;
+using LibraryManager.Models;
 
 namespace LibraryManager.ViewModels;
 
 /// <author>YR 2025-02-14</author>
-public class ToolsViewModel : BindableBase, IViewModelPageable
+internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
 {
+    public ToolsViewModel(SettingsModel settings)
+    {
+        _settings = new SettingsViewModel(settings);
+        RaisePropertyChanged(nameof(Settings));
+
+        App.EventAggregator.GetEvent<ApplicationShutdownEvent>().Subscribe(HandleApplicationShutdownEvent);
+    }
+
 
     #region Properties
     public string Name => "Tools";
@@ -20,10 +29,24 @@ public class ToolsViewModel : BindableBase, IViewModelPageable
         get => _isEnabled;
         set => SetProperty(ref _isEnabled, value);
     }
+
+    public SettingsViewModel Settings
+    {
+        get => _settings;
+        set => SetProperty(ref _settings, value);
+    }
     #endregion
+
+
+
+    private void HandleApplicationShutdownEvent(ApplicationShutdownEventArgs e)
+    {
+        Settings.SaveSettings();
+    }
 
     #region Fields
     private bool _isChecked;
     private bool _isEnabled = true;
+    private SettingsViewModel _settings;
     #endregion
 }

@@ -19,15 +19,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManager", "LibraryManager\LibraryManager.csproj", "{73C21687-38C9-4072-8C85-893647AC8A9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{4064805A-86A8-4886-9F78-295C5E11BF6C}"
-	ProjectSection(SolutionItems) = preProject
-		Images\AddBook.png = Images\AddBook.png
-		Images\BookDetails.png = Images\BookDetails.png
-		Images\FindBooks.png = Images\FindBooks.png
-		Images\LastActions.png = Images\LastActions.png
-		Images\Library.png = Images\Library.png
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screenshots", "Screenshots", "{3C44E9F4-A98C-440D-BF31-7869E0FA3331}"
+	ProjectSection(SolutionItems) = preProject
+		..\aa\AddBook.png = ..\aa\AddBook.png
+		..\aa\BookDetails.png = ..\aa\BookDetails.png
+		..\aa\FindBooks.png = ..\aa\FindBooks.png
+		..\aa\LastActions.png = ..\aa\LastActions.png
+		..\aa\Library.png = ..\aa\Library.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

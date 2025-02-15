@@ -51,13 +51,16 @@
 
 ## Screenshots
 
-![Dashboard](path_to_screenshot/dashboard.png)
+![Library](Images/Library.png)
 *The main dashboard displaying an overview of your collection.*
 
-![Add Book](path_to_screenshot/add_book.png)
+![Books View]Images/bookdetails.png)
+*The 'Books view' interface.*
+
+![Add Book]Images/addbook.png)
 *The 'Add Book' interface with ISBN scanning feature.*
 
-![Search Management](path_to_screenshot/search_management.png)
+![Search Management](Images/findBooks.png)
 *Find books in your library and check them.*
 
 ## License

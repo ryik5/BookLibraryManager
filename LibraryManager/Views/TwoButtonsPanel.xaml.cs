@@ -3,12 +3,12 @@
 namespace LibraryManager.Views;
 
 /// <summary>
-/// Interaction logic for ExecuteCancelPanelView.xaml
+/// Interaction logic for TwoButtonsPanel.xaml
 /// </summary>
 /// <author>YR 2025-01-20</author>
-public partial class ExecuteCancelPanelView : UserControl
+public partial class TwoButtonsPanel : UserControl
 {
-    public ExecuteCancelPanelView()
+    public TwoButtonsPanel()
     {
         InitializeComponent();
     }

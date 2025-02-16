@@ -199,7 +199,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Subscribe to the loading finished event
         ActionFinished += NewLib_LoadingFinished;
 
-        MessageHandler.SendDebugMessag($"Attempt to load new content");
+        MessageHandler.PublishDebugMessage(Constants.LOAD_CONTENT);
 
         // Load the book content (TODO: select type of content to load)
         var taskResult = await Handler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
@@ -207,7 +207,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         await Task.Yield();
         var isNotLoaded = (Book.Content is null) || taskResult.IsFaulted || taskResult.IsCanceled;
         // Set the loading state message
-        var msg = isNotLoaded ? Constants.LOAD_CONTENT : "Content was loaded";
+        var msg = isNotLoaded ? Constants.LOAD_CONTENT : Constants.CONTENT_WAS_LOADED;
 
         // Invoke the loading finished event
         ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
@@ -217,9 +217,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
         IsSaveEnabled = !isNotLoaded;
 
         if (isNotLoaded)
-            MessageHandler.SendDebugMessag("Content was not loaded successfully");
+            MessageHandler.PublishDebugMessage(Constants.CONTENT_WAS_NOT_LOADED_SUCCESSFULLY);
         else
-            MessageHandler.SendDebugMessag($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
+            MessageHandler.PublishDebugMessage($"{Constants.NEW_CONTENT_WAS_LOADED_INTO_BOOK} '{Book.Content?.OriginalPath}'");
 
         // Unsubscribe from the loading finished event
         ActionFinished -= NewLib_LoadingFinished;
@@ -235,17 +235,17 @@ internal class CreatorBookDetailsViewModel : BindableBase
             // Subscribe to the saving finished event
             ActionFinished += NewLib_LoadingFinished;
 
-            MessageHandler.SendDebugMessag($"Attempt to save content");
+            MessageHandler.PublishDebugMessage($"{Constants.ATTEMPT_TO} {Constants.SAVE_CONTENT}");
 
             var result = await Handler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
 
-            var msg = result.Result ? "Content saved" : "Content wasn't saved successfully";
+            var msg = result.Result ? Constants.CONTENT_SAVED_SUCCESSFULLY : Constants.FAILED_TO_SAVE_CONTENT;
 
             ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
         }
         else
         {
-            MessageBox.Show("No content to save.");
+            MessageBox.Show(Constants.NO_CONTENT_TO_SAVE);
         }
 
         // Unsubscribe from the saving finished event
@@ -261,7 +261,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Invoke the loading started event
         ActionFinished?.Invoke(this, new ActionFinishedEventArgs
         {
-            Message = "Loading started",
+            Message = Constants.LOADING_STARTED,
             IsFinished = false
         });
 
@@ -279,7 +279,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Invoke the loading started event
         ActionFinished?.Invoke(this, new ActionFinishedEventArgs
         {
-            Message = "Saving started",
+            Message = Constants.SAVING_STARTED,
             IsFinished = false
         });
 
@@ -302,7 +302,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void AddBook(Book book)
     {
         _libraryManager.AddBook(book);
-        MessageHandler.SendToStatusBar($"Last added book '{book.Title}' (ID '{book.Id}')");
+        MessageHandler.PublishMessage($"{Constants.LAST_ADDED_BOOK} '{book.Title}' ({Constants.ID}: '{book.Id}')");
     }
 
     /// <summary>
@@ -323,7 +323,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendDebugMessag("Adding book was canceled");
+        MessageHandler.PublishDebugMessage(Constants.ADDING_BOOK_WAS_CANCELLED);
         CloseWindow(window);
     }
 

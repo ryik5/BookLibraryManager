@@ -108,7 +108,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Gets or sets the field of the book to perform search.
+    /// Gets or sets the field of the book to search.
     /// </summary>
     public EBibliographicKindInformation SelectedSearchField
     {
@@ -131,7 +131,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         get;
     }
 
-    public RelayCommand EditBookCommand
+    public DelegateCommand EditBookCommand
     {
         get;
     }
@@ -151,46 +151,6 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    #endregion
-
-
-    #region private methods
-    /// <summary>
-    /// Finds books based on the search text. Updates <see cref="BookList"/>.
-    /// </summary>
-    private void FindBooks()
-    {
-        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
-        var foundBooks = BookList.Count;
-
-        LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
-
-        MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks}");
-    }
-
-    /// <summary>
-    /// Call EditBookViewModel to edit of the SelectedBook.
-    /// </summary>
-    private void EditBook()
-    {
-        var editBookView = new EditorBookDetailsViewModel(_libraryManager, SelectedBook);
-        editBookView.ShowDialog();
-        RaisePropertyChanged(nameof(BookList));
-        if (editBookView.Book is Book book)
-            MessageHandler.SendToStatusBar($"Last edited book was '{book.Title}");
-    }
-
-    /// <summary>
-    /// Deletes the selected book.
-    /// </summary>
-    private void DeleteSelectedBook()
-    {
-        var text = _libraryManager.TryRemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
-        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
-
-        MessageHandler.SendToStatusBar(text);
-        MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalBooks);
-    }
 
     /// <summary>
     /// Determines whether a book can be deleted.
@@ -209,6 +169,65 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     {
         return _libraryManager.Library?.BookList != null;
     }
+    #endregion
+
+
+    #region private methods
+    /// <summary>
+    /// Finds books based on the search text. Updates <see cref="BookList"/>.
+    /// </summary>
+    private void FindBooks()
+    {
+        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
+        var foundBooks = BookList.Count;
+
+        LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
+
+        MessageHandler.PublishMessage(SearchedForResult(SelectedSearchField, SearchText, foundBooks));
+    }
+
+    /// <summary>
+    /// Call EditBookViewModel to edit of the SelectedBook.
+    /// </summary>
+    private void EditBook()
+    {
+        var editBookView = new EditorBookDetailsViewModel(_libraryManager, SelectedBook);
+        editBookView.ShowDialog();
+        RaisePropertyChanged(nameof(BookList));
+        if (editBookView.Book is Book book)
+            MessageHandler.PublishMessage(LastEditedBook(book));
+    }
+
+    /// <summary>
+    /// Deletes the selected book.
+    /// </summary>
+    private void DeleteSelectedBook()
+    {
+        var text = _libraryManager.TryRemoveBook(SelectedBook)
+            ? Constants.BOOK_WAS_DELETED_SUCCESSFULLY
+            : Constants.NO_BOOKS_FOUND;
+        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
+
+        MessageHandler.PublishMessage(text);
+        MessageHandler.PublishTotalBooksInLibrary(_libraryManager.Library.TotalBooks);
+    }
+
+    /// <summary>
+    /// Returns a string representing the last edited book, including its ID and title.
+    /// </summary>
+    /// <param name="book">The book that was last edited.</param>
+    /// <returns>A string in the format "Last edited book {id}: '{title}'".</returns>
+    private static string LastEditedBook(Book book) => $"{Constants.LAST_EDITED_BOOK} {book.Id}: '{book.Title}";
+
+    /// <summary>
+    /// Returns a formatted string indicating the result of a search operation.
+    /// </summary>
+    /// <param name="selectedSearchField">The field used for searching.</param>
+    /// <param name="searchText">The text used for searching.</param>
+    /// <param name="foundBooks">The number of books found during the search.</param>
+    /// <returns>A formatted string indicating the search result.</returns>
+    private static string SearchedForResult(EBibliographicKindInformation selectedSearchField, string searchText, int foundBooks)
+        => $"Searched for {selectedSearchField}:{searchText}. Found {foundBooks} result{(foundBooks != 1 ? "s" : "")}.";
     #endregion
 
 

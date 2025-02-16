@@ -17,6 +17,11 @@ public interface ILibrary : ILoadable
     }
 
     /// <summary>
+    /// Occurs when the library ID changes.
+    /// </summary>
+    event EventHandler<EventArgs> LibraryIdChanged;
+
+    /// <summary>
     /// Library name.
     /// </summary>
     string Name

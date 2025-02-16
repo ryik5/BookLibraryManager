@@ -75,7 +75,6 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
     /// </summary>
     public void TryCloseLibrary()
     {
-
         if (0 < Library.BookList.Count)
             InvokeOnUiThread(() => Library.BookList.Clear());
 

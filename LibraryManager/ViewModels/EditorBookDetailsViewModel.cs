@@ -29,19 +29,19 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
     /// </summary>
     public override void ShowDialog()
     {
-        ExecuteButtonName = "Save changes";
-        WindowTitle = "Edit Book";
+        ExecuteButtonName = Constants.SAVE_CHANGES;
+        WindowTitle = Constants.EDIT_BOOK;
 
         var isContentNull = Book.Content is null;
-        LoadingState = isContentNull ? Constants.LOAD_CONTENT : "Content was loaded";
+        LoadingState = isContentNull ? Constants.LOAD_CONTENT : Constants.CONTENT_WAS_LOADED;
         IsLoadEnabled = isContentNull;
         IsSaveEnabled = !IsLoadEnabled;
 
         ExecuteCommand = new DelegateCommand<Window>(SaveEditedBook);
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);
 
-        MessageHandler.SendDebugMessag($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing");
-        MessageHandler.SendDebugMessag($"Original state of the book: '{_originalBook}'");
+        MessageHandler.PublishDebugMessage($"'{_originalBook.Title}' ({Constants.ID}: {_originalBook.Id}') {Constants.LOADED_FOR_EDITING}");
+        MessageHandler.PublishDebugMessage($"{Constants.ORIGINAL_STATE_BOOK}: '{_originalBook}'");
 
         _editBookWindow = new EditBookDetailsWindow() { DataContext = this };
 
@@ -55,8 +55,7 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
-        MessageHandler.SendDebugMessag($"After editing the book has look: '{Book}'");
-        MessageHandler.SendToStatusBar($"The last edited book '{Book.Title}'");
+        MessageHandler.PublishMessage( $"{Constants.LAST_EDITED_BOOK} '{Book.Title}'");
         CloseWindow(window);
     }
 
@@ -75,7 +74,7 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
         Book.ISBN = _originalBook.ISBN;
         Book.Content = _originalBook.Content;
 
-        MessageHandler.SendToStatusBar($"Edit of book '{_originalBook.Title}' (ID {_originalBook.Id}') was cancelled");
+        MessageHandler.PublishMessage(Constants.EDITING_BOOK_WAS_CANCELLED);
         CloseWindow(window);
     }
 

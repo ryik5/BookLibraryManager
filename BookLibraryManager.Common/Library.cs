@@ -21,7 +21,11 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     public int Id
     {
         get => _id;
-        set => SetProperty(ref _id, value);
+        set
+        {
+           if( SetProperty(ref _id, value))
+                LibraryIdChanged?.Invoke(this, new EventArgs());
+        }
     }
 
     /// <summary>
@@ -58,15 +62,21 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     [XmlIgnore]
     public int TotalBooks => BookList.Count;
 
+    /// <summary>
+    /// Occurs when the library ID changes.
+    /// </summary>
+    public event EventHandler<EventArgs> LibraryIdChanged;
+
+
     public XmlSchema? GetSchema() => throw new NotImplementedException();
 
     public void WriteXml(XmlWriter writer)
     {
-        writer.WriteElementString("Id", Id.ToString());
-        writer.WriteElementString("Name", Name);
-        writer.WriteElementString("Description", Description);
+        writer.WriteElementString(nameof(Id), Id.ToString());
+        writer.WriteElementString(nameof(Name), Name);
+        writer.WriteElementString(nameof(Description), Description);
 
-        writer.WriteStartElement("BookList");
+        writer.WriteStartElement(nameof(BookList));
         foreach (var book in BookList)
             book.WriteXml(writer);
 
@@ -85,18 +95,18 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
             {
                 switch (reader.Name)
                 {
-                    case "Id":
+                    case nameof(Id):
                         Id = reader.ReadElementContentAsInt();
                         break;
-                    case "Name":
+                    case nameof(Name):
                         Name = reader.ReadElementContentAsString();
                         break;
-                    case "Description":
+                    case nameof(Description):
                         Description = reader.ReadElementContentAsString();
                         break;
-                    case "BookList":
+                    case nameof(BookList):
                         BookList = [];
-                        while (reader.Name == "Book" || reader.Name == "BookList")
+                        while (reader.Name == "Book" || reader.Name == nameof(BookList))
                         {
                             var book = new Book() { Author = "", Title = "", TotalPages = 0, Id = 0 };
                             book.ReadXml(reader);

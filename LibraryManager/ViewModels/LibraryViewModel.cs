@@ -7,22 +7,22 @@ using LibraryManager.Utils;
 namespace LibraryManager.ViewModels;
 
 /// <summary>
-/// LibraryViewModel view model for the library manager application.
+/// LibraryViewModel for the library manager application.
 /// </summary>
 /// <author>YR 2025-02-02</author>
 internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
-    /// Initializes a new instance of the MainViewModel class.
+    /// Initializes a new instance of the LibraryViewModel class.
     /// </summary>
     /// <param name="libraryManager">The library manager model.</param>
     public LibraryViewModel(ILibraryManageable libraryManager)
     {
         _libraryManager = libraryManager;
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
-        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibrary));
-        SaveLibraryCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveLibrary), CanOperateWithBooks);
-        CloseLibraryCommand = new RelayCommand(CloseLibrary, CanOperateWithBooks);
+        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibraryAsXml));
+        SaveLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(SaveLibraryAsXml));
+        CloseLibraryCommand = new DelegateCommand(CloseLibrary);
         UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
     }
@@ -87,18 +87,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Command to close the current library.
     /// </summary>
-    public RelayCommand CloseLibraryCommand
+    public DelegateCommand CloseLibraryCommand
     {
         get;
-    }
-
-    /// <summary>
-    /// Determines whether operations can be performed on the books in the library.
-    /// </summary>
-    /// <returns>true if the library has a book list; otherwise, false.</returns>
-    private bool CanOperateWithBooks()
-    {
-        return _libraryManager.Library.Id != 0;
     }
     #endregion
 
@@ -124,86 +115,79 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         UpdateLibraryState();
 
-        MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Library.Id}");
-        MessageHandler.SendToStatusBar("0", EInfoKind.TotalBooks);
+        MessageHandler.PublishMessage($"{Constants.LIBRARY_WAS_CREATED_SUCCESSFULLY} with ID: {Library.Id}");
+        MessageHandler.PublishTotalBooksInLibrary(0);
     }
 
     /// <summary>
     /// Loads an existing library from a file.
     /// </summary>
-    private async Task LoadLibrary()
+    private async Task LoadLibraryAsXml()
     {
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
+        IsEnabled = false;
 
-        MessageHandler.SendToStatusBar("Library is loading go on...", EInfoKind.CommonMessage);
+        MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
         await Task.Yield();
 
-        var result = await Handler.TryExecuteTaskAsync(() => LoadLibraryTask(filePath));
+        // XML provider of loading library
+        var result = await Handler.TryExecuteTaskAsync(()
+            => Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath)));
 
         if (result?.Result ?? false)
         {
-            MessageHandler.SendDebugMessag($"The library was loaded from the path: '{filePath}'");
-            MessageHandler.SendToStatusBar($"{_libraryManager.Library?.TotalBooks}", EInfoKind.TotalBooks);
-            MessageHandler.SendToStatusBar($"Library loaded with ID: {_libraryManager.Library.Id}");
+            MessageHandler.PublishDebugMessage($"{Constants.LIBRARY_WAS_LOADED_SUCCESSFULLY}: '{filePath}'");
+            MessageHandler.PublishTotalBooksInLibrary(Library?.TotalBooks ?? 0);
+            MessageHandler.PublishMessage($"{Constants.LIBRARY_LOADED_WITH_ID}: {Library?.Id}");
         }
         else
         {
-            MessageHandler.SendDebugMessag($"Library was not loaded from the path: '{filePath}'");
+            MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{filePath}'");
         }
 
-        MessageHandler.SendDebugMessag("Library loading finished.");
+        MessageHandler.PublishDebugMessage(Constants.LIBRARY_LOADING_FINISHED);
         UpdateLibraryState();
     }
 
     /// <summary>
-    /// Loads an existing library from a file asynchronously.
-    /// </summary>
-    /// <param name="filePath">The path to the XML file to load.</param>
-    /// <returns>A boolean indicating whether the library was loaded successfully.</returns>
-    private async Task<bool> LoadLibraryTask(string filePath)
-       => await Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath));
-
-
-    /// <summary>
     /// Saves the current library to a file.
     /// </summary>
-    private async Task SaveLibrary()
+    private async Task SaveLibraryAsXml()
     {
         try
         {
-            var selectedFolder = new SelectionDialogHandler().GetPathToFolder("Save books dialog");
+            IsEnabled = false;
+            var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.SAVE_LIBRARY_DIALOG);
             if (string.IsNullOrEmpty(selectedFolder))
-                throw new Exception("Folder wasn't selected");
+                throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
 
-            var pathToFile = Path.Combine(selectedFolder, $"{_libraryManager.Library.Id}.xml");
+            var pathToFile = Path.Combine(selectedFolder, $"{Library.Id}.xml");
 
             var file = new FileInfo(pathToFile);
             if (file.Exists)
                 file.Delete();
 
-            MessageHandler.SendToStatusBar("Library is saving go on...", EInfoKind.CommonMessage);
+            MessageHandler.PublishMessage(Constants.LIBRARY_IS_BEING_SAVED);
             await Task.Yield();
 
-            var result = await Handler.TryExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
+            // XML provider of saving library
+            var result = await Handler.TryExecuteTaskAsync(()
+                => Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile)));
 
-            var text = result?.Result ?? false
-                    ? $"Saved Library with id:{_libraryManager.Library.Id}. Total books:{_libraryManager.Library?.TotalBooks}. Library's path:{pathToFile}"
-            : "Library wasn't saved";
-            MessageHandler.SendToStatusBar(text);
+            var text = result?.Result ?? false ? 
+                $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" : 
+                $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH}: '{pathToFile}'";
+            MessageHandler.PublishMessage(text);
         }
         catch (Exception ex)
         {
             MessageBox.Show(ex.Message);
         }
+        finally
+        {
+            IsEnabled = true;
+        }
     }
-
-    /// <summary>
-    /// Saves the current library to a file asynchronously.
-    /// </summary>
-    /// <param name="pathToFile">The path to the XML file to save.</param>
-    /// <returns>A boolean indicating whether the library was saved successfully.</returns>
-    private async Task<bool> SaveLibraryTask(string pathToFile)
-        => await Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile));
 
     /// <summary>
     /// Closes the library and clears the book list.
@@ -212,11 +196,13 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         if (_libraryManager != null)
         {
-            MessageHandler.SendToStatusBar($"Library '{_libraryManager.Library.Id}' was closed");
+            var id = Library.Id;
 
             _libraryManager.TryCloseLibrary();
             UpdateLibraryState();
-            MessageHandler.SendDebugMessag("Library updating");
+
+            MessageHandler.PublishMessage($"'{id}' {Constants.LIBRARY_WAS_CLOSED}");
+            MessageHandler.PublishDebugMessage(Constants.LIBRARY_WAS_CLOSED);
         }
     }
 
@@ -237,7 +223,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// <param name="e">The event arguments containing the new total number of books and a kind of the event.</param>
     private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
     {
-        MessageHandler.SendToStatusBar($"{e?.TotalBooks ?? 0}", EInfoKind.TotalBooks);
+        MessageHandler.PublishTotalBooksInLibrary(e?.TotalBooks ?? 0);
     }
     #endregion
 

@@ -100,7 +100,7 @@ internal sealed class ApplicationViewModel : BindableBase
 
             CurrentViewModel = viewModel;
             CurrentViewModel.IsChecked = true;
-            MessageHandler.SendDebugMessag($"Switched to '{pageName}' page");
+            MessageHandler.PublishDebugMessage($"Switched to '{pageName}' page");
         }
     }
     #endregion

@@ -18,10 +18,20 @@
             </Style>
         </StackPanel.Resources>
 
-        <Button Content="New Library" Command="{Binding CreateLibraryCommand}" ToolTip="Create a new library"/>
-        <Button Content="Load Library" Command="{Binding LoadLibraryCommand}" ToolTip="Load a library"/>
-        <Button Content="Save Library" Command="{Binding SaveLibraryCommand}" ToolTip="Save the library"/>
-        <Button Content="Close Library" Command="{Binding CloseLibraryCommand}" ToolTip="Close the current library"/>
+        <Button Content="New Library" 
+                Command="{Binding CreateLibraryCommand}" 
+                ToolTip="Create a new library"/>
+        <Button Content="Load Library" 
+                Command="{Binding LoadLibraryCommand}" 
+                ToolTip="Load a library"/>
+        <Button Content="Save Library" 
+                Command="{Binding SaveLibraryCommand}" 
+                IsEnabled="{Binding IsEnabled}" 
+                ToolTip="Save the library"/>
+        <Button Content="Close Library" 
+                Command="{Binding CloseLibraryCommand}" 
+                IsEnabled="{Binding IsEnabled}" 
+                ToolTip="Close the current library"/>
 
     </StackPanel>
 </UserControl>

@@ -22,5 +22,7 @@ internal sealed class MessageHandler
         });
     }
 
-   public static void SendDebugMessag(string msg) =>SendToStatusBar(msg, EInfoKind.DebugMessage);
+    public static void SendDebugMessage(string msg) => SendToStatusBar(msg, EInfoKind.DebugMessage);
+
+    public static void SendTotalBooksInLibrary(int books) => SendToStatusBar($"{books}", EInfoKind.TotalBooks);
 }

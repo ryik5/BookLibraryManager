@@ -40,8 +40,8 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
         ExecuteCommand = new DelegateCommand<Window>(SaveEditedBook);
         CancelCommand = new DelegateCommand<Window>(CancelEditBook);
 
-        MessageHandler.SendDebugMessag($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing");
-        MessageHandler.SendDebugMessag($"Original state of the book: '{_originalBook}'");
+        MessageHandler.SendDebugMessage($"The book '{_originalBook.Title}' (ID {_originalBook.Id}') was loaded for editing");
+        MessageHandler.SendDebugMessage($"Original state of the book: '{_originalBook}'");
 
         _editBookWindow = new EditBookDetailsWindow() { DataContext = this };
 
@@ -55,7 +55,7 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
-        MessageHandler.SendDebugMessag($"After editing the book has look: '{Book}'");
+        MessageHandler.SendDebugMessage($"After editing the book has look: '{Book}'");
         MessageHandler.SendToStatusBar($"The last edited book '{Book.Title}'");
         CloseWindow(window);
     }

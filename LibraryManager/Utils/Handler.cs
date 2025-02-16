@@ -15,7 +15,7 @@ internal sealed class Handler
         catch (Exception ex)
         {
             // Handle the exception
-            MessageHandler.SendDebugMessag($"An error occurred: {ex.Message}");
+            MessageHandler.SendDebugMessage($"An error occurred: {ex.Message}");
 
             return default;
         }

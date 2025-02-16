@@ -199,7 +199,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Subscribe to the loading finished event
         ActionFinished += NewLib_LoadingFinished;
 
-        MessageHandler.SendDebugMessag($"Attempt to load new content");
+        MessageHandler.SendDebugMessage($"Attempt to load new content");
 
         // Load the book content (TODO: select type of content to load)
         var taskResult = await Handler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
@@ -217,9 +217,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
         IsSaveEnabled = !isNotLoaded;
 
         if (isNotLoaded)
-            MessageHandler.SendDebugMessag("Content was not loaded successfully");
+            MessageHandler.SendDebugMessage("Content was not loaded successfully");
         else
-            MessageHandler.SendDebugMessag($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
+            MessageHandler.SendDebugMessage($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
 
         // Unsubscribe from the loading finished event
         ActionFinished -= NewLib_LoadingFinished;
@@ -235,7 +235,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
             // Subscribe to the saving finished event
             ActionFinished += NewLib_LoadingFinished;
 
-            MessageHandler.SendDebugMessag($"Attempt to save content");
+            MessageHandler.SendDebugMessage($"Attempt to save content");
 
             var result = await Handler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
 
@@ -323,7 +323,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendDebugMessag("Adding book was canceled");
+        MessageHandler.SendDebugMessage("Adding book was canceled");
         CloseWindow(window);
     }
 

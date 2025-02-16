@@ -91,15 +91,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-
-    /// <summary>
-    /// Determines whether operations can be performed on the books in the library.
-    /// </summary>
-    /// <returns>true if the library has a book list; otherwise, false.</returns>
-    private bool CanOperateWithBooks()
-    {
-        return Library.Id != 0;
-    }
     #endregion
 
 
@@ -136,7 +127,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
         IsEnabled = false;
 
-        MessageHandler.SendToStatusBar("Library is loading go on...", EInfoKind.CommonMessage);
+        MessageHandler.PublishMessage("Library is loading go on...");
         await Task.Yield();
 
         var result = await Handler.TryExecuteTaskAsync(() => LoadLibraryTask(filePath));
@@ -183,7 +174,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             if (file.Exists)
                 file.Delete();
 
-            MessageHandler.SendToStatusBar("Library is saving go on...", EInfoKind.CommonMessage);
+            MessageHandler.PublishMessage("Library is saving go on...");
             await Task.Yield();
 
             var result = await Handler.TryExecuteTaskAsync(() => SaveLibraryTask(pathToFile));

@@ -189,7 +189,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
 
         MessageHandler.PublishMessage(text);
-        MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalBooks);
+        MessageHandler.PublishTotalBooksInLibrary(_libraryManager.Library.TotalBooks);
     }
 
     /// <summary>

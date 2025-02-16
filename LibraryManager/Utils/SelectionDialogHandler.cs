@@ -79,7 +79,7 @@ internal sealed class SelectionDialogHandler
                 File.WriteAllBytes(saveFileDialog.FileName, book.Content.ObjectByteArray);
                 await Task.Yield();
                 // Send a debug message to the status bar indicating the content was saved successfully
-                MessageHandler.SendDebugMessage($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}");
+                MessageHandler.PublishDebugMessage($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}");
                 // Show a message box indicating the content was saved successfully
                 MessageBox.Show("Book content saved successfully.");
                 return true;
@@ -87,14 +87,14 @@ internal sealed class SelectionDialogHandler
             catch (Exception ex)
             {
                 // Handle any exceptions that occur during the save operation
-                MessageHandler.SendDebugMessage($"Error saving book content: {ex.Message}");
+                MessageHandler.PublishDebugMessage($"Error saving book content: {ex.Message}");
                 return false;
             }
         }
         else
         {
             // Send a debug message to the status bar indicating the content was not saved
-            MessageHandler.SendDebugMessage($"The book content '{book.Title}' was not saved because it is stored separately");
+            MessageHandler.PublishDebugMessage($"The book content '{book.Title}' was not saved because it is stored separately");
             await Task.Yield();
             return false;
         }

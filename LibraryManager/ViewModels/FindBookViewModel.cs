@@ -165,7 +165,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
 
         LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
 
-        MessageHandler.SendToStatusBar($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks}");
+        MessageHandler.PublishMessage($"Looked for {SelectedSearchField}:{SearchText}. Found {foundBooks}");
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         editBookView.ShowDialog();
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)
-            MessageHandler.SendToStatusBar($"Last edited book was '{book.Title}");
+            MessageHandler.PublishMessage($"Last edited book was '{book.Title}");
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         var text = _libraryManager.TryRemoveBook(SelectedBook) ? "Book was deleted successfully" : "Nothing to delete";
         BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
 
-        MessageHandler.SendToStatusBar(text);
+        MessageHandler.PublishMessage(text);
         MessageHandler.SendToStatusBar($"{_libraryManager.Library.TotalBooks}", EInfoKind.TotalBooks);
     }
 

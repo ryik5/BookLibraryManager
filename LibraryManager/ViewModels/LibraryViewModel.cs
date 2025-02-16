@@ -124,8 +124,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         UpdateLibraryState();
 
-        MessageHandler.SendToStatusBar($"Created a new library with id: {_libraryManager.Library.Id}");
-        MessageHandler.SendTotalBooksInLibrary(0);
+        MessageHandler.PublishMessage($"Created a new library with id: {_libraryManager.Library.Id}");
+        MessageHandler.PublishTotalBooksInLibrary(0);
     }
 
     /// <summary>
@@ -143,16 +143,16 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         if (result?.Result ?? false)
         {
-            MessageHandler.SendDebugMessage($"The library was loaded from the path: '{filePath}'");
-            MessageHandler.SendTotalBooksInLibrary(Library?.TotalBooks ?? 0);
-            MessageHandler.SendToStatusBar($"Library loaded with ID: {Library?.Id}");
+            MessageHandler.PublishDebugMessage($"The library was loaded from the path: '{filePath}'");
+            MessageHandler.PublishTotalBooksInLibrary(Library?.TotalBooks ?? 0);
+            MessageHandler.PublishMessage($"Library loaded with ID: {Library?.Id}");
         }
         else
         {
-            MessageHandler.SendDebugMessage($"Library was not loaded from the path: '{filePath}'");
+            MessageHandler.PublishDebugMessage($"Library was not loaded from the path: '{filePath}'");
         }
 
-        MessageHandler.SendDebugMessage("Library loading finished.");
+        MessageHandler.PublishDebugMessage("Library loading finished.");
         UpdateLibraryState();
     }
 
@@ -189,7 +189,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             var result = await Handler.TryExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
 
             var text = result?.Result ?? false ? $"Library with id:{Library.Id} was saved as '{pathToFile}'" : "Library wasn't saved";
-            MessageHandler.SendToStatusBar(text);
+            MessageHandler.PublishMessage(text);
         }
         catch (Exception ex)
         {
@@ -216,11 +216,11 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         if (_libraryManager != null)
         {
-            MessageHandler.SendToStatusBar($"Library '{_libraryManager.Library.Id}' was closed");
+            MessageHandler.PublishMessage($"Library '{_libraryManager.Library.Id}' was closed");
 
             _libraryManager.TryCloseLibrary();
             UpdateLibraryState();
-            MessageHandler.SendDebugMessage("Library updating");
+            MessageHandler.PublishDebugMessage("Library updating");
         }
     }
 
@@ -241,7 +241,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// <param name="e">The event arguments containing the new total number of books and a kind of the event.</param>
     private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
     {
-        MessageHandler.SendTotalBooksInLibrary(e?.TotalBooks ?? 0);
+        MessageHandler.PublishTotalBooksInLibrary(e?.TotalBooks ?? 0);
     }
     #endregion
 

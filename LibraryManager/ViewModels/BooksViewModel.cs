@@ -164,7 +164,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         var deletedBookId = SelectedBook?.Id;
 
         if (_bookManager.TryRemoveBook(SelectedBook))
-            MessageHandler.SendToStatusBar($"From library ID: {BookManager.Library.Id} was deleted book with ID: {deletedBookId}");
+            MessageHandler.PublishMessage($"From library ID: {BookManager.Library.Id} was deleted book with ID: {deletedBookId}");
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     private void SortBooks()
     {
         _bookManager.SortBooks();
-        MessageHandler.SendToStatusBar($"Library ID:{BookManager.Library.Id} was sorted");
+        MessageHandler.PublishMessage($"Library ID:{BookManager.Library.Id} was sorted");
     }
     #endregion
 

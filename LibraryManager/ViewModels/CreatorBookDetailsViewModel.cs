@@ -199,7 +199,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Subscribe to the loading finished event
         ActionFinished += NewLib_LoadingFinished;
 
-        MessageHandler.SendDebugMessage($"Attempt to load new content");
+        MessageHandler.PublishDebugMessage($"Attempt to load new content");
 
         // Load the book content (TODO: select type of content to load)
         var taskResult = await Handler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
@@ -217,9 +217,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
         IsSaveEnabled = !isNotLoaded;
 
         if (isNotLoaded)
-            MessageHandler.SendDebugMessage("Content was not loaded successfully");
+            MessageHandler.PublishDebugMessage("Content was not loaded successfully");
         else
-            MessageHandler.SendDebugMessage($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
+            MessageHandler.PublishDebugMessage($"Loaded new content into the book '{Book.Content?.OriginalPath}'");
 
         // Unsubscribe from the loading finished event
         ActionFinished -= NewLib_LoadingFinished;
@@ -235,7 +235,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
             // Subscribe to the saving finished event
             ActionFinished += NewLib_LoadingFinished;
 
-            MessageHandler.SendDebugMessage($"Attempt to save content");
+            MessageHandler.PublishDebugMessage($"Attempt to save content");
 
             var result = await Handler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
 
@@ -302,7 +302,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void AddBook(Book book)
     {
         _libraryManager.AddBook(book);
-        MessageHandler.SendToStatusBar($"Last added book '{book.Title}' (ID '{book.Id}')");
+        MessageHandler.PublishMessage($"Last added book '{book.Title}' (ID '{book.Id}')");
     }
 
     /// <summary>
@@ -323,7 +323,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void CancelAddBook(Window window)
     {
         Book = null;
-        MessageHandler.SendDebugMessage("Adding book was canceled");
+        MessageHandler.PublishDebugMessage("Adding book was canceled");
         CloseWindow(window);
     }
 

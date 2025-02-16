@@ -34,8 +34,8 @@ internal sealed class ApplicationViewModel : BindableBase
             { libraryVM.Name, libraryVM },
             { booksVM.Name, booksVM },
             { finderVM.Name, finderVM},
-            { toolsVM.Name,  toolsVM},
-            {debugVM.Name, debugVM},
+            { toolsVM.Name, toolsVM},
+            { debugVM.Name, debugVM},
             { aboutVM.Name, aboutVM }
         };
 

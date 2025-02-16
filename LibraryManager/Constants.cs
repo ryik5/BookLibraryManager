@@ -1,5 +1,9 @@
 ﻿namespace LibraryManager;
 
+/// <summary>
+/// A static class containing constants used throughout the application.
+/// </summary>
+/// <author>YR 2025-02-16</author>
 public static class Constants
 {
     #region General
@@ -70,5 +74,4 @@ public static class Constants
     #region AboutViewModel
     public const string ABOUT = "About";
     #endregion
-
 }

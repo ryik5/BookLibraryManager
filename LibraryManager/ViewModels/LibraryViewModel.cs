@@ -7,21 +7,21 @@ using LibraryManager.Utils;
 namespace LibraryManager.ViewModels;
 
 /// <summary>
-/// LibraryViewModel view model for the library manager application.
+/// LibraryViewModel for the library manager application.
 /// </summary>
 /// <author>YR 2025-02-02</author>
 internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 {
     /// <summary>
-    /// Initializes a new instance of the MainViewModel class.
+    /// Initializes a new instance of the LibraryViewModel class.
     /// </summary>
     /// <param name="libraryManager">The library manager model.</param>
     public LibraryViewModel(ILibraryManageable libraryManager)
     {
         _libraryManager = libraryManager;
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
-        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibrary));
-        SaveLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(SaveLibrary));
+        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibraryAsXml));
+        SaveLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(SaveLibraryAsXml));
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
         UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
@@ -115,58 +115,51 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         UpdateLibraryState();
 
-        MessageHandler.PublishMessage($"Created a new library with id: {_libraryManager.Library.Id}");
+        MessageHandler.PublishMessage($"{Constants.LIBRARY_WAS_CREATED_SUCCESSFULLY} with ID: {Library.Id}");
         MessageHandler.PublishTotalBooksInLibrary(0);
     }
 
     /// <summary>
     /// Loads an existing library from a file.
     /// </summary>
-    private async Task LoadLibrary()
+    private async Task LoadLibraryAsXml()
     {
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
         IsEnabled = false;
 
-        MessageHandler.PublishMessage("Library is loading go on...");
+        MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
         await Task.Yield();
 
-        var result = await Handler.TryExecuteTaskAsync(() => LoadLibraryTask(filePath));
+        // XML provider of loading library
+        var result = await Handler.TryExecuteTaskAsync(()
+            => Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath)));
 
         if (result?.Result ?? false)
         {
-            MessageHandler.PublishDebugMessage($"The library was loaded from the path: '{filePath}'");
+            MessageHandler.PublishDebugMessage($"{Constants.LIBRARY_WAS_LOADED_SUCCESSFULLY}: '{filePath}'");
             MessageHandler.PublishTotalBooksInLibrary(Library?.TotalBooks ?? 0);
-            MessageHandler.PublishMessage($"Library loaded with ID: {Library?.Id}");
+            MessageHandler.PublishMessage($"{Constants.LIBRARY_LOADED_WITH_ID}: {Library?.Id}");
         }
         else
         {
-            MessageHandler.PublishDebugMessage($"Library was not loaded from the path: '{filePath}'");
+            MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{filePath}'");
         }
 
-        MessageHandler.PublishDebugMessage("Library loading finished.");
+        MessageHandler.PublishDebugMessage(Constants.LIBRARY_LOADING_FINISHED);
         UpdateLibraryState();
     }
 
     /// <summary>
-    /// Loads an existing library from a file asynchronously.
-    /// </summary>
-    /// <param name="filePath">The path to the XML file to load.</param>
-    /// <returns>A boolean indicating whether the library was loaded successfully.</returns>
-    private async Task<bool> LoadLibraryTask(string filePath)
-       => await Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath));
-
-
-    /// <summary>
     /// Saves the current library to a file.
     /// </summary>
-    private async Task SaveLibrary()
+    private async Task SaveLibraryAsXml()
     {
         try
         {
             IsEnabled = false;
-            var selectedFolder = new SelectionDialogHandler().GetPathToFolder("Save books dialog");
+            var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.SAVE_LIBRARY_DIALOG);
             if (string.IsNullOrEmpty(selectedFolder))
-                throw new Exception("Folder wasn't selected");
+                throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
 
             var pathToFile = Path.Combine(selectedFolder, $"{Library.Id}.xml");
 
@@ -174,12 +167,16 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             if (file.Exists)
                 file.Delete();
 
-            MessageHandler.PublishMessage("Library is saving go on...");
+            MessageHandler.PublishMessage(Constants.LIBRARY_IS_BEING_SAVED);
             await Task.Yield();
 
-            var result = await Handler.TryExecuteTaskAsync(() => SaveLibraryTask(pathToFile));
+            // XML provider of saving library
+            var result = await Handler.TryExecuteTaskAsync(()
+                => Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile)));
 
-            var text = result?.Result ?? false ? $"Library with id:{Library.Id} was saved as '{pathToFile}'" : "Library wasn't saved";
+            var text = result?.Result ?? false ? 
+                $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" : 
+                $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH}: '{pathToFile}'";
             MessageHandler.PublishMessage(text);
         }
         catch (Exception ex)
@@ -193,25 +190,19 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Saves the current library to a file asynchronously.
-    /// </summary>
-    /// <param name="pathToFile">The path to the XML file to save.</param>
-    /// <returns>A boolean indicating whether the library was saved successfully.</returns>
-    private async Task<bool> SaveLibraryTask(string pathToFile)
-        => await Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile));
-
-    /// <summary>
     /// Closes the library and clears the book list.
     /// </summary>
     private void CloseLibrary()
     {
         if (_libraryManager != null)
         {
-            MessageHandler.PublishMessage($"Library '{_libraryManager.Library.Id}' was closed");
+            var id = Library.Id;
 
             _libraryManager.TryCloseLibrary();
             UpdateLibraryState();
-            MessageHandler.PublishDebugMessage("Library updating");
+
+            MessageHandler.PublishMessage($"'{id}' {Constants.LIBRARY_WAS_CLOSED}");
+            MessageHandler.PublishDebugMessage(Constants.LIBRARY_WAS_CLOSED);
         }
     }
 

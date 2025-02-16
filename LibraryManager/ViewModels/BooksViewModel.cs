@@ -22,7 +22,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 
         AddBookCommand = new RelayCommand(AddBook, CanOperateWithBooks);
         DemoAddBooksCommand = new RelayCommand(DemoAddRandomBooks, CanOperateWithBooks);
-        RemoveBookCommand = new RelayCommand(RemoveBook, CanRemoveBook);
+        RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanRemoveBook);
         EditBookCommand = new RelayCommand(EditBook, CanRemoveBook);
 
         LibraryVisibility = Visibility.Collapsed;
@@ -159,12 +159,12 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Deletes a book from the library.
     /// </summary>
-    private void RemoveBook()
+    private void DeleteSelectedBook()
     {
-        var deletedBookId = SelectedBook?.Id;
+        var text = _bookManager.TryRemoveBook(SelectedBook) ? Constants.BOOK_WAS_DELETED_SUCCESSFULLY : Constants.NO_BOOKS_FOUND;
 
-        if (_bookManager.TryRemoveBook(SelectedBook))
-            MessageHandler.PublishMessage($"From library ID: {BookManager.Library.Id} was deleted book with ID: {deletedBookId}");
+        MessageHandler.PublishMessage(text);
+        MessageHandler.PublishTotalBooksInLibrary(_bookManager.Library.TotalBooks);
     }
 
     /// <summary>

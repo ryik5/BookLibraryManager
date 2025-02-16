@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using BookLibraryManager.Common;
 using LibraryManager.Events;
 using LibraryManager.Models;
-using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
@@ -111,7 +110,7 @@ public sealed class StatusBarViewModel : BindableBase
     }
     #endregion
 
-
+    #region private methods
     /// <summary>
     /// Handles the StatusBarEvent by updating the status bar text if the event's status bar kind matches.
     /// </summary>
@@ -122,7 +121,7 @@ public sealed class StatusBarViewModel : BindableBase
         {
             case EInfoKind.TotalBooks:
                 TotalBooksText.MessageText = e.Message;
-                TotalBooksText.ToolTip = GeneralHandler.TotalBooksInLibrary(_library.TotalBooks);
+                TotalBooksText.ToolTip = TotalBooksInLibrary(_library.TotalBooks);
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:
@@ -154,6 +153,14 @@ public sealed class StatusBarViewModel : BindableBase
         LibraryInfoText.MessageText = $"Lib: {_library.Id}";
         LibraryInfoText.ToolTip = $"Library information.{Environment.NewLine}ID:'{_library.Id}'{Environment.NewLine}Name:'{_library.Name}'{Environment.NewLine}Description:'{_library.Description}'";
     }
+    /// <summary>
+    /// Returns string 'total books in the library' or 'total books in the library: {books}'
+    /// </summary>
+    private static string TotalBooksInLibrary(int? books = null) => books is null
+        ? Constants.TOTAL_BOOKS_IN_LIBRARY
+        : $"{Constants.TOTAL_BOOKS_IN_LIBRARY}: {books}";
+    #endregion
+
 
     #region Fields
     private string _textInfoText1 = string.Empty;

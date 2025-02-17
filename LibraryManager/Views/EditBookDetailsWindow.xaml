@@ -20,7 +20,7 @@
 
         <view:BookDetailsView />
 
-        <view:TwoButtonsPanel Grid.Row="2" Padding="0 5 0 15"/>
+        <view:ThreeButtonsPanel Grid.Row="2" Padding="0 5 0 15"/>
 
     </Grid>
 </Window>

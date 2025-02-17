@@ -245,7 +245,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         }
         else
         {
-            MessageBox.Show(Constants.NO_CONTENT_TO_SAVE);
+            new MessageBoxHandler().Show(Constants.NO_CONTENT_TO_SAVE);
         }
 
         // Unsubscribe from the saving finished event

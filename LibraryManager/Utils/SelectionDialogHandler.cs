@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Windows;
 using BookLibraryManager.Common;
-using LibraryManager.Models;
 using Microsoft.Win32;
 
 namespace LibraryManager.Utils;
@@ -81,7 +79,7 @@ internal sealed class SelectionDialogHandler
                 // Send a debug message to the status bar indicating the content was saved successfully
                 MessageHandler.PublishDebugMessage($"The book content '{book.Title}' was saved to {saveFileDialog.FileName}");
                 // Show a message box indicating the content was saved successfully
-                MessageBox.Show("Book content saved successfully.");
+                new MessageBoxHandler().Show("Book content saved successfully.");
                 return true;
             }
             catch (Exception ex)

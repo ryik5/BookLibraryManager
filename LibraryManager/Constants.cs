@@ -33,6 +33,7 @@ public static class Constants
     public const string LIBRARY_WAS_SAVED_SUCCESSFULLY = "Library was saved successfully to path";
     public const string FAILED_TO_SAVE_LIBRARY_TO_PATH = "Failed to save library to path";
     public const string LIBRARY_WAS_CLOSED = "Library was closed";
+    public const string LIBRARY_WAS_NOT_LOADED = "Library was not loaded";
     #endregion
 
     #region book details: FindBookViewModel, CreatorBookDetailsViewModel, EditorBookDetailsViewModel

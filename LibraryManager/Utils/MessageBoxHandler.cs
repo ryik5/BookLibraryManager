@@ -151,4 +151,3 @@ public class MessageBoxHandler
 
     private MessageBoxWindow _window;
 }
-

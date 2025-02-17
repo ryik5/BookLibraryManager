@@ -20,7 +20,7 @@ public class XmlBookListLoaderTests
         {
             File.Delete(filePath);
         }
-        var library = new LibraryManagerModel
+        var library = new Library
         {
             Id = 1,
             BookList =

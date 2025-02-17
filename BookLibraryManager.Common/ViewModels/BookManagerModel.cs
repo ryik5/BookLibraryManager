@@ -91,20 +91,6 @@ public class BookManagerModel : BindableBase, IBookManageable
 
         return tmpResult?.ToList() ?? [];
     }
-
-
-    /// <summary>
-    /// Retrieves a collection of the first specified number of books from the library.
-    /// </summary>
-    /// <param name="amountFirstBooks">The number of books to retrieve.</param>
-    /// <returns>A collection of the first books.</returns>
-    public List<Book> GetFirstBooks(int amountFirstBooks) => Library.BookList.Take(amountFirstBooks).ToList();
-
-    /// <summary>
-    /// Retrieves all books in the library.
-    /// </summary>
-    /// <returns>A collection of all books.</returns>
-    public List<Book> GetAllBooks() => Library.BookList.ToList();
     #endregion
 
 

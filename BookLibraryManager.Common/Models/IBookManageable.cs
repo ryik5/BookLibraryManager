@@ -24,20 +24,21 @@ public interface IBookManageable : ILoadable
     /// <returns>true if the book was successfully removed; otherwise, false.</returns>
     bool TryRemoveBook(Book book);
 
+    /// <summary>
+    /// Loads a book from the specified file path.
+    /// </summary>
+    /// <param name="bookLoader">The loader responsible for loading the book.</param>
+    /// <param name="pathToFile">The path to the file containing the book data.</param>
+    /// <returns>True if the book was successfully loaded; otherwise, false.</returns>
     bool TryLoadBook(IBookLoader bookLoader, string pathToFile);
 
-    bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder);
-
     /// <summary>
-    /// Retrieves the first specified number of books from the library.
+    /// Saves the selected book to the specified folder.
     /// </summary>
-    /// <param name="amountFirstBooks">The number of books to retrieve.</param>
-    List<Book> GetFirstBooks(int amountFirstBooks);
-
-    /// <summary>
-    /// Retrieves all books in the library.
-    /// </summary>
-    List<Book> GetAllBooks();
+    /// <param name="keeper">The keeper responsible for saving the book.</param>
+    /// <param name="pathToFolder">The path to the folder where the book will be saved.</param>
+    /// <returns>True if the book was successfully saved; otherwise, false.</returns>
+    bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder);   
 
     /// <summary>
     /// Finds books by a specific element of the book.

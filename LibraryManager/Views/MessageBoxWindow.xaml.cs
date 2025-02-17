@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 
 namespace LibraryManager.Views;
+
 /// <summary>
-/// Interaction logic for LibraryMessageBox.xaml
+/// Interaction logic for MessageBoxWindow.xaml
 /// </summary>
-public partial class LibraryMessageBox : Window
+public partial class MessageBoxWindow : Window
 {
-    public LibraryMessageBox()
+    public MessageBoxWindow()
     {
         InitializeComponent();
     }

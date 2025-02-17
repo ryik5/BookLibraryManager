@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Utils;
@@ -143,6 +142,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         else
         {
             MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{filePath}'");
+
+            new MessageBoxHandler().Show(Constants.LIBRARY_WAS_NOT_LOADED);
         }
 
         MessageHandler.PublishDebugMessage(Constants.LIBRARY_LOADING_FINISHED);
@@ -174,14 +175,14 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             var result = await Handler.TryExecuteTaskAsync(()
                 => Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile)));
 
-            var text = result?.Result ?? false ? 
-                $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" : 
+            var text = result?.Result ?? false ?
+                $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" :
                 $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH}: '{pathToFile}'";
             MessageHandler.PublishMessage(text);
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            new MessageBoxHandler().Show(ex.Message);
         }
         finally
         {

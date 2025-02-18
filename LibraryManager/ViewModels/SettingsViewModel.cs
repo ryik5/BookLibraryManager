@@ -4,46 +4,100 @@ using LibraryManager.Properties;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// View model for managing application settings.
+/// </summary>
 /// <author>YR 2025-02-14</author>
 internal sealed class SettingsViewModel : BindableBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+    /// </summary>
+    /// <param name="settings">The settings model to use.</param>
     public SettingsViewModel(SettingsModel settings)
     {
         _settings = settings;
         LoadAllSettings();
     }
 
+    /// <summary>
+    /// Resets all application settings to their default values.
+    /// </summary>
     public void ResetAllSettings()
     {
         Settings.Default.Properties.Cast<System.ComponentModel.PropertyDescriptor>().ToList().ForEach(p => p.ResetValue(Settings.Default));
     }
 
+    /// <summary>
+    /// Loads all application settings from the settings store.
+    /// </summary>
     public void LoadAllSettings()
     {
         TryParseStringSettings(Settings.Default.FindBooks_LastSearchField, ref _settings.SearchField, SearchField);
         _settings.SearchOnFly = Settings.Default.FindBooks_SearchOnFly;
+        _settings.Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
     }
 
+    /// <summary>
+    /// Saves all application settings to the settings store.
+    /// </summary>
     public void SaveSettings()
     {
         Settings.Default.FindBooks_LastSearchField = _settings.SearchField.ToString();
         Settings.Default.FindBooks_SearchOnFly = _settings.SearchOnFly;
+        Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
+
         Settings.Default.Save();
     }
 
+    #region Dictionaries   
+    /// <summary>
+    /// Gets an array of search fields available for the FindBooks page.
+    /// </summary>
     public EBibliographicKindInformation[] SearchFields => _settings.SearchFields;
+
+    /// <summary>
+    /// Gets an array of boolean values representing the state of various settings.
+    /// </summary>
+    public bool[] Bools => _settings.Bools;
+    #endregion
+
+    #region FindBooks Page
+    /// <summary>
+    /// Gets or sets the currently selected search field for the FindBooks page.
+    /// </summary>
     public EBibliographicKindInformation SearchField
     {
         get => _settings.SearchField;
         set => SetProperty(ref _settings.SearchField, value);
     }
 
-    public bool[] Bools => _settings.Bools;
+    /// <summary>
+    /// Gets or sets a value indicating whether to search on the fly for the FindBooks page.
+    /// </summary>
     public bool SearchOnFly
     {
         get => _settings.SearchOnFly;
         set => SetProperty(ref _settings.SearchOnFly, value);
     }
+    #endregion
+
+    #region Debug Page
+    /// <summary>
+    /// Gets or sets the font size for the debug text.
+    /// </summary>
+    public double Debug_TextFontSize
+    {
+        get => _settings.Debug_TextFontSize;
+        set
+        {
+            if (6 < value && value < 28)
+                SetProperty(ref _settings.Debug_TextFontSize, value);
+        }
+    }
+    #endregion
+
+
 
 
     /// <summary>

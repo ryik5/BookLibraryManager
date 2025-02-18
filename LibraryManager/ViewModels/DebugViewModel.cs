@@ -1,4 +1,5 @@
-﻿using LibraryManager.Events;
+﻿using System.Text;
+using LibraryManager.Events;
 using LibraryManager.Models;
 
 namespace LibraryManager.ViewModels;
@@ -6,21 +7,14 @@ namespace LibraryManager.ViewModels;
 /// <author>YR 2025-02-05</author>
 internal sealed class DebugViewModel : BindableBase, IViewModelPageable
 {
-    public DebugViewModel()
+    public DebugViewModel(SettingsModel settings)
     {
+        _settings = settings;
+
         App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
     }
 
     #region Properties
-    /// <summary>
-    /// Text of logging.
-    /// </summary>
-    public string DebugTextLog
-    {
-        get => _debugTextLog;
-        set => SetProperty(ref _debugTextLog, value);
-    }
-
     public string Name => Constants.DEBUG;
 
     public bool IsChecked
@@ -34,9 +28,30 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
         get => _isEnabled;
         set => SetProperty(ref _isEnabled, value);
     }
+
+    /// <summary>
+    /// Gets or sets the log builder.
+    /// </summary>
+    /// <value>The log builder.</value>
+    public StringBuilder LogBuilder
+    {
+        get => _logBuilder;
+        private set => SetProperty(ref _logBuilder, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the text's font size.
+    /// </summary>
+    /// <value>The log builder.</value>
+    public double TextFontSize
+    {
+        get => _settings.Debug_TextFontSize;
+        private set => SetProperty(ref _settings.Debug_TextFontSize, value);
+    }
     #endregion
 
 
+    #region private methods
     /// <summary>
     /// Handles the StatusBarEvent by updating the status bar text if the event's status bar kind matches.
     /// </summary>
@@ -46,13 +61,22 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
         switch (e.InfoKind)
         {
             case EInfoKind.TotalBooks:
-                DebugTextLog += CreateLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}");
+                UpdateTextLog(CreateLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}"));
                 break;
             default:
-                DebugTextLog += CreateLogEntry(LogLevel.Info, e.Message);
+                UpdateTextLog(CreateLogEntry(LogLevel.Info, e.Message));
                 break;
         }
 
+    }
+
+    /// <summary>
+    /// Updates the text log by inserting the specified message at the beginning.
+    /// </summary>
+    /// <param name="msg">The message to insert into the log.</param>
+    private void UpdateTextLog(string msg)
+    {
+        LogBuilder.Insert(0, msg);
     }
 
     /// <summary>
@@ -61,10 +85,12 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
     /// <param name="level">The log level (e.g. Debug, Info, Warn, Error).</param>
     /// <param name="message">The message to log.</param>
     private string CreateLogEntry(LogLevel level, string message) => $"{new LogMessage(level, message)}{Environment.NewLine}";
+    #endregion
 
     #region private fields
-    private string _debugTextLog = string.Empty;
+    private SettingsModel _settings;
     private bool _isChecked;
     private bool _isEnabled = true;
+    private StringBuilder _logBuilder = new();
     #endregion
 }

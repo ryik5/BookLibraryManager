@@ -27,7 +27,7 @@ internal sealed class ApplicationViewModel : BindableBase
         var libraryVM = new LibraryViewModel(_libraryManager);
         var booksVM = new BooksViewModel(_bookManager);
         var finderVM = new FindBookViewModel(_bookManager, _settings);
-        var debugVM = new DebugViewModel();
+        var debugVM = new DebugViewModel(_settings);
         var aboutVM = new AboutViewModel();
         PageViewModels = new Dictionary<string, IViewModelPageable>
         {

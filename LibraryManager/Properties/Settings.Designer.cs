@@ -46,5 +46,17 @@ namespace LibraryManager.Properties {
                 this["FindBooks_SearchOnFly"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public double Debug_TextFontSize {
+            get {
+                return ((double)(this["Debug_TextFontSize"]));
+            }
+            set {
+                this["Debug_TextFontSize"] = value;
+            }
+        }
     }
 }

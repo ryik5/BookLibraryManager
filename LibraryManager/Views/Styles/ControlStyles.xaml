@@ -102,7 +102,6 @@
     <Style x:Key="TextBoxBordedStyle" TargetType="{x:Type TextBox}">
         <Setter Property="BorderBrush" Value="{StaticResource ColorSet2}"/>
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
-        <Setter Property="Background" Value="{StaticResource ColorSet5}"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
         <Setter Property="Template">
             <Setter.Value>

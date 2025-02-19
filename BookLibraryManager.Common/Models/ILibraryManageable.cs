@@ -16,20 +16,20 @@ public interface ILibraryManageable : ILoadable
     void CreateNewLibrary(int idLibrary);
 
     /// <summary>
-    /// Loads a library from the specified file path.
+    /// Loads a library from the specified path.
     /// </summary>
     /// <param name="libraryLoader">The loader responsible for loading the library.</param>
-    /// <param name="pathToFile">The path to the file containing the library data.</param>
+    /// <param name="pathToLibrary">The path to the file containing the library data.</param>
     /// <returns>True if the library was successfully loaded; otherwise, false.</returns>
-    bool TryLoadLibrary(ILibraryLoader libraryLoader, string pathToFile);
+    bool TryLoadLibrary(ILibraryLoader libraryLoader, string pathToLibrary);
 
     /// <summary>
     /// Saves the specified library to the specified folder.
     /// </summary>
     /// <param name="keeper">The keeper responsible for saving the library.</param>
-    /// <param name="pathToFolder">The path to the folder where the library will be saved.</param>
+    /// <param name="pathToStorage">The path to the storage where the library will be saved.</param>
     /// <returns>True if the library was successfully saved; otherwise, false.</returns>
-    bool TrySaveLibrary(ILibraryKeeper keeper, string pathToFolder);
+    bool TrySaveLibrary(ILibraryKeeper keeper, string pathToStorage);
 
     /// <summary>
     /// Closes the library and clears the book list.

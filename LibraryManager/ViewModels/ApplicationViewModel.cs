@@ -41,6 +41,8 @@ internal sealed class ApplicationViewModel : BindableBase
 
         StatusBar = new StatusBarViewModel(_library);
 
+        MessageHandler.PublishDebugMessage("The library manager has started.");
+
         ChangePageCommand = new DelegateCommand<string>(Navigate);
 
         Navigate(libraryVM.Name); // Default page
@@ -100,7 +102,7 @@ internal sealed class ApplicationViewModel : BindableBase
 
             CurrentViewModel = viewModel;
             CurrentViewModel.IsChecked = true;
-            MessageHandler.PublishDebugMessage($"Switched to '{pageName}' page");
+            MessageHandler.PublishDebugMessage($"Selected '{pageName}' page");
         }
     }
     #endregion

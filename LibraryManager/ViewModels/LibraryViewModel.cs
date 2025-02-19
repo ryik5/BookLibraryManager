@@ -19,8 +19,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         _libraryManager = libraryManager;
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
-        LoadLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadLibraryAsXml));
-        SaveLibraryCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(SaveLibraryAsXml));
+        LoadLibraryCommand = GetDelegateCommandWithLockAsync(LoadLibraryAsXml);
+        SaveLibraryCommand = GetDelegateCommandWithLockAsync(SaveLibraryAsXml);
+        SaveAsLibraryCommand = GetDelegateCommandWithLockAsync(SaveAsLibraryAsXml);
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
         UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
@@ -84,6 +85,14 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
+    /// Command to save the current library.
+    /// </summary>
+    public DelegateCommand SaveAsLibraryCommand
+    {
+        get;
+    }
+
+    /// <summary>
     /// Command to close the current library.
     /// </summary>
     public DelegateCommand CloseLibraryCommand
@@ -123,10 +132,12 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task LoadLibraryAsXml()
     {
-        var filePath = new SelectionDialogHandler().GetPathToXmlFile();
         IsEnabled = false;
 
+        var filePath = new SelectionDialogHandler().GetPathToXmlFile();
+
         MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
+
         await Task.Yield();
 
         // XML provider of loading library
@@ -153,7 +164,29 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Saves the current library to a file.
     /// </summary>
-    private async Task SaveLibraryAsXml()
+    private async Task SaveLibraryAsXml() => await TrySaveLibraryAsXml(null);
+
+    /// <summary>
+    /// Saves the current library with a new name.
+    /// </summary>
+    private async Task SaveAsLibraryAsXml()
+    {
+        var window = new MessageBoxHandler();
+        window.ShowInput("Input a new name of the library:", "Input library name");
+        if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string libraryName && !string.IsNullOrWhiteSpace(libraryName))
+        {
+            await TrySaveLibraryAsXml(libraryName);
+        }
+        else
+        {
+            new MessageBoxHandler().Show("New library name was not entered"); // TODO : create version with displaying error message - "Error"
+        }
+    }
+
+    /// <summary>
+    /// Tries to save the library as XML.
+    /// </summary>
+    private async Task TrySaveLibraryAsXml(string? libraryName)
     {
         try
         {
@@ -162,7 +195,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             if (string.IsNullOrEmpty(selectedFolder))
                 throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
 
-            var pathToFile = Path.Combine(selectedFolder, $"{Library.Id}.xml");
+            var fileName = string.IsNullOrWhiteSpace(libraryName) ? Library.Id.ToString() : libraryName;
+
+            var pathToFile = Path.Combine(selectedFolder, $"{fileName}.xml");
 
             var file = new FileInfo(pathToFile);
             if (file.Exists)
@@ -189,7 +224,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             IsEnabled = true;
         }
     }
-
+    
     /// <summary>
     /// Closes the library and clears the book list.
     /// </summary>
@@ -217,6 +252,14 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         IsEnabled = Library.Id != 0;
     }
+
+    /// <summary>
+    /// Returns a DelegateCommand that locks the buttons while executing the specified asynchronous function.
+    /// </summary>
+    /// <param name="func">The asynchronous function to execute, of type Func<Task>.</param>
+    /// <returns>A DelegateCommand that locks the buttons while executing the specified asynchronous function.</returns>
+    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func)
+        => new DelegateCommand(async () => await LockButtonsOnExecuteAsync(func));
 
     /// <summary>
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.

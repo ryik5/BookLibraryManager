@@ -28,6 +28,10 @@
                 Command="{Binding SaveLibraryCommand}" 
                 IsEnabled="{Binding IsEnabled}" 
                 ToolTip="Save the library"/>
+        <Button Content="SaveAs Library" 
+                Command="{Binding SaveAsLibraryCommand}" 
+                IsEnabled="{Binding IsEnabled}" 
+                ToolTip="Save the library with a new name"/>
         <Button Content="Close Library" 
                 Command="{Binding CloseLibraryCommand}" 
                 IsEnabled="{Binding IsEnabled}" 

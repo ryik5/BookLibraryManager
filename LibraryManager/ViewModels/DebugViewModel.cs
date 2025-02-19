@@ -4,6 +4,9 @@ using LibraryManager.Models;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// View model for the debug page, responsible for handling log messages and text font size.
+/// </summary>
 /// <author>YR 2025-02-05</author>
 internal sealed class DebugViewModel : BindableBase, IViewModelPageable
 {
@@ -21,12 +24,6 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
     {
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
-    }
-
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
     }
 
     /// <summary>
@@ -90,7 +87,6 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
     #region private fields
     private SettingsModel _settings;
     private bool _isChecked;
-    private bool _isEnabled = true;
     private StringBuilder _logBuilder = new();
     #endregion
 }

@@ -14,18 +14,19 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Initializes a new instance of the BooksViewModel class.
     /// </summary>
-    /// <param name="libraryManager">The library manager model.</param>
-    public BooksViewModel(IBookManageable libraryManager)
+    /// <param name="bookManager">The book manager model.</param>
+    public BooksViewModel(IBookManageable bookManager)
     {
-        _bookManager = libraryManager;
-        SortLibraryCommand = new RelayCommand(SortBooks, CanOperateWithBooks);
+        _bookManager = bookManager;
+        SortLibraryCommand = new DelegateCommand(SortBooks);
 
-        AddBookCommand = new RelayCommand(AddBook, CanOperateWithBooks);
-        DemoAddBooksCommand = new RelayCommand(DemoAddRandomBooks, CanOperateWithBooks);
-        RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanRemoveBook);
-        EditBookCommand = new RelayCommand(EditBook, CanRemoveBook);
+        AddBookCommand = new DelegateCommand(AddBook);
+        DemoAddBooksCommand = new DelegateCommand(DemoAddRandomBooks);
+        RemoveBookCommand = new DelegateCommand(DeleteSelectedBook);
+        EditBookCommand = new DelegateCommand(EditBook);
 
         LibraryVisibility = Visibility.Collapsed;
+        _bookManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
     }
 
 
@@ -38,10 +39,20 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isChecked, value);
     }
 
-    public bool IsEnabled
+    /// <summary>
+    /// Determines whether a book can be edited.
+    /// </summary>
+    /// <returns>true if the library has a book list and the selected book is not null; otherwise, false.</returns>
+    public bool CanEditBook
     {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
+        get => _canEditBook;
+        set => SetProperty(ref _canEditBook, value);
+    }
+
+    public bool CanOperateWithBooks
+    {
+        get => _canOperateWithBooks;
+        set => SetProperty(ref _canOperateWithBooks, value);
     }
 
     /// <summary>
@@ -64,7 +75,13 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     public Book SelectedBook
     {
         get => _selectedBook;
-        set => SetProperty(ref _selectedBook, value);
+        set
+        {
+            if (SetProperty(ref _selectedBook, value) && value is Book)
+            {
+                CanEditBook = 0 < _bookManager.Library.TotalBooks;
+            }
+        }
     }
     private Book _selectedBook;
     #endregion
@@ -79,6 +96,8 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         get;
     }
 
+    public string SortLibraryTooltip => "Sort the library by author then title";
+
     /// <summary>
     /// Command to add a new book to the library.
     /// </summary>
@@ -86,6 +105,8 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+
+    public string AddBookTooltip => "Add a new book to the library";
 
     /// <summary>
     /// Command to add random books to the library.
@@ -95,13 +116,17 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         get;
     }
 
+    public string DemoAddBooksTooltip => "Add 10 randomly filled books to the library";
+
     /// <summary>
     /// Command to edit a book in the library.
     /// </summary>
-    public RelayCommand EditBookCommand
+    public DelegateCommand EditBookCommand
     {
         get;
     }
+
+    public string EditBookTooltip => "Edit the selected book";
 
     /// <summary>
     /// Command to delete a book from the library.
@@ -111,23 +136,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         get;
     }
 
-    /// <summary>
-    /// Determines whether operations can be performed on the books in the library.
-    /// </summary>
-    /// <returns>true if the library has a book list; otherwise, false.</returns>
-    private bool CanOperateWithBooks()
-    {
-        return _bookManager.Library.Id != 0;
-    }
-
-    /// <summary>
-    /// Determines whether a book can be removed from the library.
-    /// </summary>
-    /// <returns>true if the library has a book list and the selected book is not null; otherwise, false.</returns>
-    private bool CanRemoveBook()
-    {
-        return 0 < _bookManager.Library.TotalBooks && SelectedBook is Book;
-    }
+    public string RemoveBookTooltip => "Delete the selected book from the library";
     #endregion
 
 
@@ -175,13 +184,22 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         _bookManager.SortBooks();
         MessageHandler.PublishMessage($"Library ID:{BookManager.Library.Id} was sorted");
     }
+
+    /// <summary>
+    /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
+    /// </summary>
+    private void Library_LibraryIdChanged(object? sender, EventArgs e)
+    {
+        CanOperateWithBooks = (sender as ILibrary)?.Id != 0;
+    }
     #endregion
 
 
     #region Private Members
     private readonly IBookManageable _bookManager;
     private bool _isChecked;
-    private bool _isEnabled = true;
+    private bool _canEditBook;
+    private bool _canOperateWithBooks;
     private Visibility _libraryVisibility;
     #endregion
 }

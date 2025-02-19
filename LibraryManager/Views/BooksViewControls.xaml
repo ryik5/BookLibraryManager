@@ -18,12 +18,25 @@
             </Style>
         </StackPanel.Resources>
 
-        <Button Content="Add Book" Command="{Binding AddBookCommand}" ToolTip="Add a new book to the library"/>
-        <Button Content="Demo 'Add Books'" Command="{Binding DemoAddBooksCommand}" ToolTip="Add 10 randomly filled books to the library"/>
-        <Button Content="Edit Book" Command="{Binding EditBookCommand}" ToolTip="Edit the selected book"/>
-        <Button Content="Delete Book" Command="{Binding RemoveBookCommand}" ToolTip="Delete the selected book from the library"/>
+        <Button Content="Add Book" 
+                Command="{Binding AddBookCommand}" 
+                ToolTip="{Binding AddBookTooltip, Mode=OneTime}"/>
+        <Button Content="Demo 'Add Books'" 
+                Command="{Binding DemoAddBooksCommand}" 
+                ToolTip="{Binding DemoAddBooksTooltip, Mode=OneTime}"/>
+        <Button Content="Edit Book" 
+                Command="{Binding EditBookCommand}" 
+                IsEnabled="{Binding CanEditBook}"
+                ToolTip="{Binding EditBookTooltip, Mode=OneTime}"/>
+        <Button Content="Delete Book" 
+                Command="{Binding RemoveBookCommand}" 
+                IsEnabled="{Binding CanEditBook}"
+                ToolTip="{Binding RemoveBookTooltip, Mode=OneTime}"/>
 
-        <Button Content="Sort Library" Command="{Binding SortLibraryCommand}" ToolTip="Sort the library by author then title"/>
+        <Button Content="Sort Library"
+                Command="{Binding SortLibraryCommand}" 
+                IsEnabled="{Binding CanEditBook}"
+                ToolTip="{Binding SortLibraryTooltip, Mode=OneTime}"/>
 
     </StackPanel>
 </UserControl>

@@ -3,6 +3,9 @@ using LibraryManager.Models;
 
 namespace LibraryManager.ViewModels;
 
+/// <summary>
+/// View model for managing application tools.
+/// </summary>
 /// <author>YR 2025-02-14</author>
 internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
 {
@@ -24,12 +27,6 @@ internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isChecked, value);
     }
 
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
-    }
-
     public SettingsViewModel Settings
     {
         get => _settings;
@@ -37,8 +34,10 @@ internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
     }
     #endregion
 
-
-
+    /// <summary>
+    /// Handles the ApplicationShutdownEvent by saving the application settings.
+    /// </summary>
+    /// <param name="e">The event arguments containing information about the application shutdown.</param>
     private void HandleApplicationShutdownEvent(ApplicationShutdownEventArgs e)
     {
         Settings.SaveSettings();
@@ -46,7 +45,6 @@ internal sealed class ToolsViewModel : BindableBase, IViewModelPageable
 
     #region Fields
     private bool _isChecked;
-    private bool _isEnabled = true;
     private SettingsViewModel _settings;
     #endregion
 }

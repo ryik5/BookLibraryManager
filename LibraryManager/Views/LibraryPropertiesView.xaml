@@ -37,12 +37,12 @@
 
         <Label Content="Name" Grid.Row="1" Grid.Column="0"/>
         <TextBox Text="{Binding Library.Name}" 
-                 IsEnabled="{Binding IsEnabled}" 
+                 IsEnabled="{Binding CanOperateWithBooks}" 
                  Grid.Row="1" Grid.Column="1" />
 
         <Label Content="Description" Grid.Row="2" Grid.Column="0"/>
         <TextBox Text="{Binding Library.Description}"
-                 IsEnabled="{Binding IsEnabled}" 
+                 IsEnabled="{Binding CanOperateWithBooks}" 
                  Grid.Row="2" Grid.Column="1" />
 
         <Label Content="Total Books" Grid.Row="3" Grid.Column="0"/>

@@ -20,22 +20,22 @@
 
         <Button Content="New Library" 
                 Command="{Binding CreateLibraryCommand}" 
-                ToolTip="Create a new library"/>
+                ToolTip="{Binding CreateLibraryTooltip, Mode=OneTime}"/>
         <Button Content="Load Library" 
                 Command="{Binding LoadLibraryCommand}" 
-                ToolTip="Load a library"/>
+                ToolTip="{Binding LoadLibraryTooltip, Mode=OneTime}"/>
         <Button Content="Save Library" 
                 Command="{Binding SaveLibraryCommand}" 
-                IsEnabled="{Binding IsEnabled}" 
-                ToolTip="Save the library"/>
+                IsEnabled="{Binding CanOperateWithBooks}" 
+                ToolTip="{Binding SaveLibraryTooltip, Mode=OneTime}"/>
         <Button Content="SaveAs Library" 
                 Command="{Binding SaveAsLibraryCommand}" 
-                IsEnabled="{Binding IsEnabled}" 
-                ToolTip="Save the library with a new name"/>
+                IsEnabled="{Binding CanOperateWithBooks}" 
+                ToolTip="{Binding SaveAsLibraryTooltip, Mode=OneTime}"/>
         <Button Content="Close Library" 
                 Command="{Binding CloseLibraryCommand}" 
-                IsEnabled="{Binding IsEnabled}" 
-                ToolTip="Close the current library"/>
+                IsEnabled="{Binding CanOperateWithBooks}" 
+                ToolTip="{Binding CloseLibraryTooltip, Mode=OneTime}"/>
 
     </StackPanel>
 </UserControl>

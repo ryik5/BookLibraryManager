@@ -28,12 +28,6 @@ internal sealed class AboutViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isChecked, value);
     }
 
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
-    }
-
     /// <summary>
     /// Gets the Header of the About Page.
     /// </summary>
@@ -54,6 +48,5 @@ internal sealed class AboutViewModel : BindableBase, IViewModelPageable
     private string _footer;
     private string _header;
     private bool _isChecked;
-    private bool _isEnabled = true;
     #endregion
 }

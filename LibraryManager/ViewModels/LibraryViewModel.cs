@@ -25,6 +25,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
         UpdateLibraryState();
         _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
+        _libraryManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
     }
 
 
@@ -37,12 +38,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isChecked, value);
     }
 
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
-    }
-
     /// <summary>
     /// Gets or sets a value indicating whether the buttons are unlocked.
     /// </summary>
@@ -50,6 +45,12 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get => _isUnLocked;
         set => SetProperty(ref _isUnLocked, value);
+    }
+
+    public bool CanOperateWithBooks
+    {
+        get => _canOperateWithBooks;
+        set => SetProperty(ref _canOperateWithBooks, value);
     }
 
     /// <summary>
@@ -67,6 +68,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+    public string CreateLibraryTooltip =>"Create a new library";
 
     /// <summary>
     /// Command to load an existing library.
@@ -75,6 +77,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+    public string LoadLibraryTooltip =>"Load a library";
 
     /// <summary>
     /// Command to save the current library.
@@ -83,6 +86,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+    public string SaveLibraryTooltip =>"Save the library";
 
     /// <summary>
     /// Command to save the current library.
@@ -91,6 +95,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+    public string SaveAsLibraryTooltip =>"Save the library with a new name";
 
     /// <summary>
     /// Command to close the current library.
@@ -99,8 +104,15 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
+    public string CloseLibraryTooltip =>"Close the current library";
     #endregion
-
+    /*
+      <Button Content="New Library" 
+        <Button Content="Load Library" 
+        <Button Content="Save Library" 
+        <Button Content="SaveAs Library" 
+        <Button Content="Close Library" 
+*/
 
     #region Methods
     /// <summary>
@@ -132,8 +144,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task LoadLibraryAsXml()
     {
-        IsEnabled = false;
-
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
         MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
@@ -190,7 +200,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         try
         {
-            IsEnabled = false;
             var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.SAVE_LIBRARY_DIALOG);
             if (string.IsNullOrEmpty(selectedFolder))
                 throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
@@ -219,12 +228,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         {
             new MessageBoxHandler().Show(ex.Message);
         }
-        finally
-        {
-            IsEnabled = true;
-        }
     }
-    
+
     /// <summary>
     /// Closes the library and clears the book list.
     /// </summary>
@@ -238,7 +243,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             UpdateLibraryState();
 
             MessageHandler.PublishMessage($"'{id}' {Constants.LIBRARY_WAS_CLOSED}");
-            MessageHandler.PublishDebugMessage(Constants.LIBRARY_WAS_CLOSED);
         }
     }
 
@@ -250,7 +254,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         RaisePropertyChanged(nameof(Library));
 
-        IsEnabled = Library.Id != 0;
     }
 
     /// <summary>
@@ -258,8 +261,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     /// <param name="func">The asynchronous function to execute, of type Func<Task>.</param>
     /// <returns>A DelegateCommand that locks the buttons while executing the specified asynchronous function.</returns>
-    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func)
-        => new DelegateCommand(async () => await LockButtonsOnExecuteAsync(func));
+    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func) => new(async () => await LockButtonsOnExecuteAsync(func));
 
     /// <summary>
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.
@@ -269,13 +271,22 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         MessageHandler.PublishTotalBooksInLibrary(e?.TotalBooks ?? 0);
     }
+
+    /// <summary>
+    /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
+    /// </summary>
+    private void Library_LibraryIdChanged(object? sender, EventArgs e)
+    {
+        CanOperateWithBooks = (sender as ILibrary)?.Id != 0;
+    }
+
     #endregion
 
 
     #region Private Members
     private readonly ILibraryManageable _libraryManager;
     private bool _isChecked;
-    private bool _isEnabled = true;
+    private bool _canOperateWithBooks;
     private bool _isUnLocked = true;
     #endregion
 }

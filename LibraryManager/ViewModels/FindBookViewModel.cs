@@ -19,7 +19,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     {
         _settings = settings;
         _libraryManager = libraryManager;
-
+        _libraryManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
         LibraryVisibility = Visibility.Collapsed;
         SearchFields = Enum.GetValues(typeof(EBibliographicKindInformation)).Cast<EBibliographicKindInformation>().ToList();
         RaisePropertyChanged(nameof(SearchOnFly));
@@ -39,13 +39,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
     }
-
-    public bool IsEnabled
-    {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
-    }
-
+    
     /// <summary>
     /// The fields of the book to perform search.
     /// </summary>
@@ -70,6 +64,12 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     {
         get => _libraryVisibility;
         set => SetProperty(ref _libraryVisibility, value);
+    }
+
+    public bool CanOperateWithBooks
+    {
+        get => _canOperateWithBooks;
+        set => SetProperty(ref _canOperateWithBooks, value);
     }
 
     /// <summary>
@@ -228,17 +228,25 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// <returns>A formatted string indicating the search result.</returns>
     private static string SearchedForResult(EBibliographicKindInformation selectedSearchField, string searchText, int foundBooks)
         => $"Searched for {selectedSearchField}:{searchText}. Found {foundBooks} result{(foundBooks != 1 ? "s" : "")}.";
+
+    /// <summary>
+    /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
+    /// </summary>
+    private void Library_LibraryIdChanged(object? sender, EventArgs e)
+    {
+        CanOperateWithBooks = _libraryManager.Library.Id != 0;
+    }
     #endregion
 
 
     #region private fields
     private readonly IBookManageable _libraryManager;
     private SettingsModel _settings;
+    private Visibility _libraryVisibility;
     private List<Book> _bookList;
     private Book _selectedBook;
     private string _searchText;
     private bool _isChecked;
-    private bool _isEnabled = true;
-    private Visibility _libraryVisibility;
+    private bool _canOperateWithBooks;
     #endregion
 }

@@ -15,7 +15,6 @@ internal class CreatorBookDetailsViewModel : BindableBase
     /// <summary>
     /// Initializes a new instance of the CreatorBookDetailsViewModel class.
     /// </summary>
-    /// <param name="book">An example of the book to be managed.</param>
     public CreatorBookDetailsViewModel(IBookManageable libraryManager)
     {
         _libraryManager = libraryManager;
@@ -26,12 +25,14 @@ internal class CreatorBookDetailsViewModel : BindableBase
         SaveContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveContent));
         IsLoadEnabled = true;
         IsSaveEnabled = false;
+        NoButtonVisibility = Visibility.Collapsed;
+        CancelButtonVisibility = Visibility.Visible;
     }
 
 
     #region Properties
     /// <summary>
-    /// The book being added.
+    /// The selected book 
     /// </summary>
     public Book Book
     {
@@ -50,7 +51,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
     }
 
     /// <summary>
-    /// Title of the AddBook window.
+    /// Title of the BookDetails window.
     /// </summary>
     public string WindowTitle
     {
@@ -64,6 +65,19 @@ internal class CreatorBookDetailsViewModel : BindableBase
     {
         get; set;
     }
+
+    public Visibility NoButtonVisibility
+    {
+        get => _noButtonVisibility;
+        set => SetProperty(ref _noButtonVisibility, value);
+    }
+
+    public Visibility CancelButtonVisibility
+    {
+        get => _cancelButtonVisibility;
+        set => SetProperty(ref _cancelButtonVisibility, value);
+    }
+
 
     /// <summary>
     /// Gets or sets a value indicating whether the buttons are unlocked.
@@ -167,8 +181,8 @@ internal class CreatorBookDetailsViewModel : BindableBase
         ExecuteCommand = new DelegateCommand<Window>(AddBook);
         CancelCommand = new DelegateCommand<Window>(CancelAddBook);
         // Create and show the dialog window
-        _addBookWindow = new EditBookDetailsWindow() { DataContext = this };
-        _addBookWindow.ShowDialog();
+        _editBookDetailsWindow = new EditBookDetailsWindow() { DataContext = this };
+        _editBookDetailsWindow.ShowDialog();
     }
 
 
@@ -334,14 +348,16 @@ internal class CreatorBookDetailsViewModel : BindableBase
     private void CloseWindow(Window window)
     {
         window?.Close();
-        _addBookWindow?.Close();
+        _editBookDetailsWindow?.Close();
     }
     #endregion
 
     #region Fields
     private readonly IBookManageable _libraryManager;
-    private EditBookDetailsWindow _addBookWindow;
+    private EditBookDetailsWindow _editBookDetailsWindow;
     private Book _book;
+    private Visibility _noButtonVisibility;
+    private Visibility _cancelButtonVisibility;
     private string _loadingState;
     private bool _isLoadEnabled;
     private bool _isSaveEnabled;

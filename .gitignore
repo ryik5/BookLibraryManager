@@ -65,6 +65,7 @@ StyleCopReport.xml
 *.png
 *jpeg
 *.svg
+*.bmp
 
 # Documents
 *.doc

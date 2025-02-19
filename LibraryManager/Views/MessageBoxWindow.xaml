@@ -5,34 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:LibraryManager.Views"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}"
         WindowStartupLocation="CenterOwner"
-        Style="{StaticResource DialogWindowStyle}"
-        Width="500"
-        Height="400"
-        Background="{StaticResource ColorSet6}">
+        SizeToContent="WidthAndHeight"
+        Title="{Binding WindowTitle}"
+        Style="{StaticResource DialogWindowStyle}">
 
-    <Grid Background="{StaticResource ColorSet6}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+    <Grid Background="{DynamicResource  ColorSet6}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        
-        <ScrollViewer Grid.Row="0" VerticalContentAlignment="Stretch"
+
+        <!-- Message Box -->
+        <ScrollViewer Grid.Row="0" 
+                      Padding="15 15 15 10"
+                      VerticalContentAlignment="Center"
                       VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto">
+                      HorizontalScrollBarVisibility="Auto"
+                      >
             <TextBlock Text="{Binding MessageBlock}"
-                   FontSize="24"
+                   FontSize="18"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center"
-                   MinWidth="100"
-                   MinHeight="100"
+                   MinWidth="70"
+                   MinHeight="24"
                    TextTrimming="CharacterEllipsis"/>
         </ScrollViewer>
 
-        <view:ThreeButtonsPanel  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 5 5 10"/>
+        <!-- Input string -->
+        <Border Grid.Row="1" 
+                Background="{StaticResource ColorSet7}" 
+                CornerRadius="5" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center">
+            <TextBox Style="{StaticResource TextBoxBordedStyle}" 
+                     Text="{Binding InputString, UpdateSourceTrigger=PropertyChanged}" 
+                     MinWidth="100" MaxWidth="300"
+                     Margin=" -7 0 0 0"
+                     Padding="7 0 0 0 "
+                     Visibility="{Binding InputStringVisibility}"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+
+        <!-- Buttons -->
+        <view:ThreeButtonsPanel Grid.Row="2" 
+                                VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 5 5 10"/>
 
     </Grid>
+
 </Window>

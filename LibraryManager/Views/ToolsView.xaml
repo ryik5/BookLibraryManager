@@ -6,17 +6,19 @@
              xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <Grid Margin="2" Background="{StaticResource ColorSet6}">
+    <Grid Margin="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Resources>
-            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBordedStyle}">
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBordedWithoutTriggerStyle}">
                 <Setter Property="Background" Value="White"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="MinWidth" Value="100"/>
                 <Setter Property="Height" Value="27"/>
-                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+                <Setter Property="Padding" Value="2 0 0 0"/>
             </Style>
 
             <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
@@ -28,17 +30,23 @@
             <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxBordedStyle}">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
             </Style>
+
+            <Style TargetType="GroupBox">
+                <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ColorSet3}"/>
+                <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
+                <Setter Property="Margin" Value="0 5 0 5"/>
+            </Style>
         </Grid.Resources>
 
         <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
-            <Border 
-                HorizontalAlignment="Center" Margin="15 5 0 0" Padding="2 0 2 0" 
+            <Border HorizontalAlignment="Center" Margin="15 5 0 0" Padding="2 0 2 0" 
                 BorderBrush="{StaticResource ColorSet1}" BorderThickness="0 0 0 2">
                 <TextBlock Text="Settings" 
                    FontSize="16" FontStretch="Expanded" Foreground="{StaticResource ColorSet1}"/>
             </Border>
 
-            <Grid Margin="5">
+            <Grid Margin="15 5 5 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="300"/>
                     <ColumnDefinition/>
@@ -48,21 +56,15 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <GroupBox Header="'Find Books' Page" 
-                      Grid.Row="0" Grid.Column="0" 
-                      Margin="0 5 0 5"
-                      Background="{StaticResource ColorSet6}" 
-                      BorderBrush="{StaticResource ColorSet3}"
-                      Foreground="{StaticResource ColorSet1}"
-                      >
+                <GroupBox Header="'Find Books' Page" Grid.Row="0" Grid.Column="0" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="32"/>
-                            <RowDefinition Height="32" />
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38" />
                         </Grid.RowDefinitions>
 
                         <Label Content="Search Fields" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
@@ -81,28 +83,21 @@
                     </Grid>
                 </GroupBox>
 
-
-                <GroupBox Header="'Debug' Page" 
-                      Grid.Row="1" Grid.Column="0" 
-                      Margin="0 5 0 5"
-                      Background="{StaticResource ColorSet6}" 
-                      BorderBrush="{StaticResource ColorSet3}"
-                      Foreground="{StaticResource ColorSet1}"
-                      >
+                <GroupBox Header="'Debug' Page" Grid.Row="1" Grid.Column="0"  >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="32"/>
-                            <RowDefinition Height="32" />
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38" />
                         </Grid.RowDefinitions>
 
                         <Label Content="Text's font size" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
-                        <TextBox Text="{Binding Settings.Debug_TextFontSize, UpdateSourceTrigger=LostFocus}" 
-                              Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
-                              Width="100" Height="25" Margin="3 0 5 0"/>
+                            <TextBox Text="{Binding Settings.Debug_TextFontSize, UpdateSourceTrigger=LostFocus}"  Grid.Row="0" Grid.Column="1"
+                              HorizontalAlignment="Right"
+                               />
                     </Grid>
                 </GroupBox>
 

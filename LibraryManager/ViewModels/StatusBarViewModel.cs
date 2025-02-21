@@ -18,23 +18,20 @@ namespace LibraryManager.ViewModels;
 public sealed class StatusBarViewModel : BindableBase
 {
     /// <summary>
-    /// Initializes a new instance of the StatusBarModel class.
+    /// Initializes a new instance of the StatusBarViewModel class.
     /// Subscribes to the StatusBarEvent and sets up the status bar items.
     /// </summary>
-    /// <param name="statusBarKind">The kind of status bar to be used.</param>
+    /// <param name="library">The library instance.</param>
     public StatusBarViewModel(ILibrary library)
     {
         _library = library;
+        _library.LibraryIdChanged += HandleLibraryIdChanged;
         _token = App.EventAggregator.GetEvent<StatusBarEvent>().Subscribe(HandleStatusBarEvent);
 
         TotalBooksText.ToolTip = Constants.TOTAL_BOOKS_IN_LIBRARY;
-        InfoList.Add(TotalBooksText);
 
         UpdateSysInfo();
         UpdateLibraryInfo();
-
-        InfoList.Add(VersionText);
-        InfoList.Add(LibraryInfoText);
 
         SelectedInfoItem.Content = TotalBooksText.MessageText;
         ToolTip = TotalBooksText.ToolTip;
@@ -48,18 +45,27 @@ public sealed class StatusBarViewModel : BindableBase
 
     #region Properties
     /// <summary>
-    /// Displays the common info messages.
+    /// Displays the common info messages within the stack.
+    /// First line.
     /// </summary>
     public string TextInfoText1
     {
         get => _textInfoText1;
         set => SetProperty(ref _textInfoText1, value);
     }
+    /// <summary>
+    /// Displays the common info messages within the stack.
+    /// Second line.
+    /// </summary>
     public string TextInfoText2
     {
         get => _textInfoText2;
         set => SetProperty(ref _textInfoText2, value);
     }
+    /// <summary>
+    /// Displays the common info messages within the stack.
+    /// Third line.
+    /// </summary>
     public string TextInfoText3
     {
         get => _textInfoText3;
@@ -67,26 +73,34 @@ public sealed class StatusBarViewModel : BindableBase
     }
 
     /// <summary>
-    /// Displays the total number of the books in the library.
+    /// Displays the total number of the books in the library in the stack of <see cref="InfoList"/>
     /// </summary>
     public MessageWithToolTip TotalBooksText
     {
         get => _totalBooksText;
         set => SetProperty(ref _totalBooksText, value);
     }
-
+    /// <summary>
+    /// Displays the text info for the application version in the stack of <see cref="InfoList"/>.
+    /// </summary>
     public MessageWithToolTip VersionText
     {
         get => _versionText;
         set => SetProperty(ref _versionText, value);
     }
-
+    /// <summary>
+    /// Displays the text info for the library information in the stack of <see cref="InfoList"/>.
+    /// </summary>
     public MessageWithToolTip LibraryInfoText
     {
         get => _libraryInfoText;
         set => SetProperty(ref _libraryInfoText, value);
     }
 
+    /// <summary>
+    /// Gets or sets the currently shown info item in the combo box that selected between
+    /// <see cref="TotalBooksText"/>, <see cref="VersionText"/>, anf <see cref="LibraryInfoText"/>.
+    /// </summary>
     public ComboBoxItem SelectedInfoItem
     {
         get => _selectedInfoItem;
@@ -96,19 +110,16 @@ public sealed class StatusBarViewModel : BindableBase
                 ToolTip = value?.Tag;
         }
     }
-
+    /// <summary>
+    /// Gets or sets the tool tip text for the currently selected info item.
+    /// <see cref="SelectedInfoItem"/></summary>
     public object ToolTip
     {
         get => _toolTip;
         set => SetProperty(ref _toolTip, value);
     }
-
-    public ObservableCollection<MessageWithToolTip> InfoList
-    {
-        get => _infoList;
-        set => SetProperty(ref _infoList, value);
-    }
     #endregion
+
 
     #region private methods
     /// <summary>
@@ -125,22 +136,34 @@ public sealed class StatusBarViewModel : BindableBase
                 RaisePropertyChanged(nameof(TotalBooksText));
                 break;
             case EInfoKind.CommonMessage:
-                SetTextInfoText(e.Message);
+                UpdateStackTextInfoText(e.Message);
                 break;
             case EInfoKind.DebugMessage:
-                UpdateSysInfo();
                 UpdateLibraryInfo();
                 break;
         }
+
+        /// <summary>
+        /// Returns string 'total books in the library' or 'total books in the library: {books}'
+        /// </summary>
+        string TotalBooksInLibrary(int? books = null) => books is null
+               ? Constants.TOTAL_BOOKS_IN_LIBRARY
+               : $"{Constants.TOTAL_BOOKS_IN_LIBRARY}: {books}";
     }
 
-    private void SetTextInfoText(string msg)
+    /// <summary>
+    /// Updates the stack TextInfoText by shifting the existing text to the right and setting the new text at the top.
+    /// </summary>
+    private void UpdateStackTextInfoText(string msg)
     {
         TextInfoText3 = TextInfoText2;
         TextInfoText2 = TextInfoText1;
         TextInfoText1 = msg;
     }
 
+    /// <summary>
+    /// Updates the system information displayed in the status bar.
+    /// </summary>
     private void UpdateSysInfo()
     {
         var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
@@ -148,17 +171,28 @@ public sealed class StatusBarViewModel : BindableBase
         VersionText.ToolTip = $"App. Info:{Environment.NewLine}Name:'{versionInfo.ProductName}'{Environment.NewLine}Company:'{versionInfo.CompanyName}'{Environment.NewLine}Build:'{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}.{versionInfo.FilePrivatePart}'";
     }
 
+    /// <summary>
+    /// Updates the library information displayed in the status bar.
+    /// </summary>
     private void UpdateLibraryInfo()
     {
-        LibraryInfoText.MessageText = $"Lib: {_library.Id}";
+        LibraryInfoText.MessageText = $"{_library.Id}";
         LibraryInfoText.ToolTip = $"Library information.{Environment.NewLine}ID:'{_library.Id}'{Environment.NewLine}Name:'{_library.Name}'{Environment.NewLine}Description:'{_library.Description}'";
     }
+
     /// <summary>
-    /// Returns string 'total books in the library' or 'total books in the library: {books}'
+    /// Handles the LibraryIdChanged event by updating the status bar.
     /// </summary>
-    private static string TotalBooksInLibrary(int? books = null) => books is null
-        ? Constants.TOTAL_BOOKS_IN_LIBRARY
-        : $"{Constants.TOTAL_BOOKS_IN_LIBRARY}: {books}";
+    private void HandleLibraryIdChanged(object? sender, EventArgs e)
+    {
+        HandleStatusBarEvent(new StatusBarEventArgs()
+        {
+            Message = _library.TotalBooks.ToString(),
+            InfoKind = EInfoKind.TotalBooks
+        });
+
+        UpdateLibraryInfo();
+    }
     #endregion
 
 
@@ -171,7 +205,6 @@ public sealed class StatusBarViewModel : BindableBase
     private MessageWithToolTip _libraryInfoText = new();
     private ComboBoxItem _selectedInfoItem = new();
     private object _toolTip;
-    private ObservableCollection<MessageWithToolTip> _infoList = new();
     private readonly SubscriptionToken _token;
     private readonly ILibrary _library;
     #endregion

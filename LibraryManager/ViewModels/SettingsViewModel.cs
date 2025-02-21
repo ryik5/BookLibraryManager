@@ -99,7 +99,6 @@ internal sealed class SettingsViewModel : BindableBase
 
 
 
-
     /// <summary>
     /// Attempts to parse a string setting into an enumeration value of type <typeparamref name="T"/>.
     /// </summary>
@@ -125,5 +124,5 @@ internal sealed class SettingsViewModel : BindableBase
     }
 
 
-    private SettingsModel _settings;
+    private readonly SettingsModel _settings;
 }

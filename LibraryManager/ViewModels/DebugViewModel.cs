@@ -84,8 +84,9 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
     private string CreateLogEntry(LogLevel level, string message) => $"{new LogMessage(level, message)}{Environment.NewLine}";
     #endregion
 
+
     #region private fields
-    private SettingsModel _settings;
+    private readonly SettingsModel _settings;
     private bool _isChecked;
     private StringBuilder _logBuilder = new();
     #endregion

@@ -47,6 +47,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         set => SetProperty(ref _isUnLocked, value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether operations can be performed on the books in the library.
+    /// </summary>
     public bool CanOperateWithBooks
     {
         get => _canOperateWithBooks;
@@ -68,7 +71,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    public string CreateLibraryTooltip =>"Create a new library";
+    public string CreateLibraryTooltip => Constants.CREATE_NEW_LIBRARY;
 
     /// <summary>
     /// Command to load an existing library.
@@ -77,7 +80,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    public string LoadLibraryTooltip =>"Load a library";
+    public string LoadLibraryTooltip => Constants.LIBRARY_LOAD;
 
     /// <summary>
     /// Command to save the current library.
@@ -86,7 +89,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    public string SaveLibraryTooltip =>"Save the library";
+    public string SaveLibraryTooltip => Constants.LIBRARY_SAVE;
 
     /// <summary>
     /// Command to save the current library.
@@ -95,7 +98,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    public string SaveAsLibraryTooltip =>"Save the library with a new name";
+    public string SaveAsLibraryTooltip => Constants.LIBRARY_SAVE_WITH_NEW_NAME;
 
     /// <summary>
     /// Command to close the current library.
@@ -104,7 +107,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         get;
     }
-    public string CloseLibraryTooltip =>"Close the current library";
+    public string CloseLibraryTooltip => Constants.LIBRARY_CLOSE;
     #endregion
     /*
       <Button Content="New Library" 
@@ -136,7 +139,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         UpdateLibraryState();
 
         MessageHandler.PublishMessage($"{Constants.LIBRARY_WAS_CREATED_SUCCESSFULLY} with ID: {Library.Id}");
-        MessageHandler.PublishTotalBooksInLibrary(0);
     }
 
     /// <summary>
@@ -156,7 +158,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         if (result?.Result ?? false)
         {
-            MessageHandler.PublishDebugMessage($"{Constants.LIBRARY_WAS_LOADED_SUCCESSFULLY}: '{filePath}'");
             MessageHandler.PublishTotalBooksInLibrary(Library?.TotalBooks ?? 0);
             MessageHandler.PublishMessage($"{Constants.LIBRARY_LOADED_WITH_ID}: {Library?.Id}");
         }
@@ -167,7 +168,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             new MessageBoxHandler().Show(Constants.LIBRARY_WAS_NOT_LOADED);
         }
 
-        MessageHandler.PublishDebugMessage(Constants.LIBRARY_LOADING_FINISHED);
         UpdateLibraryState();
     }
 
@@ -182,14 +182,15 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     private async Task SaveAsLibraryAsXml()
     {
         var window = new MessageBoxHandler();
-        window.ShowInput("Input a new name of the library:", "Input library name");
+        window.ShowInput(Constants.INPUT_NEW_NAME_LIBRARY, Constants.LIBRARY_NAME);
         if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string libraryName && !string.IsNullOrWhiteSpace(libraryName))
         {
             await TrySaveLibraryAsXml(libraryName);
         }
         else
         {
-            new MessageBoxHandler().Show("New library name was not entered"); // TODO : create version with displaying error message - "Error"
+            // TODO : create version with displaying error message - "Error"
+            new MessageBoxHandler().Show(Constants.OPERATION_WAS_CANCELED);
         }
     }
 
@@ -198,15 +199,17 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task TrySaveLibraryAsXml(string? libraryName)
     {
+        var msg = string.Empty;
+        var pathToFile = string.Empty;
         try
         {
-            var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.SAVE_LIBRARY_DIALOG);
+            var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.LIBRARY_SAVE);
             if (string.IsNullOrEmpty(selectedFolder))
                 throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
 
             var fileName = string.IsNullOrWhiteSpace(libraryName) ? Library.Id.ToString() : libraryName;
 
-            var pathToFile = Path.Combine(selectedFolder, $"{fileName}.xml");
+            pathToFile = Path.Combine(selectedFolder, $"{fileName}.xml");
 
             var file = new FileInfo(pathToFile);
             if (file.Exists)
@@ -219,15 +222,16 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
             var result = await Handler.TryExecuteTaskAsync(()
                 => Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile)));
 
-            var text = result?.Result ?? false ?
+            msg = result?.Result ?? false ?
                 $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" :
                 $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH}: '{pathToFile}'";
-            MessageHandler.PublishMessage(text);
         }
-        catch (Exception ex)
+        catch
         {
-            new MessageBoxHandler().Show(ex.Message);
+            msg = $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH} '{pathToFile}'";
+            new MessageBoxHandler().Show(msg);
         }
+        MessageHandler.PublishMessage(msg);
     }
 
     /// <summary>
@@ -244,16 +248,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
             MessageHandler.PublishMessage($"'{id}' {Constants.LIBRARY_WAS_CLOSED}");
         }
-    }
-
-    /// <summary>
-    /// Updates the library state by raising a property changed event for the Library property
-    /// and setting the IsEnabled property based on whether the Library Id differs from the default value of 0.
-    /// </summary>
-    private void UpdateLibraryState()
-    {
-        RaisePropertyChanged(nameof(Library));
-
     }
 
     /// <summary>
@@ -280,6 +274,11 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         CanOperateWithBooks = (sender as ILibrary)?.Id != 0;
     }
 
+    /// <summary>
+    /// Updates the library state by raising a property changed event for the Library property
+    /// and setting the IsEnabled property based on whether the Library Id differs from the default value of 0.
+    /// </summary>
+    private void UpdateLibraryState() => RaisePropertyChanged(nameof(Library));
     #endregion
 
 

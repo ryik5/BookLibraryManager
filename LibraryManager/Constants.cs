@@ -9,6 +9,7 @@ public static class Constants
     #region General
     public const string LIBRARY_MANAGER = "LibraryManager";
     public const string LIBRARY_MANAGER_PIPE_SERVER = "LibraryManagerPipeServer";
+    public const string OPERATION_WAS_CANCELED = "Operation was canceled";
     #endregion
 
     #region ToolsViewModel
@@ -21,19 +22,25 @@ public static class Constants
 
     #region LibraryViewModel
     public const string LIBRARY = "Library";
+    public const string CREATE_NEW_LIBRARY = "Create a new library";
     public const string LIBRARY_WAS_CREATED_SUCCESSFULLY = "Library was created successfully";
+    public const string LIBRARY_LOAD = "Load a library";
     public const string LOADING_LIBRARY_FROM_XML = "Loading library from the XML file...";
     public const string LIBRARY_WAS_LOADED_SUCCESSFULLY = "Library was loaded successfully from path";
     public const string LIBRARY_LOADED_WITH_ID = "Library loaded with ID";
+    public const string LIBRARY_WAS_NOT_LOADED = "Library was not loaded";
     public const string FAILED_TO_LOAD_LIBRARY_FROM_PATH = "Failed to load library from path";
     public const string LIBRARY_LOADING_FINISHED = "Library loading finished";
-    public const string SAVE_LIBRARY_DIALOG = "Save Library Dialog";
+    public const string LIBRARY_SAVE = "Save Library";
+    public const string LIBRARY_SAVE_WITH_NEW_NAME = "Save the library with a new name";
     public const string FOLDER_WAS_NOT_SELECTED = "Folder was not selected";
     public const string LIBRARY_IS_BEING_SAVED = "The library is being saved...";
     public const string LIBRARY_WAS_SAVED_SUCCESSFULLY = "Library was saved successfully to path";
     public const string FAILED_TO_SAVE_LIBRARY_TO_PATH = "Failed to save library to path";
+    public const string LIBRARY_CLOSE = "Close the current library";
     public const string LIBRARY_WAS_CLOSED = "Library was closed";
-    public const string LIBRARY_WAS_NOT_LOADED = "Library was not loaded";
+    public const string INPUT_NEW_NAME_LIBRARY = "Input a new name of the library:";
+    public const string LIBRARY_NAME = "Library name";
     #endregion
 
     #region book details: FindBookViewModel, CreatorBookDetailsViewModel, EditorBookDetailsViewModel

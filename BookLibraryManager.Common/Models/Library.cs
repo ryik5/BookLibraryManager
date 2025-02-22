@@ -10,26 +10,26 @@ namespace BookLibraryManager.Common;
 [Serializable]
 [XmlRoot("Library")]
 /// <summary>
-/// Represents a class for a library.
+/// Represents a class for a <see cref="Library"/>.
 /// </summary>
 /// <author>YR 2025-01-09</author>
 public class Library : BindableBase, ILibrary, IXmlSerializable
 {
     /// <summary>
-    /// Gets or sets the unique identifier for the library.
+    /// Gets or sets the unique identifier for the <see cref="Library"/>.
     /// </summary>
     public int Id
     {
         get => _id;
         set
         {
-           if( SetProperty(ref _id, value))
+            if (SetProperty(ref _id, value))
                 LibraryIdChanged?.Invoke(this, new EventArgs());
         }
     }
 
     /// <summary>
-    /// Library name.
+    /// <see cref="Library"/> name.
     /// </summary>
     public string Name
     {
@@ -38,7 +38,7 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     }
 
     /// <summary>
-    /// Short description of the book.
+    /// Short description of the <see cref="Library"/>.
     /// </summary>
     public string Description
     {
@@ -47,7 +47,7 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     }
 
     /// <summary>
-    /// Gets or sets the collection of books in the library.
+    /// Gets or sets the collection of books in the <see cref="Library"/>.
     /// </summary>
     [XmlArray]
     public ObservableCollection<Book> BookList
@@ -57,19 +57,23 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     }
 
     /// <summary>
-    /// Total numbers of book in the library
+    /// Total numbers of books in the <see cref="BookList"/> 
     /// </summary>
     [XmlIgnore]
     public int TotalBooks => BookList.Count;
 
     /// <summary>
-    /// Occurs when the library ID changes.
+    /// Occurs when the library  <see cref="Id"/>  changes.
     /// </summary>
-    public event EventHandler<EventArgs> LibraryIdChanged;
+    public event EventHandler<EventArgs>? LibraryIdChanged;
 
 
     public XmlSchema? GetSchema() => throw new NotImplementedException();
 
+    /// <summary>
+    /// Writes the <see cref="Library"/> to the specified XML writer.
+    /// </summary>
+    /// <param name="writer">The XML writer to write the <see cref="Library"/> to.</param>
     public void WriteXml(XmlWriter writer)
     {
         writer.WriteElementString(nameof(Id), Id.ToString());
@@ -84,9 +88,9 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     }
 
     /// <summary>
-    /// Reads the media data from the specified XML reader.
+    /// Reads the <see cref="Library"/> from the specified XML reader.
     /// </summary>
-    /// <param name="reader">The XML reader to read the media data from.</param>
+    /// <param name="reader">The XML reader to read the <see cref="Library"/> from.</param>
     public void ReadXml(XmlReader reader)
     {
         do
@@ -123,8 +127,8 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
 
     #region private fields
     private int _id;
-    private string _name;
-    private string _description;
+    private string _name = string.Empty;
+    private string _description = string.Empty;
     private ObservableCollection<Book> _bookList = [];
     #endregion
 }

@@ -36,15 +36,13 @@ public class MediaData : BindableBase, IXmlSerializable
         get; set;
     }
 
-
     /// <summary>
-    /// Gets or sets the IsLoaded of the file.
+    /// Gets or sets the IsLoaded state of the file.
     /// </summary>
     public bool IsLoaded
     {
         get; set;
     }
-
 
     /// <summary>
     /// Gets or sets the byte array of the file.

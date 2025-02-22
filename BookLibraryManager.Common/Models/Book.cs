@@ -11,7 +11,7 @@ namespace BookLibraryManager.Common;
 public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
 {
     /// <summary>
-    /// Gets or sets the unique identifier for the book.
+    /// Gets or sets the unique identifier for the <see cref="Book"/>.
     /// </summary>
     public required int Id
     {
@@ -21,7 +21,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private int _id;
 
     /// <summary>
-    /// Gets or sets the author of the book.
+    /// Gets or sets the author of the <see cref="Book"/>.
     /// </summary>
     public required string Author
     {
@@ -31,7 +31,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _author;
 
     /// <summary>
-    /// Gets or sets the title of the book.
+    /// Gets or sets the title of the <see cref="Book"/>.
     /// </summary>
     public required string Title
     {
@@ -41,7 +41,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _title;
 
     /// <summary>
-    /// Gets or sets the number of total pages in the book.
+    /// Gets or sets the number of total pages in the <see cref="Book"/>.
     /// </summary>
     public required int TotalPages
     {
@@ -51,7 +51,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private int _totalPages;
 
     /// <summary>
-    /// Gets or sets the publication date of the book.
+    /// Gets or sets the publication date of the <see cref="Book"/>.
     /// </summary>
     public int PublishDate
     {
@@ -61,7 +61,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private int _publishDate;
 
     /// <summary>
-    /// Gets or sets the description of the book.
+    /// Gets or sets the description of the <see cref="Book"/>.
     /// </summary>
     public string Description
     {
@@ -71,7 +71,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _description;
 
     /// <summary>
-    /// Gets or sets the genre of the book.
+    /// Gets or sets the genre of the <see cref="Book"/>.
     /// </summary>
     public string Genre
     {
@@ -81,7 +81,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _genre;
 
     /// <summary>
-    /// Gets or sets the ISBN of the book.
+    /// Gets or sets the ISBN of the <see cref="Book"/>.
     /// </summary>
     public string ISBN
     {
@@ -91,7 +91,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _isbn;
 
     /// <summary>
-    /// Gets or sets the media content of the book.
+    /// Gets or sets the media content of the <see cref="Book"/>.
     /// </summary>
     public MediaData Content
     {
@@ -103,9 +103,9 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     public XmlSchema? GetSchema() => throw new NotImplementedException();
 
     /// <summary>
-    /// Reads the book data from the specified XML reader.
+    /// Reads the <see cref="Book"/> from the specified XML reader.
     /// </summary>
-    /// <param name="reader">The XML reader to read the book data from.</param>
+    /// <param name="reader">The XML reader to read the <see cref="Book"/> from.</param>
     public void ReadXml(XmlReader reader)
     {
         var isRead = true;
@@ -161,9 +161,9 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     }
 
     /// <summary>
-    /// Writes the book data to the specified XML writer.
+    /// Writes the <see cref="Book"/> to the specified XML writer.
     /// </summary>
-    /// <param name="writer">The XML writer to write the book data to.</param>
+    /// <param name="writer">The XML writer to write the <see cref="Book"/> to.</param>
     public void WriteXml(XmlWriter writer)
     {
         writer.WriteStartElement("Book");
@@ -184,18 +184,19 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     }
 
     /// <summary>
-    /// Returns a string that represents the current book.
+    /// Returns a string that represents the current <see cref="Book"/>.
     /// </summary>
-    /// <returns>A string that contains the author, title, and total pages of the book.</returns>
+    /// <returns>A string that contains the <see cref="Author"/>, <see cref="Title"/>, <see cref="TotalPages"/> and <see cref="PublishDate"/>
+    /// of the <see cref="Book"/>.</returns>
     public override string ToString()
     {
         return $"Author:{Author}-Title:{Title}-Pages:{TotalPages}-Year:{PublishDate}";
     }
 
     /// <summary>
-    /// Creates a deep copy of the current Book object.
+    /// Creates a deep copy of the current <see cref="Book"/> object.
     /// </summary>
-    /// <returns>A new Book object that is a copy of the current object.</returns>
+    /// <returns>A new <see cref="Book"/> object that is a copy of the current object.</returns>
     public object Clone()
     {
         Book clone = new()

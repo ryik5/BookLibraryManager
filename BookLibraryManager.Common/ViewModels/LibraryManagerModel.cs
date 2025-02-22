@@ -102,16 +102,30 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
 
 
     #region private methods
+    /// <summary>
+    /// Handles the CollectionChanged event of the BookList.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The NotifyCollectionChangedEventArgs instance containing the event data.</param>
     private void BookList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
         TotalBooksChanged.Invoke(this, new TotalBooksEventArgs { TotalBooks = Library.BookList?.Count ?? 0 });
     }
 
+    /// <summary>
+    /// Handles the LoadingFinished event of the LibraryLoader.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The ActionFinishedEventArgs instance containing the event data.</param>
     private void LibraryLoader_LoadingLibraryFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = e.Message, IsFinished = e.IsFinished });
     }
 
+    /// <summary>
+    /// Invokes the specified action on the UI thread.
+    /// </summary>
+    /// <param name="action">The action to invoke.</param>
     private void InvokeOnUiThread(Action action) => Application.Current?.Dispatcher?.Invoke(action);
 
     private ILibrary _library;

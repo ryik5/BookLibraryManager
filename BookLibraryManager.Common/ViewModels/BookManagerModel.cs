@@ -3,6 +3,9 @@ using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
 
+/// <summary>
+/// Represents a model for managing books in a library.
+/// </summary>
 /// <author>YR 2025-01-09</author>
 public class BookManagerModel : BindableBase, IBookManageable
 {

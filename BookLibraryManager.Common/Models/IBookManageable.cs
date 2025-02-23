@@ -1,4 +1,6 @@
-﻿namespace BookLibraryManager.Common;
+﻿using System.Reflection;
+
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a Book interface that provides functionalities to add, remove, sort, and display books.
@@ -38,15 +40,27 @@ public interface IBookManageable : ILoadable
     /// <param name="keeper">The keeper responsible for saving the book.</param>
     /// <param name="pathToFolder">The path to the folder where the book will be saved.</param>
     /// <returns>True if the book was successfully saved; otherwise, false.</returns>
-    bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder);   
+    bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder);
 
     /// <summary>
-    /// Finds books by a specific element of the book.
+    /// Finds books by a specific element of the <see cref="Book"/>.
     /// </summary>
     /// <param name="bookElement">The element of the book to search by.</param>
     /// <param name="partOfElement">The value to search for within the specified element.</param>
     /// <returns>A list of books that match the search criteria.</returns>
     List<Book> FindBooksByKind(EBibliographicKindInformation bookElement, object partOfElement);
+
+    /// <summary>
+    /// Sorts the books in the <see cref="ILibrary"/> based on the provided properties.
+    /// </summary>
+    /// <param name="sortProperties">The properties to sort the books by.</param>
+    void SafetySortBooks(List<PropertyInfo> sortProperties);
+
+    /// <summary>
+    /// Retrieves the public instance properties of the <see cref="Book"/> class.
+    /// </summary>
+    /// <returns>An array of PropertyInfo objects representing the <see cref="Book"/> class properties.</returns>
+    PropertyInfo[] GetBookProperties();
 
     /// <summary>
     /// Gets or sets the library.

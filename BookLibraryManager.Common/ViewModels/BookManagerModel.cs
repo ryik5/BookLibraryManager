@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
@@ -33,7 +34,7 @@ public class BookManagerModel : BindableBase, IBookManageable
         var result = bookLoader.TryLoadBook(pathToFile, out var book);
         if (result)
             AddBook(book);
-        
+
         bookLoader.LoadingFinished -= BookLoader_LoadingBookFinished;
 
         return result;
@@ -53,7 +54,22 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     public void SortBooks()
     {
-        InvokeOnUiThread(() => Library.BookList.ResetAndAddRange(Library.BookList.OrderBy(b => b.Author).ThenBy(b => b.Title)));
+        InvokeOnUiThread(() =>
+        Library.BookList.ResetAndAddRange(Library.BookList
+            .OrderBy(b => b.Author)
+            .ThenBy(b => b.Title)));
+    }
+
+    public void SafetySortBooks(List<PropertyInfo> sortProperties)
+    {
+        InvokeOnUiThread(() =>
+        Library.BookList.ResetAndAddRange(GetSortedBookList(sortProperties)));
+    }
+
+    public PropertyInfo[] GetBookProperties()
+    {
+        var bookType = typeof(Book);
+        return bookType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
     }
 
     /// <summary>
@@ -112,6 +128,30 @@ public class BookManagerModel : BindableBase, IBookManageable
 
 
     #region private methods
+    /// <summary>
+    /// Returns a sorted list of books based on the provided properties.
+    /// </summary>
+    /// <param name="sortProperties">The properties to sort the books by.</param>
+    /// <returns>A sorted list of Book objects.</returns>
+    private IEnumerable<Book> GetSortedBookList(List<PropertyInfo> sortProperties)
+    {
+        var orderedBooks = Library.BookList.Where(b => 0 < b.Id);
+
+        foreach (var property in sortProperties)
+        {
+            if (orderedBooks is IOrderedEnumerable<Book>)
+            {
+                orderedBooks = ((IOrderedEnumerable<Book>)orderedBooks).ThenBy(b => property.GetValue(b));
+            }
+            else
+            {
+                orderedBooks = orderedBooks.OrderBy(b => property.GetValue(b));
+            }
+        }
+
+        return orderedBooks;
+    }
+
     private void BookLoader_LoadingBookFinished(object? sender, ActionFinishedEventArgs e)
     {
         LoadingFinished?.Invoke(this, new ActionFinishedEventArgs { Message = e.Message, IsFinished = e.IsFinished });
@@ -152,7 +192,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     /// <param name="strElement">The author to search for.</param>
     /// <returns>An enumerable collection of books that match the search criteria.</returns>
-    private IEnumerable<Book> FindBooksByAuthor(string? strElement)  => IsNotNullOrEmpty(strElement)
+    private IEnumerable<Book> FindBooksByAuthor(string? strElement) => IsNotNullOrEmpty(strElement)
         ? Library.BookList.Where(b => b.Author.Contains(strElement, CurrentComparisionRule))
         : [];
 

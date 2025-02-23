@@ -28,8 +28,8 @@
                 Command="{Binding EditBookCommand}" 
                 IsEnabled="{Binding CanEditBook}"
                 ToolTip="{Binding EditBookTooltip, Mode=OneTime}"/>
-        <Button Content="Delete Book" 
-                Command="{Binding RemoveBookCommand}" 
+        <Button Content="Delete Book(s)" 
+                Command="{Binding DeleteSelectedBooksCommand}" 
                 IsEnabled="{Binding CanEditBook}"
                 ToolTip="{Binding RemoveBookTooltip, Mode=OneTime}"/>
 

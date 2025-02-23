@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
-using LibraryManager.Models;
 using LibraryManager.Utils;
 using LibraryManager.Views;
 
@@ -20,9 +19,9 @@ internal class CreatorBookDetailsViewModel : BindableBase
         _libraryManager = libraryManager;
 
         LoadingState = Constants.LOAD_CONTENT;
-        LoadBookContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(LoadBookContent));
-        ClearBookContentCommand = new RelayCommand(ClearBookContent);
-        SaveContentCommand = new RelayCommand(async () => await LockButtonsOnExecuteAsync(SaveContent));
+        LoadBookContentCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadBookContent));
+        ClearBookContentCommand = new DelegateCommand(ClearBookContent);
+        SaveContentCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(SaveContent));
         IsLoadEnabled = true;
         IsSaveEnabled = false;
         NoButtonVisibility = Visibility.Collapsed;
@@ -105,7 +104,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         get; set;
     }
 
-    public RelayCommand SaveContentCommand
+    public DelegateCommand SaveContentCommand
     {
         get; set;
     }

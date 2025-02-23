@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:utils="clr-namespace:LibraryManager.Utils"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -15,7 +16,9 @@
 
     <Border Style="{StaticResource DatagridBorderStyle}" HorizontalAlignment="Stretch">
         <DataGrid ItemsSource="{Binding BookList, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
-                  SelectedItem="{Binding DataContext.SelectedBook, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, AncestorLevel=2}}">
+                  SelectedItem="{Binding DataContext.SelectedBook, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                  utils:MultiSelectorExtensions.SelectedItems="{Binding  DataContext.SelectedBooks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, AncestorLevel=2}}" 
+                  >
 
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Author" Width="0.5*">
@@ -131,7 +134,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-
+        
         </DataGrid>
     </Border>
     

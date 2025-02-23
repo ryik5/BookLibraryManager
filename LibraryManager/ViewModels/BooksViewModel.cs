@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Utils;
@@ -22,7 +23,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 
         AddBookCommand = new DelegateCommand(AddBook);
         DemoAddBooksCommand = new DelegateCommand(DemoAddRandomBooks);
-        RemoveBookCommand = new DelegateCommand(DeleteSelectedBook);
+        DeleteSelectedBooksCommand = new DelegateCommand(DeleteSelectedBooks);
         EditBookCommand = new DelegateCommand(EditBook);
 
         LibraryVisibility = Visibility.Collapsed;
@@ -83,7 +84,15 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
             }
         }
     }
-    private Book _selectedBook;
+
+    /// <summary>
+    /// Gets or sets the collection of the selected books.
+    /// </summary>
+    public ObservableCollection<Book> SelectedBooks
+    {
+        get => _selectedBooks;
+        set => SetProperty(ref _selectedBooks, value);
+    }
     #endregion
 
 
@@ -129,9 +138,9 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     public string EditBookTooltip => "Edit the selected book";
 
     /// <summary>
-    /// Command to delete a book from the library.
+    /// Command to delete selected books from the library.
     /// </summary>
-    public DelegateCommand RemoveBookCommand
+    public DelegateCommand DeleteSelectedBooksCommand
     {
         get;
     }
@@ -166,13 +175,20 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Deletes a book from the library.
+    /// Deletes selected books from the library.
     /// </summary>
-    private void DeleteSelectedBook()
+    private void DeleteSelectedBooks()
     {
-        var text = _bookManager.TryRemoveBook(SelectedBook) ? Constants.BOOK_WAS_DELETED_SUCCESSFULLY : Constants.NO_BOOKS_FOUND;
+        var booksToDelete = SelectedBooks.ToList();
+        var text = string.Empty;
 
-        MessageHandler.PublishMessage(text);
+        foreach (var book in booksToDelete)
+        {
+            var id = book.Id;
+            text = _bookManager.TryRemoveBook(book) ? $"{Constants.BOOK_WAS_DELETED_SUCCESSFULLY} {id}" : Constants.NO_BOOKS_FOUND;
+            MessageHandler.PublishMessage(text);
+        }
+
         MessageHandler.PublishTotalBooksInLibrary(_bookManager.Library.TotalBooks);
     }
 
@@ -201,5 +217,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     private bool _canEditBook;
     private bool _canOperateWithBooks;
     private Visibility _libraryVisibility;
+    private Book _selectedBook;
+    private ObservableCollection<Book> _selectedBooks = new();
     #endregion
 }

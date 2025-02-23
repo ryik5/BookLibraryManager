@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Utils;
@@ -25,9 +26,9 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         RaisePropertyChanged(nameof(SearchOnFly));
         RaisePropertyChanged(nameof(SelectedSearchField));
 
-        FindBooksCommand = new RelayCommand(FindBooks, CanSearchBooks);
-        EditBookCommand = new RelayCommand(EditBook, CanDeleteBook);
-        RemoveBookCommand = new RelayCommand(DeleteSelectedBook, CanDeleteBook);
+        FindBooksCommand = new DelegateCommand(FindBooks, CanSearchBooks);
+        EditBookCommand = new DelegateCommand(EditBook);
+        DeleteSelectedBooksCommand = new DelegateCommand(DeleteSelectedBooks);
     }
 
 
@@ -39,7 +40,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         get => _isChecked;
         set => SetProperty(ref _isChecked, value);
     }
-    
+
     /// <summary>
     /// The fields of the book to perform search.
     /// </summary>
@@ -78,7 +79,29 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     public Book SelectedBook
     {
         get => _selectedBook;
-        set => SetProperty(ref _selectedBook, value);
+        set
+        {
+            if (SetProperty(ref _selectedBook, value))
+                CanEditBook = value is Book;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the collection of the selected books.
+    /// </summary>
+    public ObservableCollection<Book> SelectedBooks
+    {
+        get => _selectedBooks;
+        set => SetProperty(ref _selectedBooks, value);
+    }
+
+    /// <summary>
+    /// Determines whether a book can be edited.
+    /// </summary>
+    public bool CanEditBook
+    {
+        get => _canEditBook;
+        set => SetProperty(ref _canEditBook, value);
     }
 
     /// <summary>
@@ -137,9 +160,9 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Command to delete the selected book.
+    /// Command to delete selected books from the library.
     /// </summary>
-    public DelegateCommand RemoveBookCommand
+    public DelegateCommand DeleteSelectedBooksCommand
     {
         get;
     }
@@ -150,15 +173,6 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     public DelegateCommand<Window> CloseWindowCommand
     {
         get;
-    }
-
-    /// <summary>
-    /// Determines whether a book can be deleted.
-    /// </summary>
-    /// <returns>true if a book is selected; otherwise, false.</returns>
-    public bool CanDeleteBook()
-    {
-        return SelectedBook is Book;
     }
 
     /// <summary>
@@ -199,16 +213,22 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Deletes the selected book.
+    /// Deletes selected books from the library.
     /// </summary>
-    private void DeleteSelectedBook()
+    private void DeleteSelectedBooks()
     {
-        var text = _libraryManager.TryRemoveBook(SelectedBook)
-            ? Constants.BOOK_WAS_DELETED_SUCCESSFULLY
-            : Constants.NO_BOOKS_FOUND;
+        var booksToDelete = SelectedBooks.ToList();
+        var text = string.Empty;
+
+        foreach (var book in booksToDelete)
+        {
+            var id = book.Id;
+            text = _libraryManager.TryRemoveBook(book) ? $"{Constants.BOOK_WAS_DELETED_SUCCESSFULLY} {id}" : Constants.NO_BOOKS_FOUND;
+            MessageHandler.PublishMessage(text);
+        }
+
         BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
 
-        MessageHandler.PublishMessage(text);
         MessageHandler.PublishTotalBooksInLibrary(_libraryManager.Library.TotalBooks);
     }
 
@@ -245,6 +265,8 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     private Visibility _libraryVisibility;
     private List<Book> _bookList;
     private Book _selectedBook;
+    private ObservableCollection<Book> _selectedBooks = new();
+    private bool _canEditBook;
     private string _searchText;
     private bool _isChecked;
     private bool _canOperateWithBooks;

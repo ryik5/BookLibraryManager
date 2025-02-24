@@ -6,57 +6,48 @@
              xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <Grid Margin="2">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.Resources>
-            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBordedWithoutTriggerStyle}">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="MinWidth" Value="100"/>
-                <Setter Property="Height" Value="27"/>
-                <Setter Property="Margin" Value="0 0 5 0"/>
-                <Setter Property="Padding" Value="2 0 0 0"/>
-            </Style>
-
-            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="Height" Value="27"/>
-                <Setter Property="Width" Value="120"/>
-            </Style>
-
-            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxBordedStyle}">
-                <Setter Property="HorizontalAlignment" Value="Right"/>
-            </Style>
-
-            <Style TargetType="{x:Type GroupBox}">
-                <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ColorSet3}"/>
-                <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
-                <Setter Property="Margin" Value="0 5 0 5"/>
-            </Style>
-        </Grid.Resources>
-
-        <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
-            <Border HorizontalAlignment="Center" Margin="15 5 0 0" Padding="2 0 2 0" 
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="15 5 5 5">
+        <Border HorizontalAlignment="Center" Margin="15 5 0 0" Padding="2 0 2 0" 
                 BorderBrush="{StaticResource ColorSet1}" BorderThickness="0 0 0 2">
-                <TextBlock Text="Settings" 
+            <TextBlock Text="Settings" 
                    FontSize="16" FontStretch="Expanded" Foreground="{StaticResource ColorSet1}"/>
-            </Border>
+        </Border>
+        <Grid >
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxBordedWithoutTriggerStyle}">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="Height" Value="27"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
+                    <Setter Property="Padding" Value="2 0 0 0"/>
+                </Style>
 
-            <Grid Margin="15 5 5 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="300"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Height" Value="27"/>
+                    <Setter Property="MinWidth" Value="120"/>
+                </Style>
 
-                <GroupBox Header="'Find Books' Page" Grid.Row="0" Grid.Column="0" >
+                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxBordedStyle}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+
+                <Style TargetType="{x:Type GroupBox}">
+                    <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource ColorSet3}"/>
+                    <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
+                    <Setter Property="Margin" Value="0 5 0 5"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+       
+            <StackPanel Grid.Column="0" Margin="0 10 10 0">
+
+                <GroupBox Header="'Find Books' Page">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -75,7 +66,7 @@
                               Width="100" Height="25" Margin="3 0 5 0"/>
 
                         <Label Content="Search-On-Fly" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
-                        <ComboBox ItemsSource="{Binding Settings.Bools, Mode=OneWay}" 
+                        <ComboBox ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
                               SelectedItem="{Binding Settings.SearchOnFly}" 
                               Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"
                               Style="{StaticResource ComboBoxBordedStyle}"
@@ -83,7 +74,7 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox Header="'Debug' Page" Grid.Row="1" Grid.Column="0"  >
+                <GroupBox Header="'Debug' Page">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -100,10 +91,64 @@
                                />
                     </Grid>
                 </GroupBox>
+          
+            </StackPanel>
 
-            </Grid>
+            <StackPanel Grid.Column="1" Margin="10 10 10 0">
 
-        </StackPanel>
+                <GroupBox Header="'Books' Page. Sort">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38" />
+                            <RowDefinition Height="38" />
+                        </Grid.RowDefinitions>
 
-    </Grid>
+                        <Label Grid.Row="0" Grid.Column="0" Content="First Property to Sort" HorizontalAlignment="Left"/>
+                        <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
+                                   SelectedItem="{Binding Settings.FirstSortProperty_ByDescent}" 
+                                   Style="{StaticResource ComboBoxBordedStyle}"
+                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0" />
+                        <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}"
+                                  SelectedItem="{Binding Settings.FirstSortBookProperty}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  HorizontalAlignment="Right" Width="120" Height="25" Margin="3 0 5 0"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Second Property to Sort" HorizontalAlignment="Left"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" 
+                                  ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.SecondSortProperty_ByDescent}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
+                        <ComboBox Grid.Row="1" Grid.Column="2" 
+                                  ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.SecondSortBookProperty}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  HorizontalAlignment="Right" Width="120" Height="25" Margin="3 0 5 0" />
+
+                        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
+                               Content="Third Property to Sort"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" 
+                                  ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.ThirdSortProperty_ByDescent}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
+                        <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.ThirdSortBookProperty}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  HorizontalAlignment="Right" Width="120" Height="25" Margin="3 0 5 0"/>
+                        
+                    </Grid>
+                </GroupBox>
+
+            </StackPanel>
+
+        </Grid>
+    </StackPanel>
+
 </UserControl>

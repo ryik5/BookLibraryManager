@@ -15,12 +15,13 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Initializes a new instance of the <see cref="FindBookViewModel"/> class.
     /// </summary>
-    /// <param name="libraryManager">The library manager.</param>
-    public FindBookViewModel(IBookManageable libraryManager, SettingsModel settings)
+    /// <param name="bookManager">The library manager.</param>
+    public FindBookViewModel(IBookManageable bookManager, SettingsModel settings)
     {
         _settings = settings;
-        _libraryManager = libraryManager;
-        _libraryManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
+        _bookManager = bookManager;
+        _bookManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
+        _bookManager.TotalBooksChanged += Handle_TotalBooksChanged;
         LibraryVisibility = Visibility.Collapsed;
         SearchFields = Enum.GetValues(typeof(EBibliographicKindInformation)).Cast<EBibliographicKindInformation>().ToList();
         RaisePropertyChanged(nameof(SearchOnFly));
@@ -30,6 +31,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         EditBookCommand = new DelegateCommand(EditBook);
         DeleteSelectedBooksCommand = new DelegateCommand(DeleteSelectedBooks);
     }
+
 
 
     #region Properties
@@ -181,7 +183,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// <returns>true if the library has a book list; otherwise, false.</returns>
     private bool CanSearchBooks()
     {
-        return _libraryManager.Library?.BookList != null;
+        return _bookManager.Library?.BookList != null;
     }
     #endregion
 
@@ -192,7 +194,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void FindBooks()
     {
-        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
+        BookList = _bookManager.FindBooksByKind(SelectedSearchField, SearchText);
         var foundBooks = BookList.Count;
 
         LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
@@ -205,7 +207,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        var editBookView = new EditorBookDetailsViewModel(_libraryManager, SelectedBook);
+        var editBookView = new EditorBookDetailsViewModel(_bookManager, SelectedBook);
         editBookView.ShowDialog();
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)
@@ -223,13 +225,13 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
         foreach (var book in booksToDelete)
         {
             var id = book.Id;
-            text = _libraryManager.TryRemoveBook(book) ? $"{Constants.BOOK_WAS_DELETED_SUCCESSFULLY} {id}" : Constants.NO_BOOKS_FOUND;
+            text = _bookManager.TryRemoveBook(book) ? $"{Constants.BOOK_WAS_DELETED_SUCCESSFULLY} {id}" : Constants.NO_BOOKS_FOUND;
             MessageHandler.PublishMessage(text);
         }
 
-        BookList = _libraryManager.FindBooksByKind(SelectedSearchField, SearchText);
+        BookList = _bookManager.FindBooksByKind(SelectedSearchField, SearchText);
 
-        MessageHandler.PublishTotalBooksInLibrary(_libraryManager.Library.TotalBooks);
+        MessageHandler.PublishTotalBooksInLibrary(_bookManager.Library.TotalBooks);
     }
 
     /// <summary>
@@ -252,15 +254,15 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
     /// </summary>
-    private void Library_LibraryIdChanged(object? sender, EventArgs e)
-    {
-        CanOperateWithBooks = _libraryManager.Library.Id != 0;
-    }
+    private void Handle_LibraryIdChanged(object? sender, EventArgs e)
+        => CanOperateWithBooks = _bookManager.Library.Id != 0;
+
+    private void Handle_TotalBooksChanged(object? sender, TotalBooksEventArgs e) => FindBooks();
     #endregion
 
 
     #region private fields
-    private readonly IBookManageable _libraryManager;
+    private readonly IBookManageable _bookManager;
     private SettingsModel _settings;
     private Visibility _libraryVisibility;
     private List<Book> _bookList;

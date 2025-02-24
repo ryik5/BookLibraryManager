@@ -11,8 +11,19 @@ namespace BookLibraryManager.Common;
 public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
 {
     /// <summary>
+    /// Dump property to sort nothing
+    /// </summary>
+    [XmlIgnore]
+    [BookProperty]
+    public string None
+    {
+        get;
+    }
+
+    /// <summary>
     /// Gets or sets the unique identifier for the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public required int Id
     {
         get => _id;
@@ -23,6 +34,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     /// <summary>
     /// Gets or sets the author of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public required string Author
     {
         get => _author;
@@ -33,6 +45,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     /// <summary>
     /// Gets or sets the title of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public required string Title
     {
         get => _title;
@@ -41,18 +54,9 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private string _title;
 
     /// <summary>
-    /// Gets or sets the number of total pages in the <see cref="Book"/>.
-    /// </summary>
-    public required int TotalPages
-    {
-        get => _totalPages;
-        set => SetProperty(ref _totalPages, value);
-    }
-    private int _totalPages;
-
-    /// <summary>
     /// Gets or sets the publication date of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public int PublishDate
     {
         get => _publishDate;
@@ -61,8 +65,20 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     private int _publishDate;
 
     /// <summary>
+    /// Gets or sets the number of total pages in the <see cref="Book"/>.
+    /// </summary>
+    [BookProperty]
+    public required int TotalPages
+    {
+        get => _totalPages;
+        set => SetProperty(ref _totalPages, value);
+    }
+    private int _totalPages;
+
+    /// <summary>
     /// Gets or sets the description of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public string Description
     {
         get => _description;
@@ -73,6 +89,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     /// <summary>
     /// Gets or sets the genre of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public string Genre
     {
         get => _genre;
@@ -83,6 +100,7 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     /// <summary>
     /// Gets or sets the ISBN of the <see cref="Book"/>.
     /// </summary>
+    [BookProperty]
     public string ISBN
     {
         get => _isbn;
@@ -219,4 +237,14 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
         };
         return clone;
     }
+}
+
+
+/// <summary>
+/// Custom attribute to mark properties that should be included in the book properties list.
+/// </summary>
+/// <author>YR 2025-02-24</author>
+[AttributeUsage(AttributeTargets.Property)]
+public class BookPropertyAttribute : Attribute
+{
 }

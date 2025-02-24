@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -125,10 +126,72 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
         while (!reader.EOF && reader.Read());
     }
 
+    /// <summary>
+    /// Gets or sets an array of <see cref="PropertyInfo"/> objects representing the properties of <see cref="Book"/>.
+    /// </summary>
+    public PropertyInfo[] GetBookPropertiesInfo() => BookPropertiesInfo;
+
+    /// <summary>
+    /// Gets an array of strings representing the property's Name of <see cref="Book"/>.
+    /// </summary>
+    /// <returns>An array of strings containing the property's Name of <see cref="Book"/>.</returns>
+    public string[] GetBookProperties() => BookPropertiesString;
+
+    /// <summary>
+    /// Finds the <see cref="PropertyInfo"/> of a <see cref="Book"/> property by its name.
+    /// </summary>
+    /// <param name="name">The name of the book property to find.</param>
+    /// <returns>The PropertyInfo of the book property, or null if not found.</returns>
+    public PropertyInfo FindBookPropertyInfo(string? name)
+        => BookPropertiesInfo.FirstOrDefault(p => p.Name == (name ?? nameof(Book.None)))
+        ?? BookPropertiesInfo.FirstOrDefault(p => p.Name == nameof(Book.None));
+
+
+    private PropertyInfo[] BookPropertiesInfo
+    {
+        get
+        {
+            if (_bookPropertiesInfo is null)
+            {
+                lock (_locker)
+                    _bookPropertiesInfo ??= BuildBookPropertiesArray();
+            }
+            return _bookPropertiesInfo;
+        }
+    }
+
+    private string[] BookPropertiesString
+    {
+        get
+        {
+            if (_bookPropertiesInfo is null)
+            {
+                lock (_locker)
+                {
+                    _bookPropertiesInfo ??= BuildBookPropertiesArray();
+                    _bookProperties ??= _bookPropertiesInfo.Select(p => p.Name).ToArray();
+                }
+            }
+            return _bookProperties;
+        }
+    }
+
+    private PropertyInfo[] BuildBookPropertiesArray()
+    {
+        var bookType = typeof(Book);
+        return bookType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(p => p.GetCustomAttribute<BookPropertyAttribute>() != null)
+            .ToArray();
+    }
+
+
     #region private fields
     private int _id;
     private string _name = string.Empty;
     private string _description = string.Empty;
     private ObservableCollection<Book> _bookList = [];
+    private PropertyInfo[] _bookPropertiesInfo;
+    private string[] _bookProperties;
+    private readonly object _locker = new();
     #endregion
 }

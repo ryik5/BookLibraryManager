@@ -15,7 +15,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// Initializes a new instance of the LibraryViewModel class.
     /// </summary>
     /// <param name="libraryManager">The library manager model.</param>
-    public LibraryViewModel(ILibraryManageable libraryManager)
+    public LibraryViewModel(ILibraryManageable libraryManager, SettingsModel settings)
     {
         _libraryManager = libraryManager;
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
@@ -24,8 +24,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         SaveAsLibraryCommand = GetDelegateCommandWithLockAsync(SaveAsLibraryAsXml);
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
         UpdateLibraryState();
-        _libraryManager.TotalBooksChanged += LibraryTotalBooksChanged;
-        _libraryManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
+        _libraryManager.TotalBooksChanged += Handle_TotalBooksChanged;
+        _libraryManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
     }
 
 
@@ -261,7 +261,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.
     /// </summary>
     /// <param name="e">The event arguments containing the new total number of books and a kind of the event.</param>
-    private void LibraryTotalBooksChanged(object? sender, TotalBooksEventArgs e)
+    private void Handle_TotalBooksChanged(object? sender, TotalBooksEventArgs e)
     {
         MessageHandler.PublishTotalBooksInLibrary(e?.TotalBooks ?? 0);
     }
@@ -269,7 +269,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
     /// </summary>
-    private void Library_LibraryIdChanged(object? sender, EventArgs e)
+    private void Handle_LibraryIdChanged(object? sender, EventArgs e)
     {
         CanOperateWithBooks = (sender as ILibrary)?.Id != 0;
     }

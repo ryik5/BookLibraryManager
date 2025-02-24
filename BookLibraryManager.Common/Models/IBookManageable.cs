@@ -8,6 +8,9 @@ namespace BookLibraryManager.Common;
 /// <author>YR 2025-01-09</author>
 public interface IBookManageable : ILoadable
 {
+    public event EventHandler<TotalBooksEventArgs> TotalBooksChanged;
+    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+
     /// <summary>
     /// Sorts books in the library.
     /// </summary>
@@ -55,12 +58,6 @@ public interface IBookManageable : ILoadable
     /// </summary>
     /// <param name="sortProperties">The properties to sort the books by.</param>
     void SafetySortBooks(List<PropertyInfo> sortProperties);
-
-    /// <summary>
-    /// Retrieves the public instance properties of the <see cref="Book"/> class.
-    /// </summary>
-    /// <returns>An array of PropertyInfo objects representing the <see cref="Book"/> class properties.</returns>
-    PropertyInfo[] GetBookProperties();
 
     /// <summary>
     /// Gets or sets the library.

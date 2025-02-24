@@ -1,4 +1,5 @@
-﻿using BookLibraryManager.Common;
+﻿using System.Reflection;
+using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Properties;
 
@@ -33,9 +34,16 @@ internal sealed class SettingsViewModel : BindableBase
     /// </summary>
     public void LoadAllSettings()
     {
-        TryParseStringSettings(Settings.Default.FindBooks_LastSearchField, ref _settings.SearchField, SearchField);
+        TryConvertStringToEnum(Settings.Default.FindBooks_LastSearchField, ref _settings.SearchField, SearchField);
         _settings.SearchOnFly = Settings.Default.FindBooks_SearchOnFly;
         _settings.Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
+
+        _settings.FirstSortBookProperty = Settings.Default.BooksView_FirstSortBookProperty;
+        _settings.FirstSortProperty_ByDescent = Settings.Default.BooksView_FirstSortProperty_ByDescent;
+        _settings.SecondSortBookProperty = Settings.Default.BooksView_SecondSortBookProperty;
+        _settings.SecondSortProperty_ByDescent = Settings.Default.BooksView_SecondSortProperty_ByDescent;
+        _settings.ThirdSortBookProperty = Settings.Default.BooksView_ThirdSortBookProperty;
+        _settings.ThirdSortProperty_ByDescent = Settings.Default.BooksView_ThirdSortProperty_ByDescent;
     }
 
     /// <summary>
@@ -46,6 +54,13 @@ internal sealed class SettingsViewModel : BindableBase
         Settings.Default.FindBooks_LastSearchField = _settings.SearchField.ToString();
         Settings.Default.FindBooks_SearchOnFly = _settings.SearchOnFly;
         Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
+
+        Settings.Default.BooksView_FirstSortBookProperty = _settings.FirstSortBookProperty;
+        Settings.Default.BooksView_FirstSortProperty_ByDescent = _settings.FirstSortProperty_ByDescent;
+        Settings.Default.BooksView_SecondSortBookProperty = _settings.SecondSortBookProperty;
+        Settings.Default.BooksView_SecondSortProperty_ByDescent = _settings.SecondSortProperty_ByDescent;
+        Settings.Default.BooksView_ThirdSortBookProperty = _settings.ThirdSortBookProperty;
+        Settings.Default.BooksView_ThirdSortProperty_ByDescent = _settings.ThirdSortProperty_ByDescent;
 
         Settings.Default.Save();
     }
@@ -59,7 +74,62 @@ internal sealed class SettingsViewModel : BindableBase
     /// <summary>
     /// Gets an array of boolean values representing the state of various settings.
     /// </summary>
-    public bool[] Bools => _settings.Bools;
+    public bool[] Booleans => _settings.Booleans;
+
+    /// <summary>
+    /// Gets an array of boolean values representing the state of various settings.
+    /// </summary>
+    public PropertyInfo[] BookPropertiesInfo => _settings.BookPropertiesInfo;
+
+    /// <summary>
+    /// Gets an array of boolean values representing the state of various settings.
+    /// </summary>
+    public string[] BookProperties => _settings.BookProperties;
+    #endregion
+
+    #region BooksViewModel Page
+    /// <summary>
+    /// Gets or sets the primary property used for sorting books.
+    /// </summary>
+    public string FirstSortBookProperty
+    {
+        get => _settings.FirstSortBookProperty;
+        set => SetProperty(ref _settings.FirstSortBookProperty, value);
+    }
+    public bool FirstSortProperty_ByDescent
+    {
+        get => _settings.FirstSortProperty_ByDescent;
+        set => SetProperty(ref _settings.FirstSortProperty_ByDescent, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the secondary property used for sorting books.
+    /// </summary>
+    public string SecondSortBookProperty
+    {
+        get => _settings.SecondSortBookProperty;
+        set => SetProperty(ref _settings.SecondSortBookProperty, value);
+    }
+    public bool SecondSortProperty_ByDescent
+    {
+        get => _settings.SecondSortProperty_ByDescent;
+        set => SetProperty(ref _settings.SecondSortProperty_ByDescent, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the tertiary property used for sorting books.
+    /// </summary>
+    public string ThirdSortBookProperty
+    {
+        get => _settings.ThirdSortBookProperty;
+        set => SetProperty(ref _settings.ThirdSortBookProperty, value);
+    }
+    public bool ThirdSortProperty_ByDescent
+    {
+        get => _settings.ThirdSortProperty_ByDescent;
+        set => SetProperty(ref _settings.ThirdSortProperty_ByDescent, value);
+    }
+
     #endregion
 
     #region FindBooks Page
@@ -107,7 +177,7 @@ internal sealed class SettingsViewModel : BindableBase
     /// <param name="_value">The reference to the enumeration value to be updated.</param>
     /// <param name="Value">The enumeration value to raise a property changed event for.</param>
     /// <returns><c>true</c> if the parsing was successful; otherwise, <c>false</c>.</returns>
-    private bool TryParseStringSettings<T>(string key, ref T _value, T Value) where T : Enum
+    private bool TryConvertStringToEnum<T>(string key, ref T _value, T Value) where T : Enum
     {
         var result = false;
         try

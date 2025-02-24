@@ -58,5 +58,77 @@ namespace LibraryManager.Properties {
                 this["Debug_TextFontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Author")]
+        public string BooksView_FirstSortBookProperty {
+            get {
+                return ((string)(this["BooksView_FirstSortBookProperty"]));
+            }
+            set {
+                this["BooksView_FirstSortBookProperty"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Title")]
+        public string BooksView_SecondSortBookProperty {
+            get {
+                return ((string)(this["BooksView_SecondSortBookProperty"]));
+            }
+            set {
+                this["BooksView_SecondSortBookProperty"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public string BooksView_ThirdSortBookProperty {
+            get {
+                return ((string)(this["BooksView_ThirdSortBookProperty"]));
+            }
+            set {
+                this["BooksView_ThirdSortBookProperty"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BooksView_FirstSortProperty_ByDescent {
+            get {
+                return ((bool)(this["BooksView_FirstSortProperty_ByDescent"]));
+            }
+            set {
+                this["BooksView_FirstSortProperty_ByDescent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BooksView_SecondSortProperty_ByDescent {
+            get {
+                return ((bool)(this["BooksView_SecondSortProperty_ByDescent"]));
+            }
+            set {
+                this["BooksView_SecondSortProperty_ByDescent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BooksView_ThirdSortProperty_ByDescent {
+            get {
+                return ((bool)(this["BooksView_ThirdSortProperty_ByDescent"]));
+            }
+            set {
+                this["BooksView_ThirdSortProperty_ByDescent"] = value;
+            }
+        }
     }
 }

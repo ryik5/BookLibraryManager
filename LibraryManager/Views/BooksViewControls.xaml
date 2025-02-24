@@ -35,7 +35,6 @@
 
         <Button Content="Sort Library"
                 Command="{Binding SortLibraryCommand}" 
-                IsEnabled="{Binding CanEditBook}"
                 ToolTip="{Binding SortLibraryTooltip, Mode=OneTime}"/>
 
     </StackPanel>

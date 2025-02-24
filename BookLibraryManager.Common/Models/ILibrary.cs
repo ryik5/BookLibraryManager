@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace BookLibraryManager.Common;
 
@@ -52,4 +53,22 @@ public interface ILibrary : ILoadable
     {
         get; set;
     }
+
+    /// <summary>
+    /// Gets or sets an array of <see cref="PropertyInfo"/> objects representing the properties of <see cref="Book"/>.
+    /// </summary>
+    PropertyInfo[] GetBookPropertiesInfo();
+
+    /// <summary>
+    /// Gets an array of strings representing the property's Name of <see cref="Book"/>.
+    /// </summary>
+    /// <returns>An array of strings containing the property's Name of <see cref="Book"/>.</returns>
+    string[] GetBookProperties();
+
+    /// <summary>
+    /// Finds the PropertyInfo of a book property by its name.
+    /// </summary>
+    /// <param name="name">The name of the book property to find.</param>
+    /// <returns>The PropertyInfo of the book property, or null if not found.</returns>
+    PropertyInfo FindBookPropertyInfo(string? name);
 }

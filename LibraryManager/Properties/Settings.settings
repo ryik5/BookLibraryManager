@@ -11,5 +11,23 @@
     <Setting Name="Debug_TextFontSize" Type="System.Double" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
+    <Setting Name="BooksView_FirstSortBookProperty" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Author</Value>
+    </Setting>
+    <Setting Name="BooksView_SecondSortBookProperty" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Title</Value>
+    </Setting>
+    <Setting Name="BooksView_ThirdSortBookProperty" Type="System.String" Scope="User">
+      <Value Profile="(Default)">None</Value>
+    </Setting>
+    <Setting Name="BooksView_FirstSortProperty_ByDescent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BooksView_SecondSortProperty_ByDescent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BooksView_ThirdSortProperty_ByDescent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

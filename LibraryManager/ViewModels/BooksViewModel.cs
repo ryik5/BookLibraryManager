@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using BookLibraryManager.Common;
 using LibraryManager.Models;
@@ -16,9 +17,10 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// Initializes a new instance of the BooksViewModel class.
     /// </summary>
     /// <param name="bookManager">The book manager model.</param>
-    public BooksViewModel(IBookManageable bookManager)
+    public BooksViewModel(IBookManageable bookManager, SettingsModel settings)
     {
         _bookManager = bookManager;
+        _settings = settings;
         SortLibraryCommand = new DelegateCommand(SortBooks);
 
         AddBookCommand = new DelegateCommand(AddBook);
@@ -27,7 +29,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         EditBookCommand = new DelegateCommand(EditBook);
 
         LibraryVisibility = Visibility.Collapsed;
-        _bookManager.Library.LibraryIdChanged += Library_LibraryIdChanged;
+        _bookManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
     }
 
 
@@ -197,14 +199,30 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void SortBooks()
     {
-        _bookManager.SortBooks();
+        var props = new List<PropertyInfo>();
+
+        AddBookPropertyToList(props, _settings.FirstSortBookProperty);
+        AddBookPropertyToList(props, _settings.SecondSortBookProperty);
+        AddBookPropertyToList(props, _settings.ThirdSortBookProperty);
+
+        if (0 < props.Count)
+            _bookManager.SafetySortBooks(props);
+
         MessageHandler.PublishMessage($"Library ID:{BookManager.Library.Id} was sorted");
+
+        void AddBookPropertyToList(List<PropertyInfo> props, string name)
+        {
+            var prop = _bookManager.Library.FindBookPropertyInfo(_settings.FirstSortBookProperty);
+            if (prop.Name != nameof(Book.None))
+                props.Add(prop);
+        }
     }
+
 
     /// <summary>
     /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
     /// </summary>
-    private void Library_LibraryIdChanged(object? sender, EventArgs e)
+    private void Handle_LibraryIdChanged(object? sender, EventArgs e)
     {
         CanOperateWithBooks = (sender as ILibrary)?.Id != 0;
     }
@@ -213,6 +231,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 
     #region Private Members
     private readonly IBookManageable _bookManager;
+    private SettingsModel _settings;
     private bool _isChecked;
     private bool _canEditBook;
     private bool _canOperateWithBooks;

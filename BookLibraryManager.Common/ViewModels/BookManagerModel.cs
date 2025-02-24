@@ -16,6 +16,7 @@ public class BookManagerModel : BindableBase, IBookManageable
             throw new ArgumentNullException(nameof(library));
 
         _library = library;
+        Library.BookList.CollectionChanged += BookList_CollectionChanged;
         RaisePropertyChanged(nameof(Library));
     }
 
@@ -60,16 +61,13 @@ public class BookManagerModel : BindableBase, IBookManageable
             .ThenBy(b => b.Title)));
     }
 
+    /// <summary>
+    /// Sorts the book collection by author and then by title.
+    /// </summary>
     public void SafetySortBooks(List<PropertyInfo> sortProperties)
     {
         InvokeOnUiThread(() =>
         Library.BookList.ResetAndAddRange(GetSortedBookList(sortProperties)));
-    }
-
-    public PropertyInfo[] GetBookProperties()
-    {
-        var bookType = typeof(Book);
-        return bookType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
     }
 
     /// <summary>
@@ -124,6 +122,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     }
 
     public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+    public event EventHandler<TotalBooksEventArgs> TotalBooksChanged;
     #endregion
 
 
@@ -150,6 +149,16 @@ public class BookManagerModel : BindableBase, IBookManageable
         }
 
         return orderedBooks;
+    }
+
+    /// <summary>
+    /// Handles the CollectionChanged event of the BookList.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The NotifyCollectionChangedEventArgs instance containing the event data.</param>
+    private void BookList_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        TotalBooksChanged.Invoke(this, new TotalBooksEventArgs { TotalBooks = Library.BookList?.Count ?? 0 });
     }
 
     private void BookLoader_LoadingBookFinished(object? sender, ActionFinishedEventArgs e)

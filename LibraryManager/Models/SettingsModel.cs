@@ -1,4 +1,5 @@
-﻿using BookLibraryManager.Common;
+﻿using System.Reflection;
+using BookLibraryManager.Common;
 
 namespace LibraryManager.Models;
 
@@ -11,7 +12,9 @@ internal sealed class SettingsModel
     public SettingsModel()
     {
         SearchFields = Enum.GetValues(typeof(EBibliographicKindInformation)).Cast<EBibliographicKindInformation>().ToArray();
-        Bools = [true, false];
+        Booleans = [true, false];
+        BookPropertiesInfo = new Library().GetBookPropertiesInfo();
+        BookProperties = new Library().GetBookProperties();
     }
 
     #region Dictionaries   
@@ -23,7 +26,35 @@ internal sealed class SettingsModel
     /// <summary>
     /// Gets or sets an array of boolean values representing the state of various settings.
     /// </summary>
-    public bool[] Bools;
+    public bool[] Booleans;
+
+    /// <summary>
+    /// Gets or sets an array of PropertyInfo objects representing the properties of a book.
+    /// </summary>
+    public PropertyInfo[] BookPropertiesInfo;
+
+    /// <summary>
+    /// Gets or sets an array of PropertyInfo's Names representing the properties of a book.
+    /// </summary>
+    public string[] BookProperties;
+    #endregion
+
+    #region BooksViewModel Page
+    /// <summary>
+    /// Gets or sets the primary property used for sorting books.
+    /// </summary>
+    public string FirstSortBookProperty;
+    public bool FirstSortProperty_ByDescent;
+    /// <summary>
+    /// Gets or sets the secondary property used for sorting books.
+    /// </summary>
+    public string SecondSortBookProperty;
+    public bool SecondSortProperty_ByDescent;
+    /// <summary>
+    /// Gets or sets the tertiary property used for sorting books.
+    /// </summary>
+    public string ThirdSortBookProperty;
+    public bool ThirdSortProperty_ByDescent;
     #endregion
 
 
@@ -44,6 +75,7 @@ internal sealed class SettingsModel
     /// </summary>
     public bool ShowBookDetails = false;
     #endregion
+
 
     #region Debug Page
     /// <summary>

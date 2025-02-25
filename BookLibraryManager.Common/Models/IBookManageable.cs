@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using BookLibraryManager.Common.Models;
 
 namespace BookLibraryManager.Common;
 
@@ -57,7 +57,7 @@ public interface IBookManageable : ILoadable
     /// Sorts the books in the <see cref="ILibrary"/> based on the provided properties.
     /// </summary>
     /// <param name="sortProperties">The properties to sort the books by.</param>
-    void SafetySortBooks(List<PropertyInfo> sortProperties);
+    void SafetySortBooks(List<PropertyCustomInfo> sortProperties);
 
     /// <summary>
     /// Gets or sets the library.

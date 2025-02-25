@@ -207,7 +207,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        var editBookView = new EditorBookDetailsViewModel(_bookManager, SelectedBook);
+        var editBookView = new EditorBookDetailsViewModel(_bookManager, _settings, SelectedBook);
         editBookView.ShowDialog();
         RaisePropertyChanged(nameof(BookList));
         if (editBookView.Book is Book book)

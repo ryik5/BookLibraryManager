@@ -17,6 +17,19 @@ namespace BookLibraryManager.Common;
 public class Library : BindableBase, ILibrary, IXmlSerializable
 {
     /// <summary>
+    /// Sets the library.
+    /// </summary>
+    /// <param name="library">The library to set.</param>
+    public void Set(ILibrary library)
+    {
+        Id = library.Id;
+        Name = library.Name;
+        Description = library.Description;
+        _bookList = library.BookList;
+        RaisePropertyChanged(nameof(BookList));
+    }
+
+    /// <summary>
     /// Gets or sets the unique identifier for the <see cref="Library"/>.
     /// </summary>
     public int Id

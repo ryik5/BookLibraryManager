@@ -157,7 +157,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void AddBook()
     {
-        new CreatorBookDetailsViewModel(_bookManager).ShowDialog();
+        new CreatorBookDetailsViewModel(_bookManager, _settings).ShowDialog();
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void DemoAddRandomBooks()
     {
-        new CreatorBookDetailsViewModel(_bookManager).AddExampleBooks(10);
+        new CreatorBookDetailsViewModel(_bookManager, _settings).AddExampleBooks(10);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void EditBook()
     {
-        new EditorBookDetailsViewModel(_bookManager, SelectedBook).ShowDialog();
+        new EditorBookDetailsViewModel(_bookManager, _settings, SelectedBook).ShowDialog();
     }
 
     /// <summary>

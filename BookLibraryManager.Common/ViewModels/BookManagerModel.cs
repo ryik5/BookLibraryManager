@@ -76,8 +76,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <param name="book">The book to add.</param>
     public void AddBook(Book book)
     {
-        var max = Library.BookList.Count == 0 ? 0 : Library.BookList.Max(b => b.Id);
-        book.Id = max + 1;
+        book.Id = Library.BookList.Count == 0 ? 1 : Library.BookList.Max(b => b.Id) + 1;
         Library.BookList.Add(book);
     }
 
@@ -86,12 +85,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     /// <param name="book">The book to remove.</param>
     /// <returns>True if the book was successfully removed; otherwise, false.</returns>
-    public bool TryRemoveBook(Book book)
-    {
-        var result = Library.BookList.RemoveItem(book);
-
-        return result;
-    }
+    public bool TryRemoveBook(Book book) => Library.BookList.RemoveItem(book);
 
     /// <summary>
     /// Finds books in the library by a specified book element.

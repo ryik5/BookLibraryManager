@@ -10,7 +10,7 @@ namespace LibraryManager.Utils;
 /// <author>YR 2025-01-27</author>
 internal sealed class SelectionDialogHandler
 {
-    public async Task<MediaData> ReadContentOpenDialogTask()
+    public async Task<MediaData> ReadContentOpenDialogTask(long maxContentLength)
     {
         MediaData? media = null;
         var op = new OpenFileDialog
@@ -28,23 +28,21 @@ internal sealed class SelectionDialogHandler
                 OriginalPath = op.FileName,
                 Ext = fi.Extension
             };
+            media.IsContentStoredSeparately = true;
+            media.IsLoaded = false;
 
-            if (fi.Length < 20_000_000)
+            if (fi.Length < maxContentLength)
             {
                 try
                 {
                     media.ObjectByteArray = File.ReadAllBytes(op.FileName);
                     media.IsLoaded = true;
+                    media.IsContentStoredSeparately = false;
                 }
                 catch
                 {
                     media.ObjectByteArray = null;
-                    media.IsLoaded = false;
                 }
-            }
-            else
-            {
-                media.IsLoaded = false;
             }
         }
 

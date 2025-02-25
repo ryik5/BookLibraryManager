@@ -98,36 +98,48 @@ namespace LibraryManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_FirstSortProperty_ByDescend {
+        public bool BooksView_FirstSortProperty_ByDescent {
             get {
-                return ((bool)(this["BooksView_FirstSortProperty_ByDescend"]));
+                return ((bool)(this["BooksView_FirstSortProperty_ByDescent"]));
             }
             set {
-                this["BooksView_FirstSortProperty_ByDescend"] = value;
+                this["BooksView_FirstSortProperty_ByDescent"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_SecondSortProperty_ByDescend {
+        public bool BooksView_SecondSortProperty_ByDescent {
             get {
-                return ((bool)(this["BooksView_SecondSortProperty_ByDescend"]));
+                return ((bool)(this["BooksView_SecondSortProperty_ByDescent"]));
             }
             set {
-                this["BooksView_SecondSortProperty_ByDescend"] = value;
+                this["BooksView_SecondSortProperty_ByDescent"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_ThirdSortProperty_ByDescend {
+        public bool BooksView_ThirdSortProperty_ByDescent {
             get {
-                return ((bool)(this["BooksView_ThirdSortProperty_ByDescend"]));
+                return ((bool)(this["BooksView_ThirdSortProperty_ByDescent"]));
             }
             set {
-                this["BooksView_ThirdSortProperty_ByDescend"] = value;
+                this["BooksView_ThirdSortProperty_ByDescent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20000000")]
+        public long Book_MaxContentLength {
+            get {
+                return ((long)(this["Book_MaxContentLength"]));
+            }
+            set {
+                this["Book_MaxContentLength"] = value;
             }
         }
     }

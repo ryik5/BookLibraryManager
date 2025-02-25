@@ -10,6 +10,12 @@ namespace BookLibraryManager.Common;
 public interface ILibrary : ILoadable
 {
     /// <summary>
+    /// Sets the library.
+    /// </summary>
+    /// <param name="library">The library to set.</param>
+    void Set(ILibrary library);
+
+    /// <summary>
     /// Unique identifier for the library.
     /// </summary>
     int Id

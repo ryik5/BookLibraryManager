@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
+using LibraryManager.Models;
 using LibraryManager.Utils;
 using LibraryManager.Views;
 
@@ -16,7 +17,7 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
     /// </summary>
     /// <param name="bookManager">The book manager instance.</param>
     /// <param name="editedBook">The book being edited.</param>
-    public EditorBookDetailsViewModel(IBookManageable bookManager, Book editedBook) : base(bookManager)
+    public EditorBookDetailsViewModel(IBookManageable bookManager, SettingsModel settings, Book editedBook) : base(bookManager, settings)
     {
         Book = editedBook;
         _originalBook = (Book)editedBook.Clone();
@@ -55,7 +56,7 @@ internal sealed class EditorBookDetailsViewModel : CreatorBookDetailsViewModel
     /// <param name="window">The window to be closed.</param>
     private void SaveEditedBook(Window window)
     {
-        MessageHandler.PublishMessage( $"{Constants.LAST_EDITED_BOOK} '{Book.Title}'");
+        MessageHandler.PublishMessage($"{Constants.LAST_EDITED_BOOK} '{Book.Title}'");
         CloseWindow(window);
     }
 

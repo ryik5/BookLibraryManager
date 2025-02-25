@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using BookLibraryManager.Common;
+using LibraryManager.Models;
 using LibraryManager.Utils;
 using LibraryManager.Views;
 
@@ -14,9 +15,10 @@ internal class CreatorBookDetailsViewModel : BindableBase
     /// <summary>
     /// Initializes a new instance of the CreatorBookDetailsViewModel class.
     /// </summary>
-    public CreatorBookDetailsViewModel(IBookManageable libraryManager)
+    public CreatorBookDetailsViewModel(IBookManageable libraryManager, SettingsModel settings)
     {
         _libraryManager = libraryManager;
+        _settings = settings;
 
         LoadingState = Constants.LOAD_CONTENT;
         LoadBookContentCommand = new DelegateCommand(async () => await LockButtonsOnExecuteAsync(LoadBookContent));
@@ -279,7 +281,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         });
 
         var selectorFiles = new SelectionDialogHandler();
-        book.Content = await selectorFiles.ReadContentOpenDialogTask();
+        book.Content = await selectorFiles.ReadContentOpenDialogTask(_settings.Book_MaxContentLength);
     }
 
     /// <summary>
@@ -353,6 +355,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
 
     #region Fields
     private readonly IBookManageable _libraryManager;
+    private readonly SettingsModel _settings;
     private EditBookDetailsWindow _editBookDetailsWindow;
     private Book _book;
     private Visibility _noButtonVisibility;

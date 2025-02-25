@@ -32,6 +32,10 @@ internal sealed class SettingsModel
     public string[] BookProperties;
     #endregion
 
+    #region Book details
+    public long Book_MaxContentLength;
+    #endregion
+
     #region BooksViewModel Page
     /// <summary>
     /// Gets or sets the primary property used for sorting books.

@@ -1,6 +1,7 @@
 ﻿using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Properties;
+using LibraryManager.Utils;
 
 namespace LibraryManager.ViewModels;
 
@@ -34,15 +35,17 @@ internal sealed class SettingsViewModel : BindableBase
     public void LoadAllSettings()
     {
         TryConvertStringToEnum(Settings.Default.FindBooks_LastSearchField, ref _settings.SearchField, SearchField);
-        _settings.SearchOnFly = Settings.Default.FindBooks_SearchOnFly;
-        _settings.Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
+        SearchOnFly = Settings.Default.FindBooks_SearchOnFly;
+        Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
 
-        _settings.FirstSortBookProperty = Settings.Default.BooksView_FirstSortBookProperty;
-        _settings.FirstSortProperty_ByDescend = Settings.Default.BooksView_FirstSortProperty_ByDescend;
-        _settings.SecondSortBookProperty = Settings.Default.BooksView_SecondSortBookProperty;
-        _settings.SecondSortProperty_ByDescend = Settings.Default.BooksView_SecondSortProperty_ByDescend;
-        _settings.ThirdSortBookProperty = Settings.Default.BooksView_ThirdSortBookProperty;
-        _settings.ThirdSortProperty_ByDescend = Settings.Default.BooksView_ThirdSortProperty_ByDescend;
+        FirstSortBookProperty = Settings.Default.BooksView_FirstSortBookProperty;
+        FirstSortProperty_ByDescend = Settings.Default.BooksView_FirstSortProperty_ByDescent;
+        SecondSortBookProperty = Settings.Default.BooksView_SecondSortBookProperty;
+        SecondSortProperty_ByDescend = Settings.Default.BooksView_SecondSortProperty_ByDescent;
+        ThirdSortBookProperty = Settings.Default.BooksView_ThirdSortBookProperty;
+        ThirdSortProperty_ByDescend = Settings.Default.BooksView_ThirdSortProperty_ByDescent;
+
+        Book_MaxContentLength = Settings.Default.Book_MaxContentLength;
     }
 
     /// <summary>
@@ -55,11 +58,13 @@ internal sealed class SettingsViewModel : BindableBase
         Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
 
         Settings.Default.BooksView_FirstSortBookProperty = _settings.FirstSortBookProperty;
-        Settings.Default.BooksView_FirstSortProperty_ByDescend = _settings.FirstSortProperty_ByDescend;
+        Settings.Default.BooksView_FirstSortProperty_ByDescent = _settings.FirstSortProperty_ByDescend;
         Settings.Default.BooksView_SecondSortBookProperty = _settings.SecondSortBookProperty;
-        Settings.Default.BooksView_SecondSortProperty_ByDescend = _settings.SecondSortProperty_ByDescend;
+        Settings.Default.BooksView_SecondSortProperty_ByDescent = _settings.SecondSortProperty_ByDescend;
         Settings.Default.BooksView_ThirdSortBookProperty = _settings.ThirdSortBookProperty;
-        Settings.Default.BooksView_ThirdSortProperty_ByDescend = _settings.ThirdSortProperty_ByDescend;
+        Settings.Default.BooksView_ThirdSortProperty_ByDescent = _settings.ThirdSortProperty_ByDescend;
+        Settings.Default.Book_MaxContentLength = Settings.Default.Book_MaxContentLength;
+
 
         Settings.Default.Save();
     }
@@ -79,6 +84,38 @@ internal sealed class SettingsViewModel : BindableBase
     /// Gets an array of boolean values representing the state of various settings.
     /// </summary>
     public string[] BookProperties => _settings.BookProperties;
+    #endregion
+
+    #region Book details
+    /// <summary>
+    /// Gets or sets the maximum content length for a book.
+    /// </summary>
+    public long Book_MaxContentLength
+    {
+        get => _settings.Book_MaxContentLength;
+        set
+        {
+            var tooltip = string.Empty;
+            if (value < 0)
+            {
+                _settings.Book_MaxContentLength = 0;
+                Book_MaxContentLength_ToolTip = "0";
+            }
+            else if (SetProperty(ref _settings.Book_MaxContentLength, value))
+            {
+                Book_MaxContentLength_ToolTip = GetFileSizeTooltip(value);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the tooltip for the maximum content length for a book.
+    /// </summary>
+    public string Book_MaxContentLength_ToolTip
+    {
+        get => _book_MaxContentLength_ToolTip;
+        set => SetProperty(ref _book_MaxContentLength_ToolTip, value);
+    }
     #endregion
 
     #region BooksViewModel Page
@@ -162,7 +199,7 @@ internal sealed class SettingsViewModel : BindableBase
     #endregion
 
 
-
+    #region private methods
     /// <summary>
     /// Attempts to parse a string setting into an enumeration value of type <typeparamref name="T"/>.
     /// </summary>
@@ -187,6 +224,61 @@ internal sealed class SettingsViewModel : BindableBase
         return result;
     }
 
+    /// <summary>
+    /// Returns a tooltip text describing the file size.
+    /// </summary>
+    /// <param name="fileSize">The size of the file in bytes.</param>
+    /// <returns>A tooltip text describing the file size.</returns>
+    private string GetFileSizeTooltip(long fileSize)
+    {
+        var tooltip = string.Empty;
+
+        if (1_000_000_000 < fileSize)
+        {
+            var fileSizeInGigabytes = fileSize / 1_000_000_000;
+            tooltip = $"The set file size enormous ({fileSizeInGigabytes} GB). This may cause storage issues.";
+        }
+        else
+        {
+            // Convert the file size to a human-readable format
+            ConvertToHumanReadableFileSize(fileSize, FileLength.Byte, out var fileSizeInUnits, out var unit);
+
+            tooltip = $"The loaded file size can be maiximum as {fileSizeInUnits} {unit}";
+        }
+
+        return tooltip;
+    }
+
+    /// <summary>
+    /// Converts a file size in bytes to a human-readable format.
+    /// </summary>
+    /// <param name="number">The file size in bytes.</param>
+    /// <param name="startLength">The starting unit of measurement (e.g. Byte, KB, MB, GB).</param>
+    /// <param name="result">The converted file size.</param>
+    /// <param name="length">The unit of measurement for the converted file size.</param>
+    private void ConvertToHumanReadableFileSize(long number, FileLength startLength, out long result, out FileLength length)
+    {
+        result = number;
+        length = startLength;
+        if (1024 < number && (int)startLength < (int)FileLength.GB)
+        {
+            length = startLength.Next();
+            result = number / 1024;
+            ConvertToHumanReadableFileSize(result, length, out result, out length);
+        }
+    }
+    #endregion
+
 
     private readonly SettingsModel _settings;
+
+    private string _book_MaxContentLength_ToolTip;
+
+    private enum FileLength
+    {
+        Byte,
+        KB,
+        MB,
+        GB
+    }
 }

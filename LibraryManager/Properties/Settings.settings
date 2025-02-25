@@ -29,5 +29,8 @@
     <Setting Name="BooksView_ThirdSortProperty_ByDescent" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="Book_MaxContentLength" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">20000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

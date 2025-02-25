@@ -96,6 +96,29 @@
 
             <StackPanel Grid.Column="1" Margin="10 10 10 0">
 
+                <GroupBox Header="'Create and Edit Book' Pages">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="38"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" 
+                               Content="Max content length, byte"
+                               ToolTip="The maximum book content length that can be stored with the book inside the library"
+                               HorizontalAlignment="Left"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                                 Text="{Binding Settings.Book_MaxContentLength, UpdateSourceTrigger=PropertyChanged}"  
+                                 Style="{StaticResource TextBoxBordedWithoutTriggerStyle}"
+                                 ToolTip="{Binding Settings.Book_MaxContentLength_ToolTip, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalAlignment="Right" Width="120" Height="25" Margin="3 0 5 0" />
+
+                    </Grid>
+                </GroupBox>
+
                 <GroupBox Header="'Books' Page. Sort">
                     <Grid>
                         <Grid.ColumnDefinitions>

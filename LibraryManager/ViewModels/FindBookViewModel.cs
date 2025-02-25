@@ -199,7 +199,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
 
         LibraryVisibility = BookList?.Count < 1 ? Visibility.Collapsed : Visibility.Visible;
 
-        MessageHandler.PublishMessage(SearchedForResult(SelectedSearchField, SearchText, foundBooks));
+        MessageHandler.PublishMessage(FormatString_SearchResult(SelectedSearchField, SearchText, foundBooks));
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ internal sealed class FindBookViewModel : BindableBase, IViewModelPageable
     /// <param name="searchText">The text used for searching.</param>
     /// <param name="foundBooks">The number of books found during the search.</param>
     /// <returns>A formatted string indicating the search result.</returns>
-    private static string SearchedForResult(EBibliographicKindInformation selectedSearchField, string searchText, int foundBooks)
+    private static string FormatString_SearchResult(EBibliographicKindInformation selectedSearchField, string searchText, int foundBooks)
         => $"Searched for {selectedSearchField}:{searchText}. Found {foundBooks} result{(foundBooks != 1 ? "s" : "")}.";
 
     /// <summary>

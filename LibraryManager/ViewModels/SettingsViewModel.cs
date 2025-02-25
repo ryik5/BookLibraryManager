@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using BookLibraryManager.Common;
+﻿using BookLibraryManager.Common;
 using LibraryManager.Models;
 using LibraryManager.Properties;
 
@@ -39,11 +38,11 @@ internal sealed class SettingsViewModel : BindableBase
         _settings.Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
 
         _settings.FirstSortBookProperty = Settings.Default.BooksView_FirstSortBookProperty;
-        _settings.FirstSortProperty_ByDescent = Settings.Default.BooksView_FirstSortProperty_ByDescent;
+        _settings.FirstSortProperty_ByDescend = Settings.Default.BooksView_FirstSortProperty_ByDescend;
         _settings.SecondSortBookProperty = Settings.Default.BooksView_SecondSortBookProperty;
-        _settings.SecondSortProperty_ByDescent = Settings.Default.BooksView_SecondSortProperty_ByDescent;
+        _settings.SecondSortProperty_ByDescend = Settings.Default.BooksView_SecondSortProperty_ByDescend;
         _settings.ThirdSortBookProperty = Settings.Default.BooksView_ThirdSortBookProperty;
-        _settings.ThirdSortProperty_ByDescent = Settings.Default.BooksView_ThirdSortProperty_ByDescent;
+        _settings.ThirdSortProperty_ByDescend = Settings.Default.BooksView_ThirdSortProperty_ByDescend;
     }
 
     /// <summary>
@@ -56,11 +55,11 @@ internal sealed class SettingsViewModel : BindableBase
         Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
 
         Settings.Default.BooksView_FirstSortBookProperty = _settings.FirstSortBookProperty;
-        Settings.Default.BooksView_FirstSortProperty_ByDescent = _settings.FirstSortProperty_ByDescent;
+        Settings.Default.BooksView_FirstSortProperty_ByDescend = _settings.FirstSortProperty_ByDescend;
         Settings.Default.BooksView_SecondSortBookProperty = _settings.SecondSortBookProperty;
-        Settings.Default.BooksView_SecondSortProperty_ByDescent = _settings.SecondSortProperty_ByDescent;
+        Settings.Default.BooksView_SecondSortProperty_ByDescend = _settings.SecondSortProperty_ByDescend;
         Settings.Default.BooksView_ThirdSortBookProperty = _settings.ThirdSortBookProperty;
-        Settings.Default.BooksView_ThirdSortProperty_ByDescent = _settings.ThirdSortProperty_ByDescent;
+        Settings.Default.BooksView_ThirdSortProperty_ByDescend = _settings.ThirdSortProperty_ByDescend;
 
         Settings.Default.Save();
     }
@@ -79,11 +78,6 @@ internal sealed class SettingsViewModel : BindableBase
     /// <summary>
     /// Gets an array of boolean values representing the state of various settings.
     /// </summary>
-    public PropertyInfo[] BookPropertiesInfo => _settings.BookPropertiesInfo;
-
-    /// <summary>
-    /// Gets an array of boolean values representing the state of various settings.
-    /// </summary>
     public string[] BookProperties => _settings.BookProperties;
     #endregion
 
@@ -96,10 +90,10 @@ internal sealed class SettingsViewModel : BindableBase
         get => _settings.FirstSortBookProperty;
         set => SetProperty(ref _settings.FirstSortBookProperty, value);
     }
-    public bool FirstSortProperty_ByDescent
+    public bool FirstSortProperty_ByDescend
     {
-        get => _settings.FirstSortProperty_ByDescent;
-        set => SetProperty(ref _settings.FirstSortProperty_ByDescent, value);
+        get => _settings.FirstSortProperty_ByDescend;
+        set => SetProperty(ref _settings.FirstSortProperty_ByDescend, value);
     }
 
     /// <summary>
@@ -110,10 +104,10 @@ internal sealed class SettingsViewModel : BindableBase
         get => _settings.SecondSortBookProperty;
         set => SetProperty(ref _settings.SecondSortBookProperty, value);
     }
-    public bool SecondSortProperty_ByDescent
+    public bool SecondSortProperty_ByDescend
     {
-        get => _settings.SecondSortProperty_ByDescent;
-        set => SetProperty(ref _settings.SecondSortProperty_ByDescent, value);
+        get => _settings.SecondSortProperty_ByDescend;
+        set => SetProperty(ref _settings.SecondSortProperty_ByDescend, value);
     }
 
     /// <summary>
@@ -124,10 +118,10 @@ internal sealed class SettingsViewModel : BindableBase
         get => _settings.ThirdSortBookProperty;
         set => SetProperty(ref _settings.ThirdSortBookProperty, value);
     }
-    public bool ThirdSortProperty_ByDescent
+    public bool ThirdSortProperty_ByDescend
     {
-        get => _settings.ThirdSortProperty_ByDescent;
-        set => SetProperty(ref _settings.ThirdSortProperty_ByDescent, value);
+        get => _settings.ThirdSortProperty_ByDescend;
+        set => SetProperty(ref _settings.ThirdSortProperty_ByDescend, value);
     }
 
     #endregion

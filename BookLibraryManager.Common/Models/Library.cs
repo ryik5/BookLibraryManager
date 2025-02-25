@@ -179,7 +179,7 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     private PropertyInfo[] BuildBookPropertiesArray()
     {
         var bookType = typeof(Book);
-        return bookType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+        return bookType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.GetCustomAttribute<BookPropertyAttribute>() != null)
             .ToArray();
     }

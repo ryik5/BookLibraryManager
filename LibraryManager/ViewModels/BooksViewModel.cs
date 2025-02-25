@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reflection;
 using System.Windows;
 using BookLibraryManager.Common;
+using BookLibraryManager.Common.Models;
 using LibraryManager.Models;
 using LibraryManager.Utils;
 
@@ -199,22 +199,23 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void SortBooks()
     {
-        var props = new List<PropertyInfo>();
+        var props = new List<PropertyCustomInfo>();
 
-        AddBookPropertyToList(props, _settings.FirstSortBookProperty);
-        AddBookPropertyToList(props, _settings.SecondSortBookProperty);
-        AddBookPropertyToList(props, _settings.ThirdSortBookProperty);
+        MakeBookCutomPropertyList(props, _settings.FirstSortBookProperty, _settings.FirstSortProperty_ByDescend);
+        MakeBookCutomPropertyList(props, _settings.SecondSortBookProperty, _settings.SecondSortProperty_ByDescend);
+        MakeBookCutomPropertyList(props, _settings.ThirdSortBookProperty, _settings.ThirdSortProperty_ByDescend);
 
         if (0 < props.Count)
             _bookManager.SafetySortBooks(props);
 
         MessageHandler.PublishMessage($"Library ID:{BookManager.Library.Id} was sorted");
 
-        void AddBookPropertyToList(List<PropertyInfo> props, string name)
+        void MakeBookCutomPropertyList(List<PropertyCustomInfo> props, string name, bool byDescend)
         {
             var prop = _bookManager.Library.FindBookPropertyInfo(_settings.FirstSortBookProperty);
+            var customProp = new PropertyCustomInfo { PropertyInfo = prop, DescendingOrder = byDescend };
             if (prop.Name != nameof(Book.None))
-                props.Add(prop);
+                props.Add(customProp);
         }
     }
 

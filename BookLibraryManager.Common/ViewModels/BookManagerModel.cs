@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
+using BookLibraryManager.Common.Models;
 using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
@@ -64,7 +64,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <summary>
     /// Sorts the book collection by author and then by title.
     /// </summary>
-    public void SafetySortBooks(List<PropertyInfo> sortProperties)
+    public void SafetySortBooks(List<PropertyCustomInfo> sortProperties)
     {
         InvokeOnUiThread(() =>
         Library.BookList.ResetAndAddRange(GetSortedBookList(sortProperties)));
@@ -132,7 +132,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// </summary>
     /// <param name="sortProperties">The properties to sort the books by.</param>
     /// <returns>A sorted list of Book objects.</returns>
-    private IEnumerable<Book> GetSortedBookList(List<PropertyInfo> sortProperties)
+    private IEnumerable<Book> GetSortedBookList(List<PropertyCustomInfo> sortProperties)
     {
         var orderedBooks = Library.BookList.Where(b => 0 < b.Id);
 
@@ -140,11 +140,17 @@ public class BookManagerModel : BindableBase, IBookManageable
         {
             if (orderedBooks is IOrderedEnumerable<Book>)
             {
-                orderedBooks = ((IOrderedEnumerable<Book>)orderedBooks).ThenBy(b => property.GetValue(b));
+                if (property.DescendingOrder)
+                    orderedBooks = ((IOrderedEnumerable<Book>)orderedBooks).ThenByDescending(b => property.PropertyInfo.GetValue(b));
+                else
+                    orderedBooks = ((IOrderedEnumerable<Book>)orderedBooks).ThenBy(b => property.PropertyInfo.GetValue(b));
             }
             else
             {
-                orderedBooks = orderedBooks.OrderBy(b => property.GetValue(b));
+                if (property.DescendingOrder)
+                    orderedBooks = orderedBooks.OrderByDescending(b => property.PropertyInfo.GetValue(b));
+                else
+                    orderedBooks = orderedBooks.OrderBy(b => property.PropertyInfo.GetValue(b));
             }
         }
 

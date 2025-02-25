@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Controls;
 using BookLibraryManager.Common;
@@ -15,7 +14,7 @@ namespace LibraryManager.ViewModels;
 /// and the text block used to display the status bar message.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public sealed class StatusBarViewModel : BindableBase
+internal sealed class StatusBarViewModel : BindableBase
 {
     /// <summary>
     /// Initializes a new instance of the StatusBarViewModel class.

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;
 
@@ -14,8 +13,17 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
         if (library is null)
             throw new ArgumentNullException(nameof(library));
 
-        _library = library;
-        RaisePropertyChanged(nameof(Library));
+        if (Library is ILibrary)
+        {
+            Library.BookList.CollectionChanged -= BookList_CollectionChanged;
+            Library.Set(library);
+        }
+        else
+        {
+            _library = library;
+            RaisePropertyChanged(nameof(Library));
+        }
+
         Library.BookList.CollectionChanged += BookList_CollectionChanged;
     }
 
@@ -30,8 +38,6 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
         TryCloseLibrary();
 
         Library.Id = idLibrary;
-
-        RaisePropertyChanged(nameof(Library));
     }
 
     /// <summary>
@@ -49,15 +55,10 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
         var result = libraryLoader.TryLoadLibrary(pathToLibrary, out var library);
         if (result)
         {
-            Library.Id = library.Id;
-            Library.Name = library.Name;
-            Library.Description = library.Description;
-            InvokeOnUiThread(() => Library.BookList.ResetAndAddRange(library.BookList));
+            InvokeOnUiThread(() => Library.Set(library));
         }
 
         libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
-
-        RaisePropertyChanged(nameof(Library));
 
         return result;
     }
@@ -81,7 +82,6 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
         Library.Name = string.Empty;
         Library.Description = string.Empty;
         Library.Id = 0;
-        RaisePropertyChanged(nameof(Library));
     }
     #endregion
 

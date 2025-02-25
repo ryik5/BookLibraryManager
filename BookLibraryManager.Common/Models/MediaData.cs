@@ -37,6 +37,14 @@ public class MediaData : BindableBase, IXmlSerializable
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the content is stored separately.
+    /// </summary>
+    public bool IsContentStoredSeparately
+    {
+        get; set;
+    }
+
+    /// <summary>
     /// Gets or sets the IsLoaded state of the file.
     /// </summary>
     public bool IsLoaded
@@ -64,7 +72,7 @@ public class MediaData : BindableBase, IXmlSerializable
     /// </summary>
     public void ReadXml(XmlReader reader)
     {
-        var isRead = true;
+        var isRead = true; bool isParsed; bool result;
         while (reader.Read() && isRead)
         {
             switch (reader.NodeType)
@@ -81,10 +89,13 @@ public class MediaData : BindableBase, IXmlSerializable
                         case "Ext":
                             Ext = reader.ReadElementContentAsString();
                             break;
+                        case "IsContentStoredSeparately":
+                            isParsed = bool.TryParse(reader.ReadElementContentAsString(), out result);
+                            IsContentStoredSeparately = isParsed && result;
+                            break;
                         case "IsLoaded":
-                            var isLoaded = bool.TryParse(reader.ReadElementContentAsString(), out var result);
-                            IsLoaded = isLoaded && result;
-
+                            isParsed = bool.TryParse(reader.ReadElementContentAsString(), out result);
+                            IsLoaded = isParsed && result;
                             break;
                         case "Source":
                             const int LEN = 4096;
@@ -132,11 +143,12 @@ public class MediaData : BindableBase, IXmlSerializable
         writer.WriteElementString("Name", Name);
         writer.WriteElementString("OriginalPath", OriginalPath);
         writer.WriteElementString("Ext", Ext);
+        writer.WriteElementString("IsContentStoredSeparately", $"{IsContentStoredSeparately}");
         writer.WriteElementString("IsLoaded", $"{IsLoaded}");
 
         writer.WriteStartElement("Source");
 
-        if (ObjectByteArray != null&& IsLoaded)
+        if (ObjectByteArray != null && IsLoaded)
             writer.WriteBase64(ObjectByteArray, 0, ObjectByteArray.Length);
         writer.WriteEndElement();
 

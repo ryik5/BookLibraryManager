@@ -20,7 +20,7 @@ public class XmlLibraryKeeper : ILibraryKeeper
             XmlObjectSerializer.Save(library as Library, pathToFile);
             return true;
         }
-        catch (Exception ex)
+        catch
         {
             return false;
         }

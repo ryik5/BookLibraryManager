@@ -81,6 +81,23 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     /// </summary>
     public event EventHandler<EventArgs>? LibraryIdChanged;
 
+    public override string ToString()
+    {
+        return $"{Id}, {Name},{Description},{string.Join(",", BookList)}";
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int hash = 13;
+
+            hash = (hash * 7) + (!ReferenceEquals(null, ToString()) ? ToString().GetHashCode() : 0);
+
+            return hash;
+        }
+    }
+
 
     public XmlSchema? GetSchema() => throw new NotImplementedException();
 

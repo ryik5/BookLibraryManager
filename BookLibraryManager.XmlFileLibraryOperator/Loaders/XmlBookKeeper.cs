@@ -61,5 +61,5 @@ public class XmlBookKeeper : IBookLoader
         return result;
     }
 
-    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+    public event EventHandler<ActionFinishedEventArgs>? LoadingFinished;
 }

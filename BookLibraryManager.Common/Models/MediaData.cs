@@ -61,6 +61,11 @@ public class MediaData : BindableBase, IXmlSerializable
         get; set;
     }
 
+    public override string ToString()
+    {
+        return $"{Name},{OriginalPath},{Ext},{IsContentStoredSeparately},{IsLoaded}";
+    }
+
     /// <summary>
     /// Returns the XML schema for the file.
     /// </summary>

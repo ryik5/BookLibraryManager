@@ -118,6 +118,44 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
     }
     private MediaData _content;
 
+    /// <summary>
+    /// Returns a string that represents the current <see cref="Book"/>.
+    /// </summary>
+    /// <returns>A string that contains the <see cref="Author"/>, <see cref="Title"/>, <see cref="TotalPages"/> and <see cref="PublishDate"/>
+    /// of the <see cref="Book"/>.</returns>
+    public override string ToString()
+    {
+        return $"{Id},{Author},{Title},{PublishDate},{TotalPages},{Description},{Genre},{ISBN},{Content}";
+    }
+
+    /// <summary>
+    /// Creates a deep copy of the current <see cref="Book"/> object.
+    /// </summary>
+    /// <returns>A new <see cref="Book"/> object that is a copy of the current object.</returns>
+    public object Clone()
+    {
+        Book clone = new()
+        {
+            Id = Id,
+            Author = Author,
+            Title = Title,
+            TotalPages = TotalPages,
+            PublishDate = PublishDate,
+            Description = Description,
+            Content = Content is null ? null : new()
+            {
+                Name = Content.Name,
+                Ext = Content.Ext,
+                OriginalPath = Content.OriginalPath,
+                ObjectByteArray = Content.ObjectByteArray
+            },
+            Genre = Genre,
+            ISBN = ISBN
+        };
+        return clone;
+    }
+
+
     public XmlSchema? GetSchema() => throw new NotImplementedException();
 
     /// <summary>
@@ -200,51 +238,4 @@ public class Book : BindableBase, ILoadable, ICloneable, IXmlSerializable
 
         writer.WriteEndElement();
     }
-
-    /// <summary>
-    /// Returns a string that represents the current <see cref="Book"/>.
-    /// </summary>
-    /// <returns>A string that contains the <see cref="Author"/>, <see cref="Title"/>, <see cref="TotalPages"/> and <see cref="PublishDate"/>
-    /// of the <see cref="Book"/>.</returns>
-    public override string ToString()
-    {
-        return $"Author:{Author}-Title:{Title}-Pages:{TotalPages}-Year:{PublishDate}";
-    }
-
-    /// <summary>
-    /// Creates a deep copy of the current <see cref="Book"/> object.
-    /// </summary>
-    /// <returns>A new <see cref="Book"/> object that is a copy of the current object.</returns>
-    public object Clone()
-    {
-        Book clone = new()
-        {
-            Id = Id,
-            Author = Author,
-            Title = Title,
-            TotalPages = TotalPages,
-            PublishDate = PublishDate,
-            Description = Description,
-            Content = Content is null ? null : new()
-            {
-                Name = Content.Name,
-                Ext = Content.Ext,
-                OriginalPath = Content.OriginalPath,
-                ObjectByteArray = Content.ObjectByteArray
-            },
-            Genre = Genre,
-            ISBN = ISBN
-        };
-        return clone;
-    }
-}
-
-
-/// <summary>
-/// Custom attribute to mark properties that should be included in the book properties list.
-/// </summary>
-/// <author>YR 2025-02-24</author>
-[AttributeUsage(AttributeTargets.Property)]
-public class BookPropertyAttribute : Attribute
-{
 }

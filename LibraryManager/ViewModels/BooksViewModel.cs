@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using BookLibraryManager.Common;
-using BookLibraryManager.Common.Models;
 using LibraryManager.Models;
 using LibraryManager.Utils;
 

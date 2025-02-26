@@ -1,6 +1,4 @@
-﻿using BookLibraryManager.Common.Models;
-
-namespace BookLibraryManager.Common;
+﻿namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a Book interface that provides functionalities to add, remove, sort, and display books.

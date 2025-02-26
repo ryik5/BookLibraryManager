@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using BookLibraryManager.Common.Models;
 using BookLibraryManager.Common.Util;
 
 namespace BookLibraryManager.Common;

@@ -19,7 +19,7 @@ public class XmlBookKeeper : IBookKeeper
             XmlObjectSerializer.Save(book, pathToFile);
             return true;
         }
-        catch (Exception ex)
+        catch
         {
             return false;
         }

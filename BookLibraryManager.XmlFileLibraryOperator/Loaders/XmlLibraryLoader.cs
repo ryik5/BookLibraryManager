@@ -26,7 +26,7 @@ public class XmlLibraryLoader : ILibraryLoader
             result = true;
             msg = "Library loaded";
         }
-        catch (Exception ex)
+        catch
         {
             result = false;
             msg = "Library was not loaded";
@@ -36,5 +36,5 @@ public class XmlLibraryLoader : ILibraryLoader
         return result;
     }
 
-    public event EventHandler<ActionFinishedEventArgs> LoadingFinished;
+    public event EventHandler<ActionFinishedEventArgs>? LoadingFinished;
 }

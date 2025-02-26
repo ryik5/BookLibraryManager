@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace BookLibraryManager.Common.Models;
+namespace BookLibraryManager.Common;
 
 /// <summary>
 /// Represents a custom property information.

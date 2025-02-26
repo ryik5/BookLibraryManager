@@ -90,6 +90,9 @@ public class Library : BindableBase, ILibrary, IXmlSerializable
     {
         unchecked
         {
+            if (TotalBooks == 0)
+                return 0;
+
             int hash = 13;
 
             hash = (hash * 7) + (!ReferenceEquals(null, ToString()) ? ToString().GetHashCode() : 0);

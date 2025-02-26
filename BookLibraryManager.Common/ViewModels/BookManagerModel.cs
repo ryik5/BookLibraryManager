@@ -22,12 +22,12 @@ public class BookManagerModel : BindableBase, IBookManageable
 
     #region public methods
     /// <summary>
-    /// Loads a book from the specified file path.
+    /// Try ti import a book from the specified file path into the Library.
     /// </summary>
     /// <param name="bookLoader">The loader responsible for loading the book.</param>
     /// <param name="pathToFile">The path to the file containing the book data.</param>
     /// <returns>True if the book was successfully loaded; otherwise, false.</returns>
-    public bool TryLoadBook(IBookLoader bookLoader, string pathToFile)
+    public bool TryImportBook(IBookLoader bookLoader, string pathToFile)
     {
         bookLoader.LoadingFinished += BookLoader_LoadingBookFinished;
 
@@ -46,7 +46,7 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <param name="keeper">The keeper responsible for saving the book.</param>
     /// <param name="pathToFolder">The path to the folder where the book will be saved.</param>
     /// <returns>True if the book was successfully saved; otherwise, false.</returns>
-    public bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder)
+    public bool TryExportBook(IBookKeeper keeper, Book book, string pathToFolder)
         => keeper.TrySaveBook(book, pathToFolder);
 
     /// <summary>

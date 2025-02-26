@@ -23,9 +23,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         SaveLibraryCommand = GetDelegateCommandWithLockAsync(SaveLibraryAsXml);
         SaveAsLibraryCommand = GetDelegateCommandWithLockAsync(SaveAsLibraryAsXml);
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
-        UpdateLibraryState();
         _libraryManager.TotalBooksChanged += Handle_TotalBooksChanged;
         _libraryManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
+        UpdateLibraryState();
     }
 
 
@@ -134,6 +134,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private void CreateLibrary()
     {
+        if (HasLibraryHashCodeChanged())
+            return;
+
         _libraryManager.CreateNewLibrary(Random.Shared.Next());
 
         UpdateLibraryState();
@@ -146,6 +149,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task LoadLibraryAsXml()
     {
+        if (HasLibraryHashCodeChanged())
+            return;
+
         var filePath = new SelectionDialogHandler().GetPathToXmlFile();
 
         MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
@@ -164,7 +170,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         else
         {
             MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{filePath}'");
-
             new MessageBoxHandler().Show(Constants.LIBRARY_WAS_NOT_LOADED);
         }
 
@@ -199,6 +204,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task TrySaveLibraryAsXml(string? libraryName)
     {
+        if (HasLibraryHashCodeChanged())
+            return;
+
         var msg = string.Empty;
         var pathToFile = string.Empty;
         try
@@ -209,7 +217,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
             var fileName = string.IsNullOrWhiteSpace(libraryName) ? Library.Id.ToString() : libraryName;
 
-            pathToFile = Path.Combine(selectedFolder, $"{fileName}.xml");
+            pathToFile = Path.Combine(selectedFolder, HandleStrins.CreateXmlFileName(fileName));
 
             var file = new FileInfo(pathToFile);
             if (file.Exists)
@@ -241,6 +249,9 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         if (_libraryManager != null)
         {
+            if (HasLibraryHashCodeChanged())
+                return;
+
             var id = Library.Id;
 
             _libraryManager.TryCloseLibrary();
@@ -278,7 +289,30 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// Updates the library state by raising a property changed event for the Library property
     /// and setting the IsEnabled property based on whether the Library Id differs from the default value of 0.
     /// </summary>
-    private void UpdateLibraryState() => RaisePropertyChanged(nameof(Library));
+    private void UpdateLibraryState()
+    {
+        RaisePropertyChanged(nameof(Library));
+
+        _libraryHashCode = Library.GetHashCode();
+    }
+
+    /// <summary>
+    /// Checks if the library hash code has changed and prompts the user to save changes if necessary.
+    /// </summary>
+    /// <returns>True if the user confirms saving changes, false otherwise.</returns>
+    private bool HasLibraryHashCodeChanged()
+    {
+        var currentHash = Library.GetHashCode();
+        var libraryVhanged = currentHash != 0 && currentHash != _libraryHashCode;
+
+        if (libraryVhanged)
+        {
+            var msgBox = new MessageBoxHandler();
+            msgBox.Show(Constants.LIBRARY_SAVE, HandleStrins.LibraryChangedMessage(), MessageBoxButtonsViewSelector.YesNo);
+            return Models.DialogResult.YesButton == msgBox.DialogResult;
+        }
+        return false;
+    }
     #endregion
 
 
@@ -287,5 +321,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     private bool _isChecked;
     private bool _canOperateWithBooks;
     private bool _isUnLocked = true;
+    private int _libraryHashCode;
     #endregion
 }

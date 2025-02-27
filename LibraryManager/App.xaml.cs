@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 using LibraryManager.ViewModels;
 using LibraryManager.Views;
 
@@ -16,7 +17,8 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        var app = new ApplicationView();
+        var app = new ApplicationView() { Icon = new BitmapImage(new Uri("pack://application:,,,/Properties/Resources/library.ico", UriKind.RelativeOrAbsolute)) };
+
         var context = new ApplicationViewModel();
         app.DataContext = context;
         app.Show();

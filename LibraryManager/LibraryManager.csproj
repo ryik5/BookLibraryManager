@@ -6,14 +6,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Properties\Resources\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Properties\Resources\library.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <Title>Library manager</Title>
     <Authors>YR</Authors>
     <Company>@YR</Company>
     <Copyright>@YR</Copyright>
     <Description>Library manager with plugins</Description>
-    <PackageIcon>logo_25.png</PackageIcon>
+    <PackageIcon>library.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <AssemblyVersion>0.9.1.9</AssemblyVersion>
     <FileVersion>0.9.1.9</FileVersion>
@@ -32,13 +32,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\!Resources\logo_25.png">
+    <None Remove="Properties\Resources\library.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\!Resources\library.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Properties\Resources\library.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Properties\Resources\logo.ico" />
     <Resource Include="Properties\Resources\Manrope.ttf" />
     <Resource Include="Properties\Resources\qr.png" />

@@ -40,7 +40,7 @@ public static class XmlObjectSerializer
             IgnoreWhitespace = false,
             IgnoreComments = false
         };
-        using var fileStream = new FileStream(fileName, FileMode.Open);
+        using var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         using var xmlReader = XmlReader.Create(fileStream, settings);
 
         return (T?)deserializer.Deserialize(xmlReader);

@@ -20,9 +20,11 @@
 
         <Button Content="Add Book" 
                 Command="{Binding AddBookCommand}" 
+                IsEnabled="{Binding IsUnLocked}"
                 ToolTip="{Binding AddBookTooltip, Mode=OneTime}"/>
         <Button Content="Demo 'Add Books'" 
                 Command="{Binding DemoAddBooksCommand}" 
+                IsEnabled="{Binding IsUnLocked}"
                 ToolTip="{Binding DemoAddBooksTooltip, Mode=OneTime}"/>
         <Button Content="Edit Book" 
                 Command="{Binding EditBookCommand}" 
@@ -33,8 +35,18 @@
                 IsEnabled="{Binding CanEditBook}"
                 ToolTip="{Binding RemoveBookTooltip, Mode=OneTime}"/>
 
+        <Button Content="Import Book" 
+                Command="{Binding ImportBookCommand}" 
+                IsEnabled="{Binding IsUnLocked}"
+                ToolTip="{Binding ImportBookTooltip, Mode=OneTime}"/>
+        <Button Content="Export Book" 
+                Command="{Binding ExportSelectedBookCommand}" 
+                IsEnabled="{Binding CanEditBook}"
+                ToolTip="{Binding ExportSelectedBookTooltip, Mode=OneTime}"/>
+
         <Button Content="Sort Library"
                 Command="{Binding SortLibraryCommand}" 
+                IsEnabled="{Binding IsUnLocked}"
                 ToolTip="{Binding SortLibraryTooltip, Mode=OneTime}"/>
 
     </StackPanel>

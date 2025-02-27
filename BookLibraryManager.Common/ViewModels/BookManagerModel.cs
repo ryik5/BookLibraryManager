@@ -27,13 +27,13 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <param name="bookLoader">The loader responsible for loading the book.</param>
     /// <param name="pathToFile">The path to the file containing the book data.</param>
     /// <returns>True if the book was successfully loaded; otherwise, false.</returns>
-    public bool TryImportBook(IBookLoader bookLoader, string pathToFile)
+    public bool TryLoadBook(IBookLoader bookLoader, string pathToFile)
     {
         bookLoader.LoadingFinished += BookLoader_LoadingBookFinished;
 
         var result = bookLoader.TryLoadBook(pathToFile, out var book);
         if (result)
-            AddBook(book);
+            InvokeOnUiThread(() => AddBook(book));
 
         bookLoader.LoadingFinished -= BookLoader_LoadingBookFinished;
 
@@ -46,8 +46,15 @@ public class BookManagerModel : BindableBase, IBookManageable
     /// <param name="keeper">The keeper responsible for saving the book.</param>
     /// <param name="pathToFolder">The path to the folder where the book will be saved.</param>
     /// <returns>True if the book was successfully saved; otherwise, false.</returns>
-    public bool TryExportBook(IBookKeeper keeper, Book book, string pathToFolder)
-        => keeper.TrySaveBook(book, pathToFolder);
+    public bool TrySaveBook(IBookKeeper keeper, Book book, string pathToFolder)
+    {
+        var result = false;
+        InvokeOnUiThread(() =>
+        {
+            result = keeper.TrySaveBook(book, pathToFolder);
+        });
+        return result;
+    }
 
     /// <summary>
     /// Sorts the book collection by author and then by title.

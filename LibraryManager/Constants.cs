@@ -10,6 +10,11 @@ public static class Constants
     public const string LIBRARY_MANAGER = "LibraryManager";
     public const string LIBRARY_MANAGER_PIPE_SERVER = "LibraryManagerPipeServer";
     public const string OPERATION_WAS_CANCELED = "Operation was canceled";
+    public const string BOOK_WAS_SAVED_SUCCESSFULLY = "Book was saved successfully";
+    public const string FAILED_TO_SAVE_BOOK_TO_PATH = "Failed to save book to path";
+    public const string BOOK_WAS_IMPORTED_SUCCESSFULLY = "Book was imported successfully";
+    public const string FAILED_TO_IMPORT_BOOK_BY_PATH = "Failed to import book by the path";
+
     #endregion
 
     #region ToolsViewModel
@@ -24,7 +29,7 @@ public static class Constants
     public const string LIBRARY = "Library";
     public const string CREATE_NEW_LIBRARY = "Create a new library";
     public const string LIBRARY_WAS_CREATED_SUCCESSFULLY = "Library was created successfully";
-    public const string LIBRARY_LOAD = "Load a library";
+    public const string LIBRARY_LOAD = "Load the library";
     public const string LOADING_LIBRARY_FROM_XML = "Loading library from the XML file...";
     public const string LIBRARY_WAS_LOADED_SUCCESSFULLY = "Library was loaded successfully from path";
     public const string LIBRARY_LOADED_WITH_ID = "Library loaded with ID";
@@ -69,6 +74,10 @@ public static class Constants
     public const string CONTENT_SAVED_SUCCESSFULLY = "Content saved successfully";
     public const string FAILED_TO_SAVE_CONTENT = "Failed to save content";
     public const string NO_CONTENT_TO_SAVE = "No content to save";
+    public const string IMPORT_BOOK = "Import a book";
+    public const string EXPORT_BOOK = "Export the selected book";
+    public const string INPUT_BOOK_NAME = "Input a name of the book:";
+    public const string INPUT_NAME = "Input a name";
     #endregion
 
     #region DebugViewModel

@@ -99,13 +99,13 @@ internal sealed class SelectionDialogHandler
     /// <summary>
     /// Returns the path to the XML file with the library.
     /// </summary>
-    public string? GetPathToXmlFile()
+    public string? GetPathToXmlFile(string windowTitle)
     {
         var openDialog = new OpenFileDialog()
         {
-            Title = "Load the library",
+            Title = windowTitle,
             DefaultExt = ".xml",
-            Filter = "XML Library (.xml)|*.xml"
+            Filter = "XML file (.xml)|*.xml"
         };
         var dialogResult = openDialog.ShowDialog();
         if (!dialogResult.HasValue || !dialogResult.Value)

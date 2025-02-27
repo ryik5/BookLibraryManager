@@ -19,6 +19,7 @@ public class MessageBoxHandler
         MessageBlock = message;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
+        MessageHandler.PublishMessage(message);
     }
 
     /// <summary>
@@ -36,6 +37,7 @@ public class MessageBoxHandler
         WindowTitle = title;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
+        MessageHandler.PublishMessage($"{title}: {message}");
     }
 
     /// <summary>
@@ -48,6 +50,7 @@ public class MessageBoxHandler
         WindowTitle = title;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
+        MessageHandler.PublishMessage($"{title}: {message}");
     }
     /// <summary>
     /// Displays a message box with the specified title, message, using the button view selector.
@@ -60,6 +63,7 @@ public class MessageBoxHandler
         WindowTitle = title;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
+        MessageHandler.PublishMessage($"{title}: {message}");
     }
     /// <summary>
     /// Displays a message box with the specified title, message, and buttons.
@@ -73,6 +77,7 @@ public class MessageBoxHandler
         WindowTitle = title;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
+        MessageHandler.PublishMessage($"{title}: {message}");
     }
 
 

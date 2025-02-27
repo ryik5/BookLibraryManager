@@ -18,13 +18,16 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     public LibraryViewModel(ILibraryManageable libraryManager, SettingsModel settings)
     {
         _libraryManager = libraryManager;
+
         CreateLibraryCommand = new DelegateCommand(CreateLibrary);
         LoadLibraryCommand = GetDelegateCommandWithLockAsync(LoadLibraryAsXml);
         SaveLibraryCommand = GetDelegateCommandWithLockAsync(SaveLibraryAsXml);
         SaveAsLibraryCommand = GetDelegateCommandWithLockAsync(SaveAsLibraryAsXml);
         CloseLibraryCommand = new DelegateCommand(CloseLibrary);
+
         _libraryManager.TotalBooksChanged += Handle_TotalBooksChanged;
         _libraryManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
+
         UpdateLibraryState();
     }
 
@@ -119,17 +122,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
     #region Methods
     /// <summary>
-    /// Locks the buttons while executing the specified asynchronous function.
-    /// </summary>
-    /// <param name="func">The asynchronous function to execute.</param>
-    private async Task LockButtonsOnExecuteAsync(Func<Task> func)
-    {
-        IsUnLocked = false;
-        await func();
-        IsUnLocked = true;
-    }
-
-    /// <summary>
     /// Creates a new library or changes an instance of the existing library by creating a new one.
     /// </summary>
     private void CreateLibrary()
@@ -145,22 +137,20 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     }
 
     /// <summary>
-    /// Loads an existing library from a file.
+    /// Loads an existing library from the disk.
     /// </summary>
     private async Task LoadLibraryAsXml()
     {
         if (HasLibraryHashCodeChanged())
             return;
 
-        var filePath = new SelectionDialogHandler().GetPathToXmlFile();
+        var xmlFilePath = new SelectionDialogHandler().GetPathToXmlFile(Constants.LIBRARY_LOAD);
 
         MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
 
-        await Task.Yield();
-
         // XML provider of loading library
         var result = await Handler.TryExecuteTaskAsync(()
-            => Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), filePath)));
+            => Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), xmlFilePath)));
 
         if (result?.Result ?? false)
         {
@@ -169,7 +159,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         }
         else
         {
-            MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{filePath}'");
+            MessageHandler.PublishDebugMessage($"{Constants.FAILED_TO_LOAD_LIBRARY_FROM_PATH}: '{xmlFilePath}'");
             new MessageBoxHandler().Show(Constants.LIBRARY_WAS_NOT_LOADED);
         }
 
@@ -187,7 +177,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     private async Task SaveAsLibraryAsXml()
     {
         var window = new MessageBoxHandler();
-        window.ShowInput(Constants.INPUT_NEW_NAME_LIBRARY, Constants.LIBRARY_NAME);
+        window.ShowInput(Constants.INPUT_NEW_NAME_LIBRARY, Constants.INPUT_NAME);
         if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string libraryName && !string.IsNullOrWhiteSpace(libraryName))
         {
             await TrySaveLibraryAsXml(libraryName);
@@ -219,9 +209,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
             pathToFile = Path.Combine(selectedFolder, HandleStrins.CreateXmlFileName(fileName));
 
-            var file = new FileInfo(pathToFile);
-            if (file.Exists)
-                file.Delete();
+            if (File.Exists(pathToFile)) 
+                File.Delete(pathToFile);
 
             MessageHandler.PublishMessage(Constants.LIBRARY_IS_BEING_SAVED);
             await Task.Yield();
@@ -237,9 +226,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         catch
         {
             msg = $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH} '{pathToFile}'";
-            new MessageBoxHandler().Show(msg);
         }
-        MessageHandler.PublishMessage(msg);
+        new MessageBoxHandler().Show(msg);
     }
 
     /// <summary>
@@ -265,8 +253,21 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// Returns a DelegateCommand that locks the buttons while executing the specified asynchronous function.
     /// </summary>
     /// <param name="func">The asynchronous function to execute, of type Func<Task>.</param>
+    /// <param name="isLocked">A boolean property that indicates whether the buttons are locked.</param>
     /// <returns>A DelegateCommand that locks the buttons while executing the specified asynchronous function.</returns>
-    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func) => new(async () => await LockButtonsOnExecuteAsync(func));
+    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func) => new(async () =>
+    {
+        try
+        {
+            IsUnLocked = false;
+            await func().ConfigureAwait(false);
+        }
+        finally
+        {
+            IsUnLocked = true;
+        }
+    });
+
 
     /// <summary>
     /// Handles the TotalBooksChanged event by sending message to the status bar with the new total number of books.

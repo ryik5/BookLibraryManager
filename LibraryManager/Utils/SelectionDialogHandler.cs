@@ -10,32 +10,32 @@ namespace LibraryManager.Utils;
 /// <author>YR 2025-01-27</author>
 internal sealed class SelectionDialogHandler
 {
-    public async Task<MediaData> ReadContentOpenDialogTask(long maxContentLength)
+    public Task<MediaData?> OpenAndReadContentAsync(long maxContentLength)
     {
         MediaData? media = null;
-        var op = new OpenFileDialog
+        var openFileDialog = new OpenFileDialog
         {
             Title = "Select a file",
             Filter = "All (*.*)|*.*"
         };
 
-        if (op.ShowDialog() == true)
+        if (openFileDialog.ShowDialog() == true)
         {
-            var fi = new FileInfo(op.FileName);
+            var fileInfo = new FileInfo(openFileDialog.FileName);
             media = new MediaData
             {
-                Name = fi.Name,
-                OriginalPath = op.FileName,
-                Ext = fi.Extension
+                Name = fileInfo.Name,
+                OriginalPath = openFileDialog.FileName,
+                Ext = fileInfo.Extension
             };
             media.IsContentStoredSeparately = true;
             media.IsLoaded = false;
 
-            if (fi.Length < maxContentLength)
+            if (fileInfo.Length < maxContentLength)
             {
                 try
                 {
-                    media.ObjectByteArray = File.ReadAllBytes(op.FileName);
+                    media.ObjectByteArray = File.ReadAllBytes(openFileDialog.FileName);
                     media.IsLoaded = true;
                     media.IsContentStoredSeparately = false;
                 }
@@ -46,9 +46,7 @@ internal sealed class SelectionDialogHandler
             }
         }
 
-        await Task.Yield();
-
-        return media;
+        return Task.FromResult(media);
     }
 
     /// <summary>

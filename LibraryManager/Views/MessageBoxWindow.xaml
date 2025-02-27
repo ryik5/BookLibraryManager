@@ -8,7 +8,8 @@
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight"
         Title="{Binding WindowTitle}"
-        Style="{StaticResource DialogWindowStyle}">
+        Style="{StaticResource DialogWindowStyle}"
+        Topmost="True">
 
     <Grid Background="{DynamicResource  ColorSet6}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <Grid.RowDefinitions>
@@ -19,7 +20,7 @@
 
         <!-- Message Box -->
         <ScrollViewer Grid.Row="0" 
-                      Padding="15 15 15 10"
+                      Padding="25 25 25 10"
                       VerticalContentAlignment="Center"
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Auto"

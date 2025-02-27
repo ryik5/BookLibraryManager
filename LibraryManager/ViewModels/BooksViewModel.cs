@@ -231,7 +231,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
             else
                 fileName = SelectedBook.Id.ToString();
 
-            pathToFile = Path.Combine(selectedFolder, HandleStrins.CreateXmlFileName(fileName));
+            pathToFile = Path.Combine(selectedFolder, StringsHandler.CreateXmlFileName(fileName));
 
             if (File.Exists(pathToFile))
                 File.Delete(pathToFile);
@@ -239,7 +239,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
             await Task.Yield();
 
             // XML provider of saving library
-            var result = await Handler.TryExecuteTaskAsync(()
+            var result = await TaskHandler.TryExecuteTaskAsync(()
                 => Task.FromResult(_bookManager.TrySaveBook(new XmlBookKeeper(), SelectedBook, pathToFile)));
 
             msg = result?.Result ?? false ?
@@ -261,7 +261,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
         MessageHandler.PublishMessage(Constants.IMPORT_BOOK);
 
         // XML provider of loading library
-        var result = await Handler.TryExecuteTaskAsync(()
+        var result = await TaskHandler.TryExecuteTaskAsync(()
             => Task.FromResult(_bookManager.TryLoadBook(new XmlBookLoader(), xmlFilePath)));
 
         var msg = string.Empty;

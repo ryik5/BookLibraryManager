@@ -8,7 +8,8 @@
         Title="{Binding WindowTitle}"
         Height="450" Width="450"
         Style="{StaticResource WindowStyle}"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Topmost="True">
 
     <Grid HorizontalAlignment="Stretch"
           IsEnabled="{Binding IsUnLocked}">

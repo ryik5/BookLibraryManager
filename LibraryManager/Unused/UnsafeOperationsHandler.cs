@@ -7,14 +7,14 @@ namespace LibraryManager.Utils;
 /// A utility class for handling unsafe operations.
 /// </summary>
 /// <author>YR 2025-02-25</author>
-public sealed class HandlerUnsafeOperations
+public sealed class UnsafeOperationsHandler
 {
     /// <summary>
     /// Handles an unsafe operation by invoking the provided action and catching any exceptions that occur.
     /// </summary>
     /// <param name="action">The action to be executed.</param>
     [SecurityCritical]
-    public  void HandleUnsafeOperation(Action action)
+    public void HandleUnsafeOperation(Action action)
     {
         try
         {

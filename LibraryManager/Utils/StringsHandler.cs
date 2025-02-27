@@ -1,7 +1,7 @@
 ﻿namespace LibraryManager.Utils;
 
 /// <author>YR 2025-02-16</author>
-internal static class HandleStrins
+internal static class StringsHandler
 {
 
     #region LibraryViewModel

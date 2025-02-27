@@ -8,7 +8,7 @@ namespace LibraryManager.Utils;
 /// A class for handling message box operations.
 /// </summary>
 /// <author>YR 2025-02-17</author>
-public class MessageBoxHandler
+internal sealed class MessageBoxHandler
 {
     /// <summary>
     /// Shows a message box with the specified message and OK button.

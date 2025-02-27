@@ -122,68 +122,8 @@ internal static class DemoBookMaker
     #region constants and dictionaries
     private static readonly string[] titleCombining = [". ", ": ", " - "];
 
-    private static readonly string[] title1 = [
-        "Against Method",
-        "Total Efficiency",
-        "Practical Strategies",
-        "The Cooperative Game",
-        "Software Writing",
-        "Wild Software",
-        "Debugging the Development Process",
-        "Survival Guide",
-        "Computing Calamities",
-        "Software Craftsmanship",
-        "Writing Excellent Code",
-        "Computer Vision",
-        "Commonsense Reasoning",
-        "Computer Algebra",
-        "Computer Explorations of Fractals",
-        "Hogwarts School of Witchcraft and Wizardry",
-        "The Philosopher's Stone",
-        "The Deathly Hallows",
-        "The Chamber of Secrets",
-        "The Goblet of Fire",
-        ];
-
-    private static readonly string[] title2 = [
-        "Clean Code",
-        "Code Complete",
-        "Getting Real",
-        "Perfect Software",
-        "Software Engineering",
-        "Software Estimation",
-        "Agile Software Development",
-        "Software Project Survival Guide",
-        "Building Solid",
-        "Rapid Development",
-        "The Annotated Turing",
-        "Data Structures",
-        "The Little Schemer",
-        "The Art of Computer Programming",
-        "Proofs and Refutations"
-    ];
-
-    private static readonly string[] title3 = [
-        "C#",
-        "Java",
-        "C++",
-        "Python",
-        "Visual Basic",
-        "Visual Studio",
-        "Cobol",
-        "Fortran",
-        "Javascript",
-        "HTML",
-        "Internet",
-        "CSS",
-        ".NET",
-        "Unity",
-        "Android",
-        "Swift",
-        "The Cursed Child"
-        ];
     private static readonly string[] author1 = [
-        "McConnell",
+       "McConnell",
         "Hunt",
         "Thomas",
         "McConnell",
@@ -205,7 +145,7 @@ internal static class DemoBookMaker
         "Voldemort",
         "Dumbledore",
         "Snape"
-    ];
+   ];
     private static readonly string[] author2 = [
         "Steve",
         "Andrew",
@@ -230,12 +170,68 @@ internal static class DemoBookMaker
         "Albus",
         "Severus"
     ];
-
-
-    private const int totalVariations = 50;
+    private static readonly string[] title1 = [
+         "Against Method",
+        "Total Efficiency",
+        "Practical Strategies",
+        "The Cooperative Game",
+        "Software Writing",
+        "Wild Software",
+        "Debugging the Development Process",
+        "Survival Guide",
+        "Computing Calamities",
+        "Software Craftsmanship",
+        "Writing Excellent Code",
+        "Computer Vision",
+        "Commonsense Reasoning",
+        "Computer Algebra",
+        "Computer Explorations of Fractals",
+        "Hogwarts School of Witchcraft and Wizardry",
+        "The Philosopher's Stone",
+        "The Deathly Hallows",
+        "The Chamber of Secrets",
+        "The Goblet of Fire",
+        ];
+    private static readonly string[] title2 = [
+        "Clean Code",
+        "Code Complete",
+        "Getting Real",
+        "Perfect Software",
+        "Software Engineering",
+        "Software Estimation",
+        "Agile Software Development",
+        "Software Project Survival Guide",
+        "Building Solid",
+        "Rapid Development",
+        "The Annotated Turing",
+        "Data Structures",
+        "The Little Schemer",
+        "The Art of Computer Programming",
+        "Proofs and Refutations"
+    ];
+    private static readonly string[] title3 = [
+        "C#",
+        "Java",
+        "C++",
+        "Python",
+        "Visual Basic",
+        "Visual Studio",
+        "Cobol",
+        "Fortran",
+        "Javascript",
+        "HTML",
+        "Internet",
+        "CSS",
+        ".NET",
+        "Unity",
+        "Android",
+        "Swift",
+        "The Cursed Child"
+        ];
     #endregion
 
     #region private fields
+    private const int totalVariations = 50;
     private static readonly Random random = new();
     private static readonly List<string> generatedAuthors = new();
     private static readonly List<string> generatedTitles = new();

@@ -1,8 +1,18 @@
 ﻿namespace LibraryManager.Utils;
 
+/// <summary>
+/// Provides extension methods for working with enumerations.
+/// </summary>
+/// <author>YR 2025-02-27</author>
 public static class Extensions
 {
-
+    /// <summary>
+    /// Returns the next enumeration value in the sequence.
+    /// </summary>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
+    /// <param name="src">The current enumeration value.</param>
+    /// <returns>The next enumeration value in the sequence.</returns>
+    /// <exception cref="ArgumentException">Thrown if the type is not an enumeration.</exception>
     public static T Next<T>(this T src) where T : struct
     {
         if (!typeof(T).IsEnum) 

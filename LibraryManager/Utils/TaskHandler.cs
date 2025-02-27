@@ -4,7 +4,7 @@
 /// A utility class responsible for loading data asynchronously.
 /// </summary>
 /// <author>YR 2025-01-26</author>
-internal sealed class Handler
+internal sealed class TaskHandler
 {
     public static async Task<T?> TryExecuteTaskAsync<T>(Func<T> task) where T : class
     {

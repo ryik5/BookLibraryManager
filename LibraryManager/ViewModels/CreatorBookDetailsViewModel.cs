@@ -208,26 +208,21 @@ internal class CreatorBookDetailsViewModel : BindableBase
         // Disable the save functionality
         IsSaveEnabled = false;
 
-        // Create a new loader instance
-        var loader = new Handler();
-
         // Subscribe to the loading finished event
         ActionFinished += NewLib_LoadingFinished;
 
         MessageHandler.PublishDebugMessage(Constants.LOAD_CONTENT);
 
         // Load the book content (TODO: select type of content to load)
-        var taskResult = await Handler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
+        var taskResult = await TaskHandler.TryExecuteTaskAsync(() => OpenContentAttachDialog(Book));
 
-        await Task.Yield();
         var isNotLoaded = (Book.Content is null) || taskResult.IsFaulted || taskResult.IsCanceled;
+
         // Set the loading state message
         var msg = isNotLoaded ? Constants.LOAD_CONTENT : Constants.CONTENT_WAS_LOADED;
 
         // Invoke the loading finished event
         ActionFinished?.Invoke(this, new ActionFinishedEventArgs { Message = msg, IsFinished = true });
-
-        // Yield to allow other tasks to run before next
 
         IsSaveEnabled = !isNotLoaded;
 
@@ -252,7 +247,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
 
             MessageHandler.PublishDebugMessage($"{Constants.ATTEMPT_TO} {Constants.SAVE_CONTENT}");
 
-            var result = await Handler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
+            var result = await TaskHandler.TryExecuteTaskAsync(() => SaveContentDialog(Book));
 
             var msg = result.Result ? Constants.CONTENT_SAVED_SUCCESSFULLY : Constants.FAILED_TO_SAVE_CONTENT;
 
@@ -281,7 +276,7 @@ internal class CreatorBookDetailsViewModel : BindableBase
         });
 
         var selectorFiles = new SelectionDialogHandler();
-        book.Content = await selectorFiles.ReadContentOpenDialogTask(_settings.Book_MaxContentLength);
+        book.Content = await selectorFiles.OpenAndReadContentAsync(_settings.Book_MaxContentLength);
     }
 
     /// <summary>

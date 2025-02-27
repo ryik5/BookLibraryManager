@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BookLibraryManager.Common;
+using LibraryManager.Events;
 using LibraryManager.Models;
 using LibraryManager.Utils;
 
@@ -27,6 +28,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
         _libraryManager.TotalBooksChanged += Handle_TotalBooksChanged;
         _libraryManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
+
+        App.EventAggregator.GetEvent<ApplicationShutdownEvent>().Subscribe(HandleApplicationShutdownEvent);
 
         UpdateLibraryState();
     }
@@ -149,7 +152,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         MessageHandler.PublishMessage(Constants.LOADING_LIBRARY_FROM_XML);
 
         // XML provider of loading library
-        var result = await Handler.TryExecuteTaskAsync(()
+        var result = await TaskHandler.TryExecuteTaskAsync(()
             => Task.FromResult(_libraryManager.TryLoadLibrary(new XmlLibraryLoader(), xmlFilePath)));
 
         if (result?.Result ?? false)
@@ -194,9 +197,6 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     /// </summary>
     private async Task TrySaveLibraryAsXml(string? libraryName)
     {
-        if (HasLibraryHashCodeChanged())
-            return;
-
         var msg = string.Empty;
         var pathToFile = string.Empty;
         try
@@ -207,21 +207,24 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
 
             var fileName = string.IsNullOrWhiteSpace(libraryName) ? Library.Id.ToString() : libraryName;
 
-            pathToFile = Path.Combine(selectedFolder, HandleStrins.CreateXmlFileName(fileName));
+            pathToFile = Path.Combine(selectedFolder, StringsHandler.CreateXmlFileName(fileName));
 
-            if (File.Exists(pathToFile)) 
+            if (File.Exists(pathToFile))
                 File.Delete(pathToFile);
 
             MessageHandler.PublishMessage(Constants.LIBRARY_IS_BEING_SAVED);
             await Task.Yield();
 
             // XML provider of saving library
-            var result = await Handler.TryExecuteTaskAsync(()
+            var result = await TaskHandler.TryExecuteTaskAsync(()
                 => Task.FromResult(_libraryManager.TrySaveLibrary(new XmlLibraryKeeper(), pathToFile)));
 
             msg = result?.Result ?? false ?
                 $"{Constants.LIBRARY_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" :
                 $"{Constants.FAILED_TO_SAVE_LIBRARY_TO_PATH}: '{pathToFile}'";
+
+            if (result?.Result ?? false && string.IsNullOrWhiteSpace(libraryName))
+                _libraryHashCode = Library.GetHashCode();
         }
         catch
         {
@@ -309,10 +312,20 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         if (libraryVhanged)
         {
             var msgBox = new MessageBoxHandler();
-            msgBox.Show(Constants.LIBRARY_SAVE, HandleStrins.LibraryChangedMessage(), MessageBoxButtonsViewSelector.YesNo);
+            msgBox.Show(Constants.LIBRARY_SAVE, StringsHandler.LibraryChangedMessage(), MessageBoxButtonsViewSelector.YesNo);
             return Models.DialogResult.YesButton == msgBox.DialogResult;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Handles the ApplicationShutdownEvent by checking if the library hash code has changed and saving the library as XML if necessary.
+    /// </summary>
+    /// <param name="args">The event arguments containing information about the application shutdown.</param>
+    private void HandleApplicationShutdownEvent(ApplicationShutdownEventArgs args)
+    {
+        if (HasLibraryHashCodeChanged())
+            TrySaveLibraryAsXml(null).ConfigureAwait(false);
     }
     #endregion
 

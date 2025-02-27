@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
+﻿using System.Windows.Media.Imaging;
 using BookLibraryManager.Common;
 
 namespace BookLibraryManager.XmlLibraryProvider.Loaders;
@@ -9,7 +7,7 @@ namespace BookLibraryManager.XmlLibraryProvider.Loaders;
 /// Loader of the Book from XML file stored on a local disk.
 /// </summary>
 /// <author>YR 2025-01-09</author>
-public class XmlBookKeeper : IBookLoader
+public class XmlBookLoader : IBookLoader
 {
     public bool TryLoadBook(string pathToBook, out Book? book)
     {
@@ -20,10 +18,7 @@ public class XmlBookKeeper : IBookLoader
 
         try
         {
-            var serializer = new XmlSerializer(typeof(Book));
-
-            using var fileStream = new FileStream(pathToBook, FileMode.Open);
-            book = serializer.Deserialize(fileStream) as Book;
+            book = XmlObjectSerializer.Load<Book>(pathToBook);
             result = true;
             msg = "Book loaded";
         }

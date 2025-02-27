@@ -52,11 +52,15 @@ public class LibraryManagerModel : BindableBase, ILibraryManageable
 
         TryCloseLibrary();
 
-        var result = libraryLoader.TryLoadLibrary(pathToLibrary, out var library);
-        if (result)
+        var result = false;
+        InvokeOnUiThread(() =>
         {
-            InvokeOnUiThread(() => Library.Set(library));
-        }
+            result = libraryLoader.TryLoadLibrary(pathToLibrary, out var library);
+            if (result)
+            {
+                Library.Set(library);
+            }
+        });
 
         libraryLoader.LoadingFinished -= LibraryLoader_LoadingLibraryFinished;
 

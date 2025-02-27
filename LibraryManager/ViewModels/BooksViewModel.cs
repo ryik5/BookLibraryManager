@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using BookLibraryManager.Common;
+using BookLibraryManager.XmlLibraryProvider.Keepers;
+using BookLibraryManager.XmlLibraryProvider.Loaders;
 using LibraryManager.Models;
 using LibraryManager.Utils;
 
@@ -20,12 +23,15 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     {
         _bookManager = bookManager;
         _settings = settings;
-        SortLibraryCommand = new DelegateCommand(SortBooks);
 
-        AddBookCommand = new DelegateCommand(AddBook);
-        DemoAddBooksCommand = new DelegateCommand(DemoAddRandomBooks);
+        SortLibraryCommand = GetDelegateCommandWithLockAsync(SortBooks);
+
+        AddBookCommand = GetDelegateCommandWithLockAsync(AddBook);
+        DemoAddBooksCommand = GetDelegateCommandWithLockAsync(DemoAddRandomBooks);
+        EditBookCommand = GetDelegateCommandWithLockAsync(EditBook);
         DeleteSelectedBooksCommand = new DelegateCommand(DeleteSelectedBooks);
-        EditBookCommand = new DelegateCommand(EditBook);
+        ImportBookCommand = GetDelegateCommandWithLockAsync(ImportBook);
+        ExportSelectedBookCommand = GetDelegateCommandWithLockAsync(ExportSelectedBook);
 
         LibraryVisibility = Visibility.Collapsed;
         _bookManager.Library.LibraryIdChanged += Handle_LibraryIdChanged;
@@ -55,6 +61,15 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     {
         get => _canOperateWithBooks;
         set => SetProperty(ref _canOperateWithBooks, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the buttons are unlocked.
+    /// </summary>
+    public bool IsUnLocked
+    {
+        get => _isUnLocked;
+        set => SetProperty(ref _isUnLocked, value);
     }
 
     /// <summary>
@@ -147,6 +162,26 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     }
 
     public string RemoveBookTooltip => "Delete the selected book from the library";
+
+    /// <summary>
+    /// Command to import a book from the disk to the library.
+    /// </summary>
+    public DelegateCommand ImportBookCommand
+    {
+        get;
+    }
+
+    public string ImportBookTooltip => "Import a book from the disk to the library";
+
+    /// <summary>
+    /// Command to export the selected book to the disk.
+    /// </summary>
+    public DelegateCommand ExportSelectedBookCommand
+    {
+        get;
+    }
+
+    public string ExportSelectedBookTooltip => "Export the selected book to the disk";
     #endregion
 
 
@@ -154,26 +189,96 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Adds a new book to the library.
     /// </summary>
-    private void AddBook()
+    private Task AddBook()
     {
         new CreatorBookDetailsViewModel(_bookManager, _settings).ShowDialog();
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Adds randomly filled books to the library.
     /// </summary>
-    private void DemoAddRandomBooks()
+    private Task DemoAddRandomBooks()
     {
         new CreatorBookDetailsViewModel(_bookManager, _settings).AddExampleBooks(10);
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Calls EditBookViewModel to edit the selected book.
     /// </summary>
-    private void EditBook()
+    private Task EditBook()
     {
         new EditorBookDetailsViewModel(_bookManager, _settings, SelectedBook).ShowDialog();
+        return Task.CompletedTask;
     }
+
+    private async Task ExportSelectedBook()
+    {
+        var msg = string.Empty;
+        var fileName = string.Empty;
+        var pathToFile = string.Empty;
+        try
+        {
+            var selectedFolder = new SelectionDialogHandler().GetPathToFolder(Constants.EXPORT_BOOK);
+            if (string.IsNullOrEmpty(selectedFolder))
+                throw new Exception(Constants.FOLDER_WAS_NOT_SELECTED);
+
+            var window = new MessageBoxHandler();
+            window.ShowInput(Constants.INPUT_BOOK_NAME, Constants.INPUT_NAME);
+            if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string bookName && !string.IsNullOrWhiteSpace(bookName))
+                fileName = bookName;
+            else
+                fileName = SelectedBook.Id.ToString();
+
+            pathToFile = Path.Combine(selectedFolder, HandleStrins.CreateXmlFileName(fileName));
+
+            if (File.Exists(pathToFile))
+                File.Delete(pathToFile);
+
+            await Task.Yield();
+
+            // XML provider of saving library
+            var result = await Handler.TryExecuteTaskAsync(()
+                => Task.FromResult(_bookManager.TrySaveBook(new XmlBookKeeper(), SelectedBook, pathToFile)));
+
+            msg = result?.Result ?? false ?
+                $"{Constants.BOOK_WAS_SAVED_SUCCESSFULLY}: '{pathToFile}'" :
+                $"{Constants.FAILED_TO_SAVE_BOOK_TO_PATH}: '{pathToFile}'";
+        }
+        catch
+        {
+            msg = $"{Constants.FAILED_TO_SAVE_BOOK_TO_PATH} '{pathToFile}'";
+        }
+
+        new MessageBoxHandler().Show(msg);
+    }
+
+    private async Task ImportBook()
+    {
+        var xmlFilePath = new SelectionDialogHandler().GetPathToXmlFile(Constants.IMPORT_BOOK);
+
+        MessageHandler.PublishMessage(Constants.IMPORT_BOOK);
+
+        // XML provider of loading library
+        var result = await Handler.TryExecuteTaskAsync(()
+            => Task.FromResult(_bookManager.TryLoadBook(new XmlBookLoader(), xmlFilePath)));
+
+        var msg = string.Empty;
+        if (result?.Result ?? false)
+        {
+            var book = _bookManager.Library.BookList.Last();
+            msg = $"{Constants.BOOK_WAS_IMPORTED_SUCCESSFULLY}: '{book.Title}' by {book.Author}";
+        }
+        else
+        {
+            msg = $"{Constants.FAILED_TO_IMPORT_BOOK_BY_PATH}: '{xmlFilePath}'";
+        }
+
+        new MessageBoxHandler().Show(msg);
+    }
+
+
 
     /// <summary>
     /// Deletes selected books from the library.
@@ -196,7 +301,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     /// <summary>
     /// Sorts the books in the library.
     /// </summary>
-    private void SortBooks()
+    private Task SortBooks()
     {
         var props = new List<PropertyCustomInfo>();
 
@@ -216,8 +321,28 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
             if (prop.Name != nameof(Book.None))
                 props.Add(customProp);
         }
+
+        return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Returns a DelegateCommand that locks the buttons while executing the specified asynchronous function.
+    /// </summary>
+    /// <param name="func">The asynchronous function to execute, of type Func<Task>.</param>
+    /// <param name="isLocked">A boolean property that indicates whether the buttons are locked.</param>
+    /// <returns>A DelegateCommand that locks the buttons while executing the specified asynchronous function.</returns>
+    private DelegateCommand GetDelegateCommandWithLockAsync(Func<Task> func) => new(async () =>
+    {
+        try
+        {
+            IsUnLocked = false;
+            await func().ConfigureAwait(false);
+        }
+        finally
+        {
+            IsUnLocked = true;
+        }
+    });
 
     /// <summary>
     /// Handles the LibraryIdChanged event by updating the CanOperateWithBooks property.
@@ -235,6 +360,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
     private bool _isChecked;
     private bool _canEditBook;
     private bool _canOperateWithBooks;
+    private bool _isUnLocked = true;
     private Visibility _libraryVisibility;
     private Book _selectedBook;
     private ObservableCollection<Book> _selectedBooks = new();

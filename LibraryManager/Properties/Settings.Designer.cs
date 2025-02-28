@@ -142,5 +142,17 @@ namespace LibraryManager.Properties {
                 this["Book_MaxContentLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("14")]
+        public double MessageBox_FontSize {
+            get {
+                return ((double)(this["MessageBox_FontSize"]));
+            }
+            set {
+                this["MessageBox_FontSize"] = value;
+            }
+        }
     }
 }

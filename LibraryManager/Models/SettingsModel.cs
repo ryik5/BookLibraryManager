@@ -36,6 +36,10 @@ internal sealed class SettingsModel
     public long Book_MaxContentLength;
     #endregion
 
+    #region MessageBox
+    public double MessageBox_FontSize;
+    #endregion
+
     #region BooksViewModel Page
     /// <summary>
     /// Gets or sets the primary property used for sorting books.
@@ -57,6 +61,14 @@ internal sealed class SettingsModel
     #endregion
 
 
+    #region BookDetails Page
+    /// <summary>
+    /// Gets or sets a value indicating whether to show book details.
+    /// </summary>
+    public bool ShowBookDetails = false;
+    #endregion
+
+
     #region FindBooks Page
     /// <summary>
     /// Gets or sets the currently selected search field for the FindBooks page.
@@ -65,14 +77,6 @@ internal sealed class SettingsModel
     /// Gets or sets a value indicating whether to search on the fly for the FindBooks page.
     /// </summary>
     public bool SearchOnFly = false;
-    #endregion
-
-
-    #region BookDetails Page
-    /// <summary>
-    /// Gets or sets a value indicating whether to show book details.
-    /// </summary>
-    public bool ShowBookDetails = false;
     #endregion
 
 

@@ -44,8 +44,26 @@
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
-       
+
             <StackPanel Grid.Column="0" Margin="0 10 10 0">
+
+                <GroupBox Header="MessageBox">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38" />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Text's font size" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
+                        <TextBox Text="{Binding Settings.MessageBox_FontSize, UpdateSourceTrigger=LostFocus}"
+                                 Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
+                               />
+                    </Grid>
+                </GroupBox>
 
                 <GroupBox Header="'Find Books' Page">
                     <Grid>

@@ -4,7 +4,7 @@
 /// Enumerates the possible button configurations for a message box.
 /// </summary>
 /// <author>YR 2025-02-17</author>
-public enum MessageBoxButtonsViewSelector
+public enum EMessageBoxButtonsViewSelector
 {
     /// <summary>Displays a single "Yes" button.</summary>
     Yes,

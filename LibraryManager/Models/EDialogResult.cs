@@ -4,7 +4,7 @@
 /// Enumerates the possible results of a message box dialog.
 /// </summary>
 /// <author>YR 2025-02-17</author>
-public enum DialogResult
+public enum EDialogResult
 {
     /// <summary>The "Yes" or "OK" button was clicked.</summary>
     YesButton,

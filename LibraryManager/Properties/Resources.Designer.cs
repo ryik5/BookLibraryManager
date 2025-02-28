@@ -59,5 +59,15 @@ namespace LibraryManager.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] library {
+            get {
+                object obj = ResourceManager.GetObject("library", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

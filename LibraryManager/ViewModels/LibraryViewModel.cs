@@ -181,7 +181,7 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
     {
         var window = new MessageBoxHandler();
         window.ShowInput(Constants.INPUT_NEW_NAME_LIBRARY, Constants.INPUT_NAME);
-        if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string libraryName && !string.IsNullOrWhiteSpace(libraryName))
+        if (window.DialogResult == Models.EDialogResult.YesButton && window.InputString is string libraryName && !string.IsNullOrWhiteSpace(libraryName))
         {
             await TrySaveLibraryAsXml(libraryName);
         }
@@ -312,8 +312,8 @@ internal sealed class LibraryViewModel : BindableBase, IViewModelPageable
         if (libraryVhanged)
         {
             var msgBox = new MessageBoxHandler();
-            msgBox.Show(Constants.LIBRARY_SAVE, StringsHandler.LibraryChangedMessage(), MessageBoxButtonsViewSelector.YesNo);
-            return Models.DialogResult.YesButton == msgBox.DialogResult;
+            msgBox.Show(Constants.LIBRARY_SAVE, StringsHandler.LibraryChangedMessage(), EMessageBoxButtonsViewSelector.YesNo);
+            return Models.EDialogResult.YesButton == msgBox.DialogResult;
         }
         return false;
     }

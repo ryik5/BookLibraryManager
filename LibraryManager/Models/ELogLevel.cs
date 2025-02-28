@@ -4,7 +4,7 @@
 /// The log level.
 /// </summary>
 /// <author>YR 2025-02-05</author>
-public enum LogLevel
+public enum ELogLevel
 {
     Debug,
     Info,

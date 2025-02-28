@@ -58,10 +58,10 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
         switch (e.InfoKind)
         {
             case EInfoKind.TotalBooks:
-                UpdateTextLog(CreateLogEntry(LogLevel.Info, $"Total books in the library: {e.Message}"));
+                UpdateTextLog(CreateLogEntry(ELogLevel.Info, $"Total books in the library: {e.Message}"));
                 break;
             default:
-                UpdateTextLog(CreateLogEntry(LogLevel.Info, e.Message));
+                UpdateTextLog(CreateLogEntry(ELogLevel.Info, e.Message));
                 break;
         }
 
@@ -81,7 +81,7 @@ internal sealed class DebugViewModel : BindableBase, IViewModelPageable
     /// </summary>
     /// <param name="level">The log level (e.g. Debug, Info, Warn, Error).</param>
     /// <param name="message">The message to log.</param>
-    private string CreateLogEntry(LogLevel level, string message) => $"{new LogMessage(level, message)}{Environment.NewLine}";
+    private string CreateLogEntry(ELogLevel level, string message) => $"{new LoggedEventModel(level, message)}{Environment.NewLine}";
     #endregion
 
 

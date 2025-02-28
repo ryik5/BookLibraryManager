@@ -1,15 +1,15 @@
 ﻿namespace LibraryManager.Models;
 
 /// <summary>
-/// A log message with a specified log level, message, and timestamp.
+/// Represents a logged event with a specified log level, message, and timestamp.
 /// </summary>
 /// <author>YR 2025-02-05</author>
-public sealed class LogMessage
+public sealed class LoggedEventModel
 {
     /// <summary>
-    /// Gets the log level of the message.
+    /// Gets the log level of the event.
     /// </summary>
-    public LogLevel Level
+    public ELogLevel LogLevel
     {
         get;
     }
@@ -23,7 +23,7 @@ public sealed class LogMessage
     }
 
     /// <summary>
-    /// Gets the timestamp when the log message was created.
+    /// Gets the timestamp when the event was logged.
     /// </summary>
     public DateTime Timestamp
     {
@@ -31,19 +31,19 @@ public sealed class LogMessage
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LogMessage"/> class with the specified log level and message.
+    /// Initializes a new instance of the <see cref="LoggedEventModel"/> class with the specified log level and message.
     /// </summary>
-    /// <param name="level">The log level of the message.</param>
+    /// <param name="level">The log level of the event.</param>
     /// <param name="message">The message text.</param>
-    public LogMessage(LogLevel level, string message)
+    public LoggedEventModel(ELogLevel level, string message)
     {
-        Level = level;
+        LogLevel = level;
         Message = message;
         Timestamp = DateTime.Now;
     }
 
     public override string ToString()
     {
-        return $"{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}";
+        return $"{Timestamp:yyyy-MM-dd HH:mm:ss} [{LogLevel}] {Message}";
     }
 }

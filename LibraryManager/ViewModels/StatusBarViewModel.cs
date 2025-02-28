@@ -74,7 +74,7 @@ internal sealed class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the total number of the books in the library in the stack of <see cref="InfoList"/>
     /// </summary>
-    public MessageWithToolTip TotalBooksText
+    public DisplayMessageModel TotalBooksText
     {
         get => _totalBooksText;
         set => SetProperty(ref _totalBooksText, value);
@@ -82,7 +82,7 @@ internal sealed class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the text info for the application version in the stack of <see cref="InfoList"/>.
     /// </summary>
-    public MessageWithToolTip VersionText
+    public DisplayMessageModel VersionText
     {
         get => _versionText;
         set => SetProperty(ref _versionText, value);
@@ -90,7 +90,7 @@ internal sealed class StatusBarViewModel : BindableBase
     /// <summary>
     /// Displays the text info for the library information in the stack of <see cref="InfoList"/>.
     /// </summary>
-    public MessageWithToolTip LibraryInfoText
+    public DisplayMessageModel LibraryInfoText
     {
         get => _libraryInfoText;
         set => SetProperty(ref _libraryInfoText, value);
@@ -199,9 +199,9 @@ internal sealed class StatusBarViewModel : BindableBase
     private string _textInfoText1 = string.Empty;
     private string _textInfoText2 = string.Empty;
     private string _textInfoText3 = string.Empty;
-    private MessageWithToolTip _totalBooksText = new();
-    private MessageWithToolTip _versionText = new();
-    private MessageWithToolTip _libraryInfoText = new();
+    private DisplayMessageModel _totalBooksText = new();
+    private DisplayMessageModel _versionText = new();
+    private DisplayMessageModel _libraryInfoText = new();
     private ComboBoxItem _selectedInfoItem = new();
     private object _toolTip;
     private readonly SubscriptionToken _token;

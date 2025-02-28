@@ -4,7 +4,7 @@
 /// Provides extension methods for working with enumerations.
 /// </summary>
 /// <author>YR 2025-02-27</author>
-public static class Extensions
+public static class EnumExtensions
 {
     /// <summary>
     /// Returns the next enumeration value in the sequence.

@@ -4,7 +4,7 @@
 /// Represents a two string properties class with a message <see cref="MessageText"/> and tooltip to message <see cref="ToolTip"/>.
 /// </summary>
 /// <author>YR 2025-01-24</author>
-public sealed class MessageWithToolTip : BindableBase
+internal sealed class DisplayMessageModel : BindableBase
 {
     /// <summary>
     /// Represents the text of message

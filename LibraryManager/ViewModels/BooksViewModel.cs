@@ -226,7 +226,7 @@ internal sealed class BooksViewModel : BindableBase, IViewModelPageable
 
             var window = new MessageBoxHandler();
             window.ShowInput(Constants.INPUT_BOOK_NAME, Constants.INPUT_NAME);
-            if (window.DialogResult == Models.DialogResult.YesButton && window.InputString is string bookName && !string.IsNullOrWhiteSpace(bookName))
+            if (window.DialogResult == Models.EDialogResult.YesButton && window.InputString is string bookName && !string.IsNullOrWhiteSpace(bookName))
                 fileName = bookName;
             else
                 fileName = SelectedBook.Id.ToString();

@@ -15,7 +15,7 @@ internal sealed class MessageBoxHandler
     /// </summary>
     public void Show(string message)
     {
-        SetDefaultState(MessageBoxButtonsViewSelector.Ok);
+        SetDefaultState(EMessageBoxButtonsViewSelector.Ok);
         MessageBlock = message;
         _window = new MessageBoxWindow() { DataContext = this };
         _window.ShowDialog();
@@ -30,7 +30,7 @@ internal sealed class MessageBoxHandler
     /// <param name="title">The title of the message box, or null if no title is desired.</param>
     public void ShowInput(string message, string? title = null)
     {
-        SetDefaultState(MessageBoxButtonsViewSelector.OkCancel);
+        SetDefaultState(EMessageBoxButtonsViewSelector.OkCancel);
         MessageBlock = message;
         InputStringVisibility = Visibility.Visible;
 
@@ -45,7 +45,7 @@ internal sealed class MessageBoxHandler
     /// </summary>
     public void Show(string title, string message)
     {
-        SetDefaultState(MessageBoxButtonsViewSelector.Ok);
+        SetDefaultState(EMessageBoxButtonsViewSelector.Ok);
         MessageBlock = message;
         WindowTitle = title;
         _window = new MessageBoxWindow() { DataContext = this };
@@ -55,7 +55,7 @@ internal sealed class MessageBoxHandler
     /// <summary>
     /// Displays a message box with the specified title, message, using the button view selector.
     /// </summary>
-    public void Show(string title, string message, MessageBoxButtonsViewSelector buttonsViewSelector)
+    public void Show(string title, string message, EMessageBoxButtonsViewSelector buttonsViewSelector)
     {
         SetDefaultState(buttonsViewSelector);
         NoButtonName = "No";
@@ -68,7 +68,7 @@ internal sealed class MessageBoxHandler
     /// <summary>
     /// Displays a message box with the specified title, message, and buttons.
     /// </summary>
-    public void Show(string title, string message, MessageBoxButtonsViewSelector buttonsViewSelector, string executeButtonName, string noButtonName = "No")
+    public void Show(string title, string message, EMessageBoxButtonsViewSelector buttonsViewSelector, string executeButtonName, string noButtonName = "No")
     {
         SetDefaultState(buttonsViewSelector);
         ExecuteButtonName = executeButtonName;
@@ -132,7 +132,7 @@ internal sealed class MessageBoxHandler
     }
 
 
-    public Models.DialogResult DialogResult
+    public Models.EDialogResult DialogResult
     {
         get; private set;
     }
@@ -147,38 +147,38 @@ internal sealed class MessageBoxHandler
         _window?.Close();
     }
 
-    private void SetDefaultState(MessageBoxButtonsViewSelector buttonsViewSelector)
+    private void SetDefaultState(EMessageBoxButtonsViewSelector buttonsViewSelector)
     {
         SetControlsVisibility(buttonsViewSelector);
         ExecuteButtonName = "OK";
         NoButtonName = "No";
-        ExecuteCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.DialogResult.YesButton));
-        NoCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.DialogResult.NoButton));
-        CancelCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.DialogResult.CancelButton));
-        DialogResult = Models.DialogResult.NoButton;
+        ExecuteCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.YesButton));
+        NoCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.NoButton));
+        CancelCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.CancelButton));
+        DialogResult = Models.EDialogResult.NoButton;
     }
 
-    private void SetControlsVisibility(MessageBoxButtonsViewSelector result)
+    private void SetControlsVisibility(EMessageBoxButtonsViewSelector result)
     {
         switch (result)
         {
-            case MessageBoxButtonsViewSelector.Yes:
-            case MessageBoxButtonsViewSelector.Ok:
+            case EMessageBoxButtonsViewSelector.Yes:
+            case EMessageBoxButtonsViewSelector.Ok:
                 NoButtonVisibility = Visibility.Collapsed;
                 CancelButtonVisibility = Visibility.Collapsed;
                 break;
-            case MessageBoxButtonsViewSelector.YesNoCancel:
-            case MessageBoxButtonsViewSelector.OkNoCancel:
+            case EMessageBoxButtonsViewSelector.YesNoCancel:
+            case EMessageBoxButtonsViewSelector.OkNoCancel:
                 NoButtonVisibility = Visibility.Visible;
                 CancelButtonVisibility = Visibility.Visible;
                 break;
-            case MessageBoxButtonsViewSelector.YesNo:
-            case MessageBoxButtonsViewSelector.OkNo:
+            case EMessageBoxButtonsViewSelector.YesNo:
+            case EMessageBoxButtonsViewSelector.OkNo:
                 NoButtonVisibility = Visibility.Visible;
                 CancelButtonVisibility = Visibility.Collapsed;
                 break;
-            case MessageBoxButtonsViewSelector.YesCancel:
-            case MessageBoxButtonsViewSelector.OkCancel:
+            case EMessageBoxButtonsViewSelector.YesCancel:
+            case EMessageBoxButtonsViewSelector.OkCancel:
                 NoButtonVisibility = Visibility.Collapsed;
                 CancelButtonVisibility = Visibility.Collapsed;
                 break;
@@ -186,7 +186,7 @@ internal sealed class MessageBoxHandler
         InputStringVisibility = Visibility.Collapsed;
     }
 
-    private void SetDialogResult(Window window, Models.DialogResult result)
+    private void SetDialogResult(Window window, Models.EDialogResult result)
     {
         DialogResult = result;
         CloseWindow(window);

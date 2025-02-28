@@ -161,6 +161,11 @@ internal sealed class SettingsViewModel : BindableBase
         set => SetProperty(ref _settings.ThirdSortProperty_ByDescend, value);
     }
 
+    public string SortBookByPropertiesTooltip
+    {
+        get => _settings.SortBookByPropertiesTooltip;
+        set => SetProperty(ref _settings.SortBookByPropertiesTooltip, value);
+    }
     #endregion
 
     #region FindBooks Page
@@ -241,7 +246,7 @@ internal sealed class SettingsViewModel : BindableBase
         else
         {
             // Convert the file size to a human-readable format
-            ConvertToHumanReadableFileSize(fileSize, FileLength.Byte, out var fileSizeInUnits, out var unit);
+            ConvertToHumanReadableFileSize(fileSize, EFileLengthUnit.Byte, out var fileSizeInUnits, out var unit);
 
             tooltip = $"The loaded file size can be maiximum as {fileSizeInUnits} {unit}";
         }
@@ -256,11 +261,11 @@ internal sealed class SettingsViewModel : BindableBase
     /// <param name="startLength">The starting unit of measurement (e.g. Byte, KB, MB, GB).</param>
     /// <param name="result">The converted file size.</param>
     /// <param name="length">The unit of measurement for the converted file size.</param>
-    private void ConvertToHumanReadableFileSize(long number, FileLength startLength, out long result, out FileLength length)
+    private void ConvertToHumanReadableFileSize(long number, EFileLengthUnit startLength, out long result, out EFileLengthUnit length)
     {
         result = number;
         length = startLength;
-        if (1024 < number && (int)startLength < (int)FileLength.GB)
+        if (1024 < number && (int)startLength < (int)EFileLengthUnit.GB)
         {
             length = startLength.Next();
             result = number / 1024;
@@ -271,14 +276,7 @@ internal sealed class SettingsViewModel : BindableBase
 
 
     private readonly SettingsModel _settings;
-
     private string _book_MaxContentLength_ToolTip;
-
-    private enum FileLength
-    {
-        Byte,
-        KB,
-        MB,
-        GB
-    }
 }
+
+

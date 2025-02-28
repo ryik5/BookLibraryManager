@@ -52,6 +52,8 @@ internal sealed class SettingsModel
     /// </summary>
     public string ThirdSortBookProperty;
     public bool ThirdSortProperty_ByDescend;
+
+    public string SortBookByPropertiesTooltip;
     #endregion
 
 

@@ -32,5 +32,8 @@
     <Setting Name="Book_MaxContentLength" Type="System.Int64" Scope="User">
       <Value Profile="(Default)">20000000</Value>
     </Setting>
+    <Setting Name="MessageBox_FontSize" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">14</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -34,6 +34,8 @@ internal sealed class SettingsViewModel : BindableBase
     /// </summary>
     public void LoadAllSettings()
     {
+        MessageBox_FontSize = Settings.Default.MessageBox_FontSize;
+
         TryConvertStringToEnum(Settings.Default.FindBooks_LastSearchField, ref _settings.SearchField, SearchField);
         SearchOnFly = Settings.Default.FindBooks_SearchOnFly;
         Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
@@ -53,6 +55,8 @@ internal sealed class SettingsViewModel : BindableBase
     /// </summary>
     public void SaveSettings()
     {
+        Settings.Default.MessageBox_FontSize = _settings.Book_MaxContentLength;
+
         Settings.Default.FindBooks_LastSearchField = _settings.SearchField.ToString();
         Settings.Default.FindBooks_SearchOnFly = _settings.SearchOnFly;
         Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
@@ -63,7 +67,7 @@ internal sealed class SettingsViewModel : BindableBase
         Settings.Default.BooksView_SecondSortProperty_ByDescent = _settings.SecondSortProperty_ByDescend;
         Settings.Default.BooksView_ThirdSortBookProperty = _settings.ThirdSortBookProperty;
         Settings.Default.BooksView_ThirdSortProperty_ByDescent = _settings.ThirdSortProperty_ByDescend;
-        Settings.Default.Book_MaxContentLength = Settings.Default.Book_MaxContentLength;
+        Settings.Default.Book_MaxContentLength = _settings.Book_MaxContentLength;
 
 
         Settings.Default.Save();
@@ -84,6 +88,18 @@ internal sealed class SettingsViewModel : BindableBase
     /// Gets an array of boolean values representing the state of various settings.
     /// </summary>
     public string[] BookProperties => _settings.BookProperties;
+    #endregion
+
+    #region MessageBox
+    public double MessageBox_FontSize
+    {
+        get => _settings.MessageBox_FontSize;
+        set
+        {
+            if (6 < value && value < 20)
+                SetProperty(ref _settings.MessageBox_FontSize, value);
+        }
+    }
     #endregion
 
     #region Book details
@@ -197,7 +213,7 @@ internal sealed class SettingsViewModel : BindableBase
         get => _settings.Debug_TextFontSize;
         set
         {
-            if (6 < value && value < 28)
+            if (6 < value && value < 22)
                 SetProperty(ref _settings.Debug_TextFontSize, value);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using LibraryManager.Models;
+using LibraryManager.Properties;
 using LibraryManager.Views;
 
 namespace LibraryManager.Utils;
@@ -28,7 +29,7 @@ internal sealed class MessageBoxHandler
     /// </summary>
     /// <param name="message">The message to be displayed in the message box.</param>
     /// <param name="title">The title of the message box, or null if no title is desired.</param>
-    public void ShowInput(string message, string? title = null)
+    public void ShowInput(string message, string title)
     {
         SetDefaultState(EMessageBoxButtonsViewSelector.OkCancel);
         MessageBlock = message;
@@ -121,6 +122,11 @@ internal sealed class MessageBoxHandler
     {
         get; set;
     }
+    public double MessageFontSize
+    {
+        get; private set;
+    }
+
 
     public string InputString
     {
@@ -132,7 +138,7 @@ internal sealed class MessageBoxHandler
     }
 
 
-    public Models.EDialogResult DialogResult
+    public EDialogResult DialogResult
     {
         get; private set;
     }
@@ -152,10 +158,12 @@ internal sealed class MessageBoxHandler
         SetControlsVisibility(buttonsViewSelector);
         ExecuteButtonName = "OK";
         NoButtonName = "No";
-        ExecuteCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.YesButton));
-        NoCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.NoButton));
-        CancelCommand = new DelegateCommand<Window>(window => SetDialogResult(window, Models.EDialogResult.CancelButton));
-        DialogResult = Models.EDialogResult.NoButton;
+        WindowTitle = "General information";
+        MessageFontSize = Settings.Default.MessageBox_FontSize;
+        ExecuteCommand = new DelegateCommand<Window>(window => SetDialogResult(window, EDialogResult.YesButton));
+        NoCommand = new DelegateCommand<Window>(window => SetDialogResult(window, EDialogResult.NoButton));
+        CancelCommand = new DelegateCommand<Window>(window => SetDialogResult(window, EDialogResult.CancelButton));
+        DialogResult = EDialogResult.NoButton;
     }
 
     private void SetControlsVisibility(EMessageBoxButtonsViewSelector result)
@@ -186,7 +194,7 @@ internal sealed class MessageBoxHandler
         InputStringVisibility = Visibility.Collapsed;
     }
 
-    private void SetDialogResult(Window window, Models.EDialogResult result)
+    private void SetDialogResult(Window window, EDialogResult result)
     {
         DialogResult = result;
         CloseWindow(window);

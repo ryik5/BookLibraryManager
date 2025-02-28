@@ -5,25 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" >
 
-    <Border Background="{StaticResource ColorSet6}" BorderThickness="0" Margin="2" x:Name="borderAbout">
+    <Border BorderThickness="0" x:Name="borderAbout">
 
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="28"/>
                 <RowDefinition />
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
+                    <Setter Property="Background" Value="White"/>
+                </Style>
+            </Grid.Resources>
 
             <!-- Header -->
-            <Label Content="{Binding Header}" Style="{StaticResource LabelBordedStyle}"
-                       FontWeight="Bold" HorizontalAlignment="Center" 
-                       FontSize="12" />
+            <Label Content="{Binding Header}" 
+                   FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" />
 
             <!-- Body -->
             <FlowDocumentScrollViewer Grid.Row="1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                Width="{Binding ElementName=borderAbout, Path=ActualWidth}" 
-                >
-                <FlowDocument ColumnWidth="{Binding ElementName=borderAbout, Path=ActualWidth}"  >
+                                      Margin="0 5 0 0"
+                                      HorizontalAlignment="Stretch"
+                                      Width="{Binding ElementName=borderAbout, Path=ActualWidth}" >
+                <FlowDocument ColumnWidth="{Binding ElementName=borderAbout, Path=ActualWidth}" FontSize="14" >
                     <Paragraph TextAlignment="Center">
                         <Bold>Welcome to the Book Library Manager!</Bold>
                     </Paragraph>
@@ -87,7 +92,7 @@
             </FlowDocumentScrollViewer>
 
             <!-- Footer -->
-            <Label Content="{Binding Footer}" Style="{StaticResource LabelBordedStyle}"
+            <Label Content="{Binding Footer}" Margin="0 0 0 -5"
                        FontSize="12"
                        HorizontalAlignment="Left" 
                        Grid.Row="2"/>

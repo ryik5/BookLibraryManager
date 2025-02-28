@@ -30,7 +30,7 @@
 
         </Grid.Resources>
 
-        <Label Content="Id" Grid.Row="0" Grid.Column="0"/>
+        <Label Content="ID" Grid.Row="0" Grid.Column="0"/>
         <TextBox Text="{Binding Library.Id}" 
                  IsReadOnly="True"
                  Grid.Row="0" Grid.Column="1"/>

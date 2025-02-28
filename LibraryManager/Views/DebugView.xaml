@@ -4,18 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
-    
-    <ScrollViewer HorizontalAlignment="Stretch" 
-                  VerticalAlignment="Stretch" 
-                  VerticalScrollBarVisibility="Auto" 
-                  Background="{StaticResource ColorSet6}">
 
-        <TextBlock 
-            Text="{Binding LogBuilder, Mode=OneWay}" 
-            FontSize="{Binding TextFontSize, Mode=OneWay}" 
-            TextWrapping="Wrap"
-            />
+    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
+        <ScrollViewer.Resources>
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
+                <Setter Property="Background" Value="White"/>
+            </Style>
+        </ScrollViewer.Resources>
         
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+           
+            <Label Content="Debug informathion" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" />
+
+            <TextBlock Margin="0"
+            Text="{Binding LogBuilder, Mode=OneWay}" 
+            FontSize="{Binding TextFontSize, Mode=OneWay}" />
+        
+        </StackPanel>
+
     </ScrollViewer>
 
 </UserControl>

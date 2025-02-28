@@ -53,7 +53,7 @@
         <view:StatusBarView DataContext="{Binding StatusBar}" DockPanel.Dock="Bottom" Height="32" Margin="0"/>
 
         <!-- Left. Navigation bar -->
-        <Grid DockPanel.Dock="Left" Margin="0 10 0 0" Width="100" Background="{StaticResource ColorSet6}">
+        <Grid DockPanel.Dock="Left" Margin="0" Width="100" Background="{StaticResource ColorSet6}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -63,7 +63,7 @@
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
+                        <StackPanel Orientation="Vertical" Margin="0 20 0 0"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.Resources>
@@ -76,7 +76,6 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        
                         <CheckBox Grid.Row="1"
                                       Content="{Binding Key}"
                                       Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
@@ -89,8 +88,8 @@
             </ItemsControl>
         </Grid>
 
-        <!-- Right. Content current view  -->        
-        <ContentControl Content="{Binding CurrentViewModel}" />
+        <!-- Right. Content current view  -->
+        <ContentControl Content="{Binding CurrentViewModel}" Margin="10 10 0 0"/>
 
     </DockPanel>
 

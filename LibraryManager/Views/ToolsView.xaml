@@ -140,8 +140,8 @@
                 <GroupBox Header="'Books' Page. Sort">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.45*"/>
+                            <ColumnDefinition Width="0.25*"/>
                             <ColumnDefinition Width="0.4*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -152,11 +152,11 @@
 
                         <Label Grid.Row="0" Grid.Column="0" 
                                Content="First Property" HorizontalAlignment="Left"/>
-                        <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
-                                   SelectedItem="{Binding Settings.FirstSortProperty_ByDescend}" 
-                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                   ToolTip="Sort by descend order"
-                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.FirstSortProperty_ByDescend}" 
+                                  Style="{StaticResource ComboBoxBordedStyle}"
+                                  ToolTip="Sorting direction by descend order"
+                                  HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0" />
                         <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}"
                                   SelectedItem="{Binding Settings.FirstSortBookProperty}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
@@ -168,7 +168,7 @@
                                   ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
                                   SelectedItem="{Binding Settings.SecondSortProperty_ByDescend}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                  ToolTip="Sort by descend order"
+                                  ToolTip="Sorting direction by descend order"
                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
                         <ComboBox Grid.Row="1" Grid.Column="2" 
                                   ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
@@ -182,7 +182,7 @@
                                   ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
                                   SelectedItem="{Binding Settings.ThirdSortProperty_ByDescend}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                  ToolTip="Sort by descend order"
+                                  ToolTip="Sorting direction by descend order"
                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
                         <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
                                   SelectedItem="{Binding Settings.ThirdSortBookProperty}" 

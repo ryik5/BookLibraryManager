@@ -177,6 +177,7 @@
     <Style x:Key="LabelBordedStyle" TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource ColorSet1}"/>
         <Setter Property="FontFamily" Value="{StaticResource ManropeFont}"/>
+        <Setter Property="Background" Value="{StaticResource ColorSet6}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -190,7 +191,7 @@
                 CornerRadius="5"
                 BorderBrush="Transparent"
                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                Background="{StaticResource ColorSet6}">
+                Background="{TemplateBinding Background}">
                         <ContentPresenter 
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"

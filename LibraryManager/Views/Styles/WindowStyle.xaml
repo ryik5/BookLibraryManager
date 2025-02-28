@@ -3,7 +3,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:Class="LibraryManager.Views.WindowStyle">
     
-    
     <Style x:Key="ButtonTitleBarStyle" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -90,7 +89,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="CloseSign" Property="BorderThickness" Value="0" />
-                            <Setter TargetName="CloseSign" Property="Padding" Value="10" />
+                            <Setter TargetName="CloseSign" Property="Padding" Value="9" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="BallColor" Property="Background" Value="Red" />

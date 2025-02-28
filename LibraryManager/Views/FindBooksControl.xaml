@@ -17,7 +17,7 @@
                 Command="{Binding DeleteSelectedBooksCommand}"
                 IsEnabled="{Binding CanEditBook}"
                 DockPanel.Dock="Right" 
-                Width="100" Margin="10 0 0 0"/>
+                Width="120" Margin="5 0 0 0"/>
 
         <Button Content="Edit Book" 
                 Command="{Binding EditBookCommand}"

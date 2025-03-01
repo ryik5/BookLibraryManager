@@ -98,36 +98,36 @@ namespace LibraryManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_FirstSortProperty_ByDescent {
+        public bool BooksView_FirstSortProperty_ByDescend {
             get {
-                return ((bool)(this["BooksView_FirstSortProperty_ByDescent"]));
+                return ((bool)(this["BooksView_FirstSortProperty_ByDescend"]));
             }
             set {
-                this["BooksView_FirstSortProperty_ByDescent"] = value;
+                this["BooksView_FirstSortProperty_ByDescend"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_SecondSortProperty_ByDescent {
+        public bool BooksView_SecondSortProperty_ByDescend {
             get {
-                return ((bool)(this["BooksView_SecondSortProperty_ByDescent"]));
+                return ((bool)(this["BooksView_SecondSortProperty_ByDescend"]));
             }
             set {
-                this["BooksView_SecondSortProperty_ByDescent"] = value;
+                this["BooksView_SecondSortProperty_ByDescend"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BooksView_ThirdSortProperty_ByDescent {
+        public bool BooksView_ThirdSortProperty_ByDescend {
             get {
-                return ((bool)(this["BooksView_ThirdSortProperty_ByDescent"]));
+                return ((bool)(this["BooksView_ThirdSortProperty_ByDescend"]));
             }
             set {
-                this["BooksView_ThirdSortProperty_ByDescent"] = value;
+                this["BooksView_ThirdSortProperty_ByDescend"] = value;
             }
         }
         

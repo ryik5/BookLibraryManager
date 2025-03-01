@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d" >
 
-    <Grid Margin="5">
+    <Grid Margin="10 10 0 5">
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>
             <RowDefinition Height="*"/>

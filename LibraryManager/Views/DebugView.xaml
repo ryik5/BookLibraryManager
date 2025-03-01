@@ -5,16 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
 
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
+    <ScrollViewer HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  VerticalScrollBarVisibility="Auto" 
+                  Margin="15 0 0 5">
         <ScrollViewer.Resources>
-            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource LabelBordedStyle}">
+            <Style TargetType="{x:Type Label}" 
+                   BasedOn="{StaticResource LabelBordedStyle}">
                 <Setter Property="Background" Value="White"/>
             </Style>
         </ScrollViewer.Resources>
         
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Vertical" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Stretch">
            
-            <Label Content="Debug informathion" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" />
+            <Label Content="Debug informathion" 
+                   FontWeight="Bold" FontSize="14" 
+                   HorizontalAlignment="Center" />
 
             <TextBlock Margin="0"
             Text="{Binding LogBuilder, Mode=OneWay}" 

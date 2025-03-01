@@ -41,11 +41,16 @@ internal sealed class SettingsViewModel : BindableBase
         Debug_TextFontSize = Settings.Default.Debug_TextFontSize;
 
         FirstSortBookProperty = Settings.Default.BooksView_FirstSortBookProperty;
-        FirstSortProperty_ByDescend = Settings.Default.BooksView_FirstSortProperty_ByDescent;
+        FirstSortProperty_ByDescend = Settings.Default.BooksView_FirstSortProperty_ByDescend;
+        SetStringProperty(Settings.Default.BooksView_FirstSortProperty_ByDescend, ref _firstSortProperty_SortingDirection, FirstSortProperty_SortingDirection);
+
         SecondSortBookProperty = Settings.Default.BooksView_SecondSortBookProperty;
-        SecondSortProperty_ByDescend = Settings.Default.BooksView_SecondSortProperty_ByDescent;
+        SecondSortProperty_ByDescend = Settings.Default.BooksView_SecondSortProperty_ByDescend;
+        SetStringProperty(Settings.Default.BooksView_SecondSortProperty_ByDescend, ref _secondSortProperty_SortingDirection, SecondSortProperty_SortingDirection);
+
         ThirdSortBookProperty = Settings.Default.BooksView_ThirdSortBookProperty;
-        ThirdSortProperty_ByDescend = Settings.Default.BooksView_ThirdSortProperty_ByDescent;
+        ThirdSortProperty_ByDescend = Settings.Default.BooksView_ThirdSortProperty_ByDescend;
+        SetStringProperty(Settings.Default.BooksView_ThirdSortProperty_ByDescend, ref _thirdSortProperty_SortingDirection, ThirdSortProperty_SortingDirection);
 
         Book_MaxContentLength = Settings.Default.Book_MaxContentLength;
     }
@@ -62,11 +67,11 @@ internal sealed class SettingsViewModel : BindableBase
         Settings.Default.Debug_TextFontSize = _settings.Debug_TextFontSize;
 
         Settings.Default.BooksView_FirstSortBookProperty = _settings.FirstSortBookProperty;
-        Settings.Default.BooksView_FirstSortProperty_ByDescent = _settings.FirstSortProperty_ByDescend;
+        Settings.Default.BooksView_FirstSortProperty_ByDescend = _settings.FirstSortProperty_ByDescend;
         Settings.Default.BooksView_SecondSortBookProperty = _settings.SecondSortBookProperty;
-        Settings.Default.BooksView_SecondSortProperty_ByDescent = _settings.SecondSortProperty_ByDescend;
+        Settings.Default.BooksView_SecondSortProperty_ByDescend = _settings.SecondSortProperty_ByDescend;
         Settings.Default.BooksView_ThirdSortBookProperty = _settings.ThirdSortBookProperty;
-        Settings.Default.BooksView_ThirdSortProperty_ByDescent = _settings.ThirdSortProperty_ByDescend;
+        Settings.Default.BooksView_ThirdSortProperty_ByDescend = _settings.ThirdSortProperty_ByDescend;
         Settings.Default.Book_MaxContentLength = _settings.Book_MaxContentLength;
 
 
@@ -83,6 +88,8 @@ internal sealed class SettingsViewModel : BindableBase
     /// Gets an array of boolean values representing the state of various settings.
     /// </summary>
     public bool[] Booleans => _settings.Booleans;
+
+    public string[] SortingDirections => _settings.SortingDirections;
 
     /// <summary>
     /// Gets an array of boolean values representing the state of various settings.
@@ -135,27 +142,58 @@ internal sealed class SettingsViewModel : BindableBase
     #endregion
 
     #region BooksViewModel Page
+    #region FirstSortBookProperty
     /// <summary>
     /// Gets or sets the primary property used for sorting books.
     /// </summary>
     public string FirstSortBookProperty
     {
         get => _settings.FirstSortBookProperty;
-        set => SetProperty(ref _settings.FirstSortBookProperty, value);
+        set
+        {
+            if (SetProperty(ref _settings.FirstSortBookProperty, value) && value != nameof(Book.None))
+            {
+                if (value == SecondSortBookProperty)
+                    SecondSortBookProperty = nameof(Book.None);
+                else if (value == ThirdSortBookProperty)
+                    ThirdSortBookProperty = nameof(Book.None);
+            }
+        }
     }
     public bool FirstSortProperty_ByDescend
     {
         get => _settings.FirstSortProperty_ByDescend;
         set => SetProperty(ref _settings.FirstSortProperty_ByDescend, value);
     }
+    public string FirstSortProperty_SortingDirection
+    {
+        get => _firstSortProperty_SortingDirection;
+        set
+        {
+            if (SetProperty(ref _firstSortProperty_SortingDirection, value))
+                SetBooleanProperty(value, ref _settings.FirstSortProperty_ByDescend, FirstSortProperty_ByDescend);
+        }
+    }
+    private string _firstSortProperty_SortingDirection;
+    #endregion
 
+    #region SecondSortBookProperty
     /// <summary>
     /// Gets or sets the secondary property used for sorting books.
     /// </summary>
     public string SecondSortBookProperty
     {
         get => _settings.SecondSortBookProperty;
-        set => SetProperty(ref _settings.SecondSortBookProperty, value);
+        set
+        {
+            if (SetProperty(ref _settings.SecondSortBookProperty, value) && value != nameof(Book.None))
+            {
+                if (value == FirstSortBookProperty)
+                    FirstSortBookProperty = nameof(Book.None);
+                else if (value == ThirdSortBookProperty)
+                    ThirdSortBookProperty = nameof(Book.None);
+            }
+        }
     }
     public bool SecondSortProperty_ByDescend
     {
@@ -163,19 +201,52 @@ internal sealed class SettingsViewModel : BindableBase
         set => SetProperty(ref _settings.SecondSortProperty_ByDescend, value);
     }
 
+    public string SecondSortProperty_SortingDirection
+    {
+        get => _secondSortProperty_SortingDirection;
+        set
+        {
+            if (SetProperty(ref _secondSortProperty_SortingDirection, value))
+                SetBooleanProperty(value, ref _settings.SecondSortProperty_ByDescend, SecondSortProperty_ByDescend);
+        }
+    }
+    private string _secondSortProperty_SortingDirection;
+    #endregion
+
+    #region ThirdSortBookProperty
     /// <summary>
     /// Gets or sets the tertiary property used for sorting books.
     /// </summary>
     public string ThirdSortBookProperty
     {
         get => _settings.ThirdSortBookProperty;
-        set => SetProperty(ref _settings.ThirdSortBookProperty, value);
+        set
+        {
+            if (SetProperty(ref _settings.ThirdSortBookProperty, value) && value != nameof(Book.None))
+            {
+                if (value == FirstSortBookProperty)
+                    FirstSortBookProperty = nameof(Book.None);
+                else if (value == SecondSortBookProperty)
+                    SecondSortBookProperty = nameof(Book.None);
+            }
+        }
     }
     public bool ThirdSortProperty_ByDescend
     {
         get => _settings.ThirdSortProperty_ByDescend;
         set => SetProperty(ref _settings.ThirdSortProperty_ByDescend, value);
     }
+    public string ThirdSortProperty_SortingDirection
+    {
+        get => _thirdSortProperty_SortingDirection;
+        set
+        {
+            if (SetProperty(ref _thirdSortProperty_SortingDirection, value))
+                SetBooleanProperty(value, ref _settings.ThirdSortProperty_ByDescend, ThirdSortProperty_ByDescend);
+        }
+    }
+    private string _thirdSortProperty_SortingDirection;
+    #endregion
 
     public string SortBookByPropertiesTooltip
     {
@@ -244,6 +315,34 @@ internal sealed class SettingsViewModel : BindableBase
 
         return result;
     }
+
+    private void SetStringProperty(bool key, ref string _propertyValue, string PropertyName)
+    {
+        switch (key)
+        {
+            case true:
+                _propertyValue = Constants.SORTING_DESCENDING;
+                break;
+            default:
+                _propertyValue = Constants.SORTING_ASCENDING;
+                break;
+        }
+        RaisePropertyChanged(nameof(PropertyName));
+    }
+    private void SetBooleanProperty(string key, ref bool _propertyValue, bool PropertyName)
+    {
+        switch (key)
+        {
+            case Constants.SORTING_DESCENDING:
+                _propertyValue = true;
+                break;
+            default:
+                _propertyValue = false;
+                break;
+        }
+        RaisePropertyChanged(nameof(PropertyName));
+    }
+
 
     /// <summary>
     /// Returns a tooltip text describing the file size.

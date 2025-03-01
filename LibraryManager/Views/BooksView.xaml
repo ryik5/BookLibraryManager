@@ -6,13 +6,14 @@
              xmlns:view="clr-namespace:LibraryManager.Views"
              mc:Ignorable="d">
 
-    <Grid Margin="5">
+    <Grid Margin="10 10 0 5">
         <Grid.RowDefinitions>
             <RowDefinition Height="34"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <view:BooksViewControls Grid.Row="0" IsEnabled="{Binding CanOperateWithBooks}"/>
+        <view:BooksViewControls Grid.Row="0" 
+                                IsEnabled="{Binding CanOperateWithBooks}"/>
 
         <view:BookListView Grid.Row="1"
                            DataContext="{Binding BookManager.Library, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"

@@ -152,10 +152,10 @@
 
                         <Label Grid.Row="0" Grid.Column="0" 
                                Content="First Property" HorizontalAlignment="Left"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
-                                  SelectedItem="{Binding Settings.FirstSortProperty_ByDescend}" 
+                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings.SortingDirections, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.FirstSortProperty_SortingDirection}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                  ToolTip="Sorting direction by descend order"
+                                  ToolTip="Sorting direction order"
                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0" />
                         <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}"
                                   SelectedItem="{Binding Settings.FirstSortBookProperty}" 
@@ -165,10 +165,10 @@
                         <Label Grid.Row="1" Grid.Column="0" 
                                Content="Second Property" HorizontalAlignment="Left"/>
                         <ComboBox Grid.Row="1" Grid.Column="1" 
-                                  ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
-                                  SelectedItem="{Binding Settings.SecondSortProperty_ByDescend}" 
+                                  ItemsSource="{Binding Settings.SortingDirections, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.SecondSortProperty_SortingDirection}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                  ToolTip="Sorting direction by descend order"
+                                  ToolTip="Sorting direction order"
                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
                         <ComboBox Grid.Row="1" Grid.Column="2" 
                                   ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
@@ -179,10 +179,10 @@
                         <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
                                Content="Third Property"/>
                         <ComboBox Grid.Row="2" Grid.Column="1" 
-                                  ItemsSource="{Binding Settings.Booleans, Mode=OneWay}" 
-                                  SelectedItem="{Binding Settings.ThirdSortProperty_ByDescend}" 
+                                  ItemsSource="{Binding Settings.SortingDirections, Mode=OneWay}" 
+                                  SelectedItem="{Binding Settings.ThirdSortProperty_SortingDirection}" 
                                   Style="{StaticResource ComboBoxBordedStyle}"
-                                  ToolTip="Sorting direction by descend order"
+                                  ToolTip="Sorting direction order"
                                   HorizontalAlignment="Right" Width="70" Height="25" Margin="3 0 5 0"/>
                         <ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Settings.BookProperties, Mode=OneWay}" 
                                   SelectedItem="{Binding Settings.ThirdSortBookProperty}" 

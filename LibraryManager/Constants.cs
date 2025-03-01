@@ -7,6 +7,7 @@
 public static class Constants
 {
     #region General
+    public const string ID = "ID";
     public const string LIBRARY_MANAGER = "LibraryManager";
     public const string LIBRARY_MANAGER_PIPE_SERVER = "LibraryManagerPipeServer";
     public const string OPERATION_WAS_CANCELED = "Operation was canceled";
@@ -14,7 +15,6 @@ public static class Constants
     public const string FAILED_TO_SAVE_BOOK_TO_PATH = "Failed to save book to path";
     public const string BOOK_WAS_IMPORTED_SUCCESSFULLY = "Book was imported successfully";
     public const string FAILED_TO_IMPORT_BOOK_BY_PATH = "Failed to import book by the path";
-
     #endregion
 
     #region ToolsViewModel
@@ -49,8 +49,9 @@ public static class Constants
     #endregion
 
     #region book details: FindBookViewModel, CreatorBookDetailsViewModel, EditorBookDetailsViewModel
-    public const string ID = "ID";
     public const string FIND_BOOKS = "Find Books";
+    public const string SORTING_ASCENDING = "a...Z";
+    public const string SORTING_DESCENDING = "Z...a";
     public const string BOOK_WAS_DELETED_SUCCESSFULLY = "Book was deleted successfully";
     public const string NO_BOOKS_FOUND = "No books found";
     public const string ADD_BOOK = "Add Book";

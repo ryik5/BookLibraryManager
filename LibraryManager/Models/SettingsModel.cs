@@ -26,6 +26,8 @@ internal sealed class SettingsModel
     /// </summary>
     public bool[] Booleans;
 
+    public readonly string[] SortingDirections = [Constants.SORTING_ASCENDING, Constants.SORTING_DESCENDING];
+
     /// <summary>
     /// Gets or sets an array of PropertyInfo's Names representing the properties of a book.
     /// </summary>
